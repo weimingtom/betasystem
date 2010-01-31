@@ -1,0 +1,149 @@
+
+// beta_system 作業メモ
+
+さて、作業開始
+
+Doja5.0と apiリファレンス 詳細資料のpdfを公式からDL
+
+基本的にコレだけで開発できるだろう。
+
+jdkが必要だけど、何かもう入ってるっぽいのでいいや。
+
+
+//サンプルプロジェクトビルド
+    おｋ
+    
+//新規プロジェクト作成
+    できた。
+    PanelとCanvasと二つ指定できるようになっていたが…、
+    なんかよくわからん。後で調べるか
+        とりあえず画像描画したいのでGraphicsは絶対必要であると思う
+        なのでCanvasを使用して、少しいじる。
+
+//作り始める前に作成する汎用的な機能
+    画面遷移
+    ファイル管理
+    画像描画
+    アニメーション描画
+    パラメータ動的管理
+
+//Wikiをタスク管理に使用してみる。
+    日本語タイトル使えないってどういうことなの…
+
+
+//ちとソースはりつけ
+
+import com.nttdocomo.ui.IApplication;
+import com.nttdocomo.ui.Display;
+import com.nttdocomo.ui.Panel;
+import com.nttdocomo.ui.Frame;
+import com.nttdocomo.ui.Canvas;
+
+
+public class beta_system extends IApplication
+{
+    public void start()
+    {
+        Display.setCurrent((Frame)new MainCanvas());
+    }
+}
+
+class MainCanvas extends Canvas
+{
+    MainCanvas()
+    {
+        setSoftLabel(SOFT_KEY_1, "END");
+        setBackground(Graphics.getColorOfName(Graphics.BLUE));
+    }
+    
+    
+    int frame = 0;
+    public void paint(Graphics g)
+    {
+        frame++;
+        
+        g.lock();
+        g.clearRect(0, 0, Display.getWidth(), Display.getHeight());
+        
+        g.setColor(Graphics.getColorOfName(Graphics.WHITE));
+        
+        g.drawString("Start IApplication", Display.getWidth() / 4, Display.getHeight() / 2);
+        
+        g.unlock(true);
+    }
+    
+    public void processEvent(int type, int param)
+    {
+        if (type == Display.KEY_RELEASED_EVENT)
+        {
+            if (param == Display.KEY_SOFT1)
+            {
+                (IApplication.getCurrentApp()).terminate();
+            }
+        }
+    }
+}
+
+/*
+    とりあえず描画クラスかなぁ。
+    いや、描画クラスは基本完成してるだろ…
+
+    それよりファイル管理か
+    もうファイル管理というよりはテクスチャ管理になってくるんですけどね…
+
+    Texture , x , y って感じのフォーマットだったはず…
+    
+
+
+*/
+
+
+// g.clearRect(0, 0, Display.getWidth(), Display.getHeight());
+
+/*
+class MainPanel extends Panel implements SoftKeyListener, KeyListener
+{
+    MainPanel()
+    {
+        setTitle("Start IApplication");
+        setSoftLabel(SOFT_KEY_1, "END");
+        setSoftKeyListener((SoftKeyListener)this);
+        setKeyListener((KeyListener)this);
+    }
+    
+    public void softKeyPressed(int softKey)
+    {
+    }
+    
+    public void softKeyReleased(int softKey)
+    {
+        if (softKey == SOFT_KEY_1)
+        {
+            IApplication.getCurrentApp().terminate();
+        }
+    }
+    
+    public void keyPressed(Panel panel, int key)
+    {
+    }
+    
+    public void keyReleased(Panel panel, int key)
+    {
+        switch (key) {
+            case Display.KEY_1:
+                break;
+            case Display.KEY_2:
+                break;
+            case Display.KEY_3:
+                break;
+            default:
+                break;
+        }
+    }
+    
+}
+
+*/
+
+
+
