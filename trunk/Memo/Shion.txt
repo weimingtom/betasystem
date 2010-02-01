@@ -20,12 +20,6 @@ jdkが必要だけど、何かもう入ってるっぽいのでいいや。
         とりあえず画像描画したいのでGraphicsは絶対必要であると思う
         なのでCanvasを使用して、少しいじる。
 
-//作り始める前に作成する汎用的な機能
-    画面遷移
-    ファイル管理
-    画像描画
-    アニメーション描画
-    パラメータ動的管理
 
 //Wikiをタスク管理に使用してみる。
     日本語タイトル使えないってどういうことなの…
@@ -83,6 +77,51 @@ class MainCanvas extends Canvas
         }
     }
 }
+
+
+/**
+    キー状態管理.
+*/
+class KeyStatus
+{
+    // んー、用意されてるヤツ使った方がいいかもなぁ…
+    // すっかすかの物になりかねないが…
+    
+    static final int Top = 0;
+    static final int Left = 0;
+    static final int Right = 0;
+    static final int Bottom = 0;
+    static final int Select = 0;
+    static final int Soft_1 = 0;
+    static final int Soft_2 = 0;
+    static final int Key_Num = 0;
+    
+    static final int max_frame = 300;
+    push_frame[ Key_Num ]
+    
+    /**
+        Canvas::processEvent の引数をそのまま渡します。
+    */
+    public void processEvent( int type , int param )
+    {
+        if( type == Display.KEY_RELEASED_EVENT ) 
+        {
+            ReceiveRelease( param );
+        } else {
+            ReceivePushed( param );
+        }
+    }
+    
+    private void ReceivePushed( param )
+    {
+        if( Param == Key_Top )
+        {
+            push_frame[Key_Top]++;
+        }
+    }
+    
+}
+
 
 /*
     とりあえず描画クラスかなぁ。
@@ -146,4 +185,55 @@ class MainPanel extends Panel implements SoftKeyListener, KeyListener
 */
 
 
+
+
+
+//作り始める前に作成する汎用的な機能
+    画面遷移
+    ファイル管理
+    画像描画
+    アニメーション描画
+    パラメータ動的管理
+    
+    
+//KeyInfomation
+
+//画面遷移か…
+
+    Interface Scene
+    {
+    void Init();
+    void Update();
+    void Draw();
+    }
+
+    こんだけかな…、
+
+    SceneChangeSupport
+
+//デバッグコマンドが必要？
+    結局全てのデバッグをキーに割り当てるのが現実的では無いという話。
+
+SetString( String label , String set_str )
+
+
+struct ConstantData
+{
+    String label;
+    String data_str;
+    int data_int
+}
+
+うーん
+
+int Integer("hoge");
+外部ファイルからの取得。
+バイナリロードはあるだろうけど…
+テキストロードがあったらいいなぁ、いや無い訳ないけど。
+
+あとはスクリプトフォーマットをどうするかだな
+
+hoge<-[]
+
+いやまぁ…Squirrel持って来たいね・・・
 
