@@ -226,73 +226,14 @@ struct ConstantData
 
 うーん
 
-int a = Integer("hoge");
+int Integer("hoge");
 外部ファイルからの取得。
 バイナリロードはあるだろうけど…
 テキストロードがあったらいいなぁ、いや無い訳ないけど。
-
-javaのテキスト読みこみを作るだけか…
 
 あとはスクリプトフォーマットをどうするかだな
 
 hoge<-[]
 
 いやまぁ…Squirrel持って来たいね・・・
-
-//----------------------------------------------
-
-//ソースに関するメモ
-{
-    とりあえず…Canvasベースでよさそうだね…
-    SceneというかStateらへんはいらない。
-    大まかな仕組みとしては、
-    Display::setCurrent(Frame frame) 
-              カレントのフレームを設定します。 
-    で設定したFrameが画面上に描画されるってことでいいのかな。
-    
-    //Display
-    {
-        com.nttdocomo.ui.Display
-        public class Display
-            extends Object
-    }
-    //Frame
-    {
-        com.nttdocomo.ui.Frame
-        
-        直系の既知のサブクラス: 
-        Canvas, Dialog, Panel 
-        
-        サブクラスって事は被継承クラスってことだから、、、
-        Canvas extends Frame でおｋ？
-        まぁ、実際キャストできてしまってるからそうなんだろうけど。
-            一応クラス説明を見て裏を取る
-    }
-    //Canvas
-    {
-        public abstract class Canvas
-            extends Frame
-        だねぇ…
-    }
-    //Runnable
-    {
-        なんかドキュメントには載ってないが、
-        Runnableというのが存在する。
-        CarRaceの実装に実際使用されているカオス。
-        説明ぐらい載せれ。
-            ホントにないし…、、、
-            んー、名前空間はどこじゃ
-            あー、インターフェースというのか別に区別する必要もあんまり無いんだが
-            多重継承ができないからこういう風になってるとかなんとか
-            
-        Class MyClass implemets Runnable
-    }
-    //KeyStatus管理
-    {
-        あー、std::vector<int>で管理するか…
-        少なくとも穴だらけで無駄処理行われるのは回避できるな。
-        んーと… ん、どう書くんだ
-        
-    }
-}
 
