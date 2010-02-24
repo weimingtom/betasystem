@@ -6,53 +6,30 @@ import com.nttdocomo.ui.Image;
 import com.nttdocomo.ui.MediaImage; 
 import com.nttdocomo.ui.MediaManager;
 
+
 class MainCanvas extends Canvas implements Runnable
 {
-    private int m_frame;
-    private Image m_image;
-    Graphics g = getGraphics();
-
+    SampleCanvas m_current_canvas = new SampleCanvas();
+    
     MainCanvas()
     {
-        MediaImage media_image = MediaManager.getImage( "resource:///futami.gif" );
-        try{
-            media_image.use();
-        }catch( Exception e ){
-            System.out.println("error!!-media_image use failed");
-        }
-        m_image = media_image.getImage();
+        Display.setCurrent( m_current_canvas );
     }
     
     public void run()
     {
         while( true )
         {
-            Update();
-            Draw();
+            m_current_canvas.Update();
+            m_current_canvas.Draw();
             
             try
             {
-                Thread.sleep(100);//100msec‘Ò‚Â  
+                Thread.sleep(100);
             }catch(Exception e){
                 
             } 
         }
-    }
-    
-    public void Update()
-    {
-        m_frame++;
-    }
-    
-    public void Draw()
-    {
-        g.lock();
-        
-        g.clearRect( 0,0,getWidth(),getHeight());
-        g.drawString( "hoge" + m_frame , 10 , 10 );
-        g.drawImage( m_image , 100 , 100 );
-        
-        g.unlock( true );
     }
     
     public void paint( Graphics g )

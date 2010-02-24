@@ -7,7 +7,6 @@ public class Test extends IApplication
     public void start()
     {
         MainCanvas main_canvas = new MainCanvas();
-        Display.setCurrent( ( Frame )( main_canvas ) );
         Thread th = new Thread( main_canvas );
         th.start();
     }
