@@ -1,4 +1,3 @@
-
 //Drawが画面に反映されない件。
 {
     //paint内では描画可能だった。
@@ -19,15 +18,124 @@
     }
     
 }
-
-/* ■■■■■ Current ■■■■■*/
-
-
 //画像描画
 {
     どんなんだったかな…
     どっかからコピペってくれば基本おｋ
+    
+    //コピペってきた。
+    class Hoge
+    {
+        private Image m_image;
+        
+        Hoge()
+        {
+            MediaImage media_image = MediaManager.getImage( "resource:///res/futami.gif" );
+        
+            try{
+                media_image.use();
+            }catch( Exception e ){
+                system.out.println("");
+            }
+        
+            image = media_image.getImage();
+        }
+    }
+    
+    ok
 }
 
+
+/* ■■■■■ Current ■■■■■*/
+
+
+
+//基本遷移の構築
+{
+    基本単位はCanvasで良いと思う。
+    
+    イメージ的にはこんな感じになるんだろうなぁ的なもの
+    
+    Canvas m_current_scene = new SceneTitle();
+    
+    ChangeCanvas()
+    {
+        m_current_scene = new Canvas();
+        Display.setCurrent( m_current_scene );
+        m_current_scene.start();
+    }
+    
+    enumが無いので非常に憎たらしい。
+    
+    かといってプリプロ導入したくない。
+    まぁ、ソースが一回書き換わった後でビルドされるのは、あんまり気持ちよくないんだよなぁ。
+    
+    遷移元が指定してしまえばいいのだから
+    
+    ChangeScene( Canvas );
+    
+    でいいんじゃないかという考え方もなくはない。
+    
+    
+    えーと、全てのCanvasがRunnableをimplementsするのかどうかという話だが。
+    
+    うーム、やっぱりそういうわけではないな。
+    フレームとして、一番上が管理するのが良いよね。
+    フレームレート変更などに対応する必要があるから、
+    一箇所でサポートするのが良い。
+    
+    だめだな、やっぱりState作る必要はありそうだな。
+    
+    
+}
+//State作成
+{
+    //画面遷移基本クラス
+    abstruct class StateBase extends Canvas
+    {
+        abstruct void Init();
+        abstruct void Update();
+        abstruct void Draw();
+        
+        abstruct void paint();//使わないけどさ…
+    }
+    
+    //継承したサブクラス
+    class StateTitle extends StateBase
+    {
+        public void Init()
+        {
+        }
+        public void Update()
+        {
+        }
+        public void Draw()
+        {
+        }
+    }
+    
+    //んで、初期化すんだろ
+    SceneBase m_current_state = new SceneTitle();
+    
+    んー、Applicationを渡すか…？
+    
+    もしくはシーン管理クラスを作る.
+    SceneChanger
+    {
+        State m_current_state;
+        
+        Change( StateBase state )
+        {
+            Display.setCurrent( state );
+            m_current_state
+        }
+        
+        StateBase CurrentState()
+        {
+            return m_current_state;
+        }
+    }
+    
+}
 
 
