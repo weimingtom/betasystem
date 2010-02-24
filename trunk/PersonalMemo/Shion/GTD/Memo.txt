@@ -1,239 +1,33 @@
 
-// beta_system 作業メモ
-
-さて、作業開始
-
-Doja5.0と apiリファレンス 詳細資料のpdfを公式からDL
-
-基本的にコレだけで開発できるだろう。
-
-jdkが必要だけど、何かもう入ってるっぽいのでいいや。
-
-
-//サンプルプロジェクトビルド
-    おｋ
-    
-//新規プロジェクト作成
-    できた。
-    PanelとCanvasと二つ指定できるようになっていたが…、
-    なんかよくわからん。後で調べるか
-        とりあえず画像描画したいのでGraphicsは絶対必要であると思う
-        なのでCanvasを使用して、少しいじる。
-
-
-//Wikiをタスク管理に使用してみる。
-    日本語タイトル使えないってどういうことなの…
-
-
-//ちとソースはりつけ
-
-import com.nttdocomo.ui.IApplication;
-import com.nttdocomo.ui.Display;
-import com.nttdocomo.ui.Panel;
-import com.nttdocomo.ui.Frame;
-import com.nttdocomo.ui.Canvas;
-
-
-public class beta_system extends IApplication
+//Drawが画面に反映されない件。
 {
-    public void start()
+    //paint内では描画可能だった。
     {
-        Display.setCurrent((Frame)new MainCanvas());
     }
-}
-
-class MainCanvas extends Canvas
-{
-    MainCanvas()
+    //コンストラクタでの描画
     {
-        setSoftLabel(SOFT_KEY_1, "END");
-        setBackground(Graphics.getColorOfName(Graphics.BLUE));
+        無理。
     }
     
+    //あれ…、動いたし…わけ分からん。
     
-    int frame = 0;
-    public void paint(Graphics g)
+    //宣言時のnew
     {
-        frame++;
-        
-        g.lock();
-        g.clearRect(0, 0, Display.getWidth(), Display.getHeight());
-        
-        g.setColor(Graphics.getColorOfName(Graphics.WHITE));
-        
-        g.drawString("Start IApplication", Display.getWidth() / 4, Display.getHeight() / 2);
-        
-        g.unlock(true);
-    }
-    
-    public void processEvent(int type, int param)
-    {
-        if (type == Display.KEY_RELEASED_EVENT)
-        {
-            if (param == Display.KEY_SOFT1)
-            {
-                (IApplication.getCurrentApp()).terminate();
-            }
-        }
-    }
-}
-
-
-/**
-    キー状態管理.
-*/
-class KeyStatus
-{
-    // んー、用意されてるヤツ使った方がいいかもなぁ…
-    // すっかすかの物になりかねないが…
-    
-    static final int Top = 0;
-    static final int Left = 0;
-    static final int Right = 0;
-    static final int Bottom = 0;
-    static final int Select = 0;
-    static final int Soft_1 = 0;
-    static final int Soft_2 = 0;
-    static final int Key_Num = 0;
-    
-    static final int max_frame = 300;
-    push_frame[ Key_Num ]
-    
-    /**
-        Canvas::processEvent の引数をそのまま渡します。
-    */
-    public void processEvent( int type , int param )
-    {
-        if( type == Display.KEY_RELEASED_EVENT ) 
-        {
-            ReceiveRelease( param );
-        } else {
-            ReceivePushed( param );
-        }
-    }
-    
-    private void ReceivePushed( param )
-    {
-        if( Param == Key_Top )
-        {
-            push_frame[Key_Top]++;
-        }
+        Graphics m_graphics = getGraphics();
+        こんなことが可能らしい。
+        動作も確認した。
     }
     
 }
 
-
-/*
-    とりあえず描画クラスかなぁ。
-    いや、描画クラスは基本完成してるだろ…
-
-    それよりファイル管理か
-    もうファイル管理というよりはテクスチャ管理になってくるんですけどね…
-
-    Texture , x , y って感じのフォーマットだったはず…
-    
+/* ■■■■■ Current ■■■■■*/
 
 
-*/
-
-
-// g.clearRect(0, 0, Display.getWidth(), Display.getHeight());
-
-/*
-class MainPanel extends Panel implements SoftKeyListener, KeyListener
+//画像描画
 {
-    MainPanel()
-    {
-        setTitle("Start IApplication");
-        setSoftLabel(SOFT_KEY_1, "END");
-        setSoftKeyListener((SoftKeyListener)this);
-        setKeyListener((KeyListener)this);
-    }
-    
-    public void softKeyPressed(int softKey)
-    {
-    }
-    
-    public void softKeyReleased(int softKey)
-    {
-        if (softKey == SOFT_KEY_1)
-        {
-            IApplication.getCurrentApp().terminate();
-        }
-    }
-    
-    public void keyPressed(Panel panel, int key)
-    {
-    }
-    
-    public void keyReleased(Panel panel, int key)
-    {
-        switch (key) {
-            case Display.KEY_1:
-                break;
-            case Display.KEY_2:
-                break;
-            case Display.KEY_3:
-                break;
-            default:
-                break;
-        }
-    }
-    
+    どんなんだったかな…
+    どっかからコピペってくれば基本おｋ
 }
 
-*/
 
-
-
-
-
-//作り始める前に作成する汎用的な機能
-    画面遷移
-    ファイル管理
-    画像描画
-    アニメーション描画
-    パラメータ動的管理
-    
-    
-//KeyInfomation
-
-//画面遷移か…
-
-    Interface Scene
-    {
-    void Init();
-    void Update();
-    void Draw();
-    }
-
-    こんだけかな…、
-
-    SceneChangeSupport
-
-//デバッグコマンドが必要？
-    結局全てのデバッグをキーに割り当てるのが現実的では無いという話。
-
-SetString( String label , String set_str )
-
-
-struct ConstantData
-{
-    String label;
-    String data_str;
-    int data_int
-}
-
-うーん
-
-int Integer("hoge");
-外部ファイルからの取得。
-バイナリロードはあるだろうけど…
-テキストロードがあったらいいなぁ、いや無い訳ないけど。
-
-あとはスクリプトフォーマットをどうするかだな
-
-hoge<-[]
-
-いやまぁ…Squirrel持って来たいね・・・
 
