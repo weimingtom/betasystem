@@ -9,19 +9,20 @@ import com.nttdocomo.ui.MediaManager;
 
 class MainCanvas extends Canvas implements Runnable
 {
-    SampleCanvas m_current_canvas = new SampleCanvas();
+    SceneBase m_scene_base = new SceneTitle();
     
     MainCanvas()
     {
-        Display.setCurrent( m_current_canvas );
+        Display.setCurrent( m_scene_base );
     }
     
     public void run()
     {
+        m_scene_base.Init();
         while( true )
         {
-            m_current_canvas.Update();
-            m_current_canvas.Draw();
+            m_scene_base.Update();
+            m_scene_base.Draw();
             
             try
             {
@@ -32,8 +33,7 @@ class MainCanvas extends Canvas implements Runnable
         }
     }
     
-    public void paint( Graphics g )
-    {
-    }
+    // Žg—p‚µ‚È‚¢.
+    public void paint( Graphics g ){}
 }
 
