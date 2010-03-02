@@ -1,14 +1,16 @@
+import com.nttdocomo.ui.Display;
+
 /**
     Scene の切り替えを管理するクラス.
 */
-class SceneChangingManager
+class SceneChangeManager
 {
     /**
         コンストラクタ.
     */
-    SceneManager()
+    SceneChangeManager()
     {
-        m_current_scene = new_Scene( scene_default );
+        ChangeScene( Scene_Default );
     }
     
     /**
@@ -38,20 +40,21 @@ class SceneChangingManager
     {
         switch( scene_index )
         {
-        case scene_title:
+        case Scene_Title:
             return new SceneTitle();
-        case scene_main:
-            return new SceneMain();
+        case Scene_Battle:
+            return new SceneBattle();
         default:
+            return null; //todo:assert
         }
     }
     
     /*
         Scene 管理番号.
     */
-    public static final int scene_title =   0; //!< タイトル画面.
-    public static final int scene_main =    1; //!< メイン画面.
-    public static final int scene_default = scene_title; //!< デフォルト.
+    public static final int Scene_Title = 0; //!< タイトル画面.
+    public static final int Scene_Battle  = 1; //!< メイン画面.
+    public static final int Scene_Default = Scene_Battle; //!< デフォルト.
     
     //! 現在のシーン.
     private SceneBase m_current_scene;
