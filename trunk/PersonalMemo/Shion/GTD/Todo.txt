@@ -6,6 +6,58 @@
     安いアニメーションでも良いよ…
     
     サイズ、枚数、速度、ループの有無とかじゃないの大体。
+    
+    //A
+    {
+        全くなし?
+    }
+    
+    //エフェクト
+    
+    //アニメーション
+    {
+        アニメーションデータだけあれば、
+        画像データは要らないといえば要らない。
+        
+        画像を分けるならひつようになるかな。
+        でも全部メモリ上に乗り切らないような作品なんて作らないしねぇ。
+        いや分からんけど。
+        
+        描画先情報
+        描画元情報
+        プライオリティ
+        
+        だけあれば良いかな。
+        まぁ画像データも必要かもしれんが。
+        
+        テクスチャ名だけわかればいいかな。
+        まだロードしてなければ生成、
+        ロード済みであれば、テクスチャを返せばいいのだから。
+        
+        テクスチャ管理クラスだね。
+        ファイルローダー？
+        
+        ImageFactory
+        ImageLoader
+        
+        class ImageManager
+        {
+        }
+        class DrawSystem
+        {
+        }
+        
+        SetDrawInfo(
+            "furiru.gif",
+            target_x ,
+            target_y ,
+            src_x ,
+            src_y ,
+            src_width ,
+            src_height ,
+            priority );
+    }
+
 }
 //サウンドの再生
 {
@@ -20,3 +72,77 @@
     
     大して優先度高くないということで後
 }
+//戦闘システムverA
+{
+    //作業目標
+    {
+        攻撃をやりあうぐらいのところまで。
+        
+        んー、
+        1.決定押したら殴る。
+        2.ターンを切り替える
+        3.敵行動(殴ってくる)
+        4.ターン切り替え.
+        
+        //ターン切り替えが足りない？
+        
+        ターンね…
+        
+        んー、エネミーはエネミーとして動くべきなのかなぁ。
+        
+        
+        //とりあえずコマンドライン形式でいいだろ
+        Player Turn.
+        Push Select Attack >
+        Damage To Enemy. [5]
+        Enemy Turn.
+        Damage To Player. [2]
+        PlayerTurn.
+        Push Select Attack >
+        Damage To Enemy. [5]
+        Enemy is Dead.
+        Please Push Select Continue.
+        
+        
+        Attack();
+        if( CheckEndOfBattle() )
+        {
+            state = state_win;
+        }
+        Attack();
+        
+        
+        
+    }
+    //必要なパラメータ
+    {
+        HP
+        ATK
+        ぐらいじゃないの。
+        
+    }
+    //キャラクタークラス
+    {
+        class Character
+        {
+            string name;
+            int hit_point;
+            int attack;
+        };
+        
+    }
+    //攻撃関数の仕組み
+    {
+        Damage( int damage_num );
+        とか？
+        
+        vector<Character> character_list;
+        
+        複数人を想定すると良い。
+    }
+}
+//アサート調べないとな…
+{
+}
+
+
