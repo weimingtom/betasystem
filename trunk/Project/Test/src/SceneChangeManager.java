@@ -5,12 +5,21 @@ import com.nttdocomo.ui.Display;
 */
 class SceneChangeManager
 {
+    /*
+        Scene 管理番号.
+    */
+    public static final int Scene_Title = 0; //!< タイトル画面.
+    public static final int Scene_Battle  = 1; //!< メイン画面.
+    
+    //! 現在のシーン.
+    private SceneBase m_current_scene;
+    
     /**
         コンストラクタ.
     */
     SceneChangeManager()
     {
-        ChangeScene( Scene_Default );
+        ChangeScene( Scene_Title );
     }
     
     /**
@@ -48,16 +57,5 @@ class SceneChangeManager
             return null; //todo:assert
         }
     }
-    
-    /*
-        Scene 管理番号.
-    */
-    public static final int Scene_Title = 0; //!< タイトル画面.
-    public static final int Scene_Battle  = 1; //!< メイン画面.
-    public static final int Scene_Default = Scene_Battle; //!< デフォルト.
-    
-    //! 現在のシーン.
-    private SceneBase m_current_scene;
-    
 };
 
