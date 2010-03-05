@@ -1,3 +1,22 @@
+//アニメーション再生
+{
+    
+    AnimationInfo
+    AnimationInfoList
+    
+    //基本的にコレで良いはず?
+    class AnimationPlayer
+    {
+        AnimationPlayer( string animation_data_name )
+        {
+            //データを展開して、
+        }
+        public void Update();
+        public AnimationInfo();
+    };
+    
+    いや、これはコンストラクタだな…
+}
 //アニメーション描画
 {
     まぁ、必要になるわな…
@@ -72,77 +91,13 @@
     
     大して優先度高くないということで後
 }
-//戦闘システムverA
-{
-    //作業目標
-    {
-        攻撃をやりあうぐらいのところまで。
-        
-        んー、
-        1.決定押したら殴る。
-        2.ターンを切り替える
-        3.敵行動(殴ってくる)
-        4.ターン切り替え.
-        
-        //ターン切り替えが足りない？
-        
-        ターンね…
-        
-        んー、エネミーはエネミーとして動くべきなのかなぁ。
-        
-        
-        //とりあえずコマンドライン形式でいいだろ
-        Player Turn.
-        Push Select Attack >
-        Damage To Enemy. [5]
-        Enemy Turn.
-        Damage To Player. [2]
-        PlayerTurn.
-        Push Select Attack >
-        Damage To Enemy. [5]
-        Enemy is Dead.
-        Please Push Select Continue.
-        
-        
-        Attack();
-        if( CheckEndOfBattle() )
-        {
-            state = state_win;
-        }
-        Attack();
-        
-        
-        
-    }
-    //必要なパラメータ
-    {
-        HP
-        ATK
-        ぐらいじゃないの。
-        
-    }
-    //キャラクタークラス
-    {
-        class Character
-        {
-            string name;
-            int hit_point;
-            int attack;
-        };
-        
-    }
-    //攻撃関数の仕組み
-    {
-        Damage( int damage_num );
-        とか？
-        
-        vector<Character> character_list;
-        
-        複数人を想定すると良い。
-    }
-}
 //アサート調べないとな…
 {
 }
 
+
+//戦闘
+{
+    
+}
 
