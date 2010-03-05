@@ -137,7 +137,11 @@
 {
     完了.
 }
-/* ■■■■■ Current ■■■■■*/
+//java タグファイル作成できない？
+{
+    ctagsをsakuraディレクトリに入れたら動いた。
+    んー、デフォルトで入ってた気がしたけど、気のせいか…
+}
 
 //キャラクタークラスの作成.
 {
@@ -157,42 +161,18 @@
     };
 }
 
+
+
+
+/* ■■■■■ Current ■■■■■*/
+
+
+
+
 //ステータスの表示
 {
     どんなのにしよう。
     下に置きたいな。
-}
-
-//戦闘の基本の流れ
-{
-    1.決定押したら殴る。
-        終了判定
-    2.ターンを切り替える
-    3.敵行動(殴ってくる)
-        終了判定
-    4.ターン切り替え.
-    
-    //必要っぽい変数.
-    int m_turn;
-    final int TurnType_PlayerTurn;
-    final int TurnType_EnemyTurn;
-    final int TurnType_Win;
-    final int TurnType_Lose;
-    
-    int damage = enemy.attack;
-    player.m_hp -= damage;
-    System.out.println("damage");
-}
-
-//Stateを作成する
-{
-    
-}
-
-//攻撃関数の仕組み
-{
-    まだ深いこと考えなくて良い。
-    Bステップで考える。
 }
 
 
