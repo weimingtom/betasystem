@@ -11,8 +11,6 @@ class SceneTitle extends SceneBase
     }
     public void Update()
     {
-        System.out.println("SceneTitle::Update()");
-
         m_input_info.Update();
         
         if( m_input_info.KeyPressedFrame( Display.KEY_SELECT ) == 1 )
@@ -25,8 +23,8 @@ class SceneTitle extends SceneBase
         g.lock();
         g.clearRect( 0 , 0  , Display.getWidth() , Display.getHeight() );
         
-        g.drawString("select="+m_input_info.KeyPressedFrame( Display.KEY_SELECT ) , 10 , 10 );
-        g.drawString("left="+m_input_info.KeyPressedFrame( Display.KEY_LEFT ) , 10 , 20 );
+        g.drawString( "タイトル画面. " , 10 , 10 );
+        g.drawString( "セレクトキーで、バトル画面へ." , 10 , 20 );
         
         g.unlock(true);
     }
