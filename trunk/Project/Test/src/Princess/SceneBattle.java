@@ -12,24 +12,23 @@ class SceneBattle extends SceneBase
     }
     public void Update()
     {
-        System.out.println("SceneBattle::Update()");
     }
     public void Draw()
     {
         g.lock();
         
         g.clearRect( 0, 0, Display.getWidth() , Display.getHeight() );
-        PrintStatus( m_player , 0 , 120 );
-        PrintStatus( m_player , 100 , 120 );
+        PrintStatus( m_player , 140 , 200 );
+        PrintStatus( m_enemy , 30 , 200 );
         
         g.unlock(true);
     }
     
     void PrintStatus( Character character , int x , int y )
     {
-        g.drawString("m_name"+character.m_name , x , y +=10 );
-        g.drawString("m_hp"+character.m_hp, x , y +=10  );
-        g.drawString("m_attack"+character.m_hp, x , y +=10  );
+        g.drawString("m_name:"+character.m_name , x , y +=10 );
+        g.drawString("m_hp:"+character.m_hp, x , y +=10  );
+        g.drawString("m_attack:"+character.m_hp, x , y +=10  );
     }
     
     public void paint( Graphics g ){}
