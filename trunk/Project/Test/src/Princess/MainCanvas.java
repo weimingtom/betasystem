@@ -4,8 +4,6 @@ import com.nttdocomo.ui.Canvas;
 
 class MainCanvas extends Canvas implements Runnable
 {
-    SceneChangeManager m_scene_manager = new SceneChangeManager();
-    
     /**
         ƒƒCƒ“ƒ‹[ƒv.
     */
@@ -13,8 +11,9 @@ class MainCanvas extends Canvas implements Runnable
     {
         while( true )
         {
-            m_scene_manager.CurrentScene().Update();
-            m_scene_manager.CurrentScene().Draw();
+            SceneBase current_scene = SceneChangeManager.getInstance().CurrentScene();
+            current_scene.Update();
+            current_scene.Draw();
             
             try
             {

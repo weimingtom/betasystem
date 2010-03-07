@@ -5,16 +5,20 @@ class SceneTitle extends SceneBase
 {
     Graphics g = getGraphics();
     InputInfo m_input_info = new InputInfo();
-    int m_frame;
     
     public void Init()
     {
-        m_frame = 0;
     }
     public void Update()
     {
+        System.out.println("SceneTitle::Update()");
+
         m_input_info.Update();
-        m_frame++;
+        
+        if( m_input_info.KeyPressedFrame( Display.KEY_SELECT ) == 1 )
+        {
+            SceneChangeManager.getInstance().ChangeScene( SceneChangeManager.Scene_Battle );
+        }
     }
     public void Draw()
     {

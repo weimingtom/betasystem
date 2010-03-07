@@ -4,9 +4,9 @@
 */
 class Character
 {
-    String m_name;
-    int m_hp;
-    int m_attack;
+    public String m_name;
+    public int m_hp;
+    public int m_attack;
 
     Character( String name , int hp , int attack )
     {

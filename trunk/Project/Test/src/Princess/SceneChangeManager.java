@@ -5,6 +5,8 @@ import com.nttdocomo.ui.Display;
 */
 class SceneChangeManager
 {
+    static SceneChangeManager m_instance = null ;
+    
     /*
         Scene 管理番号.
     */
@@ -15,9 +17,21 @@ class SceneChangeManager
     private SceneBase m_current_scene;
     
     /**
+        インスタンスの取得.
+    */
+    static public SceneChangeManager getInstance()
+    {
+        if( m_instance == null )
+        {
+            m_instance = new SceneChangeManager();
+        }
+        return m_instance;
+    }
+    
+    /**
         コンストラクタ.
     */
-    SceneChangeManager()
+    private SceneChangeManager()
     {
         ChangeScene( Scene_Title );
     }
@@ -36,6 +50,8 @@ class SceneChangeManager
     */
     public void ChangeScene( int scene_index )
     {
+        System.out.println("SceneChangeManager::ChangeScene()");
+
         m_current_scene = new_Scene( scene_index );
         Display.setCurrent( m_current_scene );
         m_current_scene.Init();

@@ -1,21 +1,35 @@
+import com.nttdocomo.ui.Display;
 import com.nttdocomo.ui.Graphics;
 
 class SceneBattle extends SceneBase
 {
     Graphics g = getGraphics();
-    int m_frame;
+    Character m_player = new Character( "ƒvƒŠƒ€" , 10 , 3 );
+    Character m_enemy = new Character( "ƒXƒ‰ƒCƒ€" , 5 , 1 );
     
     public void Init()
     {
-        m_frame = 0;
     }
     public void Update()
     {
-        m_frame++;
+        System.out.println("SceneBattle::Update()");
     }
     public void Draw()
     {
-        g.drawString("frame"+m_frame , 10 , 10 );
+        g.lock();
+        
+        g.clearRect( 0, 0, Display.getWidth() , Display.getHeight() );
+        PrintStatus( m_player , 0 , 120 );
+        PrintStatus( m_player , 100 , 120 );
+        
+        g.unlock(true);
+    }
+    
+    void PrintStatus( Character character , int x , int y )
+    {
+        g.drawString("m_name"+character.m_name , x , y +=10 );
+        g.drawString("m_hp"+character.m_hp, x , y +=10  );
+        g.drawString("m_attack"+character.m_hp, x , y +=10  );
     }
     
     public void paint( Graphics g ){}
