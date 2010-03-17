@@ -1,23 +1,3 @@
-//戦闘の基本の流れ
-{
-    1.決定押したら殴る。
-        終了判定
-    2.ターンを切り替える
-    3.敵行動(殴ってくる)
-        終了判定
-    4.ターン切り替え.
-    
-    //必要っぽい変数.
-    int m_turn;
-    final int TurnType_PlayerTurn;
-    final int TurnType_EnemyTurn;
-    final int TurnType_Win;
-    final int TurnType_Lose;
-    
-    int damage = enemy.attack;
-    player.m_hp -= damage;
-    System.out.println("damage");
-}
 //Stateを作成する
 {
     
@@ -27,82 +7,17 @@
     まだ深いこと考えなくて良い。
     Bステップで考える。
 }
-//アニメーション再生
-{
-    
-    AnimationInfo
-    AnimationInfoList
-    
-    //基本的にコレで良いはず?
-    class AnimationPlayer
-    {
-        AnimationPlayer( string animation_data_name )
-        {
-            //データを展開して、
-        }
-        public void Update();
-        public AnimationInfo();
-    };
-    
-    いや、これはコンストラクタだな…
-}
 //アニメーション描画
 {
-    cvs自炊でもかまわん。
-    edgeフォーマットめんどい。
-    
-    サイズ、枚数、速度、ループの有無とかじゃないの大体。
-    
-    //A
-    {
-        全くなし?
-    }
-    
+    //自炊orEdgeフォーマット
+        どうする？
     //エフェクト
-    {
-    }
-    
-    //アニメーション
-    {
-        画像データとアニメーションデータは分離する.
         
-        だけあれば良いかな。
-        まぁ画像データも必要かもしれんが。
+    //画像データとアニメーションデータは分離する.
         
-        テクスチャ名だけわかればいいかな。
-        まだロードしてなければ生成、
-        ロード済みであれば、テクスチャを返せばいいのだから。
-        
-        テクスチャ管理クラスだね。
-        ファイルローダー？
-        
-        ImageFactory
-        ImageLoader
-        
-        class ImageManager
-        {
-        }
-        class DrawSystem
-        {
-        }
-        
-        SetDrawInfo(
-            "furiru.gif",
-            target_x ,
-            target_y ,
-            src_x ,
-            src_y ,
-            src_width ,
-            src_height ,
-            priority );
-    }
 }
-//サウンドの再生
+//テクスチャ管理クラスの作成
 {
-    midiをコンバートするんだったな。
-    mldファイルだったかな。
-    
-    準備してみるか…
 }
 //ファイル入出力
 {
@@ -111,12 +26,14 @@
     まぁ、別にビルドも大してかからないから気にしないでもいいかもしれない。
     
     大して優先度高くないということで後
+    
+    今はいらないにゃ。
 }
 //アサート調べないとな…
 {
+    例外でもいいけど。
 }
-
 //InputInfoの改築
 {
-    press,releaseのトリガー作成の必要あり
+    press,releaseのトリガー作成
 }

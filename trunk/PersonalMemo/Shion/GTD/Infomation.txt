@@ -1,3 +1,11 @@
+//éŒ¾‚Ìnew
+{
+    Graphics m_graphics = getGraphics();
+    ‚ª‰Â”\B
+}
+//----------------------------------------------
+//‰æ‘œ‚Ì•`‰æ
+//----------------------------------------------
 import com.nttdocomo.ui.Canvas;
 import com.nttdocomo.ui.Graphics;
 import com.nttdocomo.ui.Frame;

@@ -1,170 +1,3 @@
-//Drawが画面に反映されない件。
-{
-    //paint内では描画可能だった。
-    {
-    }
-    //コンストラクタでの描画
-    {
-        無理。
-    }
-    
-    //あれ…、動いたし…わけ分からん。
-    
-    //宣言時のnew
-    {
-        Graphics m_graphics = getGraphics();
-        こんなことが可能らしい。
-        動作も確認した。
-    }
-    
-}
-//画像描画
-{
-    どんなんだったかな…
-    どっかからコピペってくれば基本おｋ
-    
-    //コピペってきた。
-    class Hoge
-    {
-        private Image m_image;
-        
-        Hoge()
-        {
-            MediaImage media_image = MediaManager.getImage( "resource:///res/futami.gif" );
-        
-            try{
-                media_image.use();
-            }catch( Exception e ){
-                system.out.println("");
-            }
-        
-            image = media_image.getImage();
-        }
-    }
-    
-    ok
-}
-
-
-//基本遷移の構築
-{
-    基本単位はCanvasで良いと思う。
-    
-    イメージ的にはこんな感じになるんだろうなぁ的なもの
-    
-    Canvas m_current_scene = new SceneTitle();
-    
-    ChangeCanvas()
-    {
-        m_current_scene = new Canvas();
-        Display.setCurrent( m_current_scene );
-        m_current_scene.start();
-    }
-    
-    enumが無いので非常に憎たらしい。
-    
-    かといってプリプロ導入したくない。
-    まぁ、ソースが一回書き換わった後でビルドされるのは、あんまり気持ちよくないんだよなぁ。
-    
-    遷移元が指定してしまえばいいのだから
-    
-    ChangeScene( Canvas );
-    
-    でいいんじゃないかという考え方もなくはない。
-    
-    
-    えーと、全てのCanvasがRunnableをimplementsするのかどうかという話だが。
-    
-    うーム、やっぱりそういうわけではないな。
-    フレームとして、一番上が管理するのが良いよね。
-    フレームレート変更などに対応する必要があるから、
-    一箇所でサポートするのが良い。
-    
-    だめだな、やっぱりState作る必要はありそうだな。
-    
-    
-}
-//State作成
-{
-    //画面遷移基本クラス
-    abstruct class StateBase extends Canvas
-    {
-        abstruct void Init();
-        abstruct void Update();
-        abstruct void Draw();
-        
-        abstruct void paint();//使わないけどさ…
-    }
-    
-    //継承したサブクラス
-    class StateTitle extends StateBase
-    {
-        public void Init()
-        {
-        }
-        public void Update()
-        {
-        }
-        public void Draw()
-        {
-        }
-    }
-    
-    //んで、初期化すんだろ
-    SceneBase m_current_state = new SceneTitle();
-    
-    んー、Applicationを渡すか…？
-    
-    もしくはシーン管理クラスを作る.
-    SceneChanger
-    {
-        State m_current_state;
-        
-        Change( StateBase state )
-        {
-            Display.setCurrent( state );
-            m_current_state
-        }
-        
-        StateBase CurrentState()
-        {
-            return m_current_state;
-        }
-    }
-    
-}
-//scene管理クラスを作成.
-{
-    完了.
-}
-//java タグファイル作成できない？
-{
-    ctagsをsakuraディレクトリに入れたら動いた。
-    んー、デフォルトで入ってた気がしたけど、気のせいか…
-}
-
-//キャラクタークラスの作成.
-{
-    まぁ、情報は一応まとめておかないとね…
-
-    class Character
-    {
-        Character( String name , int hp , int attack )
-        {
-            m_name = name ;
-            m_hp = hp ;
-            m_attack = attack ;
-        }
-        string m_name;
-        int m_hp;
-        int m_attack;
-    };
-}
-//ステータスの表示
-{
-    どんなのにしよう。
-    下に置きたいな。
-}
 
 
 /* ■■■■■ Current ■■■■■*/
@@ -172,3 +5,17 @@
 
 
 
+//スケジュール
+{
+    仕様確定
+        決まっていない仕様は？
+        仕様を一覧化する
+        
+    α仕様
+        戦闘画面
+        タイトル画面
+        ハイスコア画面
+        
+    スケジュール算出
+    α完成はいつになるか？
+}
