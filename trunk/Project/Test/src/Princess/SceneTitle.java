@@ -6,6 +6,11 @@ class SceneTitle extends SceneBase
     Graphics g = getGraphics();
     InputInfo m_input_info = new InputInfo();
     
+    //コンストラクタ
+    SceneTitle( SceneManagerBase scene_manager )
+    {
+        super( scene_manager );
+    }
     public void Init()
     {
     }
@@ -15,7 +20,7 @@ class SceneTitle extends SceneBase
         
         if( m_input_info.KeyPressedFrame( Display.KEY_SELECT ) == 1 )
         {
-            SceneChangeManager.getInstance().ChangeScene( SceneChangeManager.Scene_Battle );
+            m_scene_manager.ChangeScene( PrincessSceneManager.SceneBattle );
         }
     }
     public void Draw()

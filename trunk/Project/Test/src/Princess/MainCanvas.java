@@ -4,16 +4,16 @@ import com.nttdocomo.ui.Canvas;
 
 class MainCanvas extends Canvas implements Runnable
 {
-    /**
-        メインループ.
-    */
+    PrincessSceneManager m_scene_manager = new PrincessSceneManager();
+    
+    //メインループ.
     public void run()
     {
+        m_scene_manager.ChangeScene( PrincessSceneManager.SceneTitle );
         while( true )
         {
-            SceneBase current_scene = SceneChangeManager.getInstance().CurrentScene();
-            current_scene.Update();
-            current_scene.Draw();
+            m_scene_manager.CurrentScene().Update();
+            m_scene_manager.CurrentScene().Draw();
             
             try
             {

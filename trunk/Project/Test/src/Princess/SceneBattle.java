@@ -16,6 +16,12 @@ class SceneBattle extends SceneBase
     
     int m_state = State_PlayerTurn;
     
+    //コンストラクタ
+    SceneBattle( SceneManagerBase scene_manager_base )
+    {
+        super( scene_manager_base );
+    }
+    
     public void Init()
     {
     }
@@ -52,7 +58,7 @@ class SceneBattle extends SceneBase
             break;
             
         case State_Win:
-            SceneChangeManager.getInstance().ChangeScene( SceneChangeManager.Scene_Battle );
+            m_scene_manager.ChangeScene( PrincessSceneManager.SceneBattle );
             break;
             
         case State_Lose:
