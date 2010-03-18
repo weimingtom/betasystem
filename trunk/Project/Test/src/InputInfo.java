@@ -89,5 +89,19 @@ class InputInfo
         return 0;//@todo:assert
     }
     
+    /**
+        ƒgƒŠƒK[‚Ìæ“¾.
+    */
+    public boolean IsTrig( int param )
+    {
+        for( int i = 0 ; i < m_key_type.length ; i++ )
+        {
+            if( param == m_key_type[i] )
+            {
+                if( m_key_pressed_frame[i] == 1 ){ return true; }
+            }
+        }
+        return false;
+    }
 }
 
