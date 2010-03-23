@@ -4,8 +4,8 @@ class SceneBattle extends SceneBase
 {
     Graphics g = getGraphics();
     InputInfo m_input = new InputInfo();
-    Character m_player = new_Prime();
-    Character m_enemy = new_Shion();
+    Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
+    Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
     Image m_image;
     
     final int State_PlayerTurn =    0 ;
@@ -19,16 +19,6 @@ class SceneBattle extends SceneBase
     SceneBattle( SceneManagerBase scene_manager_base )
     {
         super( scene_manager_base );
-    }
-    
-    Character new_Shion()
-    {
-        return new Character( "スライム" , 5 , 2 );
-    }
-    
-    Character new_Prime()
-    {
-        return new Character( "プリム" , 10 , 3 );
     }
     
     public void Init()
@@ -131,7 +121,11 @@ class SceneBattle extends SceneBase
     {
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
-            m_enemy = new_Shion();
+            /*
+                一時的にコピペになっているだけで、ステージ情報から、モンスターを決定するようになると、
+                この処理は無くなる.
+            */
+            m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
             m_state = State_PlayerTurn;
         }
     }
@@ -140,9 +134,7 @@ class SceneBattle extends SceneBase
     {
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
-            m_player = new_Prime();
-            m_enemy = new_Shion();
-            m_state = State_PlayerTurn;
+            m_scene_manager.ChangeScene( PrincessSceneManager.SceneTitle );
         }
     }
     
