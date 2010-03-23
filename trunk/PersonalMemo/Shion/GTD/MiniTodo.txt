@@ -1,37 +1,31 @@
+//3種攻撃導入
+{
+    攻撃.
+    防御.
+    回復.
+    
+    Action(
+        Character my_chara ,
+        Character target_chara );
+    
+    //防御って実は難しいな…ｗ
+    
+}
 //ステージ作成
     class Stage;
         string m_name; //!< フィールドの名前
         std::vector<int> m_enemy_list; //!< 出現する敵のリスト.
 
-//キャラクター番号の作成
+//キャラクター生成関数の作成.
+{
     final int CharacterType_BlueSlime = 0;
     final int CharacterType_GreenSlime = 1;
     final int CharacterType_Prime = 2;
-    
-//タイトル名
-{
-    プリンセスファンタジア
 }
-
-//タイトル画面
-{
-    insert coin ｗｗｗ
     
-    適当に文字と背景スクロールして終わる予定。
-    
-    ゲート
-    それは世界と世界を繋ぐ扉。
-    
-    
-    
-}
-
-//モンスターの種類
-{
-    final int CharacterType_RedSlime = 2;
-    final int CharacterType_CraveSlime = 3; //くだらねｗ
-    final int CharacterType_GoldSlime = 4;
-}
+//遷移作成
+    タイトル　ステージ選択　バトル  勝ち　（バトル　勝ち)*n　ステージクリアー　ステージ選択
+                                    負け　ゲームオーバー　タイトル
 
 //レベル導入
     ・Characterに int m_exp; を追加する。
@@ -58,14 +52,6 @@
     ・パラメータのあがり方を考える
         一定確率でランダムを予定
         
-        
-//遷移作成
-    タイトル　ステージ選択　バトル  勝ち　（バトル　勝ち)*n　ステージクリアー　ステージ選択
-                                    負け　ゲームオーバー　タイトル
-
-//3種攻撃導入
-    コマンドメニュー
-
 //Image管理クラス
     キャラクター画像の表示
 
@@ -76,8 +62,6 @@
     完全なランダムは戦略がなくなるから駄目。
 }
 
-
-    
 //動的変数書き換え.
     Stringに全部放り込んで、splitして解析。
     Stringを読み込みなおす処理があれば良い。
@@ -133,3 +117,27 @@
     いやぁ蛇足だねｗ
 
 //HPが減ると文字色が変化するとかすごく大事な要素。
+//タイトル名
+{
+    プリンセスファンタジア
+}
+
+//タイトル画面
+{
+    insert coin ｗｗｗ
+    
+    適当に文字と背景スクロールして終わる予定。
+    
+    ゲート
+    それは世界と世界を繋ぐ扉。
+    
+    
+    
+}
+
+//モンスターの種類
+{
+    final int CharacterType_RedSlime = 2;
+    final int CharacterType_CraveSlime = 3; //くだらねｗ
+    final int CharacterType_GoldSlime = 4;
+}
