@@ -28,8 +28,8 @@ class SceneTitle extends SceneBase
         g.lock();
         g.clearRect( 0 , 0  , Display.getWidth() , Display.getHeight() );
         
-        g.drawString( "タイトル画面. " , 10 , 10 );
-        g.drawString( "セレクトキーで、バトル画面へ." , 10 , 20 );
+        g.drawString( "【タイトル画面】 " , 50 , 100 );
+        g.drawString( "Push SelectKey." , 50 , 120 );
         
         g.unlock(true);
     }
