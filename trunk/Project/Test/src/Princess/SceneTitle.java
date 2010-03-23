@@ -18,7 +18,7 @@ class SceneTitle extends SceneBase
     {
         m_input_info.Update();
         
-        if( m_input_info.KeyPressedFrame( Display.KEY_SELECT ) == 1 )
+        if( m_input_info.IsTrig( Display.KEY_SELECT ) )
         {
             m_scene_manager.ChangeScene( PrincessSceneManager.SceneBattle );
         }
