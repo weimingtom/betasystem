@@ -1,10 +1,10 @@
-import com.nttdocomo.ui.Display;
-import com.nttdocomo.ui.Graphics;
+import com.nttdocomo.ui.*;
 
 class SceneWorldMap extends SceneBase
 {
     Graphics g = getGraphics();
     InputInfo m_input_info = new InputInfo();
+    Image m_image;
     
     //コンストラクタ
     SceneWorldMap( SceneManagerBase scene_manager )
@@ -13,6 +13,14 @@ class SceneWorldMap extends SceneBase
     }
     public void Init()
     {
+        //@todo:コピペ…、ImageManager作成待ち.
+        MediaImage media_image = MediaManager.getImage( "resource:///image/worldmap.gif" );
+        try{
+            media_image.use();
+        }catch( Exception e ){
+            System.out.println("error!!-media_image use failed");
+        }
+        m_image = media_image.getImage();
     }
     public void Update()
     {
@@ -28,6 +36,7 @@ class SceneWorldMap extends SceneBase
         g.lock();
         g.clearRect( 0 , 0  , Display.getWidth() , Display.getHeight() );
         
+        g.drawImage( m_image , 0 , 0 );
         g.drawString( "【ワールドマップ画面】 " , 50 , 100 );
         g.drawString( "Push SelectKey." , 50 , 120 );
         

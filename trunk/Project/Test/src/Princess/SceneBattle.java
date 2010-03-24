@@ -6,7 +6,9 @@ class SceneBattle extends SceneBase
     InputInfo m_input = new InputInfo();
     Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
     Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
-    Image m_image;
+    Image m_image_base;
+    Image m_image_player;
+    Image m_image_enemy;
     
     final int State_PlayerTurn =    0 ;
     final int State_EnemyTurn =     1 ;
@@ -23,13 +25,19 @@ class SceneBattle extends SceneBase
     
     public void Init()
     {
-        MediaImage media_image = MediaManager.getImage( "resource:///image/hoge.gif" );
+        MediaImage media_image_base = MediaManager.getImage( "resource:///image/battle_base.gif" );
+        MediaImage media_image_enemy = MediaManager.getImage( "resource:///image/green_slime.gif" );
+        MediaImage media_image_player = MediaManager.getImage( "resource:///image/furiru.gif" );
         try{
-            media_image.use();
+            media_image_base.use();
+            media_image_enemy.use();
+            media_image_player.use();
         }catch( Exception e ){
             System.out.println("error!!-media_image use failed");
         }
-        m_image = media_image.getImage();
+        m_image_base = media_image_base.getImage();
+        m_image_enemy = media_image_enemy.getImage();
+        m_image_player = media_image_player.getImage();
     }
     
     public void Update()
@@ -62,32 +70,45 @@ class SceneBattle extends SceneBase
         g.clearRect( 0, 0, Display.getWidth() , Display.getHeight() );
         
         
+        g.drawImage( m_image_base , 0 , 0 );
         switch( m_state )
         {
         case State_PlayerTurn:
-            g.drawImage( m_image , 0 , 0 );
+            DrawEnemy();
+            DrawPlayer();
             DrawStatus( m_player , 140 , 10 );
             DrawStatus( m_enemy , 30 , 10 );
             break;
             
         case State_EnemyTurn:
-            g.drawImage( m_image , 0 , 0 );
+            DrawEnemy();
+            DrawPlayer();
             DrawStatus( m_player , 140 , 10 );
             DrawStatus( m_enemy , 30 , 10 );
             break;
             
         case State_Win:
-            g.drawImage( m_image , 0 , 0 );
+            DrawPlayer();
             g.drawString("Win!!" , 40 , 40 );
             break;
             
         case State_Lose:
-            g.drawImage( m_image , 0 , 0 );
+            DrawEnemy();
             g.drawString("Lose!!" , 40 , 40 );
             break;
         }
                 
         g.unlock(true);
+    }
+    
+    void DrawEnemy()
+    {
+        g.drawImage( m_image_enemy , 50 , 140 );
+    }
+    
+    void DrawPlayer()
+    {
+        g.drawImage( m_image_player , 115 , 80 );
     }
     
     void UpdatePlayerTurn()
