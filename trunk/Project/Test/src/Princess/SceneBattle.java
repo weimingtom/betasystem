@@ -155,7 +155,7 @@ class SceneBattle extends SceneBase
     {
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
-            m_scene_manager.ChangeScene( PrincessSceneManager.SceneTitle );
+            m_scene_manager.ChangeScene( PrincessSceneManager.SceneGameOver );
         }
     }
     
