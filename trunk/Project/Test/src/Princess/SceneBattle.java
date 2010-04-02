@@ -64,15 +64,15 @@ class SceneBattle extends SceneBase
         case State_PlayerTurn:
             DrawEnemy();
             DrawPlayer();
-            DrawStatus( m_player , 140 , 10 );
-            DrawStatus( m_enemy , 30 , 10 );
+            DrawPlayerStatus( m_player );
+            DrawEnemyStatus( m_enemy );
             break;
             
         case State_EnemyTurn:
             DrawEnemy();
             DrawPlayer();
-            DrawStatus( m_player , 140 , 10 );
-            DrawStatus( m_enemy , 30 , 10 );
+            DrawPlayerStatus( m_player );
+            DrawEnemyStatus( m_enemy );
             break;
             
         case State_Win:
@@ -97,6 +97,16 @@ class SceneBattle extends SceneBase
     void DrawPlayer()
     {
         g.drawImage( m_image_manager.ImageOf( ImageManager.Image_Furiru ) , 115 , 80 );
+    }
+    
+    void DrawPlayerStatus( Character player )
+    {
+        DrawStatus( player , 140 , 10 );
+    }
+    
+    void DrawEnemyStatus( Character enemy )
+    {
+        DrawStatus( enemy , 30 , 10 );
     }
     
     void UpdatePlayerTurn()
