@@ -30,6 +30,7 @@ class SceneGameOver extends SceneBase
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
             m_scene_manager.ChangeScene( PrincessSceneManager.SceneTitle );
+            m_audio_presenter.stop();
         }
     }
     
