@@ -4,6 +4,7 @@ class SceneGameOver extends SceneBase
 {
     Graphics g = getGraphics();
     InputInfo m_input = new InputInfo();
+    AudioPresenter m_audio_presenter = AudioPresenter.getAudioPresenter();
 
     //コンストラクタ
     SceneGameOver( SceneManagerBase scene_manager_base )
@@ -13,6 +14,14 @@ class SceneGameOver extends SceneBase
     
     public void Init()
     {
+        MediaSound media_sound = MediaManager.getSound("resource:///sound/gameover.mld");
+        try{
+            media_sound.use();
+        } catch ( Exception e ) {
+            System.out.println("throw exception in media_sound.use() ");
+        }
+        m_audio_presenter.setSound( media_sound );
+        m_audio_presenter.play();
     }
     
     public void Update()
@@ -43,3 +52,4 @@ class SceneGameOver extends SceneBase
     //未使用
     public void paint( Graphics g ){}
 }
+
