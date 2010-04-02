@@ -1,21 +1,22 @@
 import com.nttdocomo.ui.*;
 
+/**
+    戦闘画面.
+*/
 class SceneBattle extends SceneBase
 {
-    Graphics g = getGraphics();
-    InputInfo m_input = new InputInfo();
-    Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
-    Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
-    Image m_image_base;
-    Image m_image_player;
-    Image m_image_enemy;
-    
     final int State_PlayerTurn =    0 ;
     final int State_EnemyTurn =     1 ;
     final int State_Win =           2 ;
     final int State_Lose =          3 ;
     
-    int m_state = State_PlayerTurn;
+    Graphics g = getGraphics();
+    InputInfo m_input = new InputInfo();
+    Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
+    Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
+    ImageManager m_image_manager = new ImageManager();
+    
+        int m_state = State_PlayerTurn;
     
     //コンストラクタ
     SceneBattle( SceneManagerBase scene_manager_base )
@@ -25,19 +26,6 @@ class SceneBattle extends SceneBase
     
     public void Init()
     {
-        MediaImage media_image_base = MediaManager.getImage( "resource:///image/battle_base.gif" );
-        MediaImage media_image_enemy = MediaManager.getImage( "resource:///image/green_slime.gif" );
-        MediaImage media_image_player = MediaManager.getImage( "resource:///image/furiru.gif" );
-        try{
-            media_image_base.use();
-            media_image_enemy.use();
-            media_image_player.use();
-        }catch( Exception e ){
-            System.out.println("error!!-media_image use failed");
-        }
-        m_image_base = media_image_base.getImage();
-        m_image_enemy = media_image_enemy.getImage();
-        m_image_player = media_image_player.getImage();
     }
     
     public void Update()
@@ -70,7 +58,7 @@ class SceneBattle extends SceneBase
         g.clearRect( 0, 0, Display.getWidth() , Display.getHeight() );
         
         
-        g.drawImage( m_image_base , 0 , 0 );
+        g.drawImage( m_image_manager.ImageOf( ImageManager.Image_Base ) , 0 , 0 );
         switch( m_state )
         {
         case State_PlayerTurn:
@@ -103,12 +91,12 @@ class SceneBattle extends SceneBase
     
     void DrawEnemy()
     {
-        g.drawImage( m_image_enemy , 50 , 140 );
+        g.drawImage( m_image_manager.ImageOf( ImageManager.Image_Slime ) , 50 , 140 );
     }
     
     void DrawPlayer()
     {
-        g.drawImage( m_image_player , 115 , 80 );
+        g.drawImage( m_image_manager.ImageOf( ImageManager.Image_Furiru ) , 115 , 80 );
     }
     
     void UpdatePlayerTurn()
@@ -173,4 +161,42 @@ class SceneBattle extends SceneBase
     
     //未使用
     public void paint( Graphics g ){}
+}
+
+/**
+    画像データを管理するクラス.
+*/
+class ImageManager
+{
+    static final int Image_Base = 0;
+    static final int Image_Furiru = 1;
+    static final int Image_Slime = 2;
+    static final int Image_Num = 3;
+    
+    Image[] m_image_list;
+    
+    ImageManager()
+    {
+        m_image_list = new Image[ Image_Num ];
+        
+        //時間無いので一旦コピペ.
+        MediaImage media_image_base = MediaManager.getImage( "resource:///image/battle_base.gif" );
+        MediaImage media_image_enemy = MediaManager.getImage( "resource:///image/green_slime.gif" );
+        MediaImage media_image_player = MediaManager.getImage( "resource:///image/furiru.gif" );
+        try{
+            media_image_base.use();
+            media_image_enemy.use();
+            media_image_player.use();
+        }catch( Exception e ){
+            System.out.println("error!!-media_image use failed");
+        }
+        m_image_list[ Image_Base ] = media_image_base.getImage();
+        m_image_list[ Image_Slime ] = media_image_enemy.getImage();
+        m_image_list[ Image_Furiru ] = media_image_player.getImage();
+    }
+    
+    Image ImageOf( int image_index )
+    {
+        return m_image_list[ image_index ];
+    }
 }
