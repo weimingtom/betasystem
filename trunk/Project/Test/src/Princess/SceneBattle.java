@@ -9,14 +9,17 @@ class SceneBattle extends SceneBase
     final int State_EnemyTurn =     1 ;
     final int State_Win =           2 ;
     final int State_Lose =          3 ;
+    final int PlayerX = 140; 
+    final int EnemyX = 30;
     
     Graphics g = getGraphics();
     InputInfo m_input = new InputInfo();
     Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
     Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
     ImageManager m_image_manager = new ImageManager();
+    DamagePrinter m_damage_printer = new DamagePrinter( g );
     
-        int m_state = State_PlayerTurn;
+    int m_state = State_PlayerTurn;
     
     //コンストラクタ
     SceneBattle( SceneManagerBase scene_manager_base )
@@ -31,6 +34,7 @@ class SceneBattle extends SceneBase
     public void Update()
     {
         m_input.Update();
+        m_damage_printer.Update();
         
         switch( m_state )
         {
@@ -56,7 +60,6 @@ class SceneBattle extends SceneBase
     {
         g.lock();
         g.clearRect( 0, 0, Display.getWidth() , Display.getHeight() );
-        
         
         g.drawImage( m_image_manager.ImageOf( ImageManager.Image_Base ) , 0 , 0 );
         switch( m_state )
@@ -85,7 +88,8 @@ class SceneBattle extends SceneBase
             g.drawString("Lose!!" , 40 , 40 );
             break;
         }
-                
+        m_damage_printer.Draw();
+        
         g.unlock(true);
     }
     
@@ -101,12 +105,12 @@ class SceneBattle extends SceneBase
     
     void DrawPlayerStatus( Character player )
     {
-        DrawStatus( player , 140 , 10 );
+        DrawStatus( player , PlayerX , 10 );
     }
     
     void DrawEnemyStatus( Character enemy )
     {
-        DrawStatus( enemy , 30 , 10 );
+        DrawStatus( enemy , EnemyX , 10 );
     }
     
     void UpdatePlayerTurn()
@@ -114,7 +118,10 @@ class SceneBattle extends SceneBase
         System.out.println("player turn");
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
-            m_enemy.m_hp -= m_player.m_attack;
+            final int damage = m_player.m_attack;
+            m_enemy.m_hp -= damage;
+            m_damage_printer.Begin( damage , 60 );
+            
             if( m_enemy.m_hp <= 0 )
             {
                 m_state = State_Win;
@@ -127,7 +134,9 @@ class SceneBattle extends SceneBase
     void UpdateEnemyTurn()
     {
         System.out.println("enemy turn");
-        m_player.m_hp -= m_enemy.m_attack;
+        final int damage = m_enemy.m_attack;
+        m_player.m_hp -= damage;
+        m_damage_printer.Begin( damage , 180 );
         if( m_player.m_hp <= 0 )
         {
             m_state = State_Lose;
@@ -172,6 +181,44 @@ class SceneBattle extends SceneBase
     //未使用
     public void paint( Graphics g ){}
 }
+
+/**
+    ダメージを描画するクラス.
+*/
+class DamagePrinter
+{
+    final int default_y = 70;
+    int m_x;
+    int m_y;
+    int m_damage;
+    Graphics m_graphics;
+    
+    DamagePrinter( Graphics g )
+    {
+        m_graphics = g;
+    }
+    
+    void Begin( int damage , int x )
+    {
+        m_x = x;
+        m_y = default_y;
+        m_damage = damage;
+    }
+    
+    void Update()
+    {
+        m_y--;
+    }
+    
+    void Draw()
+    {
+        if( m_y > default_y - 10 )
+        {
+            m_graphics.drawString( ""+m_damage , m_x , m_y );
+            m_graphics.drawString( ""+m_damage , m_x , m_y+1 );
+        }
+    }
+};
 
 /**
     画像データを管理するクラス.
