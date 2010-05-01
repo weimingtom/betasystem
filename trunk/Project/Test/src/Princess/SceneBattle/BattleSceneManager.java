@@ -1,3 +1,4 @@
+import com.nttdocomo.ui.Graphics;
 
 /**
     í“¬‰æ–Ê‚É‚¨‚¯‚é‰æ–Ê‘JˆÚŠÇ—.
@@ -6,7 +7,12 @@ class BattleSceneManager extends SceneManagerBase
 {
     static final int Scene_PlayerTurn   = 0;
     static final int Scene_EnemyTurn    = 1;
-    SceneBattleObjects m_objects = new SceneBattleObjects();
+    SceneBattleObjects m_objects;
+    
+    BattleSceneManager( Graphics g )
+    {
+        m_objects = new SceneBattleObjects( g );
+    }
     
     SceneBase new_Scene( int scene_index )
     {

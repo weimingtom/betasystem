@@ -36,8 +36,6 @@ class ScenePlayerTurn extends SceneBase
         g.drawString( "ÅyPlayerTurnÅz " , 50 , 100 );
         g.drawString( "Push SelectKey." , 50 , 120 );
         
-        m_objects.Hoge();
-        
         g.unlock(true);
     }
     
