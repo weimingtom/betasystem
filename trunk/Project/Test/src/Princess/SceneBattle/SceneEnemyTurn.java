@@ -4,23 +4,23 @@ import com.nttdocomo.ui.Display;
 class SceneEnemyTurn extends SceneBase
 {
     Graphics g;
-    InputInfo m_input_info = new InputInfo();
+    InputInfo m_input = StaticObjects.getInputInstance();
     SceneBattleObjects m_objects;
     
     SceneEnemyTurn( SceneManagerBase scene_manager , SceneBattleObjects objects )
     {
         super( scene_manager );
         m_objects = objects;
-        g = StaticGraphics.getInstance();
+        g = StaticObjects.getGraphicsInstance();
     }
     public void Init()
     {
     }
     public void Update()
     {
-        m_input_info.Update();
+        m_input.Update();
         
-        if( m_input_info.IsTrig( Display.KEY_SELECT ) )
+        if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
             m_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn);
         }
@@ -38,7 +38,7 @@ class SceneEnemyTurn extends SceneBase
     
     public void processEvent( int type , int param )
     {
-        m_input_info.UpdateInputInfo( type , param );
+        m_input.UpdateInputInfo( type , param );
     }
     
     public void paint( Graphics g ){}

@@ -2,15 +2,14 @@ import com.nttdocomo.ui.*;
 
 class SceneWorldMap extends SceneBase
 {
-    Graphics g;
-    InputInfo m_input_info = new InputInfo();
+    Graphics g = StaticObjects.getGraphicsInstance();
+    InputInfo m_input = StaticObjects.getInputInstance();
     Image m_image;
     
     //コンストラクタ
     SceneWorldMap( SceneManagerBase scene_manager )
     {
         super( scene_manager );
-        g = StaticGraphics.getInstance();
     }
     public void Init()
     {
@@ -25,9 +24,9 @@ class SceneWorldMap extends SceneBase
     }
     public void Update()
     {
-        m_input_info.Update();
+        m_input.Update();
         
-        if( m_input_info.IsTrig( Display.KEY_SELECT ) )
+        if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
             m_scene_manager.ChangeScene( PrincessSceneManager.SceneBattle );
         }
@@ -46,7 +45,7 @@ class SceneWorldMap extends SceneBase
     
     public void processEvent( int type , int param )
     {
-        m_input_info.UpdateInputInfo( type , param );
+        m_input.UpdateInputInfo( type , param );
     }
     
     public void paint( Graphics g ){}

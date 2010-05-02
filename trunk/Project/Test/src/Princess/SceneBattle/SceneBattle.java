@@ -12,7 +12,7 @@ class SceneBattle extends SceneBase
     SceneBattle( SceneManagerBase scene_manager_base )
     {
         super( scene_manager_base );
-        g = StaticGraphics.getInstance();
+        g = StaticObjects.getGraphicsInstance();
     }
     
     public void Init()

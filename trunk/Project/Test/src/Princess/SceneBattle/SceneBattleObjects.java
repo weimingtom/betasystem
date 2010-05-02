@@ -13,7 +13,7 @@ class SceneBattleObjects
     
     SceneBattleObjects()
     {
-        g = StaticGraphics.getInstance();
+        g = StaticObjects.getGraphicsInstance();
         m_damage_printer = new DamagePrinter();
     }
     
@@ -39,7 +39,7 @@ class DamagePrinter
     
     DamagePrinter()
     {
-        g = StaticGraphics.getInstance();
+        g = StaticObjects.getGraphicsInstance();
     }
     
     void Begin( int damage , int x )
