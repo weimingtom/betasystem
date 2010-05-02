@@ -6,7 +6,7 @@ import com.nttdocomo.ui.*;
 class ImageManager
 {
     static final int Image_Base         = 0;
-    static final int Image_Furiru       = 1;
+    static final int Image_Player       = 1;
     static final int Image_Slime        = 2;
     static final int Image_WorldMap     = 3;
     static final int Image_Num          = 4;
@@ -37,7 +37,7 @@ class ImageManager
         m_image_name = new String[ Image_Num ];
         m_image_name[ Image_Base ] = "resource:///image/battle_base.gif";
         m_image_name[ Image_Slime ] = "resource:///image/green_slime.gif";
-        m_image_name[ Image_Furiru ] = "resource:///image/furiru.gif";
+        m_image_name[ Image_Player ] = "resource:///image/furiru.gif";
         m_image_name[ Image_WorldMap ] = "resource:///image/worldmap.gif";
     }
     

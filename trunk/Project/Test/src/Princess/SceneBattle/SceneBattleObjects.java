@@ -5,19 +5,26 @@ import com.nttdocomo.ui.*;
 */
 class SceneBattleObjects
 {
-    Graphics g;
-    DamagePrinter m_damage_printer;
+    Graphics g = StaticObjects.getGraphicsInstance();
+    DamagePrinter m_damage_printer = new DamagePrinter();
     Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
     Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
     
-    SceneBattleObjects()
+    ImageManager m_image_manager = StaticObjects.getImageManagerInstance();
+    Image m_image_player = m_image_manager.ImageOf( ImageManager.Image_Player );
+    Image m_image_base = m_image_manager.ImageOf( ImageManager.Image_Base );
+    Image m_image_enemy = m_image_manager.ImageOf( ImageManager.Image_Slime );
+    
+    void DrawBattleScreen()
     {
-        g = StaticObjects.getGraphicsInstance();
-        m_damage_printer = new DamagePrinter();
+        g.drawImage( m_image_base , 0 , 00 );
+        g.drawImage( m_image_player , 120 , 80 );
+        g.drawImage( m_image_enemy , 40 , 150 );
+        DrawStatus( m_player , 120 , 10 );
+        DrawStatus( m_enemy , 20 , 10 );
     }
     
-    
-    void DrawStatus( Character character , int x , int y )
+    private void DrawStatus( Character character , int x , int y )
     {
         g.drawString("m_name:"+character.m_name , x , y +=10 );
         g.drawString("m_hp:"+character.m_hp, x , y +=10  );
