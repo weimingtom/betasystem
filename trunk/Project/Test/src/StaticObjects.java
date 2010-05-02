@@ -3,7 +3,7 @@ import com.nttdocomo.ui.Graphics;
 import com.nttdocomo.ui.Canvas;
 
 /**
-    共通して使用するオブジェクト群.
+    プロジェクト全体で共通して使用するオブジェクト群.
 */
 class StaticObjects extends Canvas
 {
@@ -21,10 +21,16 @@ class StaticObjects extends Canvas
     */
     InputInfo m_input;
     
+    /**
+        画像管理クラス.
+    */
+    ImageManager m_image_manager;
+    
     private StaticObjects()
     {
         m_graphics = getGraphics();
         m_input = new InputInfo();
+        m_image_manager = new ImageManager();
     }
     
     static Graphics getGraphicsInstance()
@@ -37,6 +43,12 @@ class StaticObjects extends Canvas
     {
         createInstance();
         return m_instance.m_input;
+    }
+    
+    static ImageManager getImageManagerInstance()
+    {
+        createInstance();
+        return m_instance.m_image_manager;
     }
     
     private static void createInstance()

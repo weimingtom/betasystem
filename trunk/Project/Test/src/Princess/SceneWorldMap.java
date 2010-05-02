@@ -13,14 +13,7 @@ class SceneWorldMap extends SceneBase
     }
     public void Init()
     {
-        //@todo:コピペ…、ImageManager作成待ち.
-        MediaImage media_image = MediaManager.getImage( "resource:///image/worldmap.gif" );
-        try{
-            media_image.use();
-        }catch( Exception e ){
-            System.out.println("error!!-media_image use failed");
-        }
-        m_image = media_image.getImage();
+        m_image = StaticObjects.getImageManagerInstance().ImageOf( ImageManager.Image_WorldMap );
     }
     public void Update()
     {
