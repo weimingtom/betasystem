@@ -1,5 +1,3 @@
-import com.nttdocomo.ui.Graphics;
-
 /**
     í“¬‰æ–Ê‚É‚¨‚¯‚é‰æ–Ê‘JˆÚŠÇ—.
 */
@@ -9,9 +7,9 @@ class BattleSceneManager extends SceneManagerBase
     static final int Scene_EnemyTurn    = 1;
     SceneBattleObjects m_objects;
     
-    BattleSceneManager( Graphics g )
+    BattleSceneManager()
     {
-        m_objects = new SceneBattleObjects( g );
+        m_objects = new SceneBattleObjects();
     }
     
     SceneBase new_Scene( int scene_index )

@@ -1,9 +1,9 @@
-import com.nttdocomo.ui.Display;
 import com.nttdocomo.ui.Graphics;
+import com.nttdocomo.ui.Display;
 
 class SceneEnemyTurn extends SceneBase
 {
-    Graphics g = getGraphics();
+    Graphics g;
     InputInfo m_input_info = new InputInfo();
     SceneBattleObjects m_objects;
     
@@ -11,6 +11,7 @@ class SceneEnemyTurn extends SceneBase
     {
         super( scene_manager );
         m_objects = objects;
+        g = StaticGraphics.getInstance();
     }
     public void Init()
     {

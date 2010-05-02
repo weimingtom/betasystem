@@ -5,24 +5,24 @@ import com.nttdocomo.ui.*;
 */
 class SceneBattleObjects
 {
-    Graphics m_graphics;
+    Graphics g;
     DamagePrinter m_damage_printer;
     ImageManager m_image_manager = new ImageManager();
     Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
     Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
     
-    SceneBattleObjects( Graphics g )
+    SceneBattleObjects()
     {
-        m_graphics = g;
-        m_damage_printer = new DamagePrinter( g );
+        g = StaticGraphics.getInstance();
+        m_damage_printer = new DamagePrinter();
     }
     
     
     void DrawStatus( Character character , int x , int y )
     {
-        m_graphics.drawString("m_name:"+character.m_name , x , y +=10 );
-        m_graphics.drawString("m_hp:"+character.m_hp, x , y +=10  );
-        m_graphics.drawString("m_attack:"+character.m_attack, x , y +=10  );
+        g.drawString("m_name:"+character.m_name , x , y +=10 );
+        g.drawString("m_hp:"+character.m_hp, x , y +=10  );
+        g.drawString("m_attack:"+character.m_attack, x , y +=10  );
     }
 }
 
@@ -35,11 +35,11 @@ class DamagePrinter
     int m_x;
     int m_y;
     int m_damage;
-    Graphics m_graphics;
+    Graphics g;
     
-    DamagePrinter( Graphics g )
+    DamagePrinter()
     {
-        m_graphics = g;
+        g = StaticGraphics.getInstance();
     }
     
     void Begin( int damage , int x )
@@ -58,8 +58,8 @@ class DamagePrinter
     {
         if( m_y > default_y - 10 )
         {
-            m_graphics.drawString( ""+m_damage , m_x , m_y );
-            m_graphics.drawString( ""+m_damage , m_x , m_y+1 );
+            g.drawString( ""+m_damage , m_x , m_y );
+            g.drawString( ""+m_damage , m_x , m_y+1 );
         }
     }
 };

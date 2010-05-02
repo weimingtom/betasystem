@@ -1,4 +1,3 @@
-import com.nttdocomo.ui.Display;
 
 /**
     シーン管理クラス.
@@ -23,9 +22,7 @@ abstract class SceneManagerBase
     public void ChangeScene( int scene_index )
     {
         System.out.println("ChangeScene()");
-        
         m_current_scene = new_Scene( scene_index );
-        Display.setCurrent( m_current_scene );
         m_current_scene.Init();
     }
     

@@ -2,7 +2,7 @@ import com.nttdocomo.ui.*;
 
 class SceneGameOver extends SceneBase
 {
-    Graphics g = getGraphics();
+    Graphics g;
     InputInfo m_input = new InputInfo();
     AudioPresenter m_audio_presenter = AudioPresenter.getAudioPresenter();
 
@@ -10,6 +10,7 @@ class SceneGameOver extends SceneBase
     SceneGameOver( SceneManagerBase scene_manager_base )
     {
         super( scene_manager_base );
+        g = StaticGraphics.getInstance();
     }
     
     public void Init()

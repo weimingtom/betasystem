@@ -2,7 +2,7 @@ import com.nttdocomo.ui.*;
 
 class SceneWorldMap extends SceneBase
 {
-    Graphics g = getGraphics();
+    Graphics g;
     InputInfo m_input_info = new InputInfo();
     Image m_image;
     
@@ -10,6 +10,7 @@ class SceneWorldMap extends SceneBase
     SceneWorldMap( SceneManagerBase scene_manager )
     {
         super( scene_manager );
+        g = StaticGraphics.getInstance();
     }
     public void Init()
     {
