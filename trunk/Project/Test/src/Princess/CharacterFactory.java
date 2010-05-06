@@ -13,9 +13,9 @@ class CharacterFactory
         switch( chara_type )
         {
         case CharaType_BlueSlime:
-            return new Character( "ブルースライム" , 5 , 2 );
+            return new Character( "Bスライム" , 5 , 2 );
         case CharaType_GreenSlime:
-            return new Character( "グリーンスライム" , 8 , 3 );
+            return new Character( "Gスライム" , 8 , 3 );
         case CharaType_Furiru:
             return new Character( "フリル" , 10 , 4 );
         default:

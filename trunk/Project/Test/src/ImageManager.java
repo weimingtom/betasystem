@@ -9,7 +9,8 @@ class ImageManager
     static final int Image_Player       = 1;
     static final int Image_Slime        = 2;
     static final int Image_WorldMap     = 3;
-    static final int Image_Num          = 4;
+    static final int Image_Sky          = 4;
+    static final int Image_Num          = 5;
     
     Image[] m_image_list;
     String[] m_image_name;
@@ -35,10 +36,11 @@ class ImageManager
     void InitImageName()
     {
         m_image_name = new String[ Image_Num ];
-        m_image_name[ Image_Base ] = "resource:///image/battle_base.gif";
-        m_image_name[ Image_Slime ] = "resource:///image/green_slime.gif";
-        m_image_name[ Image_Player ] = "resource:///image/furiru.gif";
-        m_image_name[ Image_WorldMap ] = "resource:///image/worldmap.gif";
+        m_image_name[ Image_Base ]      = "resource:///image/battle_base.gif";
+        m_image_name[ Image_Slime ]     = "resource:///image/green_slime.gif";
+        m_image_name[ Image_Player ]    = "resource:///image/furiru.gif";
+        m_image_name[ Image_WorldMap ]  = "resource:///image/worldmap.gif";
+        m_image_name[ Image_Sky ]       = "resource:///image/sky.gif";
     }
     
     Image ImageOf( int image_index )

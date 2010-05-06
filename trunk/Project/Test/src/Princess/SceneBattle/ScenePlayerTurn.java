@@ -21,7 +21,7 @@ class ScenePlayerTurn extends SceneBase
     public void Update()
     {
         m_input.Update();
-        
+        m_objects.m_background.Update();
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
             m_scene_manager.ChangeScene( BattleSceneManager.Scene_EnemyTurn );
@@ -30,6 +30,7 @@ class ScenePlayerTurn extends SceneBase
     
     public void Draw()
     {
+        m_objects.m_background.Draw();
         m_objects.DrawBattleScreen();
     }
     
