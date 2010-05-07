@@ -5,14 +5,14 @@ import com.nttdocomo.ui.*;
 */
 class SceneBattle extends SceneBase
 {
-    Graphics g;
-    BattleSceneManager m_scene_manager = new BattleSceneManager();
+    Graphics g = StaticObjects.getGraphicsInstance();
+    BattleSceneManager m_scene_manager;
     
     //コンストラクタ
     SceneBattle( SceneManagerBase scene_manager_base )
     {
         super( scene_manager_base );
-        g = StaticObjects.getGraphicsInstance();
+        m_scene_manager = new BattleSceneManager( scene_manager_base );
     }
     
     public void Init()

@@ -1,3 +1,4 @@
+import com.nttdocomo.ui.Display;
 import com.nttdocomo.ui.Graphics;
 import com.nttdocomo.ui.Canvas;
 
@@ -5,6 +6,7 @@ import com.nttdocomo.ui.Canvas;
 class MainCanvas extends Canvas implements Runnable
 {
     PrincessSceneManager m_scene_manager = new PrincessSceneManager();
+    Graphics g = StaticObjects.getGraphicsInstance();
     
     //ƒƒCƒ“ƒ‹[ƒv.
     public void run()
@@ -13,7 +15,14 @@ class MainCanvas extends Canvas implements Runnable
         while( true )
         {
             m_scene_manager.CurrentScene().Update();
-            m_scene_manager.CurrentScene().Draw();
+            {
+                g.lock();
+                g.clearRect( 0 , 0  , Display.getWidth() , Display.getHeight() );
+                
+                m_scene_manager.CurrentScene().Draw();
+                
+                g.unlock(true);
+            }
             
             try
             {

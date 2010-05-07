@@ -25,7 +25,7 @@ class SceneEnemyTurn extends SceneBase
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
             m_objects.ActionAttack( false );
-            m_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
+            m_objects.EndTurn( BattleSceneManager.Scene_EnemyTurn );
         }
     }
     

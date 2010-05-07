@@ -13,6 +13,16 @@ class SceneBattleObjects
     private ImageManager m_image_manager = StaticObjects.getImageManagerInstance();
     private Image m_image_player = m_image_manager.ImageOf( ImageManager.Image_Player );
     private Image m_image_enemy = m_image_manager.ImageOf( ImageManager.Image_Slime );
+    private SceneManagerBase m_battle_scene_manager;
+    private SceneManagerBase m_princess_scene_manager;
+    
+    SceneBattleObjects(
+        SceneManagerBase battle_scene_manager ,
+        SceneManagerBase princess_scene_manager )
+    {
+        m_battle_scene_manager = battle_scene_manager;
+        m_princess_scene_manager = princess_scene_manager;
+    }
     
     void Update()
     {
@@ -58,6 +68,41 @@ class SceneBattleObjects
         final int damage = attaker.m_attack;
         target.m_hp -= damage;
         m_damage_printer.Begin( damage , 100 );
+    }
+    
+    private void NextEnemy()
+    {
+        m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
+    }
+    
+    public void EndTurn( int battle_scene_index )
+    {
+        switch( battle_scene_index )
+        {
+        case BattleSceneManager.Scene_PlayerTurn:
+            if( m_enemy.m_hp <= 0 )
+            {
+                m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_Win );
+            }else{
+                m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_EnemyTurn );
+            }
+            break;
+        case BattleSceneManager.Scene_EnemyTurn:
+            if( m_player.m_hp <= 0 )
+            {
+                m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_Lose );
+            }else{
+                m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
+            }
+            break;
+        case BattleSceneManager.Scene_Win:
+            NextEnemy();
+            m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
+            break;
+        case BattleSceneManager.Scene_Lose:
+            m_princess_scene_manager.ChangeScene( PrincessSceneManager.SceneGameOver );
+            break;
+        }
     }
 }
 
