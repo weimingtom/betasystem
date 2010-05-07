@@ -5,7 +5,6 @@ class ScenePlayerTurn extends SceneBase
 {
     Graphics g = StaticObjects.getGraphicsInstance();
     InputInfo m_input = StaticObjects.getInputInstance();
-    
     SceneBattleObjects m_objects;
     
     ScenePlayerTurn( SceneManagerBase scene_manager , SceneBattleObjects objects )
@@ -21,17 +20,17 @@ class ScenePlayerTurn extends SceneBase
     public void Update()
     {
         m_input.Update();
-        m_objects.m_background.Update();
+        m_objects.Update();
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
+            m_objects.ActionAttack( true );
             m_scene_manager.ChangeScene( BattleSceneManager.Scene_EnemyTurn );
         }
     }
     
     public void Draw()
     {
-        m_objects.m_background.Draw();
-        m_objects.DrawBattleScreen();
+        m_objects.Draw();
     }
     
     public void processEvent( int type , int param )

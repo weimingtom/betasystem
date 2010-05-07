@@ -13,27 +13,25 @@ class SceneEnemyTurn extends SceneBase
         m_objects = objects;
         g = StaticObjects.getGraphicsInstance();
     }
+    
     public void Init()
     {
     }
+    
     public void Update()
     {
         m_input.Update();
-        
+        m_objects.Update();
         if( m_input.IsTrig( Display.KEY_SELECT ) )
         {
-            m_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn);
+            m_objects.ActionAttack( false );
+            m_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
         }
     }
+    
     public void Draw()
     {
-        g.lock();
-        g.clearRect( 0 , 0  , Display.getWidth() , Display.getHeight() );
-        
-        g.drawString( "ÅyEnemyTurnÅz " , 50 , 100 );
-        g.drawString( "Push SelectKey." , 50 , 120 );
-        
-        g.unlock(true);
+        m_objects.Draw();
     }
     
     public void processEvent( int type , int param )
@@ -42,4 +40,6 @@ class SceneEnemyTurn extends SceneBase
     }
     
     public void paint( Graphics g ){}
+    
 }
+
