@@ -30,7 +30,6 @@ class SceneWorldMap extends SceneBase
         g.clearRect( 0 , 0  , Display.getWidth() , Display.getHeight() );
         
         g.drawImage( m_image , 0 , 0 );
-        g.drawString( "【ワールドマップ画面】 " , 50 , 100 );
         g.drawString( "Push SelectKey." , 50 , 120 );
         
         g.unlock(true);

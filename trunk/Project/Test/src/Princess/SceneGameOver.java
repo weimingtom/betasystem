@@ -5,6 +5,8 @@ class SceneGameOver extends SceneBase
     Graphics g = StaticObjects.getGraphicsInstance();
     InputInfo m_input = StaticObjects.getInputInstance();
     AudioPresenter m_audio_presenter = AudioPresenter.getAudioPresenter();
+    private ImageManager m_image_manager = StaticObjects.getImageManagerInstance();
+    private Image m_image = m_image_manager.ImageOf( ImageManager.Image_GameOver );
     
     //コンストラクタ
     SceneGameOver( SceneManagerBase scene_manager_base )
@@ -36,13 +38,8 @@ class SceneGameOver extends SceneBase
     
     public void Draw()
     {
-        g.lock();
-        g.clearRect( 0, 0, Display.getWidth() , Display.getHeight() );
-        
-        g.drawString( "【ゲームオーバー画面】" , 50 , 100 );
+        g.drawImage( m_image , 20 , 20 );
         g.drawString( "Push SelectKey." , 50 , 120 );
-        
-        g.unlock(true);
     }
     
     public void processEvent( int type , int param )

@@ -1,11 +1,14 @@
 import com.nttdocomo.ui.Display;
 import com.nttdocomo.ui.Graphics;
+import com.nttdocomo.ui.Image;
 
 class SceneTitle extends SceneBase
 {
-    Graphics g = StaticObjects.getGraphicsInstance();
-    InputInfo m_input = StaticObjects.getInputInstance();
-    
+    private Graphics g = StaticObjects.getGraphicsInstance();
+    private InputInfo m_input = StaticObjects.getInputInstance();
+    private ImageManager m_image_manager = StaticObjects.getImageManagerInstance();
+    private Image m_image = m_image_manager.ImageOf( ImageManager.Image_Title );
+
     //コンストラクタ
     SceneTitle( SceneManagerBase scene_manager )
     {
@@ -27,11 +30,8 @@ class SceneTitle extends SceneBase
     }
     public void Draw()
     {
-        System.out.println("SceneTitle::Draw()");
-        g.lock();
-        g.drawString( "【タイトル画面】 " , 50 , 100 );
+        g.drawImage( m_image , 20 , 20 );
         g.drawString( "Push SelectKey." , 50 , 120 );
-        g.unlock(true);
     }
     
     public void processEvent( int type , int param )
