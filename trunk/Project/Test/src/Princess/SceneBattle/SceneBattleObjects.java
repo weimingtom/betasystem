@@ -8,7 +8,7 @@ class SceneBattleObjects
     private Graphics g = StaticObjects.getGraphicsInstance();
     private DamagePrinter m_damage_printer = new DamagePrinter();
     private Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
-    private Character m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
+    private Character m_enemy;
     private Background m_background = new Background();
     private ImageManager m_image_manager = StaticObjects.getImageManagerInstance();
     private Image m_image_player = m_image_manager.ImageOf( ImageManager.Image_Player );
@@ -16,12 +16,21 @@ class SceneBattleObjects
     private SceneManagerBase m_battle_scene_manager;
     private SceneManagerBase m_princess_scene_manager;
     
+    int[] m_monster_list =
+    {
+        CharacterFactory.CharaType_BlueSlime ,
+        CharacterFactory.CharaType_GreenSlime ,
+        CharacterFactory.CharaType_BlueSlime ,
+    };
+    int m_monster_list_index;
+    
     SceneBattleObjects(
         SceneManagerBase battle_scene_manager ,
         SceneManagerBase princess_scene_manager )
     {
         m_battle_scene_manager = battle_scene_manager;
         m_princess_scene_manager = princess_scene_manager;
+        NextEnemy();
     }
     
     void Update()
@@ -73,9 +82,15 @@ class SceneBattleObjects
         m_damage_printer.Begin( damage , 100 );
     }
     
+    private boolean IsBeNextEnemy()
+    {
+        return ( m_monster_list_index < m_monster_list.length );
+    }
+    
     private void NextEnemy()
     {
-        m_enemy = CharacterFactory.New( CharacterFactory.CharaType_BlueSlime );
+        m_enemy = CharacterFactory.New( m_monster_list[ m_monster_list_index ] );
+        m_monster_list_index++;
     }
     
     public void EndTurn( int battle_scene_index )
@@ -99,8 +114,13 @@ class SceneBattleObjects
             }
             break;
         case BattleSceneManager.Scene_Win:
-            NextEnemy();
-            m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
+            if( IsBeNextEnemy() )
+            {
+                NextEnemy();
+                m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
+            }else{
+                m_princess_scene_manager.ChangeScene( PrincessSceneManager.SceneWorldMap );
+            }
             break;
         case BattleSceneManager.Scene_Lose:
             m_princess_scene_manager.ChangeScene( PrincessSceneManager.SceneGameOver );
