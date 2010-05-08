@@ -56,6 +56,7 @@ class SceneBattleObjects
     {
         Character attaker;
         Character target;
+        
         if( is_player_turn )
         {
             attaker = m_player;
@@ -67,6 +68,8 @@ class SceneBattleObjects
         
         final int damage = attaker.m_attack;
         target.m_hp -= damage;
+        if( target.m_hp <= 0 ){ target.m_hp = 0; }
+        
         m_damage_printer.Begin( damage , 100 );
     }
     
