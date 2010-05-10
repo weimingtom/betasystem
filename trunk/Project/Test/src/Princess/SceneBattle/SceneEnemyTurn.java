@@ -22,11 +22,9 @@ class SceneEnemyTurn extends SceneBase
     {
         m_input.Update();
         m_objects.Update();
-        if( m_input.IsTrig( Display.KEY_SELECT ) )
-        {
-            m_objects.ActionAttack( false );
-            m_objects.EndTurn( BattleSceneManager.Scene_EnemyTurn );
-        }
+        
+        m_objects.ActionAttack( false );
+        m_objects.EndTurn( BattleSceneManager.Scene_EnemyTurn );
     }
     
     public void Draw()
