@@ -44,15 +44,16 @@ class SceneBattleObjects
     {
         g.drawImage( m_image_player , 120 , 80 );
         g.drawImage( m_image_enemy , 40 , 150 );
-        DrawStatus( m_player , 120 , 210 );
-        DrawStatus( m_enemy , 20 , 210 );
+        DrawStatus( m_player , 120 , 200 );
+        DrawStatus( m_enemy , 20 , 200 );
     }
     
     private void DrawStatus( Character character , int x , int y )
     {
-        g.drawString("m_name:"+character.m_name , x , y +=10 );
-        g.drawString("m_hp:"+character.m_hp, x , y +=10  );
-        g.drawString("m_attack:"+character.m_attack, x , y +=10  );
+        g.drawString("m_name:"+character.m_name ,       x , y +=8 );
+        g.drawString("m_hp:"+character.m_hp ,           x , y +=8 );
+        g.drawString("m_attack:"+character.m_attack ,   x , y +=8 );
+        g.drawString("m_exp:"+character.m_exp ,         x , y +=8 );
     }
     
     void ActionAttack( boolean is_player_turn )
@@ -94,6 +95,7 @@ class SceneBattleObjects
         case BattleSceneManager.Scene_PlayerTurn:
             if( m_enemy.m_hp <= 0 )
             {
+                m_player.m_exp += m_enemy.m_exp;
                 m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_Win );
             }else{
                 m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_EnemyTurn );

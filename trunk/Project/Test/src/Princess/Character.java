@@ -4,15 +4,18 @@
 */
 class Character
 {
-    public String m_name;
-    public int m_hp;
-    public int m_attack;
+    String m_name;
+    int m_hp;
+    int m_attack;
+    int m_exp; //!< ŒoŒ±’l.
+    
 
-    Character( String name , int hp , int attack )
+    Character( String name , int hp , int attack , int exp )
     {
         m_name = name ;
         m_hp = hp ;
         m_attack = attack ;
+        m_exp = exp;
     }
 };
 
