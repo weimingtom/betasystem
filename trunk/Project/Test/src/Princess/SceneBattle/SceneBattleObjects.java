@@ -16,12 +16,6 @@ class SceneBattleObjects
     private SceneManagerBase m_battle_scene_manager;
     private SceneManagerBase m_princess_scene_manager;
     
-    int[] m_monster_list =
-    {
-        CharacterFactory.CharaType_BlueSlime ,
-        CharacterFactory.CharaType_GreenSlime ,
-        CharacterFactory.CharaType_BlueSlime ,
-    };
     int m_monster_list_index;
     
     SceneBattleObjects(
@@ -84,12 +78,12 @@ class SceneBattleObjects
     
     private boolean IsBeNextEnemy()
     {
-        return ( m_monster_list_index < m_monster_list.length );
+        return ( m_monster_list_index < StaticObjects.getStage().m_monster_list.length );
     }
     
     private void NextEnemy()
     {
-        m_enemy = CharacterFactory.New( m_monster_list[ m_monster_list_index ] );
+        m_enemy = CharacterFactory.New( StaticObjects.getStage().m_monster_list[ m_monster_list_index ] );
         m_monster_list_index++;
     }
     

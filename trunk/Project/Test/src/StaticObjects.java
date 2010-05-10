@@ -26,6 +26,13 @@ class StaticObjects extends Canvas
     */
     ImageManager m_image_manager;
     
+    /**
+        戦闘を行うステージ.
+        SceneWorldMap と SceneBattle をまたぐデータ.
+        引数扱いが面倒なので Static に保持してみる.
+    */
+    Stage m_stage;
+    
     private StaticObjects()
     {
         m_graphics = getGraphics();
@@ -58,6 +65,16 @@ class StaticObjects extends Canvas
             m_instance = new StaticObjects();
             Display.setCurrent( m_instance );
         }
+    }
+    
+    static Stage getStage()
+    {
+        return m_instance.m_stage;
+    }
+    
+    static void SetStage( int stage_num )
+    {
+        m_instance.m_stage = StageFactory.new_Stage( stage_num );
     }
     
     public void processEvent( int type , int param )
