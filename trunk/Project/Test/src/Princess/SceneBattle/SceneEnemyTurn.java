@@ -6,6 +6,7 @@ class SceneEnemyTurn extends SceneBase
     Graphics g;
     InputInfo m_input = StaticObjects.getInputInstance();
     SceneBattleObjects m_objects;
+    int m_frame;
     
     SceneEnemyTurn( SceneManagerBase scene_manager , SceneBattleObjects objects )
     {
@@ -20,11 +21,16 @@ class SceneEnemyTurn extends SceneBase
     
     public void Update()
     {
+        m_frame++;
         m_input.Update();
         m_objects.Update();
         
-        m_objects.ActionAttack( false );
-        m_objects.EndTurn( BattleSceneManager.Scene_EnemyTurn );
+        final int wait_frame = 7;
+        if( m_frame == wait_frame )
+        {
+            m_objects.ActionAttack( false );
+            m_objects.EndTurn( BattleSceneManager.Scene_EnemyTurn );
+        }
     }
     
     public void Draw()
