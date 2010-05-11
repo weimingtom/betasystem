@@ -6,9 +6,9 @@ import com.nttdocomo.ui.*;
 class SceneBattleObjects
 {
     private Graphics g = StaticObjects.getGraphicsInstance();
-    private DamagePrinter m_damage_printer = new DamagePrinter();
-    private Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
-    private Character m_enemy;
+    DamagePrinter m_damage_printer = new DamagePrinter();
+    Character m_player = CharacterFactory.New( CharacterFactory.CharaType_Furiru );
+    Character m_enemy;
     private Background m_background = new Background();
     private ImageManager m_image_manager = StaticObjects.getImageManagerInstance();
     private Image m_image_player = m_image_manager.ImageOf( ImageManager.Image_Player );
@@ -44,8 +44,8 @@ class SceneBattleObjects
     {
         g.drawImage( m_image_player , 120 , 80 );
         g.drawImage( m_image_enemy , 40 , 150 );
-        DrawStatus( m_player , 120 , 200 );
-        DrawStatus( m_enemy , 20 , 200 );
+        DrawStatus( m_player , 120 , 210 );
+        DrawStatus( m_enemy , 20 , 210 );
     }
     
     private void DrawStatus( Character character , int x , int y )

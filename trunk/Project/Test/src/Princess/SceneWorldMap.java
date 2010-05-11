@@ -40,19 +40,7 @@ class SceneWorldMap extends SceneBase
         {
             m_stage_list_index++;
         }
-        m_stage_list_index = Clamp( 0 , m_stage_list_index , StageFactory.StageType_Num - 1  );
-    }
-    
-    int Clamp( int min , int var , int max )
-    {
-        if( var < min )
-        {
-            return min ;
-        } else if( var > max ){
-            return max;
-        }else{
-            return var;
-        }
+        m_stage_list_index = Range.Clamp( 0 , m_stage_list_index , StageFactory.StageType_Num - 1  );
     }
     
     public void Draw()
