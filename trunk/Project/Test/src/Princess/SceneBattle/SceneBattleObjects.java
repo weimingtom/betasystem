@@ -74,7 +74,7 @@ class SceneBattleObjects
         target.m_hp -= damage;
         if( target.m_hp <= 0 ){ target.m_hp = 0; }
         
-        m_damage_printer.Begin( damage , 100 );
+        m_damage_printer.Begin( damage , is_player_turn );
     }
     
     private boolean IsBeNextEnemy()
@@ -161,6 +161,8 @@ class Background
 */
 class DamagePrinter
 {
+    final int player_x = 180;
+    final int enemy_x =  20;
     final int default_y = 70;
     int m_x;
     int m_y;
@@ -172,9 +174,14 @@ class DamagePrinter
         g = StaticObjects.getGraphicsInstance();
     }
     
-    void Begin( int damage , int x )
+    void Begin( int damage , boolean is_player )
     {
-        m_x = x;
+        if( is_player )
+        {
+            m_x = enemy_x;
+        }else{
+            m_x = player_x;
+        }
         m_y = default_y;
         m_damage = damage;
     }
