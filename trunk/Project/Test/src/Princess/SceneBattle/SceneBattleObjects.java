@@ -96,11 +96,13 @@ class SceneBattleObjects
             if( m_enemy.m_hp <= 0 )
             {
                 m_player.m_exp += m_enemy.m_exp;
+                m_player.LevelUp();
                 m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_Win );
             }else{
                 m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_EnemyTurn );
             }
             break;
+            
         case BattleSceneManager.Scene_EnemyTurn:
             if( m_player.m_hp <= 0 )
             {
@@ -109,6 +111,7 @@ class SceneBattleObjects
                 m_battle_scene_manager.ChangeScene( BattleSceneManager.Scene_PlayerTurn );
             }
             break;
+            
         case BattleSceneManager.Scene_Win:
             if( IsBeNextEnemy() )
             {
@@ -118,9 +121,11 @@ class SceneBattleObjects
                 m_princess_scene_manager.ChangeScene( PrincessSceneManager.SceneWorldMap );
             }
             break;
+            
         case BattleSceneManager.Scene_Lose:
             m_princess_scene_manager.ChangeScene( PrincessSceneManager.SceneGameOver );
             break;
+            
         }
     }
 }
