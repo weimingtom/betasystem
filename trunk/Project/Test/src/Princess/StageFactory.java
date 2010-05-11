@@ -4,7 +4,8 @@ class StageFactory
 {
     static final int StageType_Sougen = 0 ;
     static final int StageType_Dungeon = 1 ;
-    static final int StageType_Num = 2 ;
+    static final int StageType_Mountain = 2 ;
+    static final int StageType_Num = 3 ;
     
     static Stage new_Stage( int stage_type )
     {
@@ -19,6 +20,14 @@ class StageFactory
             CharacterFactory.CharaType_BlueSlime ,
             CharacterFactory.CharaType_GreenSlime ,
         };
+        int monster_list3[] = {
+            CharacterFactory.CharaType_GreenSlime ,
+            CharacterFactory.CharaType_BlueSlime ,
+            CharacterFactory.CharaType_GreenSlime ,
+            CharacterFactory.CharaType_GreenSlime ,
+            CharacterFactory.CharaType_GreenSlime ,
+            CharacterFactory.CharaType_GreenSlime ,
+        };
         
         switch( stage_type )
         {
@@ -26,6 +35,8 @@ class StageFactory
             return new Stage( "‘Œ´" , monster_list1 );
         case StageType_Dungeon:
             return new Stage( "ƒ_ƒ“ƒWƒ‡ƒ“" , monster_list2 );
+        case StageType_Mountain:
+            return new Stage( "‰ÎR" , monster_list3 );
         default:
             return null;
         }
