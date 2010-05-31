@@ -42,8 +42,14 @@ class SceneBattleObjects
     
     private void DrawCharacter()
     {
-        g.drawImage( m_image_player , 120 , 80 );
-        g.drawImage( m_image_enemy , 40 , 150 );
+        if( m_player.m_hp > 0 )
+        {
+            g.drawImage( m_image_player , 120 , 80 );
+        }
+        if( m_enemy.m_hp > 0 )
+        {
+            g.drawImage( m_image_enemy , 40 , 150 );
+        }
         DrawStatus( m_player , 120 , 210 );
         DrawStatus( m_enemy , 20 , 210 );
     }
