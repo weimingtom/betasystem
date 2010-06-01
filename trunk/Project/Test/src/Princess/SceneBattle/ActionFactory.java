@@ -16,7 +16,7 @@ class ActionFactory
         case ActionType_Guard:
             return new ActionGuard("Guard");
         case ActionType_Recovery:
-            return new ActionRecovery("Recovery");
+            return new ActionRecovery("Magic");
         }
         return null;
     }
@@ -29,7 +29,6 @@ abstract class ActionBase
     {
         m_name = name;
     }
-    abstract void Action( SceneBattleObjects objects );
 };
 
 class ActionAttack extends ActionBase
@@ -37,13 +36,6 @@ class ActionAttack extends ActionBase
     ActionAttack( String name )
     {
         super( name );
-    }
-    void Action( SceneBattleObjects objects )
-    {
-        objects.m_damage_printer.Begin( objects.m_player.m_attack , true );
-        objects.m_enemy.m_hp -= objects.m_player.m_attack;
-        objects.m_enemy.m_hp =
-            Range.Clamp( 0 , objects.m_enemy.m_hp , objects.m_enemy.m_hp_max );
     }
 };
 
@@ -53,9 +45,6 @@ class ActionGuard extends ActionBase
     {
         super( name );
     }
-    void Action( SceneBattleObjects objects )
-    {
-    }
 };
 
 class ActionRecovery extends ActionBase
@@ -63,12 +52,6 @@ class ActionRecovery extends ActionBase
     ActionRecovery( String name )
     {
         super( name );
-    }
-    void Action( SceneBattleObjects objects )
-    {
-        objects.m_player.m_hp += 10;
-        objects.m_player.m_hp =
-            Range.Clamp( 0 , objects.m_player.m_hp , objects.m_player.m_hp_max );
     }
 };
 
