@@ -11,7 +11,7 @@ class Action
     final int Result_Lose   = 1;
     final int Result_Drow   = 2;
     
-    static int BattleAction( int player , int enemy )
+    static int BattleResult( int player , int enemy )
     {
         if( player == enemy ){ return Result_Drow; }
         switch( player )
@@ -40,4 +40,23 @@ class Action
         }
     }
 };
+
+/*使用構想.
+
+if( Select )
+{
+    //勝負判定
+    int result = Action.ResultOf( m_player_action_list[index].type , m_enemy_action_list[index].type );
+    //結果に応じた行動.
+    if( result == Result_Win )
+    {
+        Attack();
+    }else if( result == Result_Lose ){
+        Damage();
+    }
+    //切り替え.
+    EndTurn();
+}
+
+*/
 
