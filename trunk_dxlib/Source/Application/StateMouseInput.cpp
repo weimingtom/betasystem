@@ -1,8 +1,8 @@
-#include "StateBase.hpp"
+#include "System/StateBase.hpp"
 
 #include <memory>
-#include "DxLibWrapper.hpp"
-#include "MouseInput.hpp"
+#include "DxLibWrapper/DxLibWrapper.hpp"
+#include "DxLibWrapper/MouseInput.hpp"
 
 class StateMouseInput : public StateBase
 {

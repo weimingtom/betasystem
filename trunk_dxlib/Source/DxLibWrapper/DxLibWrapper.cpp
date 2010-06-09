@@ -1,8 +1,8 @@
 #include "DxLibWrapper.hpp"
 
 #include <memory>
-#include "StateBase.hpp"
-#include "StateMouseInput.hpp"
+#include "System/StateBase.hpp"
+#include "Application/StateMouseInput.hpp"
 
 std::auto_ptr< StateBase > g_state;
 

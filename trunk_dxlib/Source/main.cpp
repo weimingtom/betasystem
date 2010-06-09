@@ -1,4 +1,4 @@
-#include "DxLibWrapper.hpp"
+#include "DxLibWrapper/DxLibWrapper.hpp"
 
 int WINAPI WinMain(
 	HINSTANCE hInstance,
