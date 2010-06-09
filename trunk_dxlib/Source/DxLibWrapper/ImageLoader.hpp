@@ -1,11 +1,19 @@
+#ifndef include_guard_7987b1ea_6bbe_469d_a1c0_4422eab02445
+#define include_guard_7987b1ea_6bbe_469d_a1c0_4422eab02445
+
+#include <string>
+#include <vector>
+
+typedef std::vector<std::string> ImageNameList;
+
 /**
     画像のロードを行うクラス.
 */
 class ImageLoader
 {
 public:
-    friend ImageLoader* new_ImageLoader( );
-    virtual ~ImageLoader() = 0;
+    friend ImageLoader* new_ImageLoader( ImageNameList& name_list );
+    virtual ~ImageLoader(){}
     
 public:
     /**
@@ -21,4 +29,6 @@ public:
 private:
     class Impl;
 };
+
+#endif //include_guard_7987b1ea_6bbe_469d_a1c0_4422eab02445
 
