@@ -1,6 +1,8 @@
-#include "KeyBoardInput.hpp"
+#include "KeyboardInput.hpp"
 
-class KeyBoardInput::Impl : public KeyBoardInput
+#include "DxLibWrapper/DxLibWrapper.hpp"
+
+class KeyboardInput::Impl : public KeyboardInput
 {
 public:
     Impl();
@@ -8,15 +10,15 @@ public:
     
 public:
     void Update();
-    bool IsTrig() const;
-    bool IsHold() const;
+    bool IsTrig( KeyboardInput::Type ) const;
+    bool IsHold( KeyboardInput::Type ) const;
     
 private:
-    static enum const m_key_flag[ KeyBoardInput::Type_Num ]
-    int m_press_frame[ KeyBoardInput::Type_Num ];
+    static int const m_key_flag[ KeyboardInput::Type_Num ];
+    int m_press_frame[ KeyboardInput::Type_Num ];
 };
 
-enum const m_key_flag[ KeyBoardInput::Type_Num ] =
+int const KeyboardInput::Impl::m_key_flag[ KeyboardInput::Type_Num ] =
 {
     KEY_INPUT_UP,
     KEY_INPUT_LEFT,
@@ -28,17 +30,17 @@ enum const m_key_flag[ KeyBoardInput::Type_Num ] =
     KEY_INPUT_RCONTROL,
 };
 
-KeyBoardInput::Impl::Impl()
+KeyboardInput::Impl::Impl()
 {
 }
 
-KeyBoardInput::Impl::~Impl()
+KeyboardInput::Impl::~Impl()
 {
 }
 
-KeyBoardInput::Impl::Update()
+void KeyboardInput::Impl::Update()
 {
-    for( int i = 0 ; i < KeyBoardInput::Type_Num ; i++ )
+    for( int i = 0 ; i < KeyboardInput::Type_Num ; i++ )
     {
         if( CheckHitKey( m_key_flag[i] ) == 1 )
         {
@@ -49,13 +51,18 @@ KeyBoardInput::Impl::Update()
     }
 }
 
-KeyBoardInput::Impl::IsTrig( KeyBoardInput::Type type ) const
+bool KeyboardInput::Impl::IsTrig( KeyboardInput::Type type ) const
 {
     return ( m_press_frame[type] == 1 );
 }
 
-KeyBoardInput::Impl::IsHold( KeyBoardInput::Type type ) const
+bool KeyboardInput::Impl::IsHold( KeyboardInput::Type type ) const
 {
     return ( m_press_frame[type] != 0 );
+}
+
+KeyboardInput* new_KeyboardInput()
+{
+    return new KeyboardInput::Impl();
 }
 

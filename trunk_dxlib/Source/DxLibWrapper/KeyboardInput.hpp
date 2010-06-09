@@ -1,7 +1,7 @@
 /**
     キーボード入力管理.
 */
-class KeyBoardInput
+class KeyboardInput
 {
 public:
     enum Type
@@ -17,6 +17,11 @@ public:
         
         Type_Num,
     };
+    
+public:
+    friend KeyboardInput* new_KeyboardInput();
+    virtual ~KeyboardInput(){}
+    
 public:
     virtual void Update() = 0;
     virtual bool IsTrig( Type type ) const = 0;
@@ -24,3 +29,6 @@ public:
 private:
     class Impl;
 };
+
+KeyboardInput* new_KeyboardInput();
+

@@ -168,40 +168,52 @@
 	<References>
 	</References>
 	<Files>
-		<File
-			RelativePath="..\Source\DxLibWrapper\DxLibWrapper.cpp"
+		<Filter
+			Name="DxLibWrapper"
 			>
-		</File>
-		<File
-			RelativePath="..\Source\DxLibWrapper\DxLibWrapper.hpp"
+			<File
+				RelativePath="..\Source\DxLibWrapper\DxLibWrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\DxLibWrapper.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\KeyboardInput.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\KeyboardInput.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\MouseInput.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\MouseInput.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="System"
 			>
-		</File>
-		<File
-			RelativePath="..\Source\DxLibWrapper\KeyInput.hpp"
-			>
-		</File>
+			<File
+				RelativePath="..\Source\System\StateBase.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\StateMouseInput.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\StateMouseInput.hpp"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\Source\main.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Source\DxLibWrapper\MouseInput.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Source\DxLibWrapper\MouseInput.hpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Source\System\StateBase.hpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Source\Application\StateMouseInput.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\Source\Application\StateMouseInput.hpp"
 			>
 		</File>
 	</Files>
