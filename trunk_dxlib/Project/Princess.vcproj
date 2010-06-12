@@ -180,6 +180,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\ImageLoader.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\KeyboardInput.cpp"
 				>
 			</File>
@@ -200,6 +208,10 @@
 			Name="System"
 			>
 			<File
+				RelativePath="..\Source\System\ArraySize.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\System\StateBase.hpp"
 				>
 			</File>
@@ -209,6 +221,18 @@
 			</File>
 			<File
 				RelativePath="..\Source\System\StateMouseInput.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Project"
+			>
+			<File
+				RelativePath="..\Source\Project\StateGameMain.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\StateGameMain.hpp"
 				>
 			</File>
 		</Filter>

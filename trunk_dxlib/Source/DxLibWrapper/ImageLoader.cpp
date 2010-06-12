@@ -1,7 +1,10 @@
 #include "DxLibWrapper/ImageLoader.hpp"
 
 #include <string>
+#include <map>
+#include <assert.h>
 #include <vector>
+#include "System/ArraySize.hpp"
 #include "DxLibWrapper/DxLibWrapper.hpp"
 
 typedef std::vector<std::string> ImageNameList;
@@ -50,17 +53,22 @@ int ImageLoader::Impl::ImageHandleOf( char const* name )
 {
     std::string const name_str( name );
     ImageMap::iterator it = m_handle_map.find( name_str );
-    assert( it != end && "m_handle_map.find() failed." );
-    return (*it).second();
+    assert( it != m_handle_map.end() && "m_handle_map.find() failed." );
+    return (*it).second;
 }
 
 ImageNameList ImageLoader::Impl::ImageNameListOf( char const* const name_list[] )
 {
     ImageNameList result;
-    for( int i = 0 ; i < ArraySize( name_list ) ; i ++ )
+    for( int i = 0 ; i < ARRAY_SIZE( name_list ) ; i ++ )
     {
         result.push_back( name_list[i] );
     }
     return result;
+}
+
+ImageLoader* new_ImageLoader( char const* const name_list[] )
+{
+    return new ImageLoader::Impl( name_list );
 }
 

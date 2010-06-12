@@ -32,5 +32,7 @@ private:
     class Impl;
 };
 
-#endif //include_guard_7987b1ea_6bbe_469d_a1c0_4422eab02445
+ImageLoader* new_ImageLoader( char const* const name_list[] );
+
+#endif
 

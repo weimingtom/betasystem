@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "System/StateBase.hpp"
-#include "Application/StateMouseInput.hpp"
+#include "Project/StateGameMain.hpp"
 
 std::auto_ptr< StateBase > g_state;
 
@@ -14,7 +14,7 @@ int InitApplication()
 	
 	SetDrawScreen( DX_SCREEN_BACK );
 
-	g_state.reset( new_StateMouseInput() );
+	g_state.reset( new_StateGameMain() );
 
 	return ApplicationSuccess;
 }
