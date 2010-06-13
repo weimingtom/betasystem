@@ -2,6 +2,8 @@
 /*
 	マウス入力関連.
 */
+class Vector2;
+
 class MouseInput
 {
 public:
@@ -14,16 +16,15 @@ public:
 	};
     
 public:
-	friend MouseInput* new_MouseInput( int is_visible_cursor );
-	virtual ~MouseInput(){}
+    friend MouseInput* new_MouseInput( int is_visible_cursor );
+    virtual ~MouseInput(){}
 
 public:
-	virtual void Update() = 0;
+    virtual void Update() = 0;
 
 public:
-	virtual int GetX() const = 0;
-	virtual int GetY() const = 0;
-	virtual void SetPos( int x , int y ) const = 0;
+    virtual Vector2 Position() const = 0;
+    virtual void SetPos( int x , int y ) const = 0;
     virtual bool IsTrig( Type type ) const = 0;
     virtual bool IsHold( Type type ) const = 0;
 

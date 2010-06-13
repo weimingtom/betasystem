@@ -2,8 +2,8 @@
 /*
 	マウス入力関連.
 */
-
 #include "DxLibWrapper.hpp"
+#include "System/Vector2.hpp"
 
 class MouseInput::Impl : public MouseInput
 {
@@ -15,9 +15,8 @@ public:
 	void Update();
 
 public:
-	int GetX() const { return m_x; }
-	int GetY() const { return m_y; }
-	void SetPos( int x , int y ) const;
+    Vector2 Position() const { return Vector2( m_x , m_y ); }
+    void SetPos( int x , int y ) const;
     bool IsTrig( MouseInput::Type type ) const ;
     bool IsHold( MouseInput::Type type ) const ;
 

@@ -212,15 +212,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\System\CheckHit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\CheckHit.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\Range.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\Range.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\System\StateBase.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StateMouseInput.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StateMouseInput.hpp"
 				>
 			</File>
 		</Filter>
