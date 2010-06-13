@@ -13,8 +13,9 @@ public:
     /**
         生成関数.
         @param name_list 使用する画像名のリスト.
+        @param list_size リストのサイズ.
     */
-    friend ImageLoader* new_ImageLoader( char const* const name_list[] );
+    friend ImageLoader* new_ImageLoader( char const* const name_list[] , int list_size );
     virtual ~ImageLoader(){}
     
 public:

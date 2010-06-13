@@ -4,7 +4,6 @@
 #include <map>
 #include <assert.h>
 #include <vector>
-#include "System/ArraySize.hpp"
 #include "DxLibWrapper/DxLibWrapper.hpp"
 
 typedef std::vector<std::string> ImageNameList;
@@ -13,7 +12,7 @@ typedef std::map< std::string , int > ImageMap;
 class ImageLoader::Impl: public ImageLoader
 {
 public:
-    Impl( char const* const name_list[] );
+    Impl( char const* const name_list[] , int list_size );
     ~Impl();
     
 public:
@@ -21,15 +20,15 @@ public:
     int ImageHandleOf( char const* name );
     
 private:
-    ImageNameList ImageNameListOf( char const* const name_list[] );
+    ImageNameList ImageNameListOf( char const* const name_list[] , int list_size );
     
 private:
     ImageNameList const m_image_name_list;
     ImageMap m_handle_map;
 };
 
-ImageLoader::Impl::Impl( char const* const name_list[] )
- : m_image_name_list( ImageNameListOf( name_list ) )
+ImageLoader::Impl::Impl( char const* const name_list[] , int list_size )
+ : m_image_name_list( ImageNameListOf( name_list , list_size ) )
 {
 }
 
@@ -57,18 +56,18 @@ int ImageLoader::Impl::ImageHandleOf( char const* name )
     return (*it).second;
 }
 
-ImageNameList ImageLoader::Impl::ImageNameListOf( char const* const name_list[] )
+ImageNameList ImageLoader::Impl::ImageNameListOf( char const* const name_list[] , int list_size )
 {
     ImageNameList result;
-    for( int i = 0 ; i < ARRAY_SIZE( name_list ) ; i ++ )
+    for( int i = 0 ; i < list_size ; i ++ )
     {
         result.push_back( name_list[i] );
     }
     return result;
 }
 
-ImageLoader* new_ImageLoader( char const* const name_list[] )
+ImageLoader* new_ImageLoader( char const* const name_list[] , int list_size )
 {
-    return new ImageLoader::Impl( name_list );
+    return new ImageLoader::Impl( name_list , list_size );
 }
 

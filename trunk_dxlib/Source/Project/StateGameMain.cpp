@@ -5,17 +5,20 @@
 #include "DxLibWrapper/DxLibWrapper.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "Project/Character.hpp"
+#include "System/ArraySize.hpp"
 
 
 enum ImageType
 {
     ImageType_Forest,
+    ImageType_Player,
     ImageType_Num,
 };
 
 char const* const image_name[ ImageType_Num ] =
 {
     "Resource/Image.png",
+    "Resource/Player.png",
 };
 
 class StateGameMain : public StateBase
@@ -37,7 +40,7 @@ private:
 };
 
 StateGameMain::StateGameMain()
- : m_image_loader( new_ImageLoader( image_name ) )
+ : m_image_loader( new_ImageLoader( image_name , ARRAY_SIZE(image_name) ) )
 {
     m_image_loader->Load();
 }
@@ -48,7 +51,9 @@ void StateGameMain::Update()
 
 void StateGameMain::Draw()
 {
-    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( image_name[ImageType_Forest] ) , TRUE );
+    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( image_name[ ImageType_Forest ] ) , TRUE );
+    DrawGraph( 400 , 250 , m_image_loader->ImageHandleOf( image_name[ ImageType_Player ] ) , TRUE );
+    
     DrawFormatString( 0 , 0 , DefaultFontColor() , "GameMainState." );
     
     DrawCharacterStatus( m_player , 10 , 50 );
