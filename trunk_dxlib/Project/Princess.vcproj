@@ -228,6 +228,18 @@
 			Name="Project"
 			>
 			<File
+				RelativePath="..\Source\Project\AttackType.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\BattleResult.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\BattleResult.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\StateGameMain.cpp"
 				>
 			</File>
