@@ -6,6 +6,7 @@
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "Project/Character.hpp"
 #include "System/ArraySize.hpp"
+#include "System/Vector2.hpp"
 
 
 enum ImageType
@@ -51,8 +52,9 @@ void StateGameMain::Update()
 
 void StateGameMain::Draw()
 {
+    Vector2 pos( 400 , 250 );
     DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( image_name[ ImageType_Forest ] ) , TRUE );
-    DrawGraph( 400 , 250 , m_image_loader->ImageHandleOf( image_name[ ImageType_Player ] ) , TRUE );
+    DrawGraph( pos , m_image_loader->ImageHandleOf( image_name[ ImageType_Player ] ) );
     
     DrawFormatString( 0 , 0 , DefaultFontColor() , "GameMainState." );
     
