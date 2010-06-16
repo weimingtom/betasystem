@@ -5,6 +5,7 @@
 #include "DxLibWrapper/DxLibWrapper.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
+#include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "System/ArraySize.hpp"
 #include "System/Vector2.hpp"
@@ -15,6 +16,7 @@ enum ImageType
 {
     ImageType_Forest,
     ImageType_Player,
+    ImageType_Enemy,
     ImageType_Num,
 };
 
@@ -22,6 +24,7 @@ char const* const image_name[ ImageType_Num ] =
 {
     "Resource/Image.png",
     "Resource/Player.png",
+    "Resource/Enemy.png"
 };
 
 class StateGameMain : public StateBase
@@ -34,18 +37,37 @@ public:
     void Draw();
     
 private:
+    void UpdateSelectAttackType();
+    void UpdateAttackResult();
+    void UpdateLose();
+    void UpdateWin();
     void DrawCharacterStatus( Character chara , int base_x , int base_y );
+    void DrawBackground();
+    void DrawPlayer();
+    void DrawEnemy();
+    void NextState();
+    void Attack();
     
+private:
+    enum State
+    {
+        State_SelectAttackType,
+        State_AttackResult,
+        State_Win,
+        State_Lose,
+    };
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
     Character m_player;
     Character m_enemy;
+    State m_state;
 };
 
 StateGameMain::StateGameMain()
  : m_image_loader( new_ImageLoader( image_name , ARRAY_SIZE(image_name) ) )
  , m_mouse( new_MouseInput() )
+ , m_state( State_SelectAttackType )
 {
     m_image_loader->Load();
 }
@@ -53,30 +75,140 @@ StateGameMain::StateGameMain()
 void StateGameMain::Update()
 {
     m_mouse->Update();
+    
+    switch( m_state )
+    {
+    case State_SelectAttackType:
+        UpdateSelectAttackType();
+        break;
+    case State_AttackResult:
+        UpdateAttackResult();
+        break;
+    case State_Lose:
+        UpdateLose();
+        break;
+    case State_Win:
+        UpdateWin();
+        break;
+    }
 }
 
 void StateGameMain::Draw()
 {
-    //”wŒi•`‰æ
-    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( image_name[ ImageType_Forest ] ) , TRUE );
-    //ƒLƒƒƒ‰•`‰æ
+    DrawBackground();
+    DrawFormatString( 0 , 0 , DefaultFontColor() , "State[%d]" , m_state );
+    
+    switch( m_state )
     {
-        Vector2 pos( 400 , 250 );
-        DrawGraph( pos , m_image_loader->ImageHandleOf( image_name[ ImageType_Player ] ) );
+    case State_SelectAttackType:
+        DrawPlayer();
+        DrawEnemy();
+        break;
+    case State_AttackResult:
+        DrawPlayer();
+        DrawEnemy();
+        break;
+    case State_Lose:
+        DrawFormatString( 100 , 100 , DefaultFontColor() , "Lose" );
+        DrawEnemy();
+        break;
+    case State_Win:
+        DrawFormatString( 100 , 100 , DefaultFontColor() , "Win" );
+        DrawPlayer();
+        break;
     }
     
-    DrawFormatString( 0 , 0 , DefaultFontColor() , "GameMainState." );
-    
-    //‹éŒ`•`‰æ
+    DrawCharacterStatus( m_player , 330 , 380 );
+    DrawCharacterStatus( m_enemy , 60 , 380 );
+}
+
+void StateGameMain::DrawBackground()
+{
+    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( image_name[ ImageType_Forest ] ) );
+}
+
+void StateGameMain::DrawPlayer()
+{
+    Vector2 pos( 400 , 230 );
+    DrawGraph( pos , m_image_loader->ImageHandleOf( image_name[ ImageType_Player ] ) );
+}
+
+void StateGameMain::DrawEnemy()
+{
+    Vector2 pos( 100 , 290 );
+    DrawGraph( pos , m_image_loader->ImageHandleOf( image_name[ ImageType_Enemy ] ) );
+}
+
+
+void StateGameMain::UpdateAttackResult()
+{
+    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
-        Vector2 pos( 10, 20 );
-        Vector2 size( 200 , 100 );
-        DrawBox( pos.x , pos.y , (pos+size).x , (pos+size).y , DefaultFontColor() ,TRUE );
-        DrawFormatString( 100 , 0 , DefaultFontColor() , "CheckHit[%d]" , CheckHit( m_mouse->Position() , pos , size ) );
+        NextState();
     }
+}
+
+void StateGameMain::UpdateSelectAttackType()
+{
+    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+    {
+        Attack();
+        m_state = State_AttackResult;
+    }
+}
+
+void StateGameMain::UpdateLose()
+{
+    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+    {
+        m_state = State_SelectAttackType;
+    }
+}
+
+void StateGameMain::UpdateWin()
+{
+    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+    {
+        m_state = State_SelectAttackType;
+    }
+}
+
+void StateGameMain::NextState()
+{
+    if( m_player.m_hp <= 0 )
+    {
+        m_state = State_Lose;
+    }
+    else if( m_enemy.m_hp <= 0 )
+    {
+        m_state = State_Win;
+    }else{
+        m_state = State_SelectAttackType;
+    }
+}
+
+void StateGameMain::Attack()
+{
+    int const select_index = 0;
+    AttackType const player_attack = m_player.GetAction( select_index );
+    AttackType const enemy_attack = m_enemy.GetAction( select_index );
     
-    DrawCharacterStatus( m_player , 10 , 50 );
-    DrawCharacterStatus( m_enemy , 300 , 50 );
+    BattleResult const result = BattleResultOf( player_attack , enemy_attack );
+    
+    switch( result )
+    {
+    case BattleResult_Win:
+        m_enemy.m_hp -= m_player.m_attack;
+        break;
+    case BattleResult_Lose:
+        m_player.m_hp -= m_enemy.m_attack;
+        break;
+    case BattleResult_Draw:
+        //‰½‚à‚È‚µ.
+        break;
+    default:
+        assert( !"invalid case" );
+    }
 }
 
 void StateGameMain::DrawCharacterStatus( Character chara , int base_x , int base_y )
