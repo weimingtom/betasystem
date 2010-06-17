@@ -3,42 +3,22 @@
 
 #include "Project/AttackType.hpp"
 
-struct Character
+class Character
 {
+public:
+    static int const Action_Num = 3;
+public:
+    Character();
+public:
+    AttackType GetAction( int index );
+public:
     int m_hp;
     int m_hp_max;
     int m_attack;
     int m_exp;
     static int const m_exp_max = 100;
-    static int const Action_Num = 3;
     AttackType m_action[ Action_Num ];
     AttackType m_action_next;
-    
-    Character()
-    {
-        m_hp_max = 20;
-        m_hp = m_hp_max;
-        m_attack = 5;
-        m_exp = 0;
-        for( int i = 0 ; i < AttackType_Num ; i++ )
-        {
-            m_action[i] = static_cast< AttackType >( i );
-        }
-        m_action_next = RandomAction();
-    }
-    
-    AttackType GetAction( int index )
-    {
-        AttackType const result = m_action[index];
-        m_action[index] = m_action_next;
-        m_action_next = RandomAction();
-        return result;
-    }
-private:
-    AttackType RandomAction()
-    {
-        return static_cast< AttackType >( GetRandToMax( AttackType_Num ) );
-    }
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include "DxLibWrapper/DxLibWrapper.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
+#include "DxLibWrapper/Button.hpp"
 #include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "System/ArraySize.hpp"
@@ -17,6 +18,7 @@ enum ImageType
     ImageType_Forest,
     ImageType_Player,
     ImageType_Enemy,
+    ImageType_Sword,
     ImageType_Num,
 };
 
@@ -25,6 +27,7 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/Image.png",
     "Resource/Player.png",
     "Resource/Enemy.png"
+    "Resource/Sword.png"
 };
 
 class StateGameMain : public StateBase
@@ -62,6 +65,7 @@ private:
     Character m_player;
     Character m_enemy;
     State m_state;
+    std::auto_ptr< Button > m_button;
 };
 
 StateGameMain::StateGameMain()
@@ -70,6 +74,11 @@ StateGameMain::StateGameMain()
  , m_state( State_SelectAttackType )
 {
     m_image_loader->Load();
+    m_button.reset(
+        new_Button(
+            m_image_loader->ImageHandleOf( image_name[ ImageType_Sword ] ) ,
+            Vector2(200,200) ,
+            Vector2(50,50) ) );
 }
 
 void StateGameMain::Update()

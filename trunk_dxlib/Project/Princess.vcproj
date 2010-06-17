@@ -172,6 +172,14 @@
 			Name="DxLibWrapper"
 			>
 			<File
+				RelativePath="..\Source\DxLibWrapper\Button.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\Button.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\DxLibWrapper.cpp"
 				>
 			</File>
@@ -245,6 +253,14 @@
 			</File>
 			<File
 				RelativePath="..\Source\Project\BattleResult.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\Character.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\Character.hpp"
 				>
 			</File>
 			<File

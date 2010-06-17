@@ -6,7 +6,7 @@ class Vector2;
 /**
     “_‚Æ‹éŒ`.
 */
-bool CheckHit( Vector2 pos_1 , Vector2 pos_2 , Vector2 size_2 );
+bool CheckHitRect( Vector2 pos_1 , Vector2 pos_2 , Vector2 size_2 );
 
 #endif
 

@@ -4,7 +4,7 @@
 /**
     “_‚Æ‹éŒ`.
 */
-bool CheckHit( Vector2 pos_1 , Vector2 pos_2 , Vector2 size_2 )
+bool CheckHitRect( Vector2 pos_1 , Vector2 pos_2 , Vector2 size_2 )
 {
     if(
         pos_1.x < pos_2.x
