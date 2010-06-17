@@ -24,7 +24,20 @@ struct Character
         {
             m_action[i] = static_cast< AttackType >( i );
         }
-        m_action_next = static_cast< AttackType >( GetRandToMax( AttackType_Num ) );
+        m_action_next = RandomAction();
+    }
+    
+    AttackType GetAction( int index )
+    {
+        AttackType const result = m_action[index];
+        m_action[index] = m_action_next;
+        m_action_next = RandomAction();
+        return result;
+    }
+private:
+    AttackType RandomAction()
+    {
+        return static_cast< AttackType >( GetRandToMax( AttackType_Num ) );
     }
 };
 
