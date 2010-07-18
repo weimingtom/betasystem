@@ -10,5 +10,7 @@ enum AttackType
     AttackType_Num,
 };
 
+char const* NameOf( AttackType type );
+
 #endif
 
