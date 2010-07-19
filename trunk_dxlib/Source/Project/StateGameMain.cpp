@@ -8,6 +8,7 @@
 #include "DxLibWrapper/Button.hpp"
 #include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
+#include "Project/AttackContent.hpp"
 #include "System/ArraySize.hpp"
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
@@ -60,12 +61,20 @@ private:
         State_Lose,
     };
 private:
+    enum CharaType
+    {
+        CharaType_Player,
+        CharaType_Enemy,
+        CharaType_Num,
+    };
+private:
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
     Character m_player;
     Character m_enemy;
     State m_state;
     std::auto_ptr< Button > m_button;
+    AttackContent m_attack_list[ CharaType_Num ];
 };
 
 StateGameMain::StateGameMain()
@@ -199,8 +208,8 @@ void StateGameMain::NextState()
 void StateGameMain::Attack()
 {
     int const select_index = 0;
-    AttackType const player_attack = m_player.GetAction( select_index );
-    AttackType const enemy_attack = m_enemy.GetAction( select_index );
+    AttackType const player_attack = m_attack_list[ CharaType_Player ].GetAction( select_index );
+    AttackType const enemy_attack = m_attack_list[ CharaType_Enemy ].GetAction( select_index );
     
     BattleResult const result = BattleResultOf( player_attack , enemy_attack );
     
@@ -226,10 +235,6 @@ void StateGameMain::DrawCharacterStatus( Character chara , int base_x , int base
     int const margin_y = 20;
     DrawFormatString( base_x , y += margin_y , DefaultFontColor() ,
         "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
-    DrawFormatString( base_x , y += margin_y , DefaultFontColor() ,
-        "action:[%d],[%d],[%d]" , chara.m_action[0] , chara.m_action[1] , chara.m_action[2] );
-    DrawFormatString( base_x , y += margin_y , DefaultFontColor() ,
-        "action_next:[%d]" , chara.m_action_next );
 }
 
 StateBase* new_StateGameMain()
