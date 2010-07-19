@@ -46,6 +46,7 @@ private:
     void UpdateLose();
     void UpdateWin();
     void DrawCharacterStatus( Character chara , int base_x , int base_y );
+    void DrawAttackStatus( AttackContent const& attack_list , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
@@ -137,7 +138,9 @@ void StateGameMain::Draw()
     }
     
     DrawCharacterStatus( m_player , 330 , 380 );
+    DrawAttackStatus( m_attack_list[ CharaType_Player ] , 330 , 400 );
     DrawCharacterStatus( m_enemy , 60 , 380 );
+    DrawAttackStatus( m_attack_list[ CharaType_Enemy ] , 60 , 400 );
 }
 
 void StateGameMain::DrawBackground()
@@ -233,8 +236,24 @@ void StateGameMain::DrawCharacterStatus( Character chara , int base_x , int base
 {
     int y = base_y;
     int const margin_y = 20;
-    DrawFormatString( base_x , y += margin_y , DefaultFontColor() ,
+    DrawFormatString(
+        base_x , y += margin_y ,
+        DefaultFontColor() ,
         "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
+}
+
+void StateGameMain::DrawAttackStatus( AttackContent const& attack_list , int base_x , int base_y )
+{
+    int y = base_y;
+    int const margin_y = 20;
+    DrawFormatString(
+        base_x , y += margin_y ,
+        DefaultFontColor() ,
+        "action:[%d],[%d],[%d]" , attack_list.m_action[0] , attack_list.m_action[1] , attack_list.m_action[2] );
+    DrawFormatString(
+        base_x , y += margin_y ,
+        DefaultFontColor() ,
+        "action_next:[%d]" , attack_list.m_action_next );
 }
 
 StateBase* new_StateGameMain()
