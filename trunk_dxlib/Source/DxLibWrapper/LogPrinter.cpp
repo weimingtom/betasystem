@@ -1,3 +1,7 @@
+#include "DxLibWrapper/LogPrinter.hpp"
+
+#include <vector>
+#include "DxLibWrapper/DxLibWrapper.hpp"
 
 class LogPrinter::Impl : public LogPrinter
 {
@@ -22,6 +26,10 @@ LogPrinter::Impl::Impl( int x , int y )
 {
 }
 
+LogPrinter::Impl::~Impl()
+{
+}
+
 void LogPrinter::Impl::Print( std::string log )
 {
     std::vector<std::string>::iterator it = m_log_list.begin();
@@ -30,13 +38,16 @@ void LogPrinter::Impl::Print( std::string log )
     if( m_log_list.size() > m_list_max ){ ; }
 }
 
-void Draw()
+void LogPrinter::Impl::Draw()
 {
     int const font_size = 16;
     int const log_list_max = 10;
     for( int i = 0 ; i < m_list_max ; i++ )
     {
-        DrawString( m_x , m_y + i * font_size  , m_log_list[i] );
+        DrawFormatString(
+            m_x, m_y + i * font_size ,
+            DefaultFontColor() ,
+            "%d" , m_log_list[i].c_str() );
     }
 }
 

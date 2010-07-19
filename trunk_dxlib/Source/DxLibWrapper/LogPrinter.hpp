@@ -1,6 +1,8 @@
 #ifndef include_36815a75_e9c1_401e_aa3a_c9f2b62191b7
 #define include_36815a75_e9c1_401e_aa3a_c9f2b62191b7
 
+#include <string>
+
 /**
     画面上にログを出力するクラス.
 */

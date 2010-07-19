@@ -204,6 +204,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\DxLibWrapper\LogPrinter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\LogPrinter.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\MouseInput.cpp"
 				>
 			</File>
