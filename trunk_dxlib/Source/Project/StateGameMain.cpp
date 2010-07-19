@@ -6,6 +6,7 @@
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
 #include "DxLibWrapper/Button.hpp"
+#include "DxLibWrapper/LogPrinter.hpp"
 #include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "Project/AttackContent.hpp"
@@ -76,12 +77,14 @@ private:
     State m_state;
     std::auto_ptr< Button > m_button;
     AttackContent m_attack_list[ CharaType_Num ];
+    std::auto_ptr< LogPrinter > m_log_printer;
 };
 
 StateGameMain::StateGameMain()
  : m_image_loader( new_ImageLoader( image_name , ARRAY_SIZE(image_name) ) )
  , m_mouse( new_MouseInput() )
  , m_state( State_SelectAttackType )
+ , m_log_printer( new_LogPrinter( 300 , 20 ) )
 {
     m_image_loader->Load();
     m_button.reset(
@@ -141,6 +144,7 @@ void StateGameMain::Draw()
     DrawAttackStatus( m_attack_list[ CharaType_Player ] , 330 , 400 );
     DrawCharacterStatus( m_enemy , 60 , 380 );
     DrawAttackStatus( m_attack_list[ CharaType_Enemy ] , 60 , 400 );
+    m_log_printer->Draw();
 }
 
 void StateGameMain::DrawBackground()
@@ -220,9 +224,11 @@ void StateGameMain::Attack()
     {
     case BattleResult_Win:
         m_enemy.m_hp -= m_player.m_attack;
+        m_log_printer->Print( "player attack." );
         break;
     case BattleResult_Lose:
         m_player.m_hp -= m_enemy.m_attack;
+        m_log_printer->Print( "enemy attack." );
         break;
     case BattleResult_Draw:
         //‰½‚à‚È‚µ.

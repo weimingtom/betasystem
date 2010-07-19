@@ -35,19 +35,19 @@ void LogPrinter::Impl::Print( std::string log )
     std::vector<std::string>::iterator it = m_log_list.begin();
     m_log_list.insert( it , log );
     
-    if( m_log_list.size() > m_list_max ){ ; }
+    if( m_log_list.size() > m_list_max ){ m_log_list.pop_back(); }
 }
 
 void LogPrinter::Impl::Draw()
 {
     int const font_size = 16;
     int const log_list_max = 10;
-    for( int i = 0 ; i < m_list_max ; i++ )
+	for( std::string::size_type i = 0 ; i < m_log_list.size() ; i++ )
     {
         DrawFormatString(
             m_x, m_y + i * font_size ,
             DefaultFontColor() ,
-            "%d" , m_log_list[i].c_str() );
+            "%s" , m_log_list[i].c_str() );
     }
 }
 
