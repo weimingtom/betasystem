@@ -46,6 +46,15 @@ void Button::Impl::Draw() const
 {
     DrawGraph( m_pos , m_image_handle );
     //! @todo 当たり判定のデバッグ表示.
+#ifndef NDEBUG
+    DrawBox(
+        m_pos.x ,
+        m_pos.y ,
+        m_pos.x + m_size.x ,
+        m_pos.y + m_size.y ,
+        DefaultFontColor() ,
+        FALSE );
+#endif
 }
 
 bool Button::Impl::CheckHit( Vector2 pos ) const
