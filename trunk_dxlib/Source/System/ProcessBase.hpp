@@ -10,7 +10,7 @@ public:
     virtual ~ProcessBase(){}
     
 public:
-    virtual void Process() = 0;
+    virtual void Run() = 0;
 };
 
 #endif //include_guard_uuid_2fbafdb0_3a27_4c00_8380_6d2c086ded76

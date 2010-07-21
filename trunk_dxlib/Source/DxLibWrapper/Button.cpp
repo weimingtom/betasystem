@@ -1,30 +1,40 @@
 #include "DxLibWrapper/Button.hpp"
 
+#include <memory>
 #include "DxLibWrapper/DxLibWrapper.hpp"
 #include "System/CheckHit.hpp"
 
 class Button::Impl : public Button
 {
 public:
-    Impl( int image_handle , Vector2 pos , Vector2 size );
+    Impl(
+        int image_handle ,
+        Vector2 pos ,
+        Vector2 size ,
+        ProcessBase* process );
     ~Impl();
     
 public:
-    Vector2 Position() const;
-    Vector2 Size() const;
     void Draw() const;
     bool CheckHit( Vector2 pos ) const;
-
+    void Process();
+    
 private:
     int const m_image_handle;
     Vector2 const m_pos;
     Vector2 const m_size;
+    std::auto_ptr< ProcessBase > m_process;
 };
 
-Button::Impl::Impl( int image_handle , Vector2 pos , Vector2 size )
+Button::Impl::Impl(
+    int image_handle ,
+    Vector2 pos ,
+    Vector2 size ,
+    ProcessBase* process )
  : m_image_handle( image_handle )
  , m_pos( pos )
  , m_size( size )
+ , m_process( process )
 {
 }
 
@@ -32,28 +42,24 @@ Button::Impl::~Impl()
 {
 }
 
+void Button::Impl::Draw() const
+{
+    DrawGraph( m_pos , m_image_handle );
+    //! @todo 当たり判定のデバッグ表示.
+}
+
 bool Button::Impl::CheckHit( Vector2 pos ) const
 {
     return CheckHitRect( pos , m_pos , m_size );
 }
 
-Vector2 Button::Impl::Position() const
+void Button::Impl::Process()
 {
-    return m_pos;
+    m_process->Run();
 }
 
-Vector2 Button::Impl::Size() const
+Button* new_Button( int image_handle , Vector2 pos , Vector2 size , ProcessBase* process )
 {
-    return m_size;
-}
-
-void Button::Impl::Draw() const
-{
-    DrawGraph( m_pos , m_image_handle );
-}
-
-Button* new_Button( int image_handle , Vector2 pos , Vector2 size )
-{
-    return new Button::Impl( image_handle  , pos , size );
+    return new Button::Impl( image_handle  , pos , size , process );
 }
 
