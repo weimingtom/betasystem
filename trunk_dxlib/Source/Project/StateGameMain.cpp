@@ -25,6 +25,22 @@ public:
     void Draw();
     
 private:
+    enum State
+    {
+        State_SelectAttackType,
+        State_AttackResult,
+        State_Win,
+        State_Lose,
+        State_Num,
+    };
+    enum CharaType
+    {
+        CharaType_Player,
+        CharaType_Enemy,
+        CharaType_Num,
+    };
+    
+private:
     void UpdateSelectAttackType();
     void UpdateAttackResult();
     void UpdateLose();
@@ -36,34 +52,8 @@ private:
     void DrawEnemy();
     void NextState();
     void Attack();
+    char const* StateNameOf( State state );
     
-private:
-    enum State
-    {
-        State_SelectAttackType,
-        State_AttackResult,
-        State_Win,
-        State_Lose,
-        State_Num,
-    };
-    char const* StateNameOf( State state )
-    {
-        static char const* name[ State_Num ] =
-        {
-            "UŒ‚‘I‘ğ",
-            "UŒ‚Œ‹‰Ê",
-            "Ÿ—˜",
-            "”s–k",
-        };
-        return name[ state ];
-    }
-private:
-    enum CharaType
-    {
-        CharaType_Player,
-        CharaType_Enemy,
-        CharaType_Num,
-    };
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
@@ -260,6 +250,18 @@ void StateGameMain::DrawAttackStatus( AttackContent const& attack_list , int bas
         base_x , y += margin_y ,
         ColorOf() ,
         "action_next:[%s]" , NameOf( attack_list.m_action_next ) );
+}
+
+char const* StateGameMain::StateNameOf( State state )
+{
+    static char const* const name[ State_Num ] =
+    {
+        "UŒ‚‘I‘ğ",
+        "UŒ‚Œ‹‰Ê",
+        "Ÿ—˜",
+        "”s–k",
+    };
+    return name[ state ];
 }
 
 StateBase* new_StateGameMain()
