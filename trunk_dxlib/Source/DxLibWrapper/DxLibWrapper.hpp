@@ -13,7 +13,7 @@ int EndApplication();
 
 inline int DefaultFontColor()
 {
-    return GetColor( 100 , 155 , 100 );
+    return GetColor( 10 , 15 , 10 );
 }
 
 inline int GetRandToMax( int max )

@@ -252,6 +252,10 @@
 			Name="Project"
 			>
 			<File
+				RelativePath="..\Source\Project\AttackType.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\AttackType.hpp"
 				>
 			</File>

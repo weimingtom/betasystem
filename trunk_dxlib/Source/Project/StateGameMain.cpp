@@ -140,10 +140,10 @@ void StateGameMain::Draw()
         break;
     }
     
-    DrawCharacterStatus( m_player , 330 , 380 );
-    DrawAttackStatus( m_attack_list[ CharaType_Player ] , 330 , 400 );
-    DrawCharacterStatus( m_enemy , 60 , 380 );
-    DrawAttackStatus( m_attack_list[ CharaType_Enemy ] , 60 , 400 );
+    DrawCharacterStatus( m_player , 330 , 400 );
+    DrawAttackStatus( m_attack_list[ CharaType_Player ] , 330 , 420 );
+    DrawCharacterStatus( m_enemy , 60 , 400 );
+    DrawAttackStatus( m_attack_list[ CharaType_Enemy ] , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -255,11 +255,14 @@ void StateGameMain::DrawAttackStatus( AttackContent const& attack_list , int bas
     DrawFormatString(
         base_x , y += margin_y ,
         DefaultFontColor() ,
-        "action:[%d],[%d],[%d]" , attack_list.m_action[0] , attack_list.m_action[1] , attack_list.m_action[2] );
+        "action:[%s],[%s],[%s]" ,
+        NameOf( attack_list.m_action[0] ),
+        NameOf( attack_list.m_action[1] ),
+        NameOf( attack_list.m_action[2] ) );
     DrawFormatString(
         base_x , y += margin_y ,
         DefaultFontColor() ,
-        "action_next:[%d]" , attack_list.m_action_next );
+        "action_next:[%s]" , NameOf( attack_list.m_action_next ) );
 }
 
 StateBase* new_StateGameMain()
