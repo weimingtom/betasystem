@@ -61,7 +61,19 @@ private:
         State_AttackResult,
         State_Win,
         State_Lose,
+        State_Num,
     };
+    char const* StateNameOf( State state )
+    {
+        static char const* name[ State_Num ] =
+        {
+            "UŒ‚‘I‘ğ",
+            "UŒ‚Œ‹‰Ê",
+            "Ÿ—˜",
+            "”s–k",
+        };
+        return name[ state ];
+    }
 private:
     enum CharaType
     {
@@ -118,7 +130,7 @@ void StateGameMain::Update()
 void StateGameMain::Draw()
 {
     DrawBackground();
-    DrawFormatString( 0 , 0 , DefaultFontColor() , "State[%d]" , m_state );
+    DrawFormatString( 0 , 0 , DefaultFontColor() , "State[%s]" , StateNameOf( m_state ) );
     
     switch( m_state )
     {
