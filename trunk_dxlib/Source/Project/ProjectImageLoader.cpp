@@ -8,7 +8,9 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/Image.png",
     "Resource/Player.png",
     "Resource/Enemy.png",
-    "Resource/Sword.png",
+    "Resource/sword.png",
+    "Resource/magic.png",
+    "Resource/shield.png",
 };
 
 char const* NameOf( ImageType type )

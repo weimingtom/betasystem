@@ -13,6 +13,8 @@ enum ImageType
     ImageType_Player,
     ImageType_Enemy,
     ImageType_Sword,
+    ImageType_Magic,
+    ImageType_Shield,
     ImageType_Num,
 };
 
