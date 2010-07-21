@@ -52,7 +52,7 @@ void Button::Impl::Draw() const
         m_pos.y ,
         m_pos.x + m_size.x ,
         m_pos.y + m_size.y ,
-        DefaultFontColor() ,
+        ColorOf() ,
         FALSE );
 #endif
 }

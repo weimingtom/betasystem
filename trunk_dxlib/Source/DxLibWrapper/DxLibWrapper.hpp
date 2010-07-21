@@ -11,9 +11,9 @@ int InitApplication();
 void LoopApplication();
 int EndApplication();
 
-inline int DefaultFontColor()
+inline int ColorOf( int r = 0 , int g = 0 , int b = 0 )
 {
-    return GetColor( 10 , 15 , 10 );
+    return GetColor( r , g , b );
 }
 
 inline int GetRandToMax( int max )

@@ -247,6 +247,14 @@
 				RelativePath="..\Source\System\StateBase.hpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Source\System\StringOf.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\StringOf.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Project"

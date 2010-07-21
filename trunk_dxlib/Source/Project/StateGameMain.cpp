@@ -12,6 +12,7 @@
 #include "Project/ProjectImageLoader.hpp"
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
+#include "System/StringOf.hpp"
 
 
 class StateGameMain : public StateBase
@@ -78,7 +79,7 @@ StateGameMain::StateGameMain()
  : m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
  , m_state( State_SelectAttackType )
- , m_log_printer( new_LogPrinter( 300 , 20 ) )
+ , m_log_printer( new_LogPrinter( 240 , 0 ) )
 {
     m_image_loader->Load();
     m_button.reset(
@@ -112,7 +113,7 @@ void StateGameMain::Update()
 void StateGameMain::Draw()
 {
     DrawBackground();
-    DrawFormatString( 0 , 0 , DefaultFontColor() , "State[%s]" , StateNameOf( m_state ) );
+    DrawFormatString( 0 , 0 , ColorOf() , "State[%s]" , StateNameOf( m_state ) );
     
     switch( m_state )
     {
@@ -125,11 +126,11 @@ void StateGameMain::Draw()
         DrawEnemy();
         break;
     case State_Lose:
-        DrawFormatString( 100 , 100 , DefaultFontColor() , "Lose" );
+        DrawFormatString( 100 , 100 , ColorOf() , "Lose" );
         DrawEnemy();
         break;
     case State_Win:
-        DrawFormatString( 100 , 100 , DefaultFontColor() , "Win" );
+        DrawFormatString( 100 , 100 , ColorOf() , "Win" );
         DrawPlayer();
         break;
     }
@@ -218,14 +219,16 @@ void StateGameMain::Attack()
     {
     case BattleResult_Win:
         m_enemy.m_hp -= m_player.m_attack;
-        m_log_printer->Print( "player attack." );
+        m_log_printer->Print(
+            "Ÿ‚¿ damage -> " + StringOf( m_player.m_attack ) );
         break;
     case BattleResult_Lose:
         m_player.m_hp -= m_enemy.m_attack;
-        m_log_printer->Print( "enemy attack." );
+        m_log_printer->Print(
+            "•‰‚¯ damage -> " + StringOf( m_enemy.m_attack ) );
         break;
     case BattleResult_Draw:
-        //‰½‚à‚È‚µ.
+        m_log_printer->Print( "ˆø‚«•ª‚¯" );
         break;
     default:
         assert( !"invalid case" );
@@ -238,7 +241,7 @@ void StateGameMain::DrawCharacterStatus( Character chara , int base_x , int base
     int const margin_y = 20;
     DrawFormatString(
         base_x , y += margin_y ,
-        DefaultFontColor() ,
+        ColorOf() ,
         "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
 }
 
@@ -248,14 +251,14 @@ void StateGameMain::DrawAttackStatus( AttackContent const& attack_list , int bas
     int const margin_y = 20;
     DrawFormatString(
         base_x , y += margin_y ,
-        DefaultFontColor() ,
+        ColorOf() ,
         "action:[%s],[%s],[%s]" ,
         NameOf( attack_list.m_action[0] ),
         NameOf( attack_list.m_action[1] ),
         NameOf( attack_list.m_action[2] ) );
     DrawFormatString(
         base_x , y += margin_y ,
-        DefaultFontColor() ,
+        ColorOf() ,
         "action_next:[%s]" , NameOf( attack_list.m_action_next ) );
 }
 
