@@ -2,7 +2,6 @@
 
 #include <assert.h>
 #include <memory>
-#include "DxLibWrapper/DxLibWrapper.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
 #include "DxLibWrapper/Button.hpp"
@@ -10,27 +9,10 @@
 #include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "Project/AttackContent.hpp"
-#include "System/ArraySize.hpp"
+#include "Project/ProjectImageLoader.hpp"
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
 
-
-enum ImageType
-{
-    ImageType_Forest,
-    ImageType_Player,
-    ImageType_Enemy,
-    ImageType_Sword,
-    ImageType_Num,
-};
-
-char const* const image_name[ ImageType_Num ] =
-{
-    "Resource/Image.png",
-    "Resource/Player.png",
-    "Resource/Enemy.png",
-    "Resource/Sword.png",
-};
 
 class StateGameMain : public StateBase
 {
@@ -93,7 +75,7 @@ private:
 };
 
 StateGameMain::StateGameMain()
- : m_image_loader( new_ImageLoader( image_name , ARRAY_SIZE(image_name) ) )
+ : m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
  , m_state( State_SelectAttackType )
  , m_log_printer( new_LogPrinter( 300 , 20 ) )
@@ -101,7 +83,7 @@ StateGameMain::StateGameMain()
     m_image_loader->Load();
     m_button.reset(
         new_Button(
-            m_image_loader->ImageHandleOf( image_name[ ImageType_Sword ] ) ,
+            m_image_loader->ImageHandleOf( NameOf( ImageType_Sword ) ) ,
             Vector2(200,200) ,
             Vector2(50,50) ) );
 }
@@ -161,19 +143,19 @@ void StateGameMain::Draw()
 
 void StateGameMain::DrawBackground()
 {
-    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( image_name[ ImageType_Forest ] ) );
+    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_Forest ) ) );
 }
 
 void StateGameMain::DrawPlayer()
 {
     Vector2 pos( 400 , 230 );
-    DrawGraph( pos , m_image_loader->ImageHandleOf( image_name[ ImageType_Player ] ) );
+    DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Player ) ) );
 }
 
 void StateGameMain::DrawEnemy()
 {
     Vector2 pos( 100 , 290 );
-    DrawGraph( pos , m_image_loader->ImageHandleOf( image_name[ ImageType_Enemy ] ) );
+    DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) );
 }
 
 

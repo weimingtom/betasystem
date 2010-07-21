@@ -276,6 +276,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\ProjectImageLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProjectImageLoader.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\StateGameMain.cpp"
 				>
 			</File>
