@@ -11,11 +11,6 @@ int InitApplication();
 void LoopApplication();
 int EndApplication();
 
-inline int ColorOf( int r = 0 , int g = 0 , int b = 0 )
-{
-    return GetColor( r , g , b );
-}
-
 class Vector2;
 void DrawGraph( int x , int y , int image_handle );
 void DrawGraph( Vector2 pos , int image_handle );
