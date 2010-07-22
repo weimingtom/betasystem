@@ -14,6 +14,8 @@ int InitApplication()
     if( DxLib_Init() == ApplicationFailure ) { return ApplicationFailure; }
     
     SetDrawScreen( DX_SCREEN_BACK );
+    int const font_size = 12;
+    SetFontSize( font_size );
 
     g_state.reset( new_StateGameMain() );
 
