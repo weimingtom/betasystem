@@ -1,20 +1,27 @@
 ・ボタン配置
+    ButtonOf();
+    ButtonListOf();
 
 ・ボタンを使った攻撃の流れ
+    m_select_attackセット
+    State_Battle
 
 ・敵倒した時の流れ
+    State_WinBattle > State_BornEnemy > StateSelectAttack
 
 ・ゲームーオーバーの流れ
+    State_GameOver > SceneGameOver
 
 ・撤退
+    State_Result > SceneWorldMap
 
 ・クリック判定
     ・クリックして離すまでの間隔かなぁ。
     
+    IsTrigClick();
+    
 ・ドラッグ判定
     ・クリックしたままの時間が一定間隔より長ければかなぁ。
-
-・ColorOf分離して、依存関係減らす。
-
-・font_size関連整理しような
+    
+    IsDrag();
 
