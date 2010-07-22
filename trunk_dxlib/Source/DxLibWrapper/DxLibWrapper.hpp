@@ -11,8 +11,4 @@ int InitApplication();
 void LoopApplication();
 int EndApplication();
 
-class Vector2;
-void DrawGraph( int x , int y , int image_handle );
-void DrawGraph( Vector2 pos , int image_handle );
-
 #endif
