@@ -54,7 +54,7 @@ void Button::Impl::Draw() const
         m_pos.y ,
         m_pos.x + m_size.x ,
         m_pos.y + m_size.y ,
-        ColorOf() ,
+        ColorOf( 255 , 0 , 0 ) ,
         FALSE );
 #endif
 }
