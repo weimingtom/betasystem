@@ -1,7 +1,9 @@
 #include "DxLibWrapper/Button.hpp"
 
 #include <memory>
-#include "DxLibWrapper/DxLibWrapper.hpp"
+#include "DxLib.h"
+#include "DxLibWrapper/Graphics.hpp"
+#include "DxLibWrapper/Color.hpp"
 #include "System/CheckHit.hpp"
 
 class Button::Impl : public Button

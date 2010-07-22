@@ -1,7 +1,7 @@
 #include "DxLibWrapper/LogPrinter.hpp"
 
 #include <vector>
-#include "DxLibWrapper/DxLibWrapper.hpp"
+#include "DxLibWrapper/Color.hpp"
 
 class LogPrinter::Impl : public LogPrinter
 {

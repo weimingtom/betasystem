@@ -1,6 +1,7 @@
 #ifndef include_21e97407_aadb_4abc_882f_2c4a55ee2b26
 #define include_21e97407_aadb_4abc_882f_2c4a55ee2b26
 
+#include "DxLibWrapper/Random.hpp"
 #include "Project/AttackType.hpp"
 
 /**

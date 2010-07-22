@@ -1,5 +1,8 @@
 #include "DxLibWrapper/Graphics.hpp"
 
+#include "DxLib.h"
+#include "System/Vector2.hpp"
+
 /**
     透過色を無効にする機会がないので、
     ラップして引数を減らす.

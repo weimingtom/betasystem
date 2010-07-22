@@ -6,6 +6,8 @@
 #include "DxLibWrapper/MouseInput.hpp"
 #include "DxLibWrapper/Button.hpp"
 #include "DxLibWrapper/LogPrinter.hpp"
+#include "DxLibWrapper/Color.hpp"
+#include "DxLibWrapper/Graphics.hpp"
 #include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "Project/AttackContent.hpp"
