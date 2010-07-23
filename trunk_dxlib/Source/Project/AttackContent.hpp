@@ -10,31 +10,37 @@
 class AttackContent
 {
 public:
-    static int const Action_Num = 3;
+    static int const AttackListNum = 3;
 public:
     AttackContent()
     {
         for( int i = 0 ; i < AttackType_Num ; i++ )
         {
-            m_action[i] = static_cast< AttackType >( i );
+            m_attack[i] = static_cast< AttackType >( i );
         }
-        m_action_next = RandomAction();
+        m_attack_next = DistributeAttackType();
     };
+    
 public:
-    AttackType GetAction( int index )
+    AttackType AttackTypeOf( int index ) const
     {
-        AttackType const result = m_action[index];
-        m_action[index] = m_action_next;
-        m_action_next = RandomAction();
+        return m_attack[ index ];
+    }
+    AttackType PopAttack( int index )
+    {
+        AttackType const result = m_attack[index];
+        m_attack[index] = m_attack_next;
+        m_attack_next = DistributeAttackType();
         return result;
     }
-    AttackType RandomAction()
+private:
+    AttackType DistributeAttackType()
     {
         return static_cast< AttackType >( GetRandToMax( AttackType_Num ) );
     }
 public:
-    AttackType m_action[ Action_Num ];
-    AttackType m_action_next;
+    AttackType m_attack_list[ AttackListNum ];
+    AttackType m_attack_next;
 };
 
 #endif // include_21e97407_aadb_4abc_882f_2c4a55ee2b26
