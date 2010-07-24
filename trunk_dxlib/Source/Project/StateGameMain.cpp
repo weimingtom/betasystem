@@ -51,16 +51,16 @@ ButtonPtrList AttackButtonPtrListOf(
     Vector2 pos( base_pos.x + margin_x , base_pos.y );
     result.push_back(
         ButtonPtr( new_Button(
-            image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_action_next ) ) ),
+            image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_next ) ) ),
             pos ,
             size ) ) );
     // attack_list.
-    for( int i = 0 ; i < AttackContent::Action_Num ; i++ )
+    for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
     {
         Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
         result.push_back(
             ButtonPtr( new_Button(
-                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_action[i] ) ) ),
+                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_list[i] ) ) ),
                 pos ,
                 size ) ) );
     }
@@ -259,8 +259,8 @@ void StateGameMain::NextState()
 void StateGameMain::Attack()
 {
     int const select_index = 0;
-    AttackType const player_attack = m_attack_list[ CharaType_Player ].GetAction( select_index );
-    AttackType const enemy_attack = m_attack_list[ CharaType_Enemy ].GetAction( select_index );
+    AttackType const player_attack = m_attack_list[ CharaType_Player ].PopAttack( select_index );
+    AttackType const enemy_attack = m_attack_list[ CharaType_Enemy ].PopAttack( select_index );
     
     BattleResult const result = BattleResultOf( player_attack , enemy_attack );
     
@@ -302,13 +302,13 @@ void StateGameMain::DrawAttackStatus( AttackContent const& attack_list , int bas
         base_x , y += margin_y ,
         ColorOf() ,
         "action:[%s],[%s],[%s]" ,
-        NameOf( attack_list.m_action[0] ),
-        NameOf( attack_list.m_action[1] ),
-        NameOf( attack_list.m_action[2] ) );
+        NameOf( attack_list.m_attack_list[0] ),
+        NameOf( attack_list.m_attack_list[1] ),
+        NameOf( attack_list.m_attack_list[2] ) );
     DrawFormatString(
         base_x , y += margin_y ,
         ColorOf() ,
-        "action_next:[%s]" , NameOf( attack_list.m_action_next ) );
+        "action_next:[%s]" , NameOf( attack_list.m_attack_next ) );
 }
 
 char const* StateGameMain::StateNameOf( State state )
