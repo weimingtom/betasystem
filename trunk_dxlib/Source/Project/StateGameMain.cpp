@@ -235,7 +235,7 @@ void StateGameMain::UpdateSelectAttackType()
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
         Attack();
-        ChangeState(State_AttackResult);
+        ChangeState( State_AttackResult );
     }
 }
 
@@ -271,11 +271,12 @@ void StateGameMain::NextState()
 
 void StateGameMain::Attack()
 {
-    int const select_index = 0;
-    AttackType const player_attack = m_attack_content_list[ CharaType_Player ].PopAttack( select_index );
-    AttackType const enemy_attack = m_attack_content_list[ CharaType_Enemy ].PopAttack( select_index );
-    
-    BattleResult const result = BattleResultOf( player_attack , enemy_attack );
+    AttackContent const player  = m_attack_content_list[ CharaType_Player ];
+    AttackContent const enemy   = m_attack_content_list[ CharaType_Enemy ];
+    BattleResult const result =
+        BattleResultOf(
+            player.m_attack_list[ player.m_select_index ] ,
+            enemy.m_attack_list[ enemy.m_select_index ] );
     
     switch( result )
     {
@@ -294,6 +295,11 @@ void StateGameMain::Attack()
         break;
     default:
         assert( !"invalid case" );
+    }
+    
+    for( int i = 0 ; i < CharaType_Num ; i++ )
+    {
+        m_attack_content_list[i].PopAttack( m_attack_content_list[i].m_select_index );
     }
 }
 

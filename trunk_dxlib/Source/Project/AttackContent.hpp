@@ -19,6 +19,7 @@ public:
             m_attack_list[i] = static_cast< AttackType >( i );
         }
         m_attack_next = DistributeAttackType();
+        m_select_index = 0 ;
     };
     
 public:
@@ -41,6 +42,7 @@ private:
 public:
     AttackType m_attack_list[ AttackListNum ];
     AttackType m_attack_next;
+    int m_select_index;
 };
 
 #endif // include_21e97407_aadb_4abc_882f_2c4a55ee2b26
