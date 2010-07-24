@@ -2,12 +2,13 @@
 
 #include <assert.h>
 #include <memory>
+#include <boost/foreach.hpp>
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
-#include "DxLibWrapper/Button.hpp"
 #include "DxLibWrapper/LogPrinter.hpp"
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/Graphics.hpp"
+#include "DxLibWrapper/Button.hpp"
 #include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "Project/AttackContent.hpp"
@@ -16,6 +17,58 @@
 #include "System/CheckHit.hpp"
 #include "System/StringOf.hpp"
 
+
+namespace {
+
+ImageType ImageTypeOf( AttackType type )
+{
+    switch( type )
+    {
+    case AttackType_Sword:
+        return ImageType_Sword;
+    case AttackType_Shield:
+        return ImageType_Shield;
+    case AttackType_Magic:
+        return ImageType_Magic;
+    default:
+        assert( false );
+        return ImageType_Sword; // åxçêâÒî.
+    }
+}
+
+ButtonPtrList AttackButtonPtrListOf(
+    Vector2 base_pos ,
+    AttackContent const& attack_content ,
+    ImageLoader & image_loader )
+{
+    ButtonPtrList result;
+    
+    Vector2 const size( 60 , 60 );
+    int const margin_x = 80;
+    int const margin_y = 80;
+
+    //  next_attack.
+    Vector2 pos( base_pos.x + margin_x , base_pos.y );
+    result.push_back(
+        ButtonPtr( new_Button(
+            image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_action_next ) ) ),
+            pos ,
+            size ) ) );
+    // attack_list.
+    for( int i = 0 ; i < AttackContent::Action_Num ; i++ )
+    {
+        Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
+        result.push_back(
+            ButtonPtr( new_Button(
+                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_action[i] ) ) ),
+                pos ,
+                size ) ) );
+    }
+    
+    return result;
+}
+
+} // namespace unnamed
 
 class StateGameMain : public StateBase
 {
@@ -62,9 +115,9 @@ private:
     Character m_player;
     Character m_enemy;
     State m_state;
-    std::auto_ptr< Button > m_button;
     AttackContent m_attack_list[ CharaType_Num ];
     std::auto_ptr< LogPrinter > m_log_printer;
+    ButtonPtrList m_button_list;
 };
 
 StateGameMain::StateGameMain()
@@ -74,11 +127,11 @@ StateGameMain::StateGameMain()
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
 {
     m_image_loader->Load();
-    m_button.reset(
-        new_Button(
-            m_image_loader->ImageHandleOf( NameOf( ImageType_Sword ) ) ,
-            Vector2(200,200) ,
-            Vector2(50,50) ) );
+    
+    m_button_list = AttackButtonPtrListOf(
+        Vector2( 350 , 20 ),
+        m_attack_list[ CharaType_Player ] ,
+        *m_image_loader );
 }
 
 void StateGameMain::Update()
@@ -112,6 +165,10 @@ void StateGameMain::Draw()
     case State_SelectAttackType:
         DrawPlayer();
         DrawEnemy();
+        BOOST_FOREACH( ButtonPtr const& button , m_button_list )
+        {
+            button->Draw();
+        }
         break;
     case State_AttackResult:
         DrawPlayer();

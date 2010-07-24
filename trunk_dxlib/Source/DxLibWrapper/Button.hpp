@@ -1,6 +1,8 @@
 #ifndef include_c5b4571e_b687_429b_aa72_b7a2a9dd5334
 #define include_c5b4571e_b687_429b_aa72_b7a2a9dd5334
 
+#include <vector>
+#include <boost/shared_ptr.hpp>
 #include "System/Vector2.hpp"
 #include "System/ProcessBase.hpp"
 
@@ -25,6 +27,9 @@ public:
 private:
     class Impl;
 };
+
+typedef boost::shared_ptr< Button > ButtonPtr;
+typedef std::vector< ButtonPtr > ButtonPtrList;
 
 Button* new_Button(
     int image_handle ,
