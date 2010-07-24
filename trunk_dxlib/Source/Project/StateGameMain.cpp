@@ -108,6 +108,7 @@ private:
     void NextState();
     void Attack();
     char const* StateNameOf( State state );
+    void ChangeState( State state );
     
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
@@ -115,9 +116,11 @@ private:
     Character m_player;
     Character m_enemy;
     State m_state;
-    AttackContent m_attack_list[ CharaType_Num ];
+    bool m_init;
+    AttackContent m_attack_content_list[ CharaType_Num ];
     std::auto_ptr< LogPrinter > m_log_printer;
     ButtonPtrList m_button_list;
+    
 };
 
 StateGameMain::StateGameMain()
@@ -125,13 +128,9 @@ StateGameMain::StateGameMain()
  , m_mouse( new_MouseInput() )
  , m_state( State_SelectAttackType )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
+ , m_init( true )
 {
     m_image_loader->Load();
-    
-    m_button_list = AttackButtonPtrListOf(
-        Vector2( 350 , 20 ),
-        m_attack_list[ CharaType_Player ] ,
-        *m_image_loader );
 }
 
 void StateGameMain::Update()
@@ -185,9 +184,9 @@ void StateGameMain::Draw()
     }
     
     DrawCharacterStatus( m_player , 330 , 400 );
-    DrawAttackStatus( m_attack_list[ CharaType_Player ] , 330 , 420 );
+    DrawAttackStatus( m_attack_content_list[ CharaType_Player ] , 330 , 420 );
     DrawCharacterStatus( m_enemy , 60 , 400 );
-    DrawAttackStatus( m_attack_list[ CharaType_Enemy ] , 60 , 420 );
+    DrawAttackStatus( m_attack_content_list[ CharaType_Enemy ] , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -219,6 +218,18 @@ void StateGameMain::UpdateAttackResult()
 
 void StateGameMain::UpdateSelectAttackType()
 {
+    if( m_init )
+    {
+        m_init = false;
+        for( int i = 0 ; i < CharaType_Num ; i++ )
+        {
+            ButtonPtrList::iterator const it = m_button_list.begin();
+            ButtonPtrList attack_button_list = AttackButtonPtrListOf(
+                Vector2( 30 + i * 320 , 20 ), m_attack_content_list[ i ] , *m_image_loader );
+            m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
+        }
+    }
+    
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
         Attack();
@@ -259,8 +270,8 @@ void StateGameMain::NextState()
 void StateGameMain::Attack()
 {
     int const select_index = 0;
-    AttackType const player_attack = m_attack_list[ CharaType_Player ].PopAttack( select_index );
-    AttackType const enemy_attack = m_attack_list[ CharaType_Enemy ].PopAttack( select_index );
+    AttackType const player_attack = m_attack_content_list[ CharaType_Player ].PopAttack( select_index );
+    AttackType const enemy_attack = m_attack_content_list[ CharaType_Enemy ].PopAttack( select_index );
     
     BattleResult const result = BattleResultOf( player_attack , enemy_attack );
     
@@ -321,6 +332,12 @@ char const* StateGameMain::StateNameOf( State state )
         "”s–k",
     };
     return name[ state ];
+}
+
+void StateGameMain::ChangeState( State state )
+{
+    m_state = state;
+    m_init = true;
 }
 
 StateBase* new_StateGameMain()
