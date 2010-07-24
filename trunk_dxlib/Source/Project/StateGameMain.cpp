@@ -227,7 +227,7 @@ void StateGameMain::UpdateSelectAttackType()
         {
             ButtonPtrList::iterator const it = m_button_list.begin();
             ButtonPtrList attack_button_list = AttackButtonPtrListOf(
-                Vector2( 30 + i * 320 , 20 ), m_attack_content_list[ i ] , *m_image_loader );
+                Vector2( 350 - i * 320 , 20 ), m_attack_content_list[ i ] , *m_image_loader );
             m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
         }
     }
