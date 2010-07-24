@@ -130,6 +130,7 @@ StateGameMain::StateGameMain()
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
 {
+    ChangeState( State_SelectAttackType );
     m_image_loader->Load();
 }
 
@@ -221,6 +222,7 @@ void StateGameMain::UpdateSelectAttackType()
     if( m_init )
     {
         m_init = false;
+        m_button_list.clear();
         for( int i = 0 ; i < CharaType_Num ; i++ )
         {
             ButtonPtrList::iterator const it = m_button_list.begin();
@@ -233,7 +235,7 @@ void StateGameMain::UpdateSelectAttackType()
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
         Attack();
-        m_state = State_AttackResult;
+        ChangeState(State_AttackResult);
     }
 }
 
@@ -241,7 +243,7 @@ void StateGameMain::UpdateLose()
 {
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
-        m_state = State_SelectAttackType;
+        ChangeState( State_SelectAttackType );
     }
 }
 
@@ -249,7 +251,7 @@ void StateGameMain::UpdateWin()
 {
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
-        m_state = State_SelectAttackType;
+        ChangeState( State_SelectAttackType );
     }
 }
 
@@ -257,13 +259,13 @@ void StateGameMain::NextState()
 {
     if( m_player.m_hp <= 0 )
     {
-        m_state = State_Lose;
+        ChangeState( State_Lose );
     }
     else if( m_enemy.m_hp <= 0 )
     {
-        m_state = State_Win;
+        ChangeState( State_Win );
     }else{
-        m_state = State_SelectAttackType;
+        ChangeState( State_SelectAttackType );
     }
 }
 
