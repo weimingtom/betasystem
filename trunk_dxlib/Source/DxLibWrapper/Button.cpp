@@ -19,6 +19,7 @@ public:
 public:
     void Draw() const;
     bool CheckHit( Vector2 pos ) const;
+    bool HasProcess() const;
     void Process();
     
 private:
@@ -62,6 +63,11 @@ void Button::Impl::Draw() const
 bool Button::Impl::CheckHit( Vector2 pos ) const
 {
     return CheckHitRect( pos , m_pos , m_size );
+}
+
+bool Button::Impl::HasProcess() const
+{
+    return !( m_process.get() == 0 );
 }
 
 void Button::Impl::Process()

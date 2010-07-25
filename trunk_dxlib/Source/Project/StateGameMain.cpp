@@ -16,6 +16,7 @@
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
 #include "System/StringOf.hpp"
+#include "Project/AttackButtonProcess.hpp"
 
 
 namespace {
@@ -36,37 +37,6 @@ ImageType ImageTypeOf( AttackType type )
     }
 }
 
-ButtonPtrList AttackButtonPtrListOf(
-    Vector2 base_pos ,
-    AttackContent const& attack_content ,
-    ImageLoader & image_loader )
-{
-    ButtonPtrList result;
-    
-    Vector2 const size( 60 , 60 );
-    int const margin_x = 80;
-    int const margin_y = 80;
-
-    //  next_attack.
-    Vector2 pos( base_pos.x + margin_x , base_pos.y );
-    result.push_back(
-        ButtonPtr( new_Button(
-            image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_next ) ) ),
-            pos ,
-            size ) ) );
-    // attack_list.
-    for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
-    {
-        Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
-        result.push_back(
-            ButtonPtr( new_Button(
-                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_list[i] ) ) ),
-                pos ,
-                size ) ) );
-    }
-    
-    return result;
-}
 
 } // namespace unnamed
 
@@ -109,6 +79,11 @@ private:
     void Attack();
     char const* StateNameOf( State state );
     void ChangeState( State state );
+    static ButtonPtrList StateGameMain::AttackButtonPtrListOf(
+        Vector2 base_pos ,
+        AttackContent& attack_content ,
+        ImageLoader& image_loader ,
+        CharaType chara_type );
     
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
@@ -211,6 +186,12 @@ void StateGameMain::DrawEnemy()
 
 void StateGameMain::UpdateAttackResult()
 {
+    if( m_init )
+    {
+        m_init = false;
+        Attack();
+    }
+
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
         NextState();
@@ -227,15 +208,29 @@ void StateGameMain::UpdateSelectAttackType()
         {
             ButtonPtrList::iterator const it = m_button_list.begin();
             ButtonPtrList attack_button_list = AttackButtonPtrListOf(
-                Vector2( 350 - i * 320 , 20 ), m_attack_content_list[ i ] , *m_image_loader );
+                Vector2( 350 - i * 320 , 20 ),
+                m_attack_content_list[ i ] ,
+                *m_image_loader ,
+                static_cast< CharaType >(i) );
             m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
         }
     }
     
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
-        Attack();
-        ChangeState( State_AttackResult );
+        Vector2 const mouse_pos = m_mouse->Position();
+        
+        BOOST_FOREACH( ButtonPtr const& button , m_button_list )
+        {
+            if( button->CheckHit( mouse_pos ) )
+            {
+                if( button->HasProcess() )
+                {
+                    button->Process();
+                    ChangeState( State_AttackResult );
+                }
+            }
+        }
     }
 }
 
@@ -346,6 +341,45 @@ void StateGameMain::ChangeState( State state )
 {
     m_state = state;
     m_init = true;
+}
+
+ButtonPtrList StateGameMain::AttackButtonPtrListOf(
+    Vector2 base_pos ,
+    AttackContent& attack_content ,
+    ImageLoader& image_loader ,
+    CharaType chara_type ) 
+{
+    ButtonPtrList result;
+    
+    Vector2 const size( 60 , 60 );
+    int const margin_x = 80;
+    int const margin_y = 80;
+    
+    //  next_attack.
+    Vector2 pos( base_pos.x + margin_x , base_pos.y );
+    result.push_back(
+        ButtonPtr( new_Button(
+            image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_next ) ) ),
+            pos ,
+            size ) ) );
+    
+    // attack_list.
+    for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
+    {
+        ProcessBase* process = 0;
+        if( chara_type == CharaType_Player )
+        {
+            process = new_AttackButtonProcess( i , attack_content );
+        }
+        Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
+        result.push_back(
+            ButtonPtr( new_Button(
+                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_list[i] ) ) ),
+                pos ,
+                size ,
+                process ) ) );
+    }
+    return result;
 }
 
 StateBase* new_StateGameMain()

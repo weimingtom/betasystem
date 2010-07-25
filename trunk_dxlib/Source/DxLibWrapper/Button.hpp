@@ -22,6 +22,7 @@ public:
 public:
     virtual void Draw() const = 0;
     virtual bool CheckHit( Vector2 pos ) const = 0;
+    virtual bool HasProcess() const = 0;
     virtual void Process() = 0;
     
 private:

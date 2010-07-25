@@ -276,6 +276,14 @@
 			Name="Project"
 			>
 			<File
+				RelativePath="..\Source\Project\AttackButtonProcess.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\AttackButtonProcess.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\AttackType.cpp"
 				>
 			</File>
