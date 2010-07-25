@@ -264,6 +264,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\System\StateManagerBase.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\System\StringOf.cpp"
 				>
 			</File>
@@ -313,6 +317,14 @@
 			</File>
 			<File
 				RelativePath="..\Source\Project\ProjectImageLoader.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProjectStateManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProjectStateManager.hpp"
 				>
 			</File>
 			<File
