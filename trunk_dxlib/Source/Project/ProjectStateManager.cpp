@@ -1,6 +1,7 @@
 #include "Project/ProjectStateManager.hpp"
 #include "System/StateManagerBase.hpp"
 #include "Project/StateGameMain.hpp"
+#include "Project/StateWorldMap.hpp"
 #include <assert.h>
 
 class ProjectStateManager : public StateManagerBase
@@ -24,6 +25,8 @@ StateBase* ProjectStateManager::new_State( int select_index )
 {
     switch( select_index )
     {
+    case ProjectState_WorldMap:
+        return new_StateWorldMap( *this );
     case ProjectState_Battle:
         return new_StateGameMain();
     default:

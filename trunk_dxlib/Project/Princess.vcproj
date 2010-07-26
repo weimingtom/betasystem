@@ -335,6 +335,14 @@
 				RelativePath="..\Source\Project\StateGameMain.hpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Source\Project\StateWorldMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\StateWorldMap.hpp"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\Source\main.cpp"
