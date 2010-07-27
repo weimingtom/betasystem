@@ -12,6 +12,7 @@ class StateManagerBase
 public:
     StateManagerBase()
      : m_current_state(0)
+     , m_next_state(0)
     {
     }
     virtual ~StateManagerBase(){}
@@ -19,10 +20,14 @@ public:
 public:
     void ChangeState( int state_index )
     {
-        m_current_state.reset( new_State( state_index ) );
+        m_next_state.reset( new_State( state_index ) );
     }
     void Update()
     {
+        if( m_next_state.get() )
+        {
+            m_current_state.reset( m_next_state.release() );
+        }
         m_current_state->Update();
     }
     void Draw()
@@ -36,6 +41,7 @@ protected:
     
 private:
     std::auto_ptr< StateBase > m_current_state;
+    std::auto_ptr< StateBase > m_next_state;
 };
 
 #endif
