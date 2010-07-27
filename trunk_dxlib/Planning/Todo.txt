@@ -1,10 +1,3 @@
-・ボタン配置
-    ButtonOf();
-    ButtonListOf();
-
-・ボタンを使った攻撃の流れ
-    m_select_attackセット
-    State_Battle
 
 ・敵倒した時の流れ
     State_WinBattle > State_BornEnemy > StateSelectAttack
@@ -24,6 +17,10 @@
     ・クリックしたままの時間が一定間隔より長ければかなぁ。
     
     IsDrag();
+
+・ImageLoader& image_loader
+
+・プレイヤーのステータスをセーブ構造体に退避.
 
 
 //----------------------------------------------
@@ -49,4 +46,3 @@
         ・相手はこうするだろうからこうする、ぐらいの。
     ・もっとライトなバトルにしないと…
         
-
