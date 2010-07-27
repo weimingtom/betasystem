@@ -34,6 +34,19 @@ ImageLoader::Impl::Impl( char const* const name_list[] , int list_size )
 
 ImageLoader::Impl::~Impl()
 {
+    // 確保したハンドルを全て解放する.
+    ImageMap::iterator it = m_handle_map.begin();
+    ImageMap::iterator const end_it = m_handle_map.end();
+    
+    while( it != m_handle_map.end() )
+    {
+        if( DeleteGraph( (*it).second ) == FunctionFailure )
+        {
+            assert( false );
+            exit( ApplicationFailure );
+        }
+        it++;
+    }
 }
 
 void ImageLoader::Impl::Load()
