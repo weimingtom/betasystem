@@ -1,12 +1,16 @@
+・撤退
+    State_Result > SceneWorldMap
+
+・SceneとStateでぶれてんなぁ。
+    個人的にはStateかな
+
+・メモリもれてないかちぇっくしろよ。
 
 ・敵倒した時の流れ
     State_WinBattle > State_BornEnemy > StateSelectAttack
 
 ・ゲームーオーバーの流れ
     State_GameOver > SceneGameOver
-
-・撤退
-    State_Result > SceneWorldMap
 
 ・クリック判定
     ・クリックして離すまでの間隔かなぁ。
