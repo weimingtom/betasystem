@@ -312,6 +312,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\ProcessRunAway.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProcessRunAway.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\ProjectImageLoader.cpp"
 				>
 			</File>

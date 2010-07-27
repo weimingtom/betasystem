@@ -28,7 +28,7 @@ StateBase* ProjectStateManager::new_State( int select_index )
     case ProjectState_WorldMap:
         return new_StateWorldMap( *this );
     case ProjectState_Battle:
-        return new_StateGameMain();
+        return new_StateGameMain( *this );
     default:
         assert( false );
         return 0;

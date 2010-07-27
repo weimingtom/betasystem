@@ -16,7 +16,10 @@
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
 #include "System/StringOf.hpp"
+#include "System/StateManagerBase.hpp"
+#include "System/ProcessBase.hpp"
 #include "Project/AttackButtonProcess.hpp"
+#include "Project/ProcessRunAway.hpp"
 
 
 namespace {
@@ -43,7 +46,7 @@ ImageType ImageTypeOf( AttackType type )
 class StateGameMain : public StateBase
 {
 public:
-    StateGameMain();
+    StateGameMain( StateManagerBase& project_state_manager );
     
 public:
     void Update();
@@ -79,11 +82,12 @@ private:
     void Attack();
     char const* StateNameOf( State state );
     void ChangeState( State state );
-    static ButtonPtrList StateGameMain::AttackButtonPtrListOf(
+    static ButtonPtrList AttackButtonPtrListOf(
         Vector2 base_pos ,
         AttackContent& attack_content ,
         ImageLoader& image_loader ,
         CharaType chara_type );
+    ButtonPtr new_ButtonRunAway();
     
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
@@ -95,15 +99,17 @@ private:
     AttackContent m_attack_content_list[ CharaType_Num ];
     std::auto_ptr< LogPrinter > m_log_printer;
     ButtonPtrList m_button_list;
+    StateManagerBase& m_project_state_manager;
     
 };
 
-StateGameMain::StateGameMain()
+StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  : m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
  , m_state( State_SelectAttackType )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
+ , m_project_state_manager( project_state_manager )
 {
     ChangeState( State_SelectAttackType );
     m_image_loader->Load();
@@ -198,12 +204,28 @@ void StateGameMain::UpdateAttackResult()
     }
 }
 
+ButtonPtr StateGameMain::new_ButtonRunAway()
+{
+    Vector2 pos( 500 , 300 );
+    Vector2 size( 100 , 100 );
+    ButtonPtr result(
+        new_Button(
+            m_image_loader->ImageHandleOf( NameOf( ImageType_RunAway ) ) ,
+            pos ,
+            size ,
+            new_ProcessRunAway( m_project_state_manager )
+        )
+    );
+    return result;
+}
+
 void StateGameMain::UpdateSelectAttackType()
 {
     if( m_init )
     {
         m_init = false;
         m_button_list.clear();
+        //Attack‚ÉŠÖ‚·‚éƒ{ƒ^ƒ“‚Ì’Ç‰Á.
         for( int i = 0 ; i < CharaType_Num ; i++ )
         {
             ButtonPtrList::iterator const it = m_button_list.begin();
@@ -214,6 +236,7 @@ void StateGameMain::UpdateSelectAttackType()
                 static_cast< CharaType >(i) );
             m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
         }
+        m_button_list.push_back( new_ButtonRunAway() );
     }
     
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
@@ -356,13 +379,14 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     int const margin_y = 80;
     
     //  next_attack.
-    Vector2 pos( base_pos.x + margin_x , base_pos.y );
-    result.push_back(
-        ButtonPtr( new_Button(
-            image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_next ) ) ),
-            pos ,
-            size ) ) );
-    
+    {
+        Vector2 pos( base_pos.x + margin_x , base_pos.y );
+        result.push_back(
+            ButtonPtr( new_Button(
+                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_next ) ) ),
+                pos ,
+                size ) ) );
+    }
     // attack_list.
     for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
     {
@@ -382,8 +406,8 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     return result;
 }
 
-StateBase* new_StateGameMain()
+StateBase* new_StateGameMain( StateManagerBase& project_state_manager )
 {
-    return new StateGameMain();
+    return new StateGameMain( project_state_manager );
 }
 
