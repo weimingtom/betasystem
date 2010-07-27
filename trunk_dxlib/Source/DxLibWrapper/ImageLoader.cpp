@@ -24,6 +24,7 @@ private:
     
 private:
     ImageNameList const m_image_name_list;
+    //! ファイル名から取得できるように連想配列として登録する.
     ImageMap m_handle_map;
 };
 
