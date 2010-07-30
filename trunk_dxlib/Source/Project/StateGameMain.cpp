@@ -20,6 +20,7 @@
 #include "System/ProcessBase.hpp"
 #include "Project/AttackButtonProcess.hpp"
 #include "Project/ProcessRunAway.hpp"
+#include "Project/ProjectStateManager.hpp"
 
 
 namespace {
@@ -59,6 +60,7 @@ private:
         State_AttackResult,
         State_Win,
         State_Lose,
+        State_EnemyBorn,
         State_Num,
     };
     enum CharaType
@@ -71,8 +73,6 @@ private:
 private:
     void UpdateSelectAttackType();
     void UpdateAttackResult();
-    void UpdateLose();
-    void UpdateWin();
     void DrawCharacterStatus( Character chara , int base_x , int base_y );
     void DrawAttackStatus( AttackContent const& attack_list , int base_x , int base_y );
     void DrawBackground();
@@ -128,10 +128,23 @@ void StateGameMain::Update()
         UpdateAttackResult();
         break;
     case State_Lose:
-        UpdateLose();
+        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        {
+            m_project_state_manager.ChangeState( ProjectState_WorldMap );
+        }
+        break;
+    case State_EnemyBorn:
+        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        {
+            m_enemy = Character();
+            ChangeState( State_SelectAttackType );
+        }
         break;
     case State_Win:
-        UpdateWin();
+        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        {
+            ChangeState( State_EnemyBorn );
+        }
         break;
     }
 }
@@ -163,6 +176,9 @@ void StateGameMain::Draw()
         DrawFormatString( 100 , 100 , ColorOf() , "Win" );
         DrawPlayer();
         break;
+    case State_EnemyBorn:
+        DrawPlayer();
+        DrawEnemy();
     }
     
     DrawCharacterStatus( m_player , 330 , 400 );
@@ -257,22 +273,6 @@ void StateGameMain::UpdateSelectAttackType()
     }
 }
 
-void StateGameMain::UpdateLose()
-{
-    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
-    {
-        ChangeState( State_SelectAttackType );
-    }
-}
-
-void StateGameMain::UpdateWin()
-{
-    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
-    {
-        ChangeState( State_SelectAttackType );
-    }
-}
-
 void StateGameMain::NextState()
 {
     if( m_player.m_hp <= 0 )
@@ -282,7 +282,9 @@ void StateGameMain::NextState()
     else if( m_enemy.m_hp <= 0 )
     {
         ChangeState( State_Win );
-    }else{
+    }
+    else
+    {
         ChangeState( State_SelectAttackType );
     }
 }
@@ -356,6 +358,7 @@ char const* StateGameMain::StateNameOf( State state )
         "UŒ‚Œ‹‰Ê",
         "Ÿ—˜",
         "”s–k",
+        "“G¶¬",
     };
     return name[ state ];
 }
