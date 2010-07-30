@@ -39,6 +39,7 @@ void LoopApplication()
 
 int EndApplication()
 {
+    g_state_manager.reset(0);
     DxLib_End();
     return ApplicationSuccess;
 }
