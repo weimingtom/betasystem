@@ -7,6 +7,8 @@
 class StateBase
 {
 public:
+    virtual ~StateBase(){}
+public:
     virtual void Update() = 0;
     virtual void Draw() = 0;
 };
