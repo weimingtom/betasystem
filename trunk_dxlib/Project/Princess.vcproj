@@ -235,6 +235,14 @@
 				RelativePath="..\Source\DxLibWrapper\Random.hpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\SoundLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\SoundLoader.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="System"
