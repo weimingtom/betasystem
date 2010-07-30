@@ -14,7 +14,7 @@ public:
     
 public:
     void Load();
-    void Play( std::string file_name );
+    void Play( std::string file_name , bool is_bgm );
     
 private:
     StringList const m_file_name_list;
@@ -55,11 +55,16 @@ void SoundLoader::Impl::Load()
     }
 }
 
-void SoundLoader::Impl::Play( std::string file_name )
+void SoundLoader::Impl::Play( std::string file_name , bool is_bgm )
 {
     HandleMap::iterator it = m_handle_map.find( file_name );
     assert( it != m_handle_map.end() && "m_handle_map.find() failed." );
-    PlaySoundMem( (*it).second , DX_PLAYTYPE_NORMAL , TRUE );
+    if( is_bgm )
+    {
+        PlaySoundMem( (*it).second , DX_PLAYTYPE_LOOP , TRUE );
+    }else{
+        PlaySoundMem( (*it).second , DX_PLAYTYPE_NORMAL , TRUE );
+    }
 }
 
 SoundLoader* new_SoundLoader( StringList file_name_list )

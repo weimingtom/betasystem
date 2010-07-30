@@ -26,7 +26,7 @@ public:
     /**
         Ä¶.
     */
-    virtual void Play( std::string file_name ) = 0;
+    virtual void Play( std::string file_name , bool is_bgm = false ) = 0;
     
 private:
     class Impl;
