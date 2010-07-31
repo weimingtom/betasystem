@@ -99,6 +99,7 @@ private:
     Character& m_player;
     Character m_enemy;
     State m_state;
+    State m_next_state;
     bool m_init;
     AttackContent m_attack_content_list[ CharaType_Num ];
     std::auto_ptr< LogPrinter > m_log_printer;
@@ -113,6 +114,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_mouse( new_MouseInput() )
  , m_player( SaveData::GetInstance().m_player_status )
  , m_state( State_SelectAttackType )
+ , m_next_state( State_SelectAttackType )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
@@ -127,6 +129,8 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
 
 void StateGameMain::Update()
 {
+    m_state = m_next_state;
+    
     m_mouse->Update();
     switch( m_state )
     {
@@ -404,7 +408,7 @@ char const* StateGameMain::StateNameOf( State state )
 
 void StateGameMain::ChangeState( State state )
 {
-    m_state = state;
+    m_next_state = state;
     m_init = true;
 }
 
