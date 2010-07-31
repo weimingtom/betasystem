@@ -276,6 +276,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\System\String.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\System\StringOf.cpp"
 				>
 			</File>
@@ -333,6 +337,14 @@
 			</File>
 			<File
 				RelativePath="..\Source\Project\ProjectImageLoader.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProjectSoundLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProjectSoundLoader.hpp"
 				>
 			</File>
 			<File
