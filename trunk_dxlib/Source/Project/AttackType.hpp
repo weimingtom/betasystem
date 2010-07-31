@@ -3,9 +3,9 @@
 
 enum AttackType
 {
-    AttackType_Sword,
-    AttackType_Shield,
-    AttackType_Magic,
+    AttackType_Normal,
+    AttackType_Special,
+    AttackType_Guard,
     
     AttackType_Num,
 };

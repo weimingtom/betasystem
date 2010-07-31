@@ -176,19 +176,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\Button.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\Color.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\DxLibWrapper\DxLibWrapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\DxLibWrapper.hpp"
 				>
 			</File>
 			<File
@@ -196,15 +184,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\Graphics.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\ImageLoader.hpp"
 				>
 			</File>
 			<File
@@ -212,15 +192,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\KeyboardInput.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\DxLibWrapper\LogPrinter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\LogPrinter.hpp"
 				>
 			</File>
 			<File
@@ -228,19 +200,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\MouseInput.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\Random.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\DxLibWrapper\SoundLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\SoundLoader.hpp"
 				>
 			</File>
 		</Filter>
@@ -248,15 +208,7 @@
 			Name="System"
 			>
 			<File
-				RelativePath="..\Source\System\ArraySize.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\System\CheckHit.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\CheckHit.hpp"
 				>
 			</File>
 			<File
@@ -264,27 +216,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\System\Range.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StateBase.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StateManagerBase.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\String.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\System\StringOf.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StringOf.hpp"
 				>
 			</File>
 		</Filter>
@@ -296,31 +228,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\AttackButtonProcess.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\AttackType.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\AttackType.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\BattleResult.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\BattleResult.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\Character.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Character.hpp"
 				>
 			</File>
 			<File
@@ -332,15 +244,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\ProcessRunAway.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\ProjectImageLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\ProjectImageLoader.hpp"
 				>
 			</File>
 			<File
@@ -348,15 +252,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\ProjectSoundLoader.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\ProjectStateManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\ProjectStateManager.hpp"
 				>
 			</File>
 			<File
@@ -364,23 +260,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\SaveData.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\StateGameMain.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\StateGameMain.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\StateWorldMap.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\StateWorldMap.hpp"
 				>
 			</File>
 		</Filter>

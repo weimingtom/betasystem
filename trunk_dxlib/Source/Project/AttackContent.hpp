@@ -18,7 +18,6 @@ public:
         {
             m_attack_list[i] = static_cast< AttackType >( i );
         }
-        m_attack_next = DistributeAttackType();
         m_select_index = 0 ;
     };
     
@@ -27,21 +26,9 @@ public:
     {
         return m_attack_list[ index ];
     }
-    AttackType PopAttack( int index )
-    {
-        AttackType const result = m_attack_list[index];
-        m_attack_list[index] = m_attack_next;
-        m_attack_next = DistributeAttackType();
-        return result;
-    }
-private:
-    AttackType DistributeAttackType()
-    {
-        return static_cast< AttackType >( GetRandToMax( AttackType_Num ) );
-    }
+    
 public:
     AttackType m_attack_list[ AttackListNum ];
-    AttackType m_attack_next;
     int m_select_index;
 };
 

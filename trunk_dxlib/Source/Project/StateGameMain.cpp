@@ -10,7 +10,6 @@
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/Graphics.hpp"
 #include "DxLibWrapper/Button.hpp"
-#include "Project/BattleResult.hpp"
 #include "Project/Character.hpp"
 #include "Project/AttackContent.hpp"
 #include "Project/ProjectImageLoader.hpp"
@@ -33,15 +32,15 @@ ImageType ImageTypeOf( AttackType type )
 {
     switch( type )
     {
-    case AttackType_Sword:
+    case AttackType_Normal:
         return ImageType_Sword;
-    case AttackType_Shield:
+    case AttackType_Guard:
         return ImageType_Shield;
-    case AttackType_Magic:
+    case AttackType_Special:
         return ImageType_Magic;
     default:
         assert( false );
-        return ImageType_Sword; // Œx‰ñ”ð.
+        exit( ApplicationFailure );
     }
 }
 
@@ -78,7 +77,6 @@ private:
     void UpdateSelectAttackType();
     void UpdateAttackResult();
     void DrawCharacterStatus( Character const& chara , int base_x , int base_y );
-    void DrawAttackStatus( AttackContent const& attack_list , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
@@ -221,9 +219,7 @@ void StateGameMain::Draw()
     }
     
     DrawCharacterStatus( m_player , 330 , 400 );
-    DrawAttackStatus( m_attack_content_list[ OperateType_Player ] , 330 , 420 );
     DrawCharacterStatus( m_enemy , 60 , 400 );
-    DrawAttackStatus( m_attack_content_list[ OperateType_Enemy ] , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -335,34 +331,6 @@ void StateGameMain::Attack()
 {
     AttackContent const player  = m_attack_content_list[ OperateType_Player ];
     AttackContent const enemy   = m_attack_content_list[ OperateType_Enemy ];
-    BattleResult const result =
-        BattleResultOf(
-            player.m_attack_list[ player.m_select_index ] ,
-            enemy.m_attack_list[ enemy.m_select_index ] );
-    
-    switch( result )
-    {
-    case BattleResult_Win:
-        m_enemy.m_hp -= m_player.m_attack;
-        m_log_printer->Print(
-            "Ÿ‚¿ damage -> " + StringOf( m_player.m_attack ) );
-        break;
-    case BattleResult_Lose:
-        m_player.m_hp -= m_enemy.m_attack;
-        m_log_printer->Print(
-            "•‰‚¯ damage -> " + StringOf( m_enemy.m_attack ) );
-        break;
-    case BattleResult_Draw:
-        m_log_printer->Print( "ˆø‚«•ª‚¯" );
-        break;
-    default:
-        assert( !"invalid case" );
-    }
-    
-    for( int i = 0 ; i < OperateType_Num ; i++ )
-    {
-        m_attack_content_list[i].PopAttack( m_attack_content_list[i].m_select_index );
-    }
 }
 
 void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
@@ -373,23 +341,6 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
         base_x , y += margin_y ,
         ColorOf() ,
         "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
-}
-
-void StateGameMain::DrawAttackStatus( AttackContent const& attack_list , int base_x , int base_y )
-{
-    int y = base_y;
-    int const margin_y = 20;
-    DrawFormatString(
-        base_x , y += margin_y ,
-        ColorOf() ,
-        "action:[%s],[%s],[%s]" ,
-        NameOf( attack_list.m_attack_list[0] ),
-        NameOf( attack_list.m_attack_list[1] ),
-        NameOf( attack_list.m_attack_list[2] ) );
-    DrawFormatString(
-        base_x , y += margin_y ,
-        ColorOf() ,
-        "action_next:[%s]" , NameOf( attack_list.m_attack_next ) );
 }
 
 char const* StateGameMain::StateNameOf( State state )
@@ -423,15 +374,6 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     int const margin_x = 80;
     int const margin_y = 80;
     
-    //  next_attack.
-    {
-        Vector2 pos( base_pos.x + margin_x , base_pos.y );
-        result.push_back(
-            ButtonPtr( new_Button(
-                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_next ) ) ),
-                pos ,
-                size ) ) );
-    }
     // attack_list.
     for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
     {

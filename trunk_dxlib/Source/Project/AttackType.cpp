@@ -4,10 +4,9 @@ char const* NameOf( AttackType type )
 {
     static const char* name[ AttackType_Num ] =
     {
-        "Œ•",
-        "‚",
-        "–‚–@",
+        "UŒ‚",
+        "•KE",
+        "–hŒä",
     };
     return name[ type ];
 }
-
