@@ -24,6 +24,7 @@
 #include "Project/ProcessRunAway.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
+#include "Project/CharacterFactory.hpp"
 
 
 namespace {
@@ -66,17 +67,17 @@ private:
         State_EnemyBorn,
         State_Num,
     };
-    enum CharaType
+    enum OperateType
     {
-        CharaType_Player,
-        CharaType_Enemy,
-        CharaType_Num,
+        OperateType_Player,
+        OperateType_Enemy,
+        OperateType_Num,
     };
     
 private:
     void UpdateSelectAttackType();
     void UpdateAttackResult();
-    void DrawCharacterStatus( Character chara , int base_x , int base_y );
+    void DrawCharacterStatus( Character const& chara , int base_x , int base_y );
     void DrawAttackStatus( AttackContent const& attack_list , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
@@ -89,7 +90,7 @@ private:
         Vector2 base_pos ,
         AttackContent& attack_content ,
         ImageLoader& image_loader ,
-        CharaType chara_type );
+        OperateType chara_type );
     ButtonPtr new_ButtonRunAway();
     void CheckOnButton();
     
@@ -101,7 +102,7 @@ private:
     State m_state;
     State m_next_state;
     bool m_init;
-    AttackContent m_attack_content_list[ CharaType_Num ];
+    AttackContent m_attack_content_list[ OperateType_Num ];
     std::auto_ptr< LogPrinter > m_log_printer;
     ButtonPtrList m_button_list;
     StateManagerBase& m_project_state_manager;
@@ -113,15 +114,13 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  : m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
  , m_player( SaveData::GetInstance().m_player_status )
- , m_state( State_SelectAttackType )
- , m_next_state( State_SelectAttackType )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_process_button( false )
 {
-    ChangeState( State_SelectAttackType );
+    ChangeState( State_EnemyBorn );
     m_image_loader->Load();
     m_sound_loader->Load();
     m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
@@ -149,7 +148,7 @@ void StateGameMain::Update()
     case State_EnemyBorn:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            m_enemy = Character();
+            m_enemy = CharacterOf( CharaType_GreenSlime );
             ChangeState( State_SelectAttackType );
         }
         break;
@@ -222,9 +221,9 @@ void StateGameMain::Draw()
     }
     
     DrawCharacterStatus( m_player , 330 , 400 );
-    DrawAttackStatus( m_attack_content_list[ CharaType_Player ] , 330 , 420 );
+    DrawAttackStatus( m_attack_content_list[ OperateType_Player ] , 330 , 420 );
     DrawCharacterStatus( m_enemy , 60 , 400 );
-    DrawAttackStatus( m_attack_content_list[ CharaType_Enemy ] , 60 , 420 );
+    DrawAttackStatus( m_attack_content_list[ OperateType_Enemy ] , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -282,14 +281,14 @@ void StateGameMain::UpdateSelectAttackType()
         m_init = false;
         m_button_list.clear();
         //Attack‚ÉŠÖ‚·‚éƒ{ƒ^ƒ“‚Ì’Ç‰Á.
-        for( int i = 0 ; i < CharaType_Num ; i++ )
+        for( int i = 0 ; i < OperateType_Num ; i++ )
         {
             ButtonPtrList::iterator const it = m_button_list.begin();
             ButtonPtrList attack_button_list = AttackButtonPtrListOf(
                 Vector2( 350 - i * 320 , 20 ),
                 m_attack_content_list[ i ] ,
                 *m_image_loader ,
-                static_cast< CharaType >(i) );
+                static_cast< OperateType >(i) );
             m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
         }
         m_button_list.push_back( new_ButtonRunAway() );
@@ -334,8 +333,8 @@ void StateGameMain::NextState()
 
 void StateGameMain::Attack()
 {
-    AttackContent const player  = m_attack_content_list[ CharaType_Player ];
-    AttackContent const enemy   = m_attack_content_list[ CharaType_Enemy ];
+    AttackContent const player  = m_attack_content_list[ OperateType_Player ];
+    AttackContent const enemy   = m_attack_content_list[ OperateType_Enemy ];
     BattleResult const result =
         BattleResultOf(
             player.m_attack_list[ player.m_select_index ] ,
@@ -360,13 +359,13 @@ void StateGameMain::Attack()
         assert( !"invalid case" );
     }
     
-    for( int i = 0 ; i < CharaType_Num ; i++ )
+    for( int i = 0 ; i < OperateType_Num ; i++ )
     {
         m_attack_content_list[i].PopAttack( m_attack_content_list[i].m_select_index );
     }
 }
 
-void StateGameMain::DrawCharacterStatus( Character chara , int base_x , int base_y )
+void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
 {
     int y = base_y;
     int const margin_y = 20;
@@ -416,7 +415,7 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     Vector2 base_pos ,
     AttackContent& attack_content ,
     ImageLoader& image_loader ,
-    CharaType chara_type ) 
+    OperateType chara_type ) 
 {
     ButtonPtrList result;
     
@@ -437,7 +436,7 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
     {
         ProcessBase* process = 0;
-        if( chara_type == CharaType_Player )
+        if( chara_type == OperateType_Player )
         {
             process = new_AttackButtonProcess( i , attack_content );
         }
