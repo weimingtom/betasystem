@@ -23,6 +23,7 @@
 #include "Project/AttackButtonProcess.hpp"
 #include "Project/ProcessRunAway.hpp"
 #include "Project/ProjectStateManager.hpp"
+#include "Project/SaveData.hpp"
 
 
 namespace {
@@ -95,7 +96,7 @@ private:
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
-    Character m_player;
+    Character& m_player;
     Character m_enemy;
     State m_state;
     bool m_init;
@@ -110,6 +111,7 @@ private:
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  : m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
+ , m_player( SaveData::GetInstance().m_player_status )
  , m_state( State_SelectAttackType )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
