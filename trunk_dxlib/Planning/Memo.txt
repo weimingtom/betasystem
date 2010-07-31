@@ -20,3 +20,16 @@
 ・SceneとStateでぶれてんなぁ。
     個人的にはStateかな
 
+・敵再生成.
+    State_WinBattle > State_BornEnemy > StateSelectAttack
+
+・メモリもれてないかちぇっくしろよ。
+    ・もれてるしー…
+        ・指定されたとおりにやっても解放されない。
+    ・デストラクタ通ってない？
+        基底クラスのデストラクタ
+・ゲームーオーバーの流れ
+    State_GameOver > SceneGameOver
+・サウンド再生
+    戦闘がループ再生される良く分からない状態
+・プレイヤーのステータスをセーブ構造体に退避.
