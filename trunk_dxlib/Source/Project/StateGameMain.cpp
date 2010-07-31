@@ -330,7 +330,34 @@ void StateGameMain::NextState()
 void StateGameMain::Attack()
 {
     AttackContent const player  = m_attack_content_list[ OperateType_Player ];
+    switch( player.m_attack_list[ player.m_select_index ] )
+    {
+    case AttackType_Normal:
+        m_enemy.m_hp -= m_player.m_attack;
+        m_log_printer->Print( "attack->" + StringOf( m_player.m_attack ) );
+        break;
+    case AttackType_Guard:
+        break;
+    case AttackType_Special:
+        m_enemy.m_hp -= m_player.m_attack * 2 ;
+        m_log_printer->Print( "attack->" + StringOf( m_player.m_attack * 2 ) );
+        break;
+    }
+    // “|‚µ‚Ä‚È‚¢‚È‚ç“G‚ÌUŒ‚.
     AttackContent const enemy   = m_attack_content_list[ OperateType_Enemy ];
+    switch( enemy.m_attack_list[ enemy.m_select_index ] )
+    {
+    case AttackType_Normal:
+        m_player.m_hp -= m_enemy.m_attack;
+        m_log_printer->Print( "attack->" + StringOf( m_enemy.m_attack ) );
+        break;
+    case AttackType_Guard:
+        break;
+    case AttackType_Special:
+        m_player.m_hp -= m_enemy.m_attack * 2 ;
+        m_log_printer->Print( "attack->" + StringOf( m_enemy.m_attack * 2 ) );
+        break;
+    }
 }
 
 void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
