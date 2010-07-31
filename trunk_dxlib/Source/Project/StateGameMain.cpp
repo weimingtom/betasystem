@@ -236,8 +236,10 @@ void StateGameMain::DrawPlayer()
 
 void StateGameMain::DrawEnemy()
 {
+    SetDrawBlendMode( DX_BLENDMODE_ALPHA , 200 ) ;
     Vector2 pos( 100 , 290 );
     DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) );
+    SetDrawBlendMode( DX_BLENDMODE_ALPHA , 255 ) ;
 }
 
 
@@ -349,13 +351,13 @@ void StateGameMain::Attack()
     {
     case AttackType_Normal:
         m_player.m_hp -= m_enemy.m_attack;
-        m_log_printer->Print( "attack->" + StringOf( m_enemy.m_attack ) );
+        m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack ) );
         break;
     case AttackType_Guard:
         break;
     case AttackType_Special:
         m_player.m_hp -= m_enemy.m_attack * 2 ;
-        m_log_printer->Print( "attack->" + StringOf( m_enemy.m_attack * 2 ) );
+        m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack * 2 ) );
         break;
     }
 }
