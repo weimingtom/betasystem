@@ -7,6 +7,7 @@
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "Project/ProjectStateManager.hpp"
+#include "Project/SaveData.hpp"
 
 class StateWorldMap : public StateBase
 {
@@ -26,6 +27,7 @@ private:
     enum ImageType
     {
         ImageType_WorldMap,
+        ImageType_StandFuriru,
         ImageType_Num,
     };
     static char const* const m_image_list[ ImageType_Num ];
@@ -34,6 +36,7 @@ private:
 char const* const StateWorldMap::m_image_list[ ImageType_Num ] =
 {
     "Resource/WorldMap.png",
+    "Resource/Stand_Furiru.png",
 };
 
 StateWorldMap::StateWorldMap( StateManagerBase& project_state_manager )
@@ -56,7 +59,11 @@ void StateWorldMap::Update()
 void StateWorldMap::Draw()
 {
     DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( m_image_list[ ImageType_WorldMap ] ) );
+    DrawGraph( 300 , 0 , m_image_loader->ImageHandleOf( m_image_list[ ImageType_StandFuriru ] ) );
     DrawFormatString( 0,0, ColorOf(255,255,255) , "ワールドマップ");
+    
+    Character const& player_status = SaveData::GetInstance().m_player_status;
+    DrawFormatString( 0,20, ColorOf(255,255,255) , "hp[%d]/[%d]" , player_status.m_hp , player_status.m_hp_max );
 }
 
 StateBase* new_StateWorldMap( StateManagerBase& project_state_manager )
