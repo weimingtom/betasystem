@@ -7,6 +7,8 @@ enum SoundType
 {
     SoundType_WorldMap,
     SoundType_Decide,
+    SoundType_OnButton,
+    SoundType_ReleaseButton,
     SoundType_Num,
 };
 

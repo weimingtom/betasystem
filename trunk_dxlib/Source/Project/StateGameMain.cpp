@@ -4,6 +4,7 @@
 #include <memory>
 #include <boost/foreach.hpp>
 #include "DxLibWrapper/ImageLoader.hpp"
+#include "DxLibWrapper/SoundLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
 #include "DxLibWrapper/LogPrinter.hpp"
 #include "DxLibWrapper/Color.hpp"
@@ -13,6 +14,7 @@
 #include "Project/Character.hpp"
 #include "Project/AttackContent.hpp"
 #include "Project/ProjectImageLoader.hpp"
+#include "Project/ProjectSoundLoader.hpp"
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
 #include "System/StringOf.hpp"
@@ -88,6 +90,7 @@ private:
         ImageLoader& image_loader ,
         CharaType chara_type );
     ButtonPtr new_ButtonRunAway();
+    void CheckOnButton();
     
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
@@ -100,7 +103,8 @@ private:
     std::auto_ptr< LogPrinter > m_log_printer;
     ButtonPtrList m_button_list;
     StateManagerBase& m_project_state_manager;
-    
+    std::auto_ptr< SoundLoader > m_sound_loader;
+    bool m_on_process_button;
 };
 
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
@@ -110,15 +114,18 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
+ , m_sound_loader( new_SoundLoader( SoundFileList() ) )
+ , m_on_process_button( false )
 {
     ChangeState( State_SelectAttackType );
     m_image_loader->Load();
+    m_sound_loader->Load();
+    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
 }
 
 void StateGameMain::Update()
 {
     m_mouse->Update();
-    
     switch( m_state )
     {
     case State_SelectAttackType:
@@ -147,6 +154,33 @@ void StateGameMain::Update()
         }
         break;
     }
+}
+
+void StateGameMain::CheckOnButton()
+{   
+    bool on_process_button = false;
+    Vector2 const mouse_pos = m_mouse->Position();
+    BOOST_FOREACH( ButtonPtr const& button , m_button_list )
+    {
+        if( button->CheckHit( mouse_pos ) )
+        {
+            if( button->HasProcess() )
+            {
+                on_process_button = true;
+            }
+        }
+    }
+    
+    if( on_process_button != m_on_process_button )
+    {
+        if( on_process_button )
+        {
+            m_sound_loader->Play( NameOf( SoundType_OnButton ) );
+        }else{
+//            m_sound_loader->Play( NameOf( SoundType_ReleaseButton ) );
+        }
+    }
+    m_on_process_button = on_process_button;
 }
 
 void StateGameMain::Draw()
@@ -253,8 +287,10 @@ void StateGameMain::UpdateSelectAttackType()
             m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
         }
         m_button_list.push_back( new_ButtonRunAway() );
+        m_on_process_button = false;
     }
     
+    CheckOnButton();
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
         Vector2 const mouse_pos = m_mouse->Position();
@@ -265,6 +301,7 @@ void StateGameMain::UpdateSelectAttackType()
             {
                 if( button->HasProcess() )
                 {
+                    m_sound_loader->Play( NameOf( SoundType_Decide ) );
                     button->Process();
                     ChangeState( State_AttackResult );
                 }
