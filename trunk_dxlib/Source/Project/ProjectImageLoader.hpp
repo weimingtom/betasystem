@@ -10,6 +10,7 @@ class ImageLoader;
 enum ImageType
 {
     ImageType_Forest,
+    ImageType_RedForest,
     ImageType_Player,
     ImageType_Enemy,
     ImageType_Sword,

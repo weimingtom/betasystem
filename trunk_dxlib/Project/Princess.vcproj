@@ -232,6 +232,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\BackgroundFactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\Character.cpp"
 				>
 			</File>

@@ -24,6 +24,7 @@
 #include "Project/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
 #include "Project/CharacterFactory.hpp"
+#include "Project/BackgroundFactory.hpp"
 
 
 namespace {
@@ -225,7 +226,15 @@ void StateGameMain::Draw()
 
 void StateGameMain::DrawBackground()
 {
-    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_Forest ) ) );
+    switch( GetBackground() )
+    {
+    case BackgroundType_Forest:
+        DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_Forest ) ) );
+        break;
+    case BackgroundType_RedForest:
+        DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_RedForest ) ) );
+        break;
+    }
 }
 
 void StateGameMain::DrawPlayer()

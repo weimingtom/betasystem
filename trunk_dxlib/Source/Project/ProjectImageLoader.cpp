@@ -6,6 +6,7 @@
 char const* const image_name[ ImageType_Num ] =
 {
     "Resource/Image.png",
+    "Resource/BG_RedForest.png",
     "Resource/Player.png",
     "Resource/Enemy.png",
     "Resource/sword.png",

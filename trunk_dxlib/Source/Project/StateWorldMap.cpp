@@ -11,6 +11,7 @@
 #include "DxLibWrapper/Button.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
+#include "Project/BackgroundFactory.hpp"
 
 class StateWorldMap : public StateBase
 {
@@ -22,6 +23,7 @@ public:
     void Draw();
     ButtonPtr new_ButtonCamp();
     ButtonPtr new_ButtonForest();
+    ButtonPtr new_ButtonRedForest();
 private:
     std::auto_ptr< MouseInput > m_mouse;
     StateManagerBase& m_project_state_manager;
@@ -34,6 +36,7 @@ private:
         ImageType_StandFuriru,
         ImageType_Button_Camp,
         ImageType_Button_Forest,
+        ImageType_Button_RedForest,
         ImageType_Num,
     };
     static char const* const m_image_list[ ImageType_Num ];
@@ -45,6 +48,7 @@ char const* const StateWorldMap::m_image_list[ ImageType_Num ] =
     "Resource/Stand_Furiru.png",
     "Resource/button_camp.png",
     "Resource/button_forest.png",
+    "Resource/button_red_forest.png",
 };
 
 StateWorldMap::StateWorldMap( StateManagerBase& project_state_manager )
@@ -55,6 +59,7 @@ StateWorldMap::StateWorldMap( StateManagerBase& project_state_manager )
     m_image_loader->Load();
     m_button_list.push_back( new_ButtonCamp() );
     m_button_list.push_back( new_ButtonForest() );
+    m_button_list.push_back( new_ButtonRedForest() );
 }
 
 void StateWorldMap::Update()
@@ -74,6 +79,12 @@ void StateWorldMap::Update()
                 }
                 else if( button->Name() == "forest" )
                 {
+                    SetBackground( BackgroundType_Forest );
+                    m_project_state_manager.ChangeState( ProjectState_Battle );
+                }
+                else if( button->Name() == "red_forest" )
+                {
+                    SetBackground( BackgroundType_RedForest );
                     m_project_state_manager.ChangeState( ProjectState_Battle );
                 }
             }
@@ -126,6 +137,23 @@ ButtonPtr StateWorldMap::new_ButtonForest()
             size,
             0,
             "forest" )
+    );
+    return result;
+}
+
+ButtonPtr StateWorldMap::new_ButtonRedForest()
+{
+    ButtonPtr result;
+    Vector2 pos( 300 , 200 );
+    Vector2 size( 100 , 100 );
+    
+    result.reset(
+        new_Button(
+            m_image_loader->ImageHandleOf( m_image_list[ ImageType_Button_RedForest ] ),
+            pos,
+            size,
+            0,
+            "red_forest" )
     );
     return result;
 }
