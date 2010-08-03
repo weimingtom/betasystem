@@ -17,7 +17,8 @@ public:
     void UpLevel();
     void SetLevel( int level );
     bool CanUpLevel() const;
-
+    bool IsLive() const;
+    
 public:
     int m_level;
     int m_hp_max;

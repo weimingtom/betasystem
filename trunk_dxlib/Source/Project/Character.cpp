@@ -3,7 +3,7 @@
 namespace{
 
 //ê¨í∑ó¶.
-static float const s_glow_rate = 1.2f;
+static float const s_glow_rate = 1.5f;
 static int const s_exp_max = 100;
 
 }//namespace unnamed
@@ -21,6 +21,8 @@ void Character::UpLevel()
 {
     m_hp_max = static_cast<int>( m_hp_max * s_glow_rate );
     m_attack = static_cast<int>( m_attack * s_glow_rate );
+    m_level++;
+    m_exp -= s_exp_max;
 }
 
 void Character::SetLevel( int level )
@@ -34,5 +36,10 @@ void Character::SetLevel( int level )
 bool Character::CanUpLevel() const
 {
     return ( s_exp_max <= m_exp );
+}
+
+bool Character::IsLive() const
+{
+    return ( m_hp > 0 );
 }
 

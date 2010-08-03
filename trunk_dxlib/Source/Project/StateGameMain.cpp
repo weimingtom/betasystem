@@ -92,6 +92,8 @@ private:
         OperateType chara_type );
     ButtonPtr new_ButtonRunAway();
     void CheckOnButton();
+    void PlayerAttack();
+    void EnemyAttack();
     
 private:
     std::auto_ptr< ImageLoader > m_image_loader;
@@ -341,6 +343,24 @@ void StateGameMain::NextState()
 
 void StateGameMain::Attack()
 {
+    //ÉvÉåÉCÉÑÅ[ÇÃçUåÇ.
+    PlayerAttack();
+    
+    if( !m_enemy.IsLive() )
+    {
+        m_player.m_exp += m_enemy.m_exp;
+        if( m_player.CanUpLevel() )
+        {
+            m_player.UpLevel();
+        }
+        return;
+    }
+    
+    EnemyAttack();
+}
+
+void StateGameMain::PlayerAttack()
+{
     AttackContent const player  = m_attack_content_list[ OperateType_Player ];
     switch( player.m_attack_list[ player.m_select_index ] )
     {
@@ -355,7 +375,10 @@ void StateGameMain::Attack()
         m_log_printer->Print( "attack->" + StringOf( m_player.m_attack * 2 ) );
         break;
     }
-    // ì|ÇµÇƒÇ»Ç¢Ç»ÇÁìGÇÃçUåÇ.
+}
+
+void StateGameMain::EnemyAttack()
+{
     AttackContent const enemy   = m_attack_content_list[ OperateType_Enemy ];
     switch( enemy.m_attack_list[ enemy.m_select_index ] )
     {
@@ -380,6 +403,14 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
         base_x , y += margin_y ,
         ColorOf() ,
         "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
+    DrawFormatString(
+        base_x , y += margin_y ,
+        ColorOf() ,
+        "exp:[%d]" , chara.m_exp );
+    DrawFormatString(
+        base_x , y += margin_y ,
+        ColorOf() ,
+        "level:[%d]" , chara.m_level );
 }
 
 char const* StateGameMain::StateNameOf( State state )
