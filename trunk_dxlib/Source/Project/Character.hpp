@@ -5,16 +5,13 @@
 
 class Character
 {
-public:
-    Character();
-    Character( int hp_max , int attack , int exp )
-     : m_hp_max( hp_max )
-     , m_attack( attack )
-     , m_exp( exp )
-    {
-        m_hp = m_hp_max;
-    }
+private:
+    //! 適切に生成されるよう、引数を強制するためデフォルトコンストラクタを非公開に.
+    Character(){}
     
+public:
+    Character( int hp_max , int attack , int exp );
+
 public:
     int m_hp;
     int m_hp_max;

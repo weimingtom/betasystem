@@ -9,9 +9,9 @@ Character CharacterOf( CharaType type )
     case CharaType_GreenSlime:
         return Character( 5 , 2 , 0 );
     case CharaType_BigGreenSlime:
-        return Character( 0 , 0 , 0 );
+        return Character( 10 , 4 , 0 );
     default:
-        return Character();
+        return Character( 0 , 0 , 0 );
     }
 }
 
