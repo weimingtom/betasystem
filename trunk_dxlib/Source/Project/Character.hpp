@@ -10,14 +10,20 @@ private:
     Character(){}
     
 public:
+    //! レベル１の時のステータス指定する.
     Character( int hp_max , int attack , int exp );
 
 public:
-    int m_hp;
+    void UpLevel();
+    void SetLevel( int level );
+    bool CanUpLevel() const;
+
+public:
+    int m_level;
     int m_hp_max;
+    int m_hp;
     int m_attack;
     int m_exp;
-    static int const m_exp_max = 100;
 };
 
 #endif
