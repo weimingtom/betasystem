@@ -5,6 +5,7 @@ namespace{
 //ê¨í∑ó¶.
 static float const s_glow_rate = 1.5f;
 static int const s_exp_max = 100;
+static int const s_default_action_point = 3;
 
 }//namespace unnamed
 
@@ -14,6 +15,8 @@ Character::Character( int hp_max , int attack , int exp )
  , m_hp( hp_max )
  , m_attack( attack )
  , m_exp( exp )
+ , m_action_point( s_default_action_point )
+ , m_action_point_max( s_default_action_point )
 {
 }
 

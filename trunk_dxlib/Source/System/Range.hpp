@@ -6,5 +6,10 @@
 */
 bool Range( int min , int var , int max );
 
+/**
+    ”ÍˆÍ“à§ŒÀ
+*/
+int Clamp( int min , int var , int max );
+
 #endif
 

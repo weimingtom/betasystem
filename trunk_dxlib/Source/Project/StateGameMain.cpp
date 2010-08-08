@@ -19,7 +19,8 @@
 #include "System/StringOf.hpp"
 #include "System/StateManagerBase.hpp"
 #include "System/ProcessBase.hpp"
-#include "Project/AttackButtonProcess.hpp"
+#include "System/Range.hpp"
+#include "Project/ProcessDecideAction.hpp"
 #include "Project/ProcessRunAway.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
@@ -85,7 +86,7 @@ private:
     void Attack();
     char const* StateNameOf( State state );
     void ChangeState( State state );
-    static ButtonPtrList AttackButtonPtrListOf(
+    ButtonPtrList AttackButtonPtrListOf(
         Vector2 base_pos ,
         AttackContent& attack_content ,
         ImageLoader& image_loader ,
@@ -314,7 +315,7 @@ void StateGameMain::UpdateSelectAttackType()
         {
             if( button->CheckHit( mouse_pos ) )
             {
-                if( button->HasProcess() )
+                if( button->HasProcess() && button->CanProcess() )
                 {
                     m_sound_loader->Play( NameOf( SoundType_Decide ) );
                     button->Process();
@@ -362,7 +363,8 @@ void StateGameMain::Attack()
 void StateGameMain::PlayerAttack()
 {
     AttackContent const player  = m_attack_content_list[ OperateType_Player ];
-    switch( player.m_attack_list[ player.m_select_index ] )
+    AttackType const attack_type = player.m_attack_list[ player.m_select_index ] ;
+    switch( attack_type )
     {
     case AttackType_Normal:
         m_enemy.m_hp -= m_player.m_attack;
@@ -375,6 +377,8 @@ void StateGameMain::PlayerAttack()
         m_log_printer->Print( "attack->" + StringOf( m_player.m_attack * 2 ) );
         break;
     }
+    m_player.m_action_point -= NeedPointOf( attack_type );
+    m_player.m_action_point = Clamp( 0 , m_player.m_action_point , m_player.m_action_point_max );
 }
 
 void StateGameMain::EnemyAttack()
@@ -398,7 +402,7 @@ void StateGameMain::EnemyAttack()
 void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
 {
     int y = base_y;
-    int const margin_y = 20;
+    int const margin_y = 12;
     DrawFormatString(
         base_x , y += margin_y ,
         ColorOf() ,
@@ -411,6 +415,10 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
         base_x , y += margin_y ,
         ColorOf() ,
         "level:[%d]" , chara.m_level );
+    DrawFormatString(
+        base_x , y += margin_y ,
+        ColorOf() ,
+        "action_point:[%d]" , chara.m_action_point );
 }
 
 char const* StateGameMain::StateNameOf( State state )
@@ -450,7 +458,7 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
         ProcessBase* process = 0;
         if( chara_type == OperateType_Player )
         {
-            process = new_AttackButtonProcess( i , attack_content );
+            process = new_ProcessDecideAction( i , attack_content , m_player );
         }
         Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
         result.push_back(

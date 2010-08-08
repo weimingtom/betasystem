@@ -25,6 +25,8 @@ public:
     int m_hp;
     int m_attack;
     int m_exp;
+    int m_action_point; // 行動ポイント.
+    int m_action_point_max;
 };
 
 #endif

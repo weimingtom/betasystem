@@ -11,6 +11,7 @@ public:
     
 public:
     virtual void Run() = 0;
+    virtual bool CanRunning(){ return true; }
 };
 
 #endif //include_guard_uuid_2fbafdb0_3a27_4c00_8380_6d2c086ded76

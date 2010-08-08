@@ -12,5 +12,7 @@ enum AttackType
 
 char const* NameOf( AttackType type );
 
+int NeedPointOf( AttackType attack_type );
+
 #endif
 

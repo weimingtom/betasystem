@@ -3,8 +3,12 @@
 
 class ProcessBase;
 class AttackContent;
+class Character;
 
-ProcessBase* new_AttackButtonProcess( int index , AttackContent& attack_content );
+ProcessBase* new_ProcessDecideAction(
+    int index ,
+    AttackContent& attack_content ,
+    Character const& character );
 
 #endif
 

@@ -9,3 +9,11 @@ bool Range( int min , int var , int max )
     return false;
 }
 
+int Clamp( int min , int var , int max )
+{
+    if( var <= min ){ return min; }
+    if( var >= max ){ return max; }
+    return var;
+}
+
+

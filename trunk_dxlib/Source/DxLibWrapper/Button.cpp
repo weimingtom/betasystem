@@ -20,6 +20,7 @@ public:
 public:
     void Draw() const;
     bool CheckHit( Vector2 pos ) const;
+    bool CanProcess() const;
     bool HasProcess() const;
     void Process();
     std::string Name() const;
@@ -72,7 +73,12 @@ bool Button::Impl::CheckHit( Vector2 pos ) const
 
 bool Button::Impl::HasProcess() const
 {
-    return !( m_process.get() == 0 );
+    return ( m_process.get() != 0 );
+}
+
+bool Button::Impl::CanProcess() const
+{
+    return m_process->CanRunning();
 }
 
 void Button::Impl::Process()
