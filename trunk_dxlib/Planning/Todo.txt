@@ -1,3 +1,4 @@
+・CharacterとAttackContentを合併.
 
 ・レベルアップ.
 
