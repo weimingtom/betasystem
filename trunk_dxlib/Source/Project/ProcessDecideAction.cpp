@@ -1,6 +1,5 @@
 #include "System/ProcessBase.hpp"
 #include "Project/ProcessDecideAction.hpp"
-#include "Project/AttackContent.hpp"
 #include "Project/Character.hpp"
 
 class ProcessDecideAction : public ProcessBase
@@ -8,8 +7,7 @@ class ProcessDecideAction : public ProcessBase
 public:
     ProcessDecideAction(
         int index ,
-        AttackContent& attack_content ,
-        Character const& character );
+        Character& character );
     ~ProcessDecideAction();
 public:
     void Run();
@@ -17,19 +15,15 @@ public:
     
 private:
     int const m_index;
-    AttackContent& m_attack_content;
-    Character const m_character;
+    Character& m_character;
 };
 
 ProcessDecideAction::ProcessDecideAction(
     int index ,
-    AttackContent& attack_content ,
-    Character const& character )
+    Character& character )
  : m_index( index )
- , m_attack_content( attack_content )
  , m_character( character )
 {
-
 }
 
 ProcessDecideAction::~ProcessDecideAction()
@@ -38,19 +32,19 @@ ProcessDecideAction::~ProcessDecideAction()
 
 void ProcessDecideAction::Run()
 {
-    m_attack_content.m_select_index = m_index;
+    m_character.m_select_index = m_index;
 }
 
 bool ProcessDecideAction::CanRunning()
 {
-    AttackType const attack_type = m_attack_content.m_attack_list[ m_index ];
+    AttackType const attack_type = m_character.m_attack_list[ m_index ];
     
     return ( NeedPointOf( attack_type ) <= m_character.m_action_point );
 }
 
-ProcessBase* new_ProcessDecideAction( int index , AttackContent& attack_content , Character const& character )
+ProcessBase* new_ProcessDecideAction( int index , Character& character )
 {
-    return new ProcessDecideAction( index , attack_content , character );
+    return new ProcessDecideAction( index , character );
 }
 
 

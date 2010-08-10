@@ -11,7 +11,6 @@
 #include "DxLibWrapper/Graphics.hpp"
 #include "DxLibWrapper/Button.hpp"
 #include "Project/Character.hpp"
-#include "Project/AttackContent.hpp"
 #include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectSoundLoader.hpp"
 #include "System/Vector2.hpp"
@@ -88,9 +87,8 @@ private:
     void ChangeState( State state );
     ButtonPtrList AttackButtonPtrListOf(
         Vector2 base_pos ,
-        AttackContent& attack_content ,
-        ImageLoader& image_loader ,
-        OperateType chara_type );
+        Character const& character ,
+        OperateType operate_type );
     ButtonPtr new_ButtonRunAway();
     void CheckOnButton();
     void PlayerAttack();
@@ -104,7 +102,6 @@ private:
     State m_state;
     State m_next_state;
     bool m_init;
-    AttackContent m_attack_content_list[ OperateType_Num ];
     std::auto_ptr< LogPrinter > m_log_printer;
     ButtonPtrList m_button_list;
     StateManagerBase& m_project_state_manager;
@@ -291,17 +288,27 @@ void StateGameMain::UpdateSelectAttackType()
     {
         m_init = false;
         m_button_list.clear();
+
+ 
         //Attack‚ÉŠÖ‚·‚éƒ{ƒ^ƒ“‚Ì’Ç‰Á.
-        for( int i = 0 ; i < OperateType_Num ; i++ )
         {
-            ButtonPtrList::iterator const it = m_button_list.begin();
-            ButtonPtrList attack_button_list = AttackButtonPtrListOf(
-                Vector2( 350 - i * 320 , 20 ),
-                m_attack_content_list[ i ] ,
-                *m_image_loader ,
-                static_cast< OperateType >(i) );
-            m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
-        }
+	        ButtonPtrList::iterator const it = m_button_list.begin();
+	        ButtonPtrList attack_button_list = AttackButtonPtrListOf(
+	            Vector2( 350 - OperateType_Player * 320 , 20 ),
+	            m_player ,
+	            OperateType_Player );
+	        m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
+		}
+		{
+	        ButtonPtrList::iterator const it = m_button_list.begin();
+	        ButtonPtrList attack_button_list = AttackButtonPtrListOf(
+	            Vector2( 350 - OperateType_Enemy * 320 , 20 ),
+	            m_player ,
+	            OperateType_Enemy );
+	        m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
+		}
+
+
         m_button_list.push_back( new_ButtonRunAway() );
         m_on_process_button = false;
     }
@@ -362,8 +369,7 @@ void StateGameMain::Attack()
 
 void StateGameMain::PlayerAttack()
 {
-    AttackContent const player  = m_attack_content_list[ OperateType_Player ];
-    AttackType const attack_type = player.m_attack_list[ player.m_select_index ] ;
+    AttackType const attack_type = m_player.m_attack_list[ m_player.m_select_index ] ;
     switch( attack_type )
     {
     case AttackType_Normal:
@@ -383,8 +389,7 @@ void StateGameMain::PlayerAttack()
 
 void StateGameMain::EnemyAttack()
 {
-    AttackContent const enemy   = m_attack_content_list[ OperateType_Enemy ];
-    switch( enemy.m_attack_list[ enemy.m_select_index ] )
+    switch( m_enemy.m_attack_list[ m_enemy.m_select_index ] )
     {
     case AttackType_Normal:
         m_player.m_hp -= m_enemy.m_attack;
@@ -442,9 +447,8 @@ void StateGameMain::ChangeState( State state )
 
 ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     Vector2 base_pos ,
-    AttackContent& attack_content ,
-    ImageLoader& image_loader ,
-    OperateType chara_type ) 
+    Character const& character ,
+    OperateType operate_type ) 
 {
     ButtonPtrList result;
     
@@ -453,17 +457,17 @@ ButtonPtrList StateGameMain::AttackButtonPtrListOf(
     int const margin_y = 80;
     
     // attack_list.
-    for( int i = 0 ; i < AttackContent::AttackListNum ; i++ )
+    for( int i = 0 ; i < Character::AttackListNum ; i++ )
     {
         ProcessBase* process = 0;
-        if( chara_type == OperateType_Player )
+        if( operate_type == OperateType_Player )
         {
-            process = new_ProcessDecideAction( i , attack_content , m_player );
+            process = new_ProcessDecideAction( i , m_player );
         }
         Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
         result.push_back(
             ButtonPtr( new_Button(
-                image_loader.ImageHandleOf( NameOf( ImageTypeOf( attack_content.m_attack_list[i] ) ) ),
+                m_image_loader->ImageHandleOf( NameOf( ImageTypeOf( m_player.m_attack_list[i] ) ) ),
                 pos ,
                 size ,
                 process ) ) );

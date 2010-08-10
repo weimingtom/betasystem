@@ -1,4 +1,5 @@
 #include "Project/Character.hpp"
+#include "DxLibWrapper/Random.hpp"
 
 namespace{
 
@@ -18,6 +19,11 @@ Character::Character( int hp_max , int attack , int exp )
  , m_action_point( s_default_action_point )
  , m_action_point_max( s_default_action_point )
 {
+    for( int i = 0 ; i < AttackType_Num ; i++ )
+    {
+        m_attack_list[i] = static_cast< AttackType >( i );
+    }
+    m_select_index = 0 ;
 }
 
 void Character::UpLevel()
@@ -46,3 +52,7 @@ bool Character::IsLive() const
     return ( m_hp > 0 );
 }
 
+AttackType Character::AttackTypeOf( int index ) const
+{
+    return m_attack_list[ index ];
+}
