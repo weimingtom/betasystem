@@ -1,5 +1,45 @@
 ・CharacterとAttackContentを合併.
+//----------------------------------------------
 
+enum MapType
+{
+    MapType_SlimeForest,
+    MapType_Slime,
+    
+    MapType_Num,
+};
+
+Map* new_Map( MapType map_type );
+
+
+//----------------------------------------------
+
+Map* new_Map( MapType map_type )
+{
+    switch( map_type )
+    {
+    new Map( )
+    }
+}
+
+struct MonsterWeight
+{
+    CharacterType chara_type;
+    int level;
+    int weight;
+}
+
+static int s_monster_weight[] =
+{
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+};
 ・レベルアップ.
 
 ・攻撃値をランダムでブレさせる.
