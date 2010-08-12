@@ -19,6 +19,7 @@ public:
     bool CanUpLevel() const;
     bool IsLive() const;
     AttackType AttackTypeOf( int index ) const;
+    int AttackDamage() const;
 
 public:
     static int const AttackListNum = 3;

@@ -381,15 +381,21 @@ void StateGameMain::PlayerAttack()
     switch( attack_type )
     {
     case AttackType_Normal:
-        m_enemy.m_hp -= m_player.m_attack;
-        m_log_printer->Print( "attack->" + StringOf( m_player.m_attack ) );
-        break;
+		{
+			int const damage = m_player.AttackDamage();
+			m_enemy.m_hp -= damage;
+			m_log_printer->Print( "attack->" + StringOf( damage ) );
+			break;
+		}
     case AttackType_Guard:
         break;
     case AttackType_Special:
-        m_enemy.m_hp -= m_player.m_attack * 2 ;
-        m_log_printer->Print( "attack->" + StringOf( m_player.m_attack * 2 ) );
-        break;
+		{
+			int damage = m_player.AttackDamage() * 2 ;
+			m_enemy.m_hp -= damage;
+			m_log_printer->Print( "attack->" + StringOf( damage ) );
+			break;
+		}
     }
     m_player.m_action_point -= NeedPointOf( attack_type );
     m_player.m_action_point = Clamp( 0 , m_player.m_action_point , m_player.m_action_point_max );
