@@ -5,9 +5,9 @@
 
 enum CharaType
 {
-CharaType_Player,
-CharaType_GreenSlime,
-CharaType_BigGreenSlime,
+    CharaType_Player,
+    CharaType_GreenSlime,
+    CharaType_BigGreenSlime,
 };
 
 Character CharacterOf( CharaType type );

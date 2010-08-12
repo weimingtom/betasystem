@@ -25,6 +25,7 @@
 #include "Project/SaveData.hpp"
 #include "Project/CharacterFactory.hpp"
 #include "Project/BackgroundFactory.hpp"
+#include "Project/Map.hpp"
 
 
 namespace {
@@ -95,6 +96,7 @@ private:
     void EnemyAttack();
     
 private:
+    std::auto_ptr< MapBase > m_map;
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
     Character& m_player;
@@ -110,10 +112,11 @@ private:
 };
 
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
- : m_image_loader( new_ImageLoader() )
+ : m_map( new_Map( GetBackground() ) )
+ , m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
  , m_player( SaveData::GetInstance().m_player_status )
- , m_enemy( CharacterOf( CharaType_GreenSlime ) )
+ , m_enemy( m_map->NextMonster() )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
@@ -148,8 +151,13 @@ void StateGameMain::Update()
     case State_EnemyBorn:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            m_enemy = CharacterOf( CharaType_GreenSlime );
-            ChangeState( State_SelectAttackType );
+            if( m_map->HasNextMonster() )
+            {
+                m_enemy = m_map->NextMonster();
+                ChangeState( State_SelectAttackType );
+            }else{
+                m_project_state_manager.ChangeState( ProjectState_WorldMap );
+            }
         }
         break;
     case State_Win:
