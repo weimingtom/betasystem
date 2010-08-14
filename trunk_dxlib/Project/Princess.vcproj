@@ -272,6 +272,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\StateGameOver.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\StateWorldMap.cpp"
 				>
 			</File>

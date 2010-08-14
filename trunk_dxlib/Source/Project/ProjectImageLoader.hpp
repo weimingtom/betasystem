@@ -19,6 +19,7 @@ enum ImageType
     ImageType_IconRunAway,
     ImageType_RunAway,
     ImageType_Camp,
+    ImageType_GameOver,
     ImageType_Num,
 };
 

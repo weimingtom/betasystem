@@ -5,6 +5,7 @@
 #include "Project/StateGameMain.hpp"
 #include "Project/StateWorldMap.hpp"
 #include "Project/StateCamp.hpp"
+#include "Project/StateGameOver.hpp"
 
 class ProjectStateManager : public StateManagerBase
 {
@@ -33,6 +34,8 @@ StateBase* ProjectStateManager::new_State( int select_index )
         return new_StateGameMain( *this );
     case ProjectState_Camp:
         return new_StateCamp( *this );
+    case ProjectState_GameOver:
+        return new_StateGameOver( *this );
     default:
         assert( false );
         return 0;

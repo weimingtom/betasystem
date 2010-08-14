@@ -145,7 +145,7 @@ void StateGameMain::Update()
     case State_Lose:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            m_project_state_manager.ChangeState( ProjectState_WorldMap );
+            m_project_state_manager.ChangeState( ProjectState_GameOver );
         }
         break;
     case State_EnemyBorn:
@@ -169,7 +169,7 @@ void StateGameMain::Update()
     case State_RunAway:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            m_project_state_manager.ChangeState( ProjectState_WorldMap );
+            m_project_state_manager.ChangeState( ProjectState_Camp );
         }
         break;
     }
