@@ -440,32 +440,65 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
     int const margin_y = 12;
     float const gauge_width = 64;
     int const gauge_height = 12;
-    DrawBox(
-        base_x , y ,
-        static_cast<int>( base_x + gauge_width ), y + gauge_height ,
-        ColorOf( 255 , 0 , 0 ) , TRUE ) ;
-    float const life_percent = static_cast<float>(chara.m_hp) / chara.m_hp_max;
-    DrawBox(
-        base_x , y ,
-        static_cast<int>( base_x + gauge_width * life_percent ) , y + gauge_height ,
-        ColorOf( 0 , 255 , 0 ) , TRUE ) ;
+    int const string_x = base_x + gauge_width + 20;
     
+    {
+        DrawFormatString(
+            string_x , y ,
+            ColorOf() ,
+            "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
+        
+        DrawBox(
+            base_x , y ,
+            static_cast<int>( base_x + gauge_width ), y + gauge_height ,
+            ColorOf( 255 , 0 , 0 ) , TRUE ) ;
+        float const life_percent = static_cast<float>(chara.m_hp) / chara.m_hp_max;
+        DrawBox(
+            base_x , y ,
+            static_cast<int>( base_x + gauge_width * life_percent ) , y + gauge_height ,
+            ColorOf( 0 , 255 , 0 ) , TRUE ) ;
+        y += margin_y;
+    }
+    
+    {
+        DrawFormatString(
+            string_x , y ,
+            ColorOf() ,
+            "exp:[%d]" , chara.m_exp );
+        DrawBox(
+            base_x , y ,
+            static_cast<int>( base_x + gauge_width ), y + gauge_height ,
+            ColorOf( 100 , 100 , 100 ) , TRUE ) ;
+        float const percent = static_cast<float>( chara.m_exp ) / chara.m_exp_max;
+        DrawBox(
+            base_x , y ,
+            static_cast<int>( base_x + gauge_width * percent ) , y + gauge_height ,
+            ColorOf( 0 , 255 , 0 ) , TRUE ) ;
+        y += margin_y;
+    }
+
     DrawFormatString(
-        static_cast<int>( base_x + gauge_width ) , y ,
-        ColorOf() ,
-        "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
-    DrawFormatString(
-        base_x , y += margin_y ,
-        ColorOf() ,
-        "exp:[%d]" , chara.m_exp );
-    DrawFormatString(
-        base_x , y += margin_y ,
+        string_x , y ,
         ColorOf() ,
         "level:[%d]" , chara.m_level );
-    DrawFormatString(
-        base_x , y += margin_y ,
-        ColorOf() ,
-        "action_point:[%d]" , chara.m_action_point );
+    y += margin_y;
+    
+    {
+        DrawFormatString(
+            string_x , y ,
+            ColorOf() ,
+            "action_point:[%d]" , chara.m_action_point );
+        DrawBox(
+            base_x , y ,
+            static_cast<int>( base_x + gauge_width ), y + gauge_height ,
+            ColorOf( 100 , 100 , 100 ) , TRUE ) ;
+        float const percent = static_cast<float>( chara.m_action_point ) / chara.m_action_point_max;
+        DrawBox(
+            base_x , y ,
+            static_cast<int>( base_x + gauge_width * percent ) , y + gauge_height ,
+            ColorOf( 0 , 255 , 0 ) , TRUE ) ;
+        y += margin_y;
+    }
 }
 
 char const* StateGameMain::StateNameOf( State state )

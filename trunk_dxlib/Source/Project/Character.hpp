@@ -29,6 +29,7 @@ public:
     int m_hp;
     int m_attack;
     int m_exp;
+    int m_exp_max;
     int m_action_point; // 行動ポイント.
     int m_action_point_max;
     AttackType m_attack_list[ AttackListNum ];

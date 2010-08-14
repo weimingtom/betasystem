@@ -5,7 +5,7 @@ namespace{
 
 //ê¨í∑ó¶.
 static float const s_glow_rate = 1.5f;
-static int const s_exp_max = 100;
+static int const s_default_exp_max = 100;
 static int const s_default_action_point = 3;
 
 }//namespace unnamed
@@ -16,6 +16,7 @@ Character::Character( int hp_max , int attack , int exp )
  , m_hp( hp_max )
  , m_attack( attack )
  , m_exp( exp )
+ , m_exp_max( s_default_exp_max )
  , m_action_point( s_default_action_point )
  , m_action_point_max( s_default_action_point )
 {
@@ -31,7 +32,7 @@ void Character::UpLevel()
     m_hp_max = static_cast<int>( m_hp_max * s_glow_rate );
     m_attack = static_cast<int>( m_attack * s_glow_rate );
     m_level++;
-    m_exp -= s_exp_max;
+    m_exp -= m_exp_max;
 }
 
 void Character::SetLevel( int level )
@@ -44,7 +45,7 @@ void Character::SetLevel( int level )
 
 bool Character::CanUpLevel() const
 {
-    return ( s_exp_max <= m_exp );
+    return ( m_exp_max <= m_exp );
 }
 
 bool Character::IsLive() const
