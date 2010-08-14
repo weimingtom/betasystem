@@ -440,7 +440,7 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
     int const margin_y = 12;
     float const gauge_width = 64;
     int const gauge_height = 12;
-    int const string_x = base_x + gauge_width + 20;
+    int const string_x = base_x + static_cast<int>(gauge_width) + 20;
     
     {
         DrawFormatString(
