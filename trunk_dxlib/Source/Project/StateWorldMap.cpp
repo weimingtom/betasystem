@@ -74,8 +74,7 @@ void StateWorldMap::Update()
             {
                 if( button->Name() == "camp" )
                 {
-                    Character& player_status = SaveData::GetInstance().m_player_status;
-                    player_status.m_hp = player_status.m_hp_max;
+                    m_project_state_manager.ChangeState( ProjectState_Camp );
                 }
                 else if( button->Name() == "forest" )
                 {

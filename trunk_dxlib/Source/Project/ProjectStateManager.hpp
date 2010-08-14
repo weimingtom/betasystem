@@ -7,7 +7,7 @@ enum ProjectState
 {
     ProjectState_WorldMap,
     ProjectState_Battle,
-    ProjectState_GameOver,
+    ProjectState_Camp,
 };
 
 StateManagerBase* new_ProjectStateManager();

@@ -18,6 +18,7 @@ enum ImageType
     ImageType_Shield,
     ImageType_IconRunAway,
     ImageType_RunAway,
+    ImageType_Camp,
     ImageType_Num,
 };
 

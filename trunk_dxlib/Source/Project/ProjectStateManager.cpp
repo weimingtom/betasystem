@@ -1,8 +1,10 @@
 #include "Project/ProjectStateManager.hpp"
+
+#include <assert.h>
 #include "System/StateManagerBase.hpp"
 #include "Project/StateGameMain.hpp"
 #include "Project/StateWorldMap.hpp"
-#include <assert.h>
+#include "Project/StateCamp.hpp"
 
 class ProjectStateManager : public StateManagerBase
 {
@@ -29,6 +31,8 @@ StateBase* ProjectStateManager::new_State( int select_index )
         return new_StateWorldMap( *this );
     case ProjectState_Battle:
         return new_StateGameMain( *this );
+    case ProjectState_Camp:
+        return new_StateCamp( *this );
     default:
         assert( false );
         return 0;
