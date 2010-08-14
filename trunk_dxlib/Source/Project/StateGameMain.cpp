@@ -442,6 +442,12 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
     int const gauge_height = 12;
     int const string_x = base_x + static_cast<int>(gauge_width) + 20;
     
+    DrawFormatString(
+        string_x , y ,
+        ColorOf() ,
+        "level:[%d]" , chara.m_level );
+    y += margin_y;
+
     {
         DrawFormatString(
             string_x , y ,
@@ -476,12 +482,6 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
             ColorOf( 0 , 255 , 0 ) , TRUE ) ;
         y += margin_y;
     }
-
-    DrawFormatString(
-        string_x , y ,
-        ColorOf() ,
-        "level:[%d]" , chara.m_level );
-    y += margin_y;
     
     {
         DrawFormatString(
