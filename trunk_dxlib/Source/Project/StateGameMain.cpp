@@ -238,8 +238,8 @@ void StateGameMain::Draw()
         break;
     }
     
-    DrawCharacterStatus( m_player , 330 , 400 );
-    DrawCharacterStatus( m_enemy , 60 , 400 );
+    DrawCharacterStatus( m_player , 330 , 420 );
+    DrawCharacterStatus( m_enemy , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -413,6 +413,7 @@ void StateGameMain::PlayerAttack()
     }
     m_player.m_action_point -= NeedPointOf( attack_type );
     m_player.m_action_point = Clamp( 0 , m_player.m_action_point , m_player.m_action_point_max );
+    m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
 }
 
 void StateGameMain::EnemyAttack()
@@ -430,14 +431,27 @@ void StateGameMain::EnemyAttack()
         m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack * 2 ) );
         break;
     }
+    m_player.m_hp = Clamp( 0 , m_player.m_hp , m_player.m_hp_max );
 }
 
 void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
 {
     int y = base_y;
     int const margin_y = 12;
+    float const gauge_width = 64;
+    int const gauge_height = 12;
+    DrawBox(
+        base_x , y ,
+        static_cast<int>( base_x + gauge_width ), y + gauge_height ,
+        ColorOf( 255 , 0 , 0 ) , TRUE ) ;
+    float const life_percent = static_cast<float>(chara.m_hp) / chara.m_hp_max;
+    DrawBox(
+        base_x , y ,
+        static_cast<int>( base_x + gauge_width * life_percent ) , y + gauge_height ,
+        ColorOf( 0 , 255 , 0 ) , TRUE ) ;
+    
     DrawFormatString(
-        base_x , y += margin_y ,
+        static_cast<int>( base_x + gauge_width ) , y ,
         ColorOf() ,
         "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
     DrawFormatString(
