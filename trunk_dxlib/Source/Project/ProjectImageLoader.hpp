@@ -16,6 +16,7 @@ enum ImageType
     ImageType_Sword,
     ImageType_Magic,
     ImageType_Shield,
+    ImageType_IconRunAway,
     ImageType_RunAway,
     ImageType_Num,
 };

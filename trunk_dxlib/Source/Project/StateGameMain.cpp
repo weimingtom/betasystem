@@ -20,7 +20,6 @@
 #include "System/ProcessBase.hpp"
 #include "System/Range.hpp"
 #include "Project/ProcessDecideAction.hpp"
-#include "Project/ProcessRunAway.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
 #include "Project/CharacterFactory.hpp"
@@ -66,6 +65,7 @@ private:
         State_Win,
         State_Lose,
         State_EnemyBorn,
+        State_RunAway,
         State_Num,
     };
     enum OperateType
@@ -166,6 +166,12 @@ void StateGameMain::Update()
             ChangeState( State_EnemyBorn );
         }
         break;
+    case State_RunAway:
+        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        {
+            m_project_state_manager.ChangeState( ProjectState_WorldMap );
+        }
+        break;
     }
 }
 
@@ -226,6 +232,10 @@ void StateGameMain::Draw()
     case State_EnemyBorn:
         DrawPlayer();
         DrawEnemy();
+        break;
+    case State_RunAway:
+        DrawGraph( 50 , 50 , m_image_loader->ImageHandleOf( NameOf( ImageType_RunAway ) ) );
+        break;
     }
     
     DrawCharacterStatus( m_player , 330 , 400 );
@@ -281,10 +291,11 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
     Vector2 size( 100 , 100 );
     ButtonPtr result(
         new_Button(
-            m_image_loader->ImageHandleOf( NameOf( ImageType_RunAway ) ) ,
+            m_image_loader->ImageHandleOf( NameOf( ImageType_IconRunAway ) ) ,
             pos ,
             size ,
-            new_ProcessRunAway( m_project_state_manager )
+            0,
+            "RunAway"
         )
     );
     return result;
@@ -315,8 +326,7 @@ void StateGameMain::UpdateSelectAttackType()
 	            OperateType_Enemy );
 	        m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
 		}
-
-
+        
         m_button_list.push_back( new_ButtonRunAway() );
         m_on_process_button = false;
     }
@@ -335,6 +345,10 @@ void StateGameMain::UpdateSelectAttackType()
                     m_sound_loader->Play( NameOf( SoundType_Decide ) );
                     button->Process();
                     ChangeState( State_AttackResult );
+                }
+                else if( button->Name() == "RunAway" )
+                {
+                    ChangeState( State_RunAway );
                 }
             }
         }
