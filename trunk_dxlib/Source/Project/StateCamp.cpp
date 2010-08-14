@@ -9,6 +9,7 @@
 #include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/Character.hpp"
+#include "Project/CharacterFactory.hpp"
 #include "Project/SaveData.hpp"
 
 class StateCamp : public StateBase

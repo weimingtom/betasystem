@@ -126,7 +126,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
     ChangeState( State_EnemyBorn );
     m_image_loader->Load();
     m_sound_loader->Load();
-    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
+//    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
 }
 
 void StateGameMain::Update()
