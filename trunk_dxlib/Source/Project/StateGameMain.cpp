@@ -264,10 +264,8 @@ void StateGameMain::DrawPlayer()
 
 void StateGameMain::DrawEnemy()
 {
-    SetDrawBlendMode( DX_BLENDMODE_ALPHA , 200 ) ;
     Vector2 pos( 100 , 290 );
     DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) );
-    SetDrawBlendMode( DX_BLENDMODE_ALPHA , 255 ) ;
 }
 
 

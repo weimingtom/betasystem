@@ -50,8 +50,63 @@ Character MapGreenForest::NextMonster()
     return result;
 }
 
+
+class MapRedForest : public MapBase
+{
+public:
+    MapRedForest();
+public:
+    bool HasNextMonster();
+    Character NextMonster();
+private:
+    CharacterList::size_type m_monster_index;
+    CharacterList m_monster_list;
+};
+
+MapRedForest::MapRedForest()
+ : m_monster_index(0)
+{
+    CharaType monster_list[] =
+    {
+        CharaType_GreenSlime,
+        CharaType_GreenSlime,
+        CharaType_BigGreenSlime,
+        CharaType_BigGreenSlime,
+        CharaType_BigGreenSlime,
+        CharaType_BigGreenSlime,
+        CharaType_BigGreenSlime,
+        CharaType_BigGreenSlime,
+    };
+    for( int i = 0 ; i < ARRAY_SIZE( monster_list ) ; i++ )
+    {
+        m_monster_list.push_back( CharacterOf( monster_list[i] ) );
+    }
+}
+
+bool MapRedForest::HasNextMonster()
+{
+    return( m_monster_index < m_monster_list.size() );
+}
+
+Character MapRedForest::NextMonster()
+{
+    if( !HasNextMonster() ){ assert( false); exit(ApplicationFailure); }
+    Character const result = m_monster_list[ m_monster_index ];
+    m_monster_index++;
+    return result;
+}
+
+
 MapBase* new_Map( BackgroundType back_ground_type )
 {
-    return new MapGreenForest();
+    switch( back_ground_type )
+    {
+    case BackgroundType_Forest:
+        return new MapGreenForest();
+    case BackgroundType_RedForest:
+        return new MapRedForest();
+    }
+    assert( false );
+    exit( ApplicationFailure );
 }
 
