@@ -109,6 +109,47 @@ static int s_monster_weight[] =
 
 ・ADVパート
 
+・次のプレイにサービスアイテムがつくとか。
+
+・殴ってる感を出したいなぁ
+    ピュイ、ﾊﾞｼｭｯ、ｼｭｲﾝ!(倒したときの音)
+    レベルアップ音.
+    
+    攻撃フェイズをUpdateで更新するタイプにする.
+    
+    int m_frame = 0;
+    m_frame ++;
+    if( m_frame == 120 )
+    {
+        PlayerAttack();
+        if(敵が死)
+        {
+            ChangeState()
+        }
+    }
+    else if( m_frame > 180 )
+    {
+        EnemyAttack();
+    }
+    ChangeState();
+    
+    ダメージ表示、音、
+
+・敵キャラが画像変わるようにしないと
+    CharacterStatus
+    CharaType
+    ImageHandleOf( CharaType )
+    
+    どこに持つか？
+    
+    CharacterStatusが持つのか、
+    イメージハンドル
+    
+    class CharacterFactory
+    ってのを用意しておいて、
+    ImageLoaderをコイツが持つようにするか…
+    
+
 //----------------------------------------------
 //大分どうでもいい
 
