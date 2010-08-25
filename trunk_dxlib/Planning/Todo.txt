@@ -111,7 +111,7 @@ static int s_monster_weight[] =
 
 ・次のプレイにサービスアイテムがつくとか。
 
-・殴ってる感を出したいなぁ
+☆殴ってる感を出したいなぁ
     ピュイ、ﾊﾞｼｭｯ、ｼｭｲﾝ!(倒したときの音)
     レベルアップ音.
     
@@ -135,20 +135,53 @@ static int s_monster_weight[] =
     
     ダメージ表示、音、
 
-・敵キャラが画像変わるようにしないと
-    CharacterStatus
-    CharaType
-    ImageHandleOf( CharaType )
-    
-    どこに持つか？
-    
-    CharacterStatusが持つのか、
-    イメージハンドル
+☆敵キャラが画像変わるようにしないと
+    イメージハンドルをどこに持つか？
+        CharacterStatusが持つのか？
     
     class CharacterFactory
     ってのを用意しておいて、
     ImageLoaderをコイツが持つようにするか…
     
+class MapFactory
+コイツがまたImageLoaderを持つ形にしてみるとか.
+戦闘画面の奴は戦闘画面の奴で必要だけどねー
+
+BackgroundType
+    GreenForest
+    RedForest
+
+画像を一括に管理したいんだけど、
+結局enumで取得とかしないと駄目なんだよねｗ
+
+class Map
+
+
+何を目指すゲームなのか…
+    クリア？　いやークリアも何もなぁ。
+    掘り出したら、世界にとって良くないものがあるとか何とか。
+
+ボカスカサバイバルRPG.
+
+わらわらと出てくる。
+
+
+・アドベンチャーパートを作る
+
+class MessagePrinter
+
+StringList message_list;
+
+"あいうえお\n"
+"かきくけこ\n"
+
+"さしすせそ\n"
+
+・あと画像表示なぁ。
+
+Print 
+Load "Resource/Image/Furiru.png"
+Draw "Resource/Image/Furiru.png"
 
 //----------------------------------------------
 //大分どうでもいい
@@ -169,3 +202,26 @@ static int s_monster_weight[] =
     ・何かの切り替えぐらいはさせたい。
         マウススクロールで攻撃タイプ切り替え程度なら
     ・つばぜり合いシステムとか…
+
+//----------------------------------------------
+
+とりあえず、直接殴るシステムにする必要がある。
+
+溜まって殴るとかは置いといて、殴ったらダメージ表示される。
+一定時間経ったら敵も攻撃してくる。
+
+倒したらアイテムが散乱する仕組み
+
+
+class CharacterObject
+
+CharacterParameter
+Vector2 pos;
+Vector2 size;
+
+
+if( CheckHit )
+
+//----------------------------------------------
+
+
