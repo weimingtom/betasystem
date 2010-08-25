@@ -299,6 +299,20 @@ void StateGameMain::UpdateBattle()
     }
     UpdatePlayer();
     UpdateEnemy();
+    CheckEnd();
+}
+
+void StateGameMain::CheckEnd()
+{
+    if( IsGameOver() )
+    {
+        ChangeState( State_Lose );
+    }
+    else if( IsEnemyAllDie() )
+    {
+        
+    }
+    
 }
 
 void StateGameMain::UpdatePlayer()
