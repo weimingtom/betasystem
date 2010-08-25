@@ -60,11 +60,10 @@ public:
 private:
     enum State
     {
-        State_SelectAttackType,
-        State_AttackResult,
+        State_Begin,
+        State_Battle,
         State_Win,
         State_Lose,
-        State_EnemyBorn,
         State_RunAway,
         State_Num,
     };
@@ -76,13 +75,10 @@ private:
     };
     
 private:
-    void UpdateSelectAttackType();
-    void UpdateAttackResult();
     void DrawCharacterStatus( Character const& chara , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
-    void NextState();
     void Attack();
     char const* StateNameOf( State state );
     void ChangeState( State state );
@@ -123,7 +119,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_process_button( false )
 {
-    ChangeState( State_EnemyBorn );
+    ChangeState( State_Begin );
     m_image_loader->Load();
     m_sound_loader->Load();
 //    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
@@ -136,11 +132,17 @@ void StateGameMain::Update()
     m_mouse->Update();
     switch( m_state )
     {
-    case State_SelectAttackType:
-        UpdateSelectAttackType();
+    case State_Begin:
+        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        {
+            ChangeState( State_Battle );
+        }
         break;
-    case State_AttackResult:
-        UpdateAttackResult();
+    case State_Battle:
+        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        {
+            ChangeState( State_Lose );
+        }
         break;
     case State_Lose:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
@@ -148,22 +150,10 @@ void StateGameMain::Update()
             m_project_state_manager.ChangeState( ProjectState_GameOver );
         }
         break;
-    case State_EnemyBorn:
-        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
-        {
-            if( m_map->HasNextMonster() )
-            {
-                m_enemy = m_map->NextMonster();
-                ChangeState( State_SelectAttackType );
-            }else{
-                m_project_state_manager.ChangeState( ProjectState_WorldMap );
-            }
-        }
-        break;
     case State_Win:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            ChangeState( State_EnemyBorn );
+            m_project_state_manager.ChangeState( ProjectState_WorldMap );
         }
         break;
     case State_RunAway:
@@ -172,6 +162,9 @@ void StateGameMain::Update()
             m_project_state_manager.ChangeState( ProjectState_Camp );
         }
         break;
+    default:
+        assert( !"m_state is invalid." );
+        exit( ApplicationFailure );
     }
 }
 
@@ -209,15 +202,11 @@ void StateGameMain::Draw()
     
     switch( m_state )
     {
-    case State_SelectAttackType:
+    case State_Begin:
         DrawPlayer();
         DrawEnemy();
-        BOOST_FOREACH( ButtonPtr const& button , m_button_list )
-        {
-            button->Draw();
-        }
         break;
-    case State_AttackResult:
+    case State_Battle:
         DrawPlayer();
         DrawEnemy();
         break;
@@ -229,13 +218,12 @@ void StateGameMain::Draw()
         DrawFormatString( 100 , 100 , ColorOf() , "Win" );
         DrawPlayer();
         break;
-    case State_EnemyBorn:
-        DrawPlayer();
-        DrawEnemy();
-        break;
     case State_RunAway:
         DrawGraph( 50 , 50 , m_image_loader->ImageHandleOf( NameOf( ImageType_RunAway ) ) );
         break;
+    default:
+        assert( !"m_state is invalid." );
+        exit( ApplicationFailure );
     }
     
     DrawCharacterStatus( m_player , 330 , 420 );
@@ -268,21 +256,6 @@ void StateGameMain::DrawEnemy()
     DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) );
 }
 
-
-void StateGameMain::UpdateAttackResult()
-{
-    if( m_init )
-    {
-        m_init = false;
-        Attack();
-    }
-
-    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
-    {
-        NextState();
-    }
-}
-
 ButtonPtr StateGameMain::new_ButtonRunAway()
 {
     Vector2 pos( 500 , 300 );
@@ -297,76 +270,6 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
         )
     );
     return result;
-}
-
-void StateGameMain::UpdateSelectAttackType()
-{
-    if( m_init )
-    {
-        m_init = false;
-        m_button_list.clear();
-
- 
-        //Attack‚ÉŠÖ‚·‚éƒ{ƒ^ƒ“‚Ì’Ç‰Á.
-        {
-	        ButtonPtrList::iterator const it = m_button_list.begin();
-	        ButtonPtrList attack_button_list = AttackButtonPtrListOf(
-	            Vector2( 350 - OperateType_Player * 320 , 20 ),
-	            m_player ,
-	            OperateType_Player );
-	        m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
-		}
-		{
-	        ButtonPtrList::iterator const it = m_button_list.begin();
-	        ButtonPtrList attack_button_list = AttackButtonPtrListOf(
-	            Vector2( 350 - OperateType_Enemy * 320 , 20 ),
-	            m_player ,
-	            OperateType_Enemy );
-	        m_button_list.insert( it , attack_button_list.begin() , attack_button_list.end() );
-		}
-        
-        m_button_list.push_back( new_ButtonRunAway() );
-        m_on_process_button = false;
-    }
-    
-    CheckOnButton();
-    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
-    {
-        Vector2 const mouse_pos = m_mouse->Position();
-        
-        BOOST_FOREACH( ButtonPtr const& button , m_button_list )
-        {
-            if( button->CheckHit( mouse_pos ) )
-            {
-                if( button->HasProcess() && button->CanProcess() )
-                {
-                    m_sound_loader->Play( NameOf( SoundType_Decide ) );
-                    button->Process();
-                    ChangeState( State_AttackResult );
-                }
-                else if( button->Name() == "RunAway" )
-                {
-                    ChangeState( State_RunAway );
-                }
-            }
-        }
-    }
-}
-
-void StateGameMain::NextState()
-{
-    if( m_player.m_hp <= 0 )
-    {
-        ChangeState( State_Lose );
-    }
-    else if( m_enemy.m_hp <= 0 )
-    {
-        ChangeState( State_Win );
-    }
-    else
-    {
-        ChangeState( State_SelectAttackType );
-    }
 }
 
 void StateGameMain::Attack()
