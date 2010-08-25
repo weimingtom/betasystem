@@ -75,11 +75,13 @@ private:
     };
     
 private:
+    void UpdateBattle();
+    void UpdatePlayer();
+    void UpdateEnemy();
     void DrawCharacterStatus( Character const& chara , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
-    void Attack();
     char const* StateNameOf( State state );
     void ChangeState( State state );
     ButtonPtrList AttackButtonPtrListOf(
@@ -105,6 +107,7 @@ private:
     StateManagerBase& m_project_state_manager;
     std::auto_ptr< SoundLoader > m_sound_loader;
     bool m_on_process_button;
+    int m_frame_enemy;
 };
 
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
@@ -118,6 +121,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_project_state_manager( project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_process_button( false )
+ , m_frame_enemy(0)
 {
     ChangeState( State_Begin );
     m_image_loader->Load();
@@ -139,10 +143,7 @@ void StateGameMain::Update()
         }
         break;
     case State_Battle:
-        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
-        {
-            ChangeState( State_Lose );
-        }
+        UpdateBattle();
         break;
     case State_Lose:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
@@ -272,67 +273,49 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
     return result;
 }
 
-void StateGameMain::Attack()
-{
-    //ƒvƒŒƒCƒ„[‚ÌUŒ‚.
-    PlayerAttack();
-    
-    if( !m_enemy.IsLive() )
-    {
-        m_player.m_exp += m_enemy.m_exp;
-        if( m_player.CanUpLevel() )
-        {
-            m_player.UpLevel();
-        }
-        return;
-    }
-    
-    EnemyAttack();
-}
-
 void StateGameMain::PlayerAttack()
 {
-    AttackType const attack_type = m_player.m_attack_list[ m_player.m_select_index ] ;
-    switch( attack_type )
-    {
-    case AttackType_Normal:
-		{
-			int const damage = m_player.AttackDamage();
-			m_enemy.m_hp -= damage;
-			m_log_printer->Print( "attack->" + StringOf( damage ) );
-			break;
-		}
-    case AttackType_Guard:
-        break;
-    case AttackType_Special:
-		{
-			int damage = m_player.AttackDamage() * 2 ;
-			m_enemy.m_hp -= damage;
-			m_log_printer->Print( "attack->" + StringOf( damage ) );
-			break;
-		}
-    }
-    m_player.m_action_point -= NeedPointOf( attack_type );
-    m_player.m_action_point = Clamp( 0 , m_player.m_action_point , m_player.m_action_point_max );
+    int const damage = m_player.AttackDamage(); 
+    m_enemy.m_hp -= damage;
+    m_log_printer->Print( "attack->" + StringOf( damage ) );
+    
     m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
 }
 
 void StateGameMain::EnemyAttack()
 {
-    switch( m_enemy.m_attack_list[ m_enemy.m_select_index ] )
-    {
-    case AttackType_Normal:
-        m_player.m_hp -= m_enemy.m_attack;
-        m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack ) );
-        break;
-    case AttackType_Guard:
-        break;
-    case AttackType_Special:
-        m_player.m_hp -= m_enemy.m_attack * 2 ;
-        m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack * 2 ) );
-        break;
-    }
+    m_player.m_hp -= m_enemy.m_attack;
+    m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack ) );
+    
     m_player.m_hp = Clamp( 0 , m_player.m_hp , m_player.m_hp_max );
+}
+
+void StateGameMain::UpdateBattle()
+{
+    if( m_init )
+    {
+        m_init = false;
+        m_frame_enemy = 0;
+    }
+    UpdatePlayer();
+    UpdateEnemy();
+}
+
+void StateGameMain::UpdatePlayer()
+{
+    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+    {
+        PlayerAttack();
+    }
+}
+
+void StateGameMain::UpdateEnemy()
+{
+    m_frame_enemy++;
+    if( m_frame_enemy % 300 == 0 )
+    {
+        EnemyAttack();
+    }
 }
 
 void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
