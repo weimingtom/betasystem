@@ -92,6 +92,8 @@ private:
     void CheckOnButton();
     void PlayerAttack();
     void EnemyAttack();
+    bool IsGameOver();
+    bool IsEndBattle();
     
 private:
     std::auto_ptr< MapBase > m_map;
@@ -308,11 +310,20 @@ void StateGameMain::CheckEnd()
     {
         ChangeState( State_Lose );
     }
-    else if( IsEnemyAllDie() )
+    else if( IsEndBattle() )
     {
-        
+        ChangeState( State_Win );
     }
-    
+}
+
+bool StateGameMain::IsGameOver()
+{
+    return ( m_player.m_hp <= 0 );
+}
+
+bool StateGameMain::IsEndBattle()
+{
+    return ( m_enemy.m_hp <= 0 );
 }
 
 void StateGameMain::UpdatePlayer()
