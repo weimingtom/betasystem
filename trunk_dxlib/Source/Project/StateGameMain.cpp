@@ -94,6 +94,8 @@ private:
     void EnemyAttack();
     bool IsGameOver();
     bool IsEndBattle();
+    void BornMonster();
+    void CheckEnd();
     
 private:
     std::auto_ptr< MapBase > m_map;
@@ -301,6 +303,7 @@ void StateGameMain::UpdateBattle()
     }
     UpdatePlayer();
     UpdateEnemy();
+    BornMonster();
     CheckEnd();
 }
 
@@ -316,14 +319,25 @@ void StateGameMain::CheckEnd()
     }
 }
 
+void StateGameMain::BornMonster()
+{
+    if( m_enemy.IsDead() )
+    {
+        if( m_map->HasNextMonster() )
+        {
+            m_enemy = m_map->NextMonster();
+        }
+    }
+}
+
 bool StateGameMain::IsGameOver()
 {
-    return ( m_player.m_hp <= 0 );
+    return ( m_player.IsDead() );
 }
 
 bool StateGameMain::IsEndBattle()
 {
-    return ( m_enemy.m_hp <= 0 );
+    return ( m_enemy.IsDead() && !m_map->HasNextMonster() );
 }
 
 void StateGameMain::UpdatePlayer()

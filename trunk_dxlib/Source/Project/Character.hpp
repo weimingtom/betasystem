@@ -20,6 +20,7 @@ public:
     bool IsLive() const;
     AttackType AttackTypeOf( int index ) const;
     int AttackDamage() const;
+    bool IsDead() const { return ( m_hp <= 0 ); }
 
 public:
     static int const AttackListNum = 3;
