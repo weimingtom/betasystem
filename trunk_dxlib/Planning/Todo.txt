@@ -1,11 +1,12 @@
+・キャンプしてるとランダムで何かが起こる？
+    ・何ができるか
+        ・回復(手動はだるいautoにしたい
+        ・装備？
+        ・セーブ？
+            …今のところ回復以外何も要らないなー
 
-・キャンプ画面
-    ・キャンプしてるとランダムで何かが起こる？
-        ・何ができるか
-            ・回復(手動はだるいautoにしたい
-            ・装備？
-            ・セーブ？
-                …今のところ回復以外何も要らないなー
+・マップに
+    敵出現割合テーブル
 
 ・敵にもレベルの概念を入れる(キャラバリエを水増しする
 
@@ -21,24 +22,69 @@
         CharaType_Hoge
     ・ボスに遭遇するまでのモンスター数.
         5とか
-    struct MonsterWeight
-    {
-        CharacterType chara_type;
-        int level;
-        int weight;
-    }
+
+struct MonsterWeight
+{
+    CharacterType chara_type;
+    int level;
+    int weight;
+}
+
+static int s_monster_weight[] =
+{
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+    CharaType_Slime , 1 , 10 ,
+};
+
+・ゲートに対応する敵表の作成.
+    ゲートＡ
+        敵Ａ 20%
+        敵Ｂ 20%
+        敵Ｃ 60%
     
-    static int s_monster_weight[] =
-    {
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-        CharaType_Slime , 1 , 10 ,
-    };
+    ・出てくるモンスターの基本レベル
+        Lv 5
+    ・ボス.
+        CharaType_Hoge
+    ・ボスに遭遇するまでのモンスター数.
+        5とか
+
+・敵にもレベルの概念を入れる(キャラバリエを水増しする
+
+・戦闘に駆け引きが足りないなぁ。
+    ・何かの切り替えぐらいはさせたい。
+        マウススクロールで攻撃タイプ切り替え程度なら
+    ・つばぜり合いシステムとか…
+
+・キャンプ画面
+    ・キャンプしてるとランダムで何かが起こる？
+        ・何ができるか
+            ・回復(手動はだるいautoにしたい
+            ・装備？
+            ・セーブ？
+                …今のところ回復以外何も要らないなー
+
+･撤退を示す1枚絵
+    ・撤退失敗はあるか？
+        微妙だ。
+        まずは無しでやっていくかな。
+    
+・背景のアニメーション
+    ・おいしいです
+    ・これも嗜好
+
+・装備
+    ・有無で大分変わる。トルネコ的な運要素.
+        でもあれはむしろパンに運要素があるわけで、武器防具は微妙なんだよなぁ。
+    ・属性武器(複雑になるだけだし、贅沢。用意しないだろうけど一応メモ
+    ・グラ変えるのは流石にだるい
+        やらない
 
 ・アイテム
     ・回復？無いなぁ。やるにしてもレア扱いにする。
@@ -63,7 +109,7 @@
 
 ・隠しゲート
         夜だとゲートの繋がる先が変わるとか。(大分鬼畜
-
+    
 ・天候
     雨
     雪
