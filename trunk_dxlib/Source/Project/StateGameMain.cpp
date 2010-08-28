@@ -294,6 +294,15 @@ void StateGameMain::PlayerAttack()
     m_log_printer->Print( "attack->" + StringOf( damage ) );
     
     m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
+    
+    if( m_enemy.IsDead() )
+    {
+        m_player.m_exp += m_enemy.m_exp;
+        if( m_player.CanUpLevel() )
+        {
+            m_player.UpLevel();
+        }
+    }
 }
 
 void StateGameMain::EnemyAttack()
