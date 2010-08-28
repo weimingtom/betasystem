@@ -78,16 +78,14 @@ private:
     void UpdateBattle();
     void UpdatePlayer();
     void UpdateEnemy();
+    void PushButton();
     void DrawCharacterStatus( Character const& chara , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
+    void DrawButton();
     char const* StateNameOf( State state );
     void ChangeState( State state );
-    ButtonPtrList AttackButtonPtrListOf(
-        Vector2 base_pos ,
-        Character const& character ,
-        OperateType operate_type );
     ButtonPtr new_ButtonRunAway();
     void CheckOnButton();
     void PlayerAttack();
@@ -110,7 +108,7 @@ private:
     ButtonPtrList m_button_list;
     StateManagerBase& m_project_state_manager;
     std::auto_ptr< SoundLoader > m_sound_loader;
-    bool m_on_process_button;
+    bool m_on_button;
     int m_frame_enemy;
 };
 
@@ -124,7 +122,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
- , m_on_process_button( false )
+ , m_on_button( false )
  , m_frame_enemy(0)
 {
     ChangeState( State_Begin );
@@ -175,29 +173,26 @@ void StateGameMain::Update()
 
 void StateGameMain::CheckOnButton()
 {   
-    bool on_process_button = false;
+    bool on_button = false;
     Vector2 const mouse_pos = m_mouse->Position();
     BOOST_FOREACH( ButtonPtr const& button , m_button_list )
     {
         if( button->CheckHit( mouse_pos ) )
         {
-            if( button->HasProcess() )
-            {
-                on_process_button = true;
-            }
+            on_button = true;
         }
     }
     
-    if( on_process_button != m_on_process_button )
+    if( on_button != m_on_button )
     {
-        if( on_process_button )
+        if( on_button )
         {
             m_sound_loader->Play( NameOf( SoundType_OnButton ) );
         }else{
 //            m_sound_loader->Play( NameOf( SoundType_ReleaseButton ) );
         }
     }
-    m_on_process_button = on_process_button;
+    m_on_button = on_button;
 }
 
 void StateGameMain::Draw()
@@ -209,11 +204,11 @@ void StateGameMain::Draw()
     {
     case State_Begin:
         DrawPlayer();
-        DrawEnemy();
         break;
     case State_Battle:
         DrawPlayer();
         DrawEnemy();
+        DrawButton();
         break;
     case State_Lose:
         DrawFormatString( 100 , 100 , ColorOf() , "Lose" );
@@ -234,6 +229,14 @@ void StateGameMain::Draw()
     DrawCharacterStatus( m_player , 330 , 420 );
     DrawCharacterStatus( m_enemy , 60 , 420 );
     m_log_printer->Draw();
+}
+
+void StateGameMain::DrawButton()
+{
+    BOOST_FOREACH( ButtonPtr const& button , m_button_list )
+    {
+        button->Draw();
+    }
 }
 
 void StateGameMain::DrawBackground()
@@ -300,11 +303,14 @@ void StateGameMain::UpdateBattle()
     {
         m_init = false;
         m_frame_enemy = 0;
+        m_button_list.push_back( ButtonPtr( new_ButtonRunAway() ) );
     }
     UpdatePlayer();
     UpdateEnemy();
     BornMonster();
     CheckEnd();
+    CheckOnButton();
+    PushButton();
 }
 
 void StateGameMain::CheckEnd()
@@ -357,6 +363,24 @@ void StateGameMain::UpdateEnemy()
     }
 }
 
+void StateGameMain::PushButton()
+{
+    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+    {
+       Vector2 const mouse_pos = m_mouse->Position();
+       BOOST_FOREACH( ButtonPtr const& button , m_button_list )
+       {
+           if( button->CheckHit( mouse_pos ) )
+           {
+               if( button->Name() == "RunAway" )
+               {
+                   ChangeState( State_RunAway );
+               }
+           }
+       }
+    }
+}
+
 void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
 {
     int y = base_y;
@@ -405,23 +429,6 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
             ColorOf( 0 , 255 , 0 ) , TRUE ) ;
         y += margin_y;
     }
-    
-    {
-        DrawFormatString(
-            string_x , y ,
-            ColorOf() ,
-            "action_point:[%d]" , chara.m_action_point );
-        DrawBox(
-            base_x , y ,
-            static_cast<int>( base_x + gauge_width ), y + gauge_height ,
-            ColorOf( 100 , 100 , 100 ) , TRUE ) ;
-        float const percent = static_cast<float>( chara.m_action_point ) / chara.m_action_point_max;
-        DrawBox(
-            base_x , y ,
-            static_cast<int>( base_x + gauge_width * percent ) , y + gauge_height ,
-            ColorOf( 0 , 255 , 0 ) , TRUE ) ;
-        y += margin_y;
-    }
 }
 
 char const* StateGameMain::StateNameOf( State state )
@@ -441,36 +448,6 @@ void StateGameMain::ChangeState( State state )
 {
     m_next_state = state;
     m_init = true;
-}
-
-ButtonPtrList StateGameMain::AttackButtonPtrListOf(
-    Vector2 base_pos ,
-    Character const& character ,
-    OperateType operate_type ) 
-{
-    ButtonPtrList result;
-    
-    Vector2 const size( 60 , 60 );
-    int const margin_x = 80;
-    int const margin_y = 80;
-    
-    // attack_list.
-    for( int i = 0 ; i < Character::AttackListNum ; i++ )
-    {
-        ProcessBase* process = 0;
-        if( operate_type == OperateType_Player )
-        {
-            process = new_ProcessDecideAction( i , m_player );
-        }
-        Vector2 pos( base_pos.x + i * margin_x , base_pos.y + margin_y );
-        result.push_back(
-            ButtonPtr( new_Button(
-                m_image_loader->ImageHandleOf( NameOf( ImageTypeOf( m_player.m_attack_list[i] ) ) ),
-                pos ,
-                size ,
-                process ) ) );
-    }
-    return result;
 }
 
 StateBase* new_StateGameMain( StateManagerBase& project_state_manager )
