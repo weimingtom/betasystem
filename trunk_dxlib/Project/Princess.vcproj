@@ -240,6 +240,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\DamagePrinter.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\Map.cpp"
 				>
 			</File>

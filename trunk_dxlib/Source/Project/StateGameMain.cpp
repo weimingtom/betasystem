@@ -25,6 +25,7 @@
 #include "Project/CharacterFactory.hpp"
 #include "Project/BackgroundFactory.hpp"
 #include "Project/Map.hpp"
+#include "Project/DamagePrinter.hpp"
 
 
 namespace {
@@ -111,6 +112,7 @@ private:
     std::auto_ptr< SoundLoader > m_sound_loader;
     bool m_on_button;
     int m_frame_enemy;
+    std::auto_ptr< DamagePrinter > m_damage_printer;
 };
 
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
@@ -125,6 +127,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_button( false )
  , m_frame_enemy(0)
+ , m_damage_printer( new_DamagePrinter() )
 {
     ChangeState( State_Begin );
     m_image_loader->Load();
@@ -137,6 +140,7 @@ void StateGameMain::Update()
     m_state = m_next_state;
     
     m_mouse->Update();
+    m_damage_printer->Update();
     switch( m_state )
     {
     case State_Begin:
@@ -200,6 +204,7 @@ void StateGameMain::Draw()
 {
     DrawBackground();
     DrawFormatString( 0 , 0 , ColorOf() , "State[%s]" , StateNameOf( m_state ) );
+    m_damage_printer->Draw();
     
     switch( m_state )
     {
@@ -292,9 +297,9 @@ void StateGameMain::PlayerAttack()
     int const damage = m_player.AttackDamage(); 
     m_enemy.m_hp -= damage;
     m_log_printer->Print( "attack->" + StringOf( damage ) );
+    m_damage_printer->Begin( Vector2( 100 , 250 ) , damage );
     
     m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
-    
     if( m_enemy.IsDead() )
     {
         m_player.m_exp += m_enemy.m_exp;
@@ -307,8 +312,10 @@ void StateGameMain::PlayerAttack()
 
 void StateGameMain::EnemyAttack()
 {
-    m_player.m_hp -= m_enemy.m_attack;
-    m_log_printer->Print( "damaged->" + StringOf( m_enemy.m_attack ) );
+    int const damage = m_enemy.m_attack;
+    m_player.m_hp -= damage;
+    m_log_printer->Print( "damaged->" + StringOf( damage ) );
+    m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
     
     m_player.m_hp = Clamp( 0 , m_player.m_hp , m_player.m_hp_max );
 }
