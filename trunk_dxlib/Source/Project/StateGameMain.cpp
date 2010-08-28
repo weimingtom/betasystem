@@ -84,6 +84,7 @@ private:
     void DrawPlayer();
     void DrawEnemy();
     void DrawButton();
+    void DrawBattle();
     char const* StateNameOf( State state );
     void ChangeState( State state );
     ButtonPtr new_ButtonRunAway();
@@ -206,9 +207,7 @@ void StateGameMain::Draw()
         DrawPlayer();
         break;
     case State_Battle:
-        DrawPlayer();
-        DrawEnemy();
-        DrawButton();
+        DrawBattle();
         break;
     case State_Lose:
         DrawFormatString( 100 , 100 , ColorOf() , "Lose" );
@@ -229,6 +228,14 @@ void StateGameMain::Draw()
     DrawCharacterStatus( m_player , 330 , 420 );
     DrawCharacterStatus( m_enemy , 60 , 420 );
     m_log_printer->Draw();
+}
+
+void StateGameMain::DrawBattle()
+{
+    DrawPlayer();
+    DrawEnemy();
+    DrawButton();
+    DrawFormatString( 0 , 20 , ColorOf() , "m_frame_enemy[%d]" , m_frame_enemy );
 }
 
 void StateGameMain::DrawButton()
