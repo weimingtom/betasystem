@@ -9,7 +9,7 @@ public:
     , y(0)
     {
     }
-    Vector2( int x_ , int y_ )
+    Vector2( double x_ , double y_ )
     {
         x = x_;
         y = y_;
@@ -29,8 +29,8 @@ public:
     }
 
 public:
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 #endif

@@ -1,8 +1,7 @@
-#pragma once
-#include "const.h"
+#ifndef include_7eacc4fc_e44f_4582_9c86_468b1a4712f0
+#define include_7eacc4fc_e44f_4582_9c86_468b1a4712f0
 
-#include <stdlib.h>
-#include <math.h>
+#include "System/Vector2.hpp"
 
 /*
  * 雪クラス
@@ -10,12 +9,12 @@
 class Snow
 {
 public:
-	Point2D p;    // 座標
+	Vector2 p;    // 座標
 	double b;     // ブレンド値
 	bool is;      // 表示フラグ
 private:
-	Point2D mv;   // 移動量
-	Point2D a;    // 加速度
+	Vector2 mv;   // 移動量
+	Vector2 a;    // 加速度
 	int cnt;      // 表示カウント
 
 public:
@@ -30,3 +29,6 @@ private:
 	bool Move();  // 移動
 	void Accel(); // 加速
 };
+
+#endif // include_7eacc4fc_e44f_4582_9c86_468b1a4712f0
+

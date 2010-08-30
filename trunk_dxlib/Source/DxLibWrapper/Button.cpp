@@ -57,10 +57,10 @@ void Button::Impl::Draw() const
     //! @todo 当たり判定のデバッグ表示.
 #ifndef NDEBUG
     DrawBox(
-        m_pos.x ,
-        m_pos.y ,
-        m_pos.x + m_size.x ,
-        m_pos.y + m_size.y ,
+        static_cast<int>( m_pos.x ),
+        static_cast<int>( m_pos.y ),
+        static_cast<int>( m_pos.x + m_size.x ),
+        static_cast<int>( m_pos.y + m_size.y ),
         ColorOf( 255 , 0 , 0 ) ,
         FALSE );
 #endif
