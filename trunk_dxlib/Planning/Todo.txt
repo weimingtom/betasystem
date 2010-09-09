@@ -2,14 +2,35 @@
     ・CheckHitできる
     ・CharacterStatusを取得できる
         この条件を満たす必要がある
+//----------------------------------------------
+class Enemy : CollisionObject
+{
+public:
+
+private:
+    CharacterStatus m_status;
+};
+//----------------------------------------------
+class CollisionObject
+{
+public:
+    CollisionObject( Vector2 pos , Vector2 size );
+public:
+    bool CheckHit() const;
+protected:
+    Vector2 pos;
+    Vector2 size;
+};
 
 ▽アイテム
     ・CheckHitできる
-    ・効果
+    ・効果が発動する
         アイテムが増える
         お金が増える
         回復する
         攻撃が強くなる
+    ・移動値を持つ
+    ・生存期間を持つ
 
 ▽レベルは無い事にするか？
     うーん、レベルor装備
