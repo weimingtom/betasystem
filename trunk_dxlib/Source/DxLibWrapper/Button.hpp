@@ -4,44 +4,29 @@
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
-#include "System/Vector2.hpp"
-#include "System/ProcessBase.hpp"
+#include "System/CollisionObject.hpp"
 
-class Button
+class Button : public CollisionObject
 {
 public:
-    /**
-        processÇÃdeleteÇÕÇ±ÇÃÉNÉâÉXÇ™çsÇ§.
-    */
-    friend Button* new_Button(
+    Button(
         int image_handle ,
         Vector2 pos ,
         Vector2 size ,
-        ProcessBase* process ,
-        std::string name );
-    virtual ~Button(){}
+        std::string name = "" );
     
 public:
-    virtual void Draw() const = 0;
-    virtual bool CheckHit( Vector2 pos ) const = 0;
-    virtual bool HasProcess() const = 0;
-    virtual bool CanProcess() const = 0;
-    virtual void Process() = 0;
-    virtual std::string Name() const = 0;
+    void Draw() const ;
+    std::string Name() const { return m_name; };
     
 private:
-    class Impl;
+    int const m_image_handle;
+    std::string const m_name;
+
 };
 
 typedef boost::shared_ptr< Button > ButtonPtr;
 typedef std::vector< ButtonPtr > ButtonPtrList;
-
-Button* new_Button(
-    int image_handle ,
-    Vector2 pos ,
-    Vector2 size ,
-    ProcessBase* process = 0 ,
-    std::string name = "" );
 
 #endif
 

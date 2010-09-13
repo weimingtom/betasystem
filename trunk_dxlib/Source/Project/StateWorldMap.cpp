@@ -113,11 +113,10 @@ ButtonPtr StateWorldMap::new_ButtonCamp()
     Vector2 size( 100 , 100 );
     
     result.reset(
-        new_Button(
+        new Button(
             m_image_loader->ImageHandleOf( m_image_list[ImageType_Button_Camp] ),
             pos,
             size,
-            0,
             "camp" )
     );
     return result;
@@ -130,11 +129,10 @@ ButtonPtr StateWorldMap::new_ButtonForest()
     Vector2 size( 100 , 100 );
     
     result.reset(
-        new_Button(
+        new Button(
             m_image_loader->ImageHandleOf( m_image_list[ ImageType_Button_Forest ] ),
             pos,
             size,
-            0,
             "forest" )
     );
     return result;
@@ -147,11 +145,10 @@ ButtonPtr StateWorldMap::new_ButtonRedForest()
     Vector2 size( 100 , 100 );
     
     result.reset(
-        new_Button(
+        new Button(
             m_image_loader->ImageHandleOf( m_image_list[ ImageType_Button_RedForest ] ),
             pos,
             size,
-            0,
             "red_forest" )
     );
     return result;

@@ -279,11 +279,10 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
     Vector2 pos( 500 , 300 );
     Vector2 size( 100 , 100 );
     ButtonPtr result(
-        new_Button(
+        new Button(
             m_image_loader->ImageHandleOf( NameOf( ImageType_IconRunAway ) ) ,
             pos ,
             size ,
-            0,
             "RunAway"
         )
     );
