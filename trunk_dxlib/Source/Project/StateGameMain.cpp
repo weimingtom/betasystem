@@ -73,6 +73,7 @@ private:
     bool IsEndBattle();
     void BornMonster();
     void CheckEnd();
+    void DrawAttackBar();
     
 private:
     std::auto_ptr< MapBase > m_map;
@@ -89,6 +90,7 @@ private:
     std::auto_ptr< SoundLoader > m_sound_loader;
     bool m_on_button;
     int m_frame_enemy;
+    static int const m_frame_enemy_max = 200;
     std::auto_ptr< DamagePrinter > m_damage_printer;
 };
 
@@ -217,7 +219,24 @@ void StateGameMain::DrawBattle()
     DrawPlayer();
     DrawEnemy();
     DrawButton();
-    DrawFormatString( 0 , 20 , ColorOf() , "m_frame_enemy[%d]" , m_frame_enemy );
+    DrawAttackBar();
+}
+
+void StateGameMain::DrawAttackBar()
+{
+    int const base_x = 100;
+    int const base_y = 220;
+    int const width = 100;
+    int const height = 10;
+
+    DrawBox(
+        base_x , base_y ,
+        base_x + width , base_y + height ,
+        ColorOf(10,10,10) , TRUE );
+    DrawBox(
+        base_x , base_y ,
+        static_cast<int>( base_x + width * ( static_cast<float>(m_frame_enemy) / m_frame_enemy_max ) ) , base_y + height ,
+        ColorOf(200,200,0) , TRUE );
 }
 
 void StateGameMain::DrawButton()
@@ -369,8 +388,9 @@ void StateGameMain::UpdatePlayer()
 void StateGameMain::UpdateEnemy()
 {
     m_frame_enemy++;
-    if( m_frame_enemy % 300 == 0 )
+    if( m_frame_enemy > m_frame_enemy_max )
     {
+        m_frame_enemy = 0;
         EnemyAttack();
     }
 }
