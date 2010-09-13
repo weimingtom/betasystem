@@ -3,10 +3,7 @@
 
 namespace{
 
-//ê¨í∑ó¶.
-static float const s_glow_rate = 1.5f;
 static int const s_default_exp_max = 100;
-static int const s_default_action_point = 3;
 
 }//namespace unnamed
 
@@ -16,24 +13,13 @@ Character::Character( int hp_max , int attack , int exp )
  , m_attack( attack )
  , m_exp( exp )
  , m_exp_max( s_default_exp_max )
- , m_action_point( s_default_action_point )
- , m_action_point_max( s_default_action_point )
 {
-    for( int i = 0 ; i < AttackType_Num ; i++ )
-    {
-        m_attack_list[i] = static_cast< AttackType >( i );
-    }
     m_select_index = 0 ;
 }
 
 bool Character::IsLive() const
 {
     return ( m_hp > 0 );
-}
-
-AttackType Character::AttackTypeOf( int index ) const
-{
-    return m_attack_list[ index ];
 }
 
 int Character::AttackDamage() const

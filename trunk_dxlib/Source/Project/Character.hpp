@@ -14,7 +14,6 @@ public:
     
 public:
     bool IsLive() const;
-    AttackType AttackTypeOf( int index ) const;
     int AttackDamage() const;
     bool IsDead() const { return ( m_hp <= 0 ); }
 
@@ -26,9 +25,6 @@ public:
     int m_attack;
     int m_exp;
     int m_exp_max;
-    int m_action_point; // 行動ポイント.
-    int m_action_point_max;
-    AttackType m_attack_list[ AttackListNum ];
     int m_select_index;
 };
 

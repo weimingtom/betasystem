@@ -26,28 +26,6 @@
 #include "Project/Map.hpp"
 #include "Project/DamagePrinter.hpp"
 
-
-namespace {
-
-ImageType ImageTypeOf( AttackType type )
-{
-    switch( type )
-    {
-    case AttackType_Normal:
-        return ImageType_Sword;
-    case AttackType_Guard:
-        return ImageType_Shield;
-    case AttackType_Special:
-        return ImageType_Magic;
-    default:
-        assert( false );
-        exit( ApplicationFailure );
-    }
-}
-
-
-} // namespace unnamed
-
 class StateGameMain : public StateBase
 {
 public:

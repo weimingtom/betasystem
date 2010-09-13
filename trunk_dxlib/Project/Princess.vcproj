@@ -224,10 +224,6 @@
 			Name="Project"
 			>
 			<File
-				RelativePath="..\Source\Project\AttackType.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\BackgroundFactory.cpp"
 				>
 			</File>
@@ -245,10 +241,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Project\Map.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\ProcessDecideAction.cpp"
 				>
 			</File>
 			<File
