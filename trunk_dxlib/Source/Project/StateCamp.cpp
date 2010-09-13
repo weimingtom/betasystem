@@ -8,8 +8,8 @@
 #include "DxLibWrapper/Graphics.hpp"
 #include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectStateManager.hpp"
-#include "Project/Character.hpp"
-#include "Project/CharacterFactory.hpp"
+#include "Project/CharacterStatus.hpp"
+#include "Project/CharacterStatusFactory.hpp"
 #include "Project/SaveData.hpp"
 
 class StateCamp : public StateBase
@@ -31,7 +31,7 @@ StateCamp::StateCamp( StateManagerBase& project_state_manager )
  , m_mouse_input( new_MouseInput() )
 {
     m_image_loader->Load();
-    Character& player_status = SaveData::GetInstance().m_player_status;
+    CharacterStatus& player_status = SaveData::GetInstance().m_player_status;
     player_status.m_hp = player_status.m_hp_max;
 }
 

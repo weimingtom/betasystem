@@ -1,4 +1,4 @@
-#include "Project/Character.hpp"
+#include "Project/CharacterStatus.hpp"
 #include "DxLibWrapper/Random.hpp"
 
 namespace{
@@ -7,7 +7,7 @@ static int const s_default_exp_max = 100;
 
 }//namespace unnamed
 
-Character::Character( int hp_max , int attack , int exp )
+CharacterStatus::CharacterStatus( int hp_max , int attack , int exp )
  : m_hp_max( hp_max )
  , m_hp( hp_max )
  , m_attack( attack )
@@ -17,7 +17,7 @@ Character::Character( int hp_max , int attack , int exp )
 {
 }
 
-int Character::AttackDamage() const
+int CharacterStatus::AttackDamage() const
 {
     float const rand = static_cast<float>( GetRandToMax( 4 ) );
     float keisuu = ( rand - 2 ) / 10 ;

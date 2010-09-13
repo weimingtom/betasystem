@@ -2,11 +2,11 @@
 
 #include <assert.h>
 #include <vector>
-#include "Project/CharacterFactory.hpp"
+#include "Project/CharacterStatusFactory.hpp"
 #include "System/ArraySize.hpp"
 #include "DxLibWrapper/DxLibWrapper.hpp"
 
-typedef std::vector<Character> CharacterList;
+typedef std::vector<CharacterStatus> CharacterStatusList;
 
 class MapGreenForest : public MapBase
 {
@@ -14,10 +14,10 @@ public:
     MapGreenForest();
 public:
     bool HasNextMonster();
-    Character NextMonster();
+    CharacterStatus NextMonster();
 private:
-    CharacterList::size_type m_monster_index;
-    CharacterList m_monster_list;
+    CharacterStatusList::size_type m_monster_index;
+    CharacterStatusList m_monster_list;
 };
 
 MapGreenForest::MapGreenForest()
@@ -33,7 +33,7 @@ MapGreenForest::MapGreenForest()
     };
     for( int i = 0 ; i < ARRAY_SIZE( monster_list ) ; i++ )
     {
-        m_monster_list.push_back( CharacterOf( monster_list[i] ) );
+        m_monster_list.push_back( CharacterStatusOf( monster_list[i] ) );
     }
 }
 
@@ -42,10 +42,10 @@ bool MapGreenForest::HasNextMonster()
     return( m_monster_index < m_monster_list.size() );
 }
 
-Character MapGreenForest::NextMonster()
+CharacterStatus MapGreenForest::NextMonster()
 {
     if( !HasNextMonster() ){ assert( false); exit(ApplicationFailure); }
-    Character const result = m_monster_list[ m_monster_index ];
+    CharacterStatus const result = m_monster_list[ m_monster_index ];
     m_monster_index++;
     return result;
 }
@@ -57,10 +57,10 @@ public:
     MapRedForest();
 public:
     bool HasNextMonster();
-    Character NextMonster();
+    CharacterStatus NextMonster();
 private:
-    CharacterList::size_type m_monster_index;
-    CharacterList m_monster_list;
+    CharacterStatusList::size_type m_monster_index;
+    CharacterStatusList m_monster_list;
 };
 
 MapRedForest::MapRedForest()
@@ -79,7 +79,7 @@ MapRedForest::MapRedForest()
     };
     for( int i = 0 ; i < ARRAY_SIZE( monster_list ) ; i++ )
     {
-        m_monster_list.push_back( CharacterOf( monster_list[i] ) );
+        m_monster_list.push_back( CharacterStatusOf( monster_list[i] ) );
     }
 }
 
@@ -88,10 +88,10 @@ bool MapRedForest::HasNextMonster()
     return( m_monster_index < m_monster_list.size() );
 }
 
-Character MapRedForest::NextMonster()
+CharacterStatus MapRedForest::NextMonster()
 {
     if( !HasNextMonster() ){ assert( false); exit(ApplicationFailure); }
-    Character const result = m_monster_list[ m_monster_index ];
+    CharacterStatus const result = m_monster_list[ m_monster_index ];
     m_monster_index++;
     return result;
 }

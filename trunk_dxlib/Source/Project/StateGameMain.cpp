@@ -10,7 +10,7 @@
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/Graphics.hpp"
 #include "DxLibWrapper/Button.hpp"
-#include "Project/Character.hpp"
+#include "Project/CharacterStatus.hpp"
 #include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectSoundLoader.hpp"
 #include "System/Vector2.hpp"
@@ -21,7 +21,7 @@
 #include "System/Range.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
-#include "Project/CharacterFactory.hpp"
+#include "Project/CharacterStatusFactory.hpp"
 #include "Project/BackgroundFactory.hpp"
 #include "Project/Map.hpp"
 #include "Project/DamagePrinter.hpp"
@@ -57,7 +57,7 @@ private:
     void UpdatePlayer();
     void UpdateEnemy();
     void PushButton();
-    void DrawCharacterStatus( Character const& chara , int base_x , int base_y );
+    void DrawCharacterStatusStatus( CharacterStatus const& chara , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
@@ -79,8 +79,8 @@ private:
     std::auto_ptr< MapBase > m_map;
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
-    Character& m_player;
-    Character m_enemy;
+    CharacterStatus& m_player;
+    CharacterStatus m_enemy;
     State m_state;
     State m_next_state;
     bool m_init;
@@ -209,8 +209,8 @@ void StateGameMain::Draw()
         exit( ApplicationFailure );
     }
     
-    DrawCharacterStatus( m_player , 330 , 420 );
-    DrawCharacterStatus( m_enemy , 60 , 420 );
+    DrawCharacterStatusStatus( m_player , 330 , 420 );
+    DrawCharacterStatusStatus( m_enemy , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -418,7 +418,7 @@ void StateGameMain::PushButton()
     }
 }
 
-void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , int base_y )
+void StateGameMain::DrawCharacterStatusStatus( CharacterStatus const& chara , int base_x , int base_y )
 {
     int y = base_y;
     int const margin_y = 12;

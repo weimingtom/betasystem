@@ -97,7 +97,7 @@ void StateWorldMap::Draw()
     DrawGraph( 300 , 0 , m_image_loader->ImageHandleOf( m_image_list[ ImageType_StandFuriru ] ) );
     DrawFormatString( 0,0, ColorOf() , "ワールドマップ");
     
-    Character const& player_status = SaveData::GetInstance().m_player_status;
+    CharacterStatus const& player_status = SaveData::GetInstance().m_player_status;
     DrawFormatString( 0,20, ColorOf() , "hp[%d]/[%d]" , player_status.m_hp , player_status.m_hp_max );
     
     BOOST_FOREACH( ButtonPtr const& button , m_button_list )

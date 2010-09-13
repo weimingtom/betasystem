@@ -3,14 +3,14 @@
 
 #include "Project/AttackType.hpp"
 
-class Character
+class CharacterStatus
 {
 private:
     //! 引数入力を強制させるためデフォルトコンストラクタを非公開に.
-    Character(){}
+    CharacterStatus(){}
     
 public:
-    Character( int hp_max , int attack , int exp );
+    CharacterStatus( int hp_max , int attack , int exp );
     
 public:
     bool IsLive()  const{ return ( m_hp > 0 ); }

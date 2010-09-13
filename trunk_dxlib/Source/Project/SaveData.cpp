@@ -1,7 +1,7 @@
 #include "Project/SaveData.hpp"
 
 #include <memory>
-#include "Project/CharacterFactory.hpp"
+#include "Project/CharacterStatusFactory.hpp"
 
 namespace{
 
@@ -10,7 +10,7 @@ static std::auto_ptr< SaveData > g_save_data;
 } // namespace unnamed
 
 SaveData::SaveData()
- : m_player_status( CharacterOf( CharaType_Player ) )
+ : m_player_status( CharacterStatusOf( CharaType_Player ) )
 {
 }
 
