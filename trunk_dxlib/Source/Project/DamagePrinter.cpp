@@ -55,7 +55,7 @@ void DamagePrinter::Impl::Draw()
     BOOST_FOREACH( DamagePrintObject const& object , m_object_list )
     {
         DrawFormatString(
-            object.pos.x , object.pos.y ,
+            static_cast<int>( object.pos.x ) , static_cast<int>( object.pos.y ),
             ColorOf( 255 , 255 , 255 ) ,
             "[%d]" , object.damage );
     }

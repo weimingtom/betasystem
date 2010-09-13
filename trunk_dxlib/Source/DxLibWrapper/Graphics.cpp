@@ -17,6 +17,6 @@ void DrawGraph( int x , int y , int image_handle )
 */
 void DrawGraph( Vector2 pos , int image_handle )
 {
-    DrawGraph( pos.x , pos.y , image_handle );
+    DrawGraph( static_cast<int>(pos.x) , static_cast<int>(pos.y) , image_handle );
 }
 
