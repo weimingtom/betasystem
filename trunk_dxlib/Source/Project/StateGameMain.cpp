@@ -263,7 +263,12 @@ void StateGameMain::DrawBackground()
 void StateGameMain::DrawPlayer()
 {
     Vector2 pos( 400 , 230 );
-    DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Player ) ) );
+    if( m_player.IsGuard() )
+    {
+        DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Player_Guard ) ) );
+    }else{
+        DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Player ) ) );
+    }
 }
 
 void StateGameMain::DrawEnemy()
