@@ -303,10 +303,6 @@ void StateGameMain::PlayerAttack()
     if( m_enemy.IsDead() )
     {
         m_player.m_exp += m_enemy.m_exp;
-        if( m_player.CanUpLevel() )
-        {
-            m_player.UpLevel();
-        }
     }
 }
 
@@ -412,12 +408,8 @@ void StateGameMain::DrawCharacterStatus( Character const& chara , int base_x , i
     int const gauge_height = 12;
     int const string_x = base_x + static_cast<int>(gauge_width) + 20;
     
-    DrawFormatString(
-        string_x , y ,
-        ColorOf() ,
-        "level:[%d]" , chara.m_level );
     y += margin_y;
-
+    
     {
         DrawFormatString(
             string_x , y ,

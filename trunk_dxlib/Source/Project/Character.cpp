@@ -11,8 +11,7 @@ static int const s_default_action_point = 3;
 }//namespace unnamed
 
 Character::Character( int hp_max , int attack , int exp )
- : m_level( 1 )
- , m_hp_max( hp_max )
+ : m_hp_max( hp_max )
  , m_hp( hp_max )
  , m_attack( attack )
  , m_exp( exp )
@@ -25,27 +24,6 @@ Character::Character( int hp_max , int attack , int exp )
         m_attack_list[i] = static_cast< AttackType >( i );
     }
     m_select_index = 0 ;
-}
-
-void Character::UpLevel()
-{
-    m_hp_max = static_cast<int>( m_hp_max * s_glow_rate );
-    m_attack = static_cast<int>( m_attack * s_glow_rate );
-    m_level++;
-    m_exp -= m_exp_max;
-}
-
-void Character::SetLevel( int level )
-{
-    for( int i = m_level ; i < level ; i ++ )
-    {
-        UpLevel();
-    }
-}
-
-bool Character::CanUpLevel() const
-{
-    return ( m_exp_max <= m_exp );
 }
 
 bool Character::IsLive() const
