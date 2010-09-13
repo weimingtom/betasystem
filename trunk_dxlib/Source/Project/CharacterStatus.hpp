@@ -26,6 +26,8 @@ public:
     int m_exp;
     int m_exp_max;
     bool m_is_guard;
+    int m_attack_frame;
+    static int const m_attack_frame_max = 100;
 };
 
 #endif //include_3108f83f_5fbe_43f0_831a_bbfccc61e79a

@@ -89,8 +89,6 @@ private:
     StateManagerBase& m_project_state_manager;
     std::auto_ptr< SoundLoader > m_sound_loader;
     bool m_on_button;
-    int m_frame_enemy;
-    static int const m_frame_enemy_max = 200;
     std::auto_ptr< DamagePrinter > m_damage_printer;
 };
 
@@ -105,7 +103,6 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_project_state_manager( project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_button( false )
- , m_frame_enemy(0)
  , m_damage_printer( new_DamagePrinter() )
 {
     ChangeState( State_Begin );
@@ -235,7 +232,7 @@ void StateGameMain::DrawAttackBar()
         ColorOf(10,10,10) , TRUE );
     DrawBox(
         base_x , base_y ,
-        static_cast<int>( base_x + width * ( static_cast<float>(m_frame_enemy) / m_frame_enemy_max ) ) , base_y + height ,
+        static_cast<int>( base_x + width * ( static_cast<float>( m_enemy.m_attack_frame ) / m_enemy.m_attack_frame_max ) ) , base_y + height ,
         ColorOf(200,200,0) , TRUE );
 }
 
@@ -336,7 +333,6 @@ void StateGameMain::UpdateBattle()
     if( m_init )
     {
         m_init = false;
-        m_frame_enemy = 0;
         m_button_list.push_back( ButtonPtr( new_ButtonRunAway() ) );
     }
     UpdatePlayer();
@@ -392,10 +388,10 @@ void StateGameMain::UpdatePlayer()
 
 void StateGameMain::UpdateEnemy()
 {
-    m_frame_enemy++;
-    if( m_frame_enemy > m_frame_enemy_max )
+    m_enemy.m_attack_frame++;
+    if( m_enemy.m_attack_frame > m_enemy.m_attack_frame_max )
     {
-        m_frame_enemy = 0;
+        m_enemy.m_attack_frame = 0;
         EnemyAttack();
     }
 }

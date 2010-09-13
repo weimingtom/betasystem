@@ -14,6 +14,7 @@ CharacterStatus::CharacterStatus( int hp_max , int attack , int exp )
  , m_exp( exp )
  , m_exp_max( s_default_exp_max )
  , m_is_guard( false )
+ , m_attack_frame( 0 )
 {
 }
 
