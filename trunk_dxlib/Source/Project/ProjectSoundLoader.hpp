@@ -9,6 +9,7 @@ enum SoundType
     SoundType_Decide,
     SoundType_OnButton,
     SoundType_ReleaseButton,
+    SoundType_Attack,
     SoundType_Num,
 };
 

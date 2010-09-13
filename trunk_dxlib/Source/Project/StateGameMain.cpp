@@ -271,26 +271,40 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
 
 void StateGameMain::PlayerAttack()
 {
-    int const damage = m_player.AttackDamage(); 
-    m_enemy.m_hp -= damage;
-    m_log_printer->Print( "attack->" + StringOf( damage ) );
-    m_damage_printer->Begin( Vector2( 100 , 250 ) , damage );
-    
-    m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
-    if( m_enemy.IsDead() )
+    if( !m_player.IsGuard() )
     {
-        m_player.m_exp += m_enemy.m_exp;
+        m_sound_loader->Play( NameOf( SoundType_Attack ) );
+        
+        int const damage = m_player.AttackDamage(); 
+        m_enemy.m_hp -= damage;
+        m_log_printer->Print( "attack->" + StringOf( damage ) );
+        m_damage_printer->Begin( Vector2( 100 , 250 ) , damage );
+        
+        m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
+        if( m_enemy.IsDead() )
+        {
+            m_player.m_exp += m_enemy.m_exp;
+        }
     }
 }
 
 void StateGameMain::EnemyAttack()
 {
-    int const damage = m_enemy.m_attack;
-    m_player.m_hp -= damage;
-    m_log_printer->Print( "damaged->" + StringOf( damage ) );
-    m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
+    m_sound_loader->Play( NameOf( SoundType_Attack ) );
     
-    m_player.m_hp = Clamp( 0 , m_player.m_hp , m_player.m_hp_max );
+    if( m_player.IsGuard() )
+    {
+        int const damage = 0 ;
+        m_log_printer->Print( "damaged->" + StringOf( damage ) );
+        m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
+    }else{
+        int const damage = m_enemy.m_attack;
+        m_player.m_hp -= damage;
+        m_log_printer->Print( "damaged->" + StringOf( damage ) );
+        m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
+        
+        m_player.m_hp = Clamp( 0 , m_player.m_hp , m_player.m_hp_max );
+    }
 }
 
 void StateGameMain::UpdateBattle()
@@ -344,6 +358,8 @@ bool StateGameMain::IsEndBattle()
 
 void StateGameMain::UpdatePlayer()
 {
+    m_player.SetGuard( m_mouse->IsHold( MouseInput::Type_Right ) );
+    
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
         PlayerAttack();
