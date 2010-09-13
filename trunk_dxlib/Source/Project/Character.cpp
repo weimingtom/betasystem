@@ -13,13 +13,8 @@ Character::Character( int hp_max , int attack , int exp )
  , m_attack( attack )
  , m_exp( exp )
  , m_exp_max( s_default_exp_max )
+ , m_is_guard( false )
 {
-    m_select_index = 0 ;
-}
-
-bool Character::IsLive() const
-{
-    return ( m_hp > 0 );
 }
 
 int Character::AttackDamage() const

@@ -13,19 +13,19 @@ public:
     Character( int hp_max , int attack , int exp );
     
 public:
-    bool IsLive() const;
+    bool IsLive()  const{ return ( m_hp > 0 ); }
     int AttackDamage() const;
     bool IsDead() const { return ( m_hp <= 0 ); }
-
-public:
-    static int const AttackListNum = 3;
+    void SetGuard( bool is_guard ) { m_is_guard = is_guard; }
+    bool IsGuard() const { return m_is_guard; }
+    
 public:
     int m_hp_max;
     int m_hp;
     int m_attack;
     int m_exp;
     int m_exp_max;
-    int m_select_index;
+    bool m_is_guard;
 };
 
 #endif //include_3108f83f_5fbe_43f0_831a_bbfccc61e79a
