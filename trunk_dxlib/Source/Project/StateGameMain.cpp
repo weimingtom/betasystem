@@ -386,7 +386,11 @@ void StateGameMain::UpdatePlayer()
     
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
-        PlayerAttack();
+        Vector2 const pos = m_mouse->Position();
+        if( m_enemy->CheckHit( pos ) )
+        {
+            PlayerAttack();
+        }
     }
 }
 
