@@ -377,6 +377,10 @@ bool StateGameMain::IsEndBattle()
 
 void StateGameMain::UpdatePlayer()
 {
+    if( m_mouse->IsTrig( MouseInput::Type_Right ) )
+    {
+        m_sound_loader->Play( NameOf( SoundType_Guard ) );
+    }
     m_player.SetGuard( m_mouse->IsHold( MouseInput::Type_Right ) );
     
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
