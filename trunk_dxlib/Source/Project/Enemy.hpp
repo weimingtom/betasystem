@@ -15,7 +15,7 @@ public:
         CharacterStatus status );
 public:
     void Draw() const;
-    CharacterStatus StatusOf() const { return m_status; }
+    CharacterStatus& Status(){ return m_status; }
     
 private:
     int const m_image_handle;

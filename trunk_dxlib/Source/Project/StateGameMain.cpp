@@ -25,6 +25,7 @@
 #include "Project/BackgroundFactory.hpp"
 #include "Project/Map.hpp"
 #include "Project/DamagePrinter.hpp"
+#include "Project/Enemy.hpp"
 
 class StateGameMain : public StateBase
 {
@@ -45,19 +46,13 @@ private:
         State_RunAway,
         State_Num,
     };
-    enum OperateType
-    {
-        OperateType_Player,
-        OperateType_Enemy,
-        OperateType_Num,
-    };
     
 private:
     void UpdateBattle();
     void UpdatePlayer();
     void UpdateEnemy();
     void PushButton();
-    void DrawCharacterStatusStatus( CharacterStatus const& chara , int base_x , int base_y );
+    void DrawCharacterStatus( CharacterStatus const& chara , int base_x , int base_y );
     void DrawBackground();
     void DrawPlayer();
     void DrawEnemy();
@@ -80,7 +75,7 @@ private:
     std::auto_ptr< ImageLoader > m_image_loader;
     std::auto_ptr< MouseInput > m_mouse;
     CharacterStatus& m_player;
-    CharacterStatus m_enemy;
+    std::auto_ptr<Enemy> m_enemy;
     State m_state;
     State m_next_state;
     bool m_init;
@@ -90,6 +85,9 @@ private:
     std::auto_ptr< SoundLoader > m_sound_loader;
     bool m_on_button;
     std::auto_ptr< DamagePrinter > m_damage_printer;
+    static int const enemy_x = 200;
+    static int const enemy_y = 200;
+    static int const enemy_size = 100;
 };
 
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
@@ -97,7 +95,6 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
  , m_player( SaveData::GetInstance().m_player_status )
- , m_enemy( m_map->NextMonster() )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
@@ -109,6 +106,11 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
     m_image_loader->Load();
     m_sound_loader->Load();
 //    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
+    m_enemy.reset( new Enemy(
+        Vector2( enemy_x , enemy_y ) ,
+        Vector2( enemy_size , enemy_size ) ,
+        m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
+        m_map->NextMonster() ) );
 }
 
 void StateGameMain::Update()
@@ -206,8 +208,8 @@ void StateGameMain::Draw()
         exit( ApplicationFailure );
     }
     
-    DrawCharacterStatusStatus( m_player , 330 , 420 );
-    DrawCharacterStatusStatus( m_enemy , 60 , 420 );
+    DrawCharacterStatus( m_player , 330 , 420 );
+    DrawCharacterStatus( m_enemy->Status() , 60 , 420 );
     m_log_printer->Draw();
 }
 
@@ -232,7 +234,7 @@ void StateGameMain::DrawAttackBar()
         ColorOf(10,10,10) , TRUE );
     DrawBox(
         base_x , base_y ,
-        static_cast<int>( base_x + width * ( static_cast<float>( m_enemy.m_attack_frame ) / m_enemy.m_attack_frame_max ) ) , base_y + height ,
+        static_cast<int>( base_x + width * ( static_cast<float>( m_enemy->Status().m_attack_frame ) / m_enemy->Status().m_attack_frame_max ) ) , base_y + height ,
         ColorOf(200,200,0) , TRUE );
 }
 
@@ -270,8 +272,7 @@ void StateGameMain::DrawPlayer()
 
 void StateGameMain::DrawEnemy()
 {
-    Vector2 pos( 100 , 290 );
-    DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) );
+    m_enemy->Draw();
 }
 
 ButtonPtr StateGameMain::new_ButtonRunAway()
@@ -296,14 +297,14 @@ void StateGameMain::PlayerAttack()
         m_sound_loader->Play( NameOf( SoundType_Attack ) );
         
         int const damage = m_player.AttackDamage(); 
-        m_enemy.m_hp -= damage;
+        m_enemy->Status().m_hp -= damage;
         m_log_printer->Print( "attack->" + StringOf( damage ) );
         m_damage_printer->Begin( Vector2( 100 , 250 ) , damage );
         
-        m_enemy.m_hp = Clamp( 0 , m_enemy.m_hp , m_enemy.m_hp_max );
-        if( m_enemy.IsDead() )
+        m_enemy->Status().m_hp = Clamp( 0 , m_enemy->Status().m_hp , m_enemy->Status().m_hp_max );
+        if( m_enemy->Status().IsDead() )
         {
-            m_player.m_exp += m_enemy.m_exp;
+            m_player.m_exp += m_enemy->Status().m_exp;
         }
     }
 }
@@ -318,7 +319,7 @@ void StateGameMain::EnemyAttack()
         m_log_printer->Print( "damaged->" + StringOf( damage ) );
         m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
     }else{
-        int const damage = m_enemy.m_attack;
+        int const damage = m_enemy->Status().m_attack;
         m_player.m_hp -= damage;
         m_log_printer->Print( "damaged->" + StringOf( damage ) );
         m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
@@ -356,11 +357,11 @@ void StateGameMain::CheckEnd()
 
 void StateGameMain::BornMonster()
 {
-    if( m_enemy.IsDead() )
+    if( m_enemy->Status().IsDead() )
     {
         if( m_map->HasNextMonster() )
         {
-            m_enemy = m_map->NextMonster();
+            m_enemy->Status() = m_map->NextMonster();
         }
     }
 }
@@ -372,7 +373,7 @@ bool StateGameMain::IsGameOver()
 
 bool StateGameMain::IsEndBattle()
 {
-    return ( m_enemy.IsDead() && !m_map->HasNextMonster() );
+    return ( m_enemy->Status().IsDead() && !m_map->HasNextMonster() );
 }
 
 void StateGameMain::UpdatePlayer()
@@ -391,10 +392,10 @@ void StateGameMain::UpdatePlayer()
 
 void StateGameMain::UpdateEnemy()
 {
-    m_enemy.m_attack_frame++;
-    if( m_enemy.m_attack_frame > m_enemy.m_attack_frame_max )
+    m_enemy->Status().m_attack_frame++;
+    if( m_enemy->Status().m_attack_frame > m_enemy->Status().m_attack_frame_max )
     {
-        m_enemy.m_attack_frame = 0;
+        m_enemy->Status().m_attack_frame = 0;
         EnemyAttack();
     }
 }
@@ -417,7 +418,7 @@ void StateGameMain::PushButton()
     }
 }
 
-void StateGameMain::DrawCharacterStatusStatus( CharacterStatus const& chara , int base_x , int base_y )
+void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base_x , int base_y )
 {
     int y = base_y;
     int const margin_y = 12;
