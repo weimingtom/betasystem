@@ -306,7 +306,6 @@ void StateGameMain::PlayerAttack()
         m_enemy->Status().m_hp = Clamp( 0 , m_enemy->Status().m_hp , m_enemy->Status().m_hp_max );
         if( m_enemy->Status().IsDead() )
         {
-            m_player.m_exp += m_enemy->Status().m_exp;
             m_break_num++;
         }
     }
@@ -449,23 +448,6 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
         DrawBox(
             base_x , y ,
             static_cast<int>( base_x + gauge_width * life_percent ) , y + gauge_height ,
-            ColorOf( 0 , 255 , 0 ) , TRUE ) ;
-        y += margin_y;
-    }
-    
-    {
-        DrawFormatString(
-            string_x , y ,
-            ColorOf() ,
-            "exp:[%d]" , chara.m_exp );
-        DrawBox(
-            base_x , y ,
-            static_cast<int>( base_x + gauge_width ), y + gauge_height ,
-            ColorOf( 100 , 100 , 100 ) , TRUE ) ;
-        float const percent = static_cast<float>( chara.m_exp ) / chara.m_exp_max;
-        DrawBox(
-            base_x , y ,
-            static_cast<int>( base_x + gauge_width * percent ) , y + gauge_height ,
             ColorOf( 0 , 255 , 0 ) , TRUE ) ;
         y += margin_y;
     }
