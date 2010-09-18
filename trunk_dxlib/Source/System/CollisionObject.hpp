@@ -33,7 +33,7 @@ public:
         #endif
     }
     
-protected:
+public:
     Vector2 m_pos;
     Vector2 m_size;
 };
