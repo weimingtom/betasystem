@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <memory>
 #include <boost/foreach.hpp>
+#include "DxLibWrapper/Random.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/SoundLoader.hpp"
 #include "DxLibWrapper/MouseInput.hpp"
@@ -68,6 +69,7 @@ private:
     bool IsEndBattle();
     void BornMonster();
     void CheckEnd();
+    Enemy* new_Enemy();
     
 private:
     std::auto_ptr< MapBase > m_map;
@@ -107,11 +109,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
     m_image_loader->Load();
     m_sound_loader->Load();
 //    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
-    m_enemy.reset( new Enemy(
-        Vector2( enemy_x , enemy_y ) ,
-        Vector2( enemy_size , enemy_size ) ,
-        m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
-        m_map->NextMonster() ) );
+    m_enemy.reset( new_Enemy() );
 }
 
 void StateGameMain::Update()
@@ -294,7 +292,6 @@ void StateGameMain::PlayerAttack( Enemy& enemy )
 
 void StateGameMain::EnemyAttack()
 {
-    
     if( m_player.IsGuard() )
     {
         m_sound_loader->Play( NameOf( SoundType_SuccessGuard ) );
@@ -339,13 +336,23 @@ void StateGameMain::CheckEnd()
     }
 }
 
+Enemy* StateGameMain::new_Enemy()
+{
+    return new Enemy(
+        Vector2( GetRandToMax(100) , GetRandToMax(100) + 200 ) ,
+        Vector2( enemy_size , enemy_size ) ,
+        m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
+        m_map->NextMonster()
+    );
+}
+
 void StateGameMain::BornMonster()
 {
     if( m_enemy->Status().IsDead() )
     {
         if( m_map->HasNextMonster() )
         {
-            m_enemy->Status() = m_map->NextMonster();
+            m_enemy.reset( new_Enemy() );
         }
     }
 }
