@@ -88,6 +88,7 @@ private:
     static int const enemy_x = 200;
     static int const enemy_y = 200;
     static int const enemy_size = 100;
+    int m_break_num;
 };
 
 StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
@@ -101,6 +102,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_button( false )
  , m_damage_printer( new_DamagePrinter() )
+ , m_break_num(0)
 {
     ChangeState( State_Begin );
     m_image_loader->Load();
@@ -181,7 +183,7 @@ void StateGameMain::CheckOnButton()
 void StateGameMain::Draw()
 {
     DrawBackground();
-    DrawFormatString( 0 , 0 , ColorOf() , "State[%s]" , StateNameOf( m_state ) );
+    DrawFormatString( 0 , 0 , ColorOf() , "m_break_num[%d]" , m_break_num );
     m_damage_printer->Draw();
     
     switch( m_state )
@@ -305,6 +307,7 @@ void StateGameMain::PlayerAttack()
         if( m_enemy->Status().IsDead() )
         {
             m_player.m_exp += m_enemy->Status().m_exp;
+            m_break_num++;
         }
     }
 }
