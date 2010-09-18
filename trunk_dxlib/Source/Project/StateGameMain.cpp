@@ -68,7 +68,6 @@ private:
     bool IsEndBattle();
     void BornMonster();
     void CheckEnd();
-    void DrawAttackBar();
     
 private:
     std::auto_ptr< MapBase > m_map;
@@ -220,24 +219,6 @@ void StateGameMain::DrawBattle()
     DrawPlayer();
     DrawEnemy();
     DrawButton();
-    DrawAttackBar();
-}
-
-void StateGameMain::DrawAttackBar()
-{
-    int const base_x = 100;
-    int const base_y = 220;
-    int const width = 100;
-    int const height = 10;
-
-    DrawBox(
-        base_x , base_y ,
-        base_x + width , base_y + height ,
-        ColorOf(10,10,10) , TRUE );
-    DrawBox(
-        base_x , base_y ,
-        static_cast<int>( base_x + width * ( static_cast<float>( m_enemy->Status().m_attack_frame ) / m_enemy->Status().m_attack_frame_max ) ) , base_y + height ,
-        ColorOf(200,200,0) , TRUE );
 }
 
 void StateGameMain::DrawButton()
@@ -451,6 +432,20 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
             ColorOf( 0 , 255 , 0 ) , TRUE ) ;
         y += margin_y;
     }
+    //アタックバー
+    {
+        int const width = 100;
+        int const height = 10;
+        DrawBox(
+            base_x , base_y ,
+            base_x + width , base_y + height ,
+            ColorOf(10,10,10) , TRUE );
+        DrawBox(
+            base_x , base_y ,
+            static_cast<int>( base_x + width * ( static_cast<float>( chara.m_attack_frame ) / chara.m_attack_frame_max ) ) , base_y + height ,
+            ColorOf(200,200,0) , TRUE );
+    }
+
 }
 
 char const* StateGameMain::StateNameOf( State state )
