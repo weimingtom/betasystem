@@ -8,6 +8,7 @@ char const* const sound_list[ SoundType_Num ] =
     "Resource/poire.wav",
     "Resource/Short_attack1.wav",
     "Resource/suiteki.wav",
+    "Resource/Extracting_sword.wav",
 };
 
 String NameOf( SoundType type )

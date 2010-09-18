@@ -294,14 +294,15 @@ void StateGameMain::PlayerAttack( Enemy& enemy )
 
 void StateGameMain::EnemyAttack()
 {
-    m_sound_loader->Play( NameOf( SoundType_Attack ) );
     
     if( m_player.IsGuard() )
     {
+        m_sound_loader->Play( NameOf( SoundType_SuccessGuard ) );
         int const damage = 0 ;
         m_log_printer->Print( "damaged->" + StringOf( damage ) );
         m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
     }else{
+        m_sound_loader->Play( NameOf( SoundType_Attack ) );
         int const damage = m_enemy->Status().m_attack;
         m_player.m_hp -= damage;
         m_log_printer->Print( "damaged->" + StringOf( damage ) );
@@ -363,7 +364,7 @@ void StateGameMain::UpdatePlayer()
 {
     if( m_mouse->IsTrig( MouseInput::Type_Right ) )
     {
-        m_sound_loader->Play( NameOf( SoundType_Guard ) );
+        m_sound_loader->Play( NameOf( SoundType_BeginGuard ) );
     }
     m_player.SetGuard( m_mouse->IsHold( MouseInput::Type_Right ) );
     

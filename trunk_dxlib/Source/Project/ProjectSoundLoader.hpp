@@ -10,7 +10,8 @@ enum SoundType
     SoundType_OnButton,
     SoundType_ReleaseButton,
     SoundType_Attack,
-    SoundType_Guard,
+    SoundType_BeginGuard,
+    SoundType_SuccessGuard,
     SoundType_Num,
 };
 
