@@ -62,7 +62,7 @@ private:
     void ChangeState( State state );
     ButtonPtr new_ButtonRunAway();
     void CheckOnButton();
-    void PlayerAttack();
+    void PlayerAttack( Enemy& enemy );
     void EnemyAttack();
     bool IsGameOver();
     bool IsEndBattle();
@@ -292,19 +292,19 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
     return result;
 }
 
-void StateGameMain::PlayerAttack()
+void StateGameMain::PlayerAttack( Enemy& enemy )
 {
     if( !m_player.IsGuard() )
     {
         m_sound_loader->Play( NameOf( SoundType_Attack ) );
         
         int const damage = m_player.AttackDamage(); 
-        m_enemy->Status().m_hp -= damage;
+        enemy.Status().m_hp -= damage;
         m_log_printer->Print( "attack->" + StringOf( damage ) );
         m_damage_printer->Begin( Vector2( 100 , 250 ) , damage );
         
-        m_enemy->Status().m_hp = Clamp( 0 , m_enemy->Status().m_hp , m_enemy->Status().m_hp_max );
-        if( m_enemy->Status().IsDead() )
+        enemy.Status().m_hp = Clamp( 0 , enemy.Status().m_hp , enemy.Status().m_hp_max );
+        if( enemy.Status().IsDead() )
         {
             m_break_num++;
         }
@@ -391,7 +391,7 @@ void StateGameMain::UpdatePlayer()
         Vector2 const pos = m_mouse->Position();
         if( m_enemy->CheckHit( pos ) )
         {
-            PlayerAttack();
+            PlayerAttack( *m_enemy );
         }
     }
 }
