@@ -302,11 +302,6 @@ void StateGameMain::PlayerAttack( Enemy* enemy )
         m_damage_printer->Begin( Vector2( 100 , 250 ) , damage );
         
         enemy->Status().m_hp = Clamp( 0 , enemy->Status().m_hp , enemy->Status().m_hp_max );
-        if( enemy->Status().IsDead() )
-        {
-            delete enemy;
-            m_break_num++;
-        }
     }
 }
 
@@ -430,12 +425,18 @@ void StateGameMain::UpdatePlayer()
         Vector2 const pos = m_mouse->Position();
         for( int i = 0 ; i < m_enemy_max ; i ++ )
         {
-            Enemy* enemy = m_enemy_list[i];
-            if( enemy != 0 )
+            #define ENEMY m_enemy_list[i]
+            if( ENEMY != 0 )
             {
-                if( enemy->CheckHit( pos ) )
+                if( ENEMY->CheckHit( pos ) )
                 {
-                    PlayerAttack( enemy );
+                    PlayerAttack( ENEMY );
+                    if( ENEMY->Status().IsDead() )
+                    {
+                        delete ENEMY;
+                        ENEMY = 0;
+                        m_break_num++;
+                    }
                     break;
                 }
             }
