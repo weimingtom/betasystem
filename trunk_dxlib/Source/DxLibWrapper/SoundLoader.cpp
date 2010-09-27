@@ -63,7 +63,7 @@ void SoundLoader::Impl::Play( std::string file_name , bool is_bgm )
     {
         PlaySoundMem( (*it).second , DX_PLAYTYPE_LOOP , TRUE );
     }else{
-        PlaySoundMem( (*it).second , DX_PLAYTYPE_NORMAL , TRUE );
+        PlaySoundMem( (*it).second , DX_PLAYTYPE_BACK , TRUE );
     }
 }
 
