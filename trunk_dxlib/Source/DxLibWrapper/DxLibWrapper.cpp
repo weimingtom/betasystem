@@ -20,7 +20,7 @@ int InitApplication()
     SetFontSize( font_size );
     
     g_state_manager.reset( new_ProjectStateManager() );
-    g_state_manager->ChangeState( ProjectState_WorldMap );
+    g_state_manager->ChangeState( ProjectState_Battle );
     
     return ApplicationSuccess;
 }

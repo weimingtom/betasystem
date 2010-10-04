@@ -356,7 +356,7 @@ Enemy* StateGameMain::new_Enemy( int index )
     if( m_map->HasNextMonster() )
     {
         return new Enemy(
-            Vector2( 10 + index * 100 , 300 ) ,
+            Vector2( 10 + index * 100 , 270 ) ,
             Vector2( enemy_size , enemy_size ) ,
             m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
             m_map->NextMonster()
@@ -454,7 +454,7 @@ void StateGameMain::UpdateEnemyList()
             enemy->Status().m_attack_frame++;
             if( enemy->Status().m_attack_frame > enemy->Status().m_attack_frame_max )
             {
-                enemy->Status().m_attack_frame = 0;
+                enemy->Status().m_attack_frame = GetRandToMax( 10 );
                 EnemyAttack( *enemy );
             }
         }
@@ -516,7 +516,7 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
         DrawBox(
             base_x , base_y ,
             static_cast<int>( base_x + width * ( static_cast<float>( chara.m_attack_frame ) / chara.m_attack_frame_max ) ) , base_y + height ,
-            ColorOf(200,200,0) , TRUE );
+            ColorOf( chara.m_attack_frame * 2 , chara.m_attack_frame * 2 , 0 ) , TRUE );
     }
 }
 

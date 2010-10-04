@@ -20,10 +20,7 @@ CharacterStatus::CharacterStatus( int hp_max , int attack , int exp )
 
 int CharacterStatus::AttackDamage() const
 {
-    float const rand = static_cast<float>( GetRandToMax( 4 ) );
-    float keisuu = ( rand - 2 ) / 10 ;
-    
-    return static_cast<int>( m_attack + m_attack * keisuu );
+    return m_attack;
 }
 
 
