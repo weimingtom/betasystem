@@ -240,3 +240,11 @@ c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.cpp(
     現象をもう一回見る
     
     
+
+・svnの更新でメニューが出なくなってるので再インスコする
+    した
+    
+・todo競合の解消.
+
+2010年10月4日21:10:16
+
