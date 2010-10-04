@@ -91,7 +91,7 @@ private:
     static int const enemy_y = 200;
     static int const enemy_size = 100;
     int m_break_num;
-    static int const m_enemy_max = 1;
+    static int const m_enemy_max = 5;
     Enemy* m_enemy_list[ m_enemy_max ];
     int m_frame;
 };
@@ -389,7 +389,7 @@ void StateGameMain::InitEnemyList()
 void StateGameMain::UpdateBornMonster()
 {
     m_frame++; 
-    if( m_frame % 300 == 0 )
+    if( m_frame % 100 == 0 )
     {
         AddEnemy();
     }
