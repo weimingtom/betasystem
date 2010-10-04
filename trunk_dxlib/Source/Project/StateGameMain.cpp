@@ -110,7 +110,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
  , m_break_num(0)
  , m_frame(0)
 {
-    ChangeState( State_Begin );
+    ChangeState( State_Battle );
     m_image_loader->Load();
     m_sound_loader->Load();
 //    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
