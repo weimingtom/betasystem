@@ -69,7 +69,7 @@ private:
     bool IsEndBattle();
     void UpdateBornMonster();
     void CheckEnd();
-    Enemy* new_Enemy();
+    Enemy* new_Enemy( int index );
     void AddEnemy();
     void InitEnemyList();
     
@@ -91,7 +91,7 @@ private:
     static int const enemy_y = 200;
     static int const enemy_size = 100;
     int m_break_num;
-    static int const m_enemy_max = 5;
+    static int const m_enemy_max = 3;
     Enemy* m_enemy_list[ m_enemy_max ];
     int m_frame;
 };
@@ -351,12 +351,12 @@ void StateGameMain::CheckEnd()
     }
 }
 
-Enemy* StateGameMain::new_Enemy()
+Enemy* StateGameMain::new_Enemy( int index )
 {
     if( m_map->HasNextMonster() )
     {
         return new Enemy(
-            Vector2( GetRandToMax(100) , GetRandToMax(100) + 200 ) ,
+            Vector2( 10 + index * 100 , 300 ) ,
             Vector2( enemy_size , enemy_size ) ,
             m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
             m_map->NextMonster()
@@ -372,7 +372,7 @@ void StateGameMain::AddEnemy()
     {
         if( m_enemy_list[i] == 0 )
         {
-            m_enemy_list[i] = new_Enemy();
+            m_enemy_list[i] = new_Enemy(i);
             return;
         }
     }
@@ -485,16 +485,10 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
     int const margin_y = 12;
     float const gauge_width = 64;
     int const gauge_height = 12;
-    int const string_x = base_x + static_cast<int>(gauge_width) + 20;
+    int const string_x = base_x;
     
     y += margin_y;
-    
     {
-        DrawFormatString(
-            string_x , y ,
-            ColorOf() ,
-            "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
-        
         DrawBox(
             base_x , y ,
             static_cast<int>( base_x + gauge_width ), y + gauge_height ,
@@ -505,11 +499,16 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
             static_cast<int>( base_x + gauge_width * life_percent ) , y + gauge_height ,
             ColorOf( 0 , 255 , 0 ) , TRUE ) ;
         y += margin_y;
+        DrawFormatString(
+            string_x , y ,
+            ColorOf() ,
+            "hp:[%d]/[%d]" , chara.m_hp , chara.m_hp_max );
     }
+    
     //アタックバー
     {
-        int const width = 100;
-        int const height = 10;
+        int const width = 64;
+        int const height = 12;
         DrawBox(
             base_x , base_y ,
             base_x + width , base_y + height ,
@@ -519,7 +518,6 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
             static_cast<int>( base_x + width * ( static_cast<float>( chara.m_attack_frame ) / chara.m_attack_frame_max ) ) , base_y + height ,
             ColorOf(200,200,0) , TRUE );
     }
-
 }
 
 char const* StateGameMain::StateNameOf( State state )
