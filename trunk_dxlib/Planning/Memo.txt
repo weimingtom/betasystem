@@ -1,4 +1,6 @@
 
+
+
 ･Project/ImageLoaderを作ったら、リンク通らない。
     ・同名のオブジェクトファイルが衝突するかららしい。
 
@@ -68,3 +70,173 @@ Princess
         ・装備？
         ・セーブ？
             …今のところ回復以外何も要らないなー
+
+2010年9月18日22:02:22
+
+◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+
+▽レベルを消す.
+    消した
+        ビルド
+            おｋ
+
+
+▽NeedPointOfいらね
+c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\attacktype.cpp(28) : warning C4715: 'NeedPointOf' : 値を返さないコントロール パスがあります。
+▽AAWserviceってなに
+    メモリをアホみたいに食ってる
+    adawareが腐ってるらしい
+    削除した
+    ▽型の警告を解消
+c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\damageprinter.cpp(60) : warning C4244: '引数' : 'const double' から 'int' への変換です。データが失われる可能性があります。
+c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\damageprinter.cpp(60) : warning C4244: '引数' : 'const double' から 'int' への変換です。データが失われる可能性があります。
+
+
+
+▽AttackListも要らない
+    
+▽ガードをつける
+    bool m_is_guard;
+    
+    /**
+    
+    */
+    void SetGuard( bool is_guard );
+
+▽右クリでガード
+▽攻撃される時にガードを考慮する
+    動作確認
+        TrigじゃなくてHoldだった
+        LogPrinterとDamagePrinterは別物
+▽攻撃に音つける
+    音のローダーはどこだ
+▽敵の攻撃タイミングを視覚化する
+    どういう風にする？
+    m_frameをCharacterStatusに含めるか？
+    m_attack_frame
+    案外計算式が面倒だなぁ、
+    後引数がちょっと頭おかしい。
+    
+    c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\stategamemain.cpp(237) : warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+
+    
+▽黄色って何が混ざって出来るんだっけ
+    赤と緑だった
+
+▽ガードを視覚化する
+    画像作った
+    表示する
+▽CharacterをCharacterStatusにするかな
+
+c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.cpp(21) : error C2555: 'MapGreenForest::NextMonster': オーバーライドする仮想関数の戻り値の型が異なり、'MapBase::NextMonster' の covariant ではありません。
+1>        c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.hpp(17) : 'MapBase::NextMonster' の宣言を確認してください。
+1>c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.cpp(64) : error C2555: 'MapRedForest::NextMonster': オーバーライドする仮想関数の戻り値の型が異なり、'MapBase::NextMonster' の covariant ではありません。
+1>        c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.hpp(17) : 'MapBase::NextMonster' の宣言を確認してください。
+1>SaveData.cpp
+1>StateGameMain.cpp
+1>c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\stategamemain.cpp(110) : error C2664: 'CharacterStatus::CharacterStatus(const CharacterStatus &)' : 1 番目の引数を 'Character' から 'const CharacterStatus &' に変換できません。(新しい機能 ; ヘルプを参照)
+1>        理由: 'Character' から 'const CharacterStatus' へは変換できません。
+1>        この変換を実行可能なユーザー定義変換演算子がないか、または演算子を呼び出せません。
+1>c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\stategamemain.cpp(368) : error C2679: 二項演算子 '=' : 型 'Character' の右オペランドを扱う演算子が見つかりません (または変換できません)。
+1>        c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\characterstatus.hpp(29): 'CharacterStatus &CharacterStatus::operator =(const CharacterStatus &)' の可能性があります。
+1>        引数リスト '(CharacterStatus, Character)' を一致させようとしているとき
+
+
+▽m_attack_frameも追加したいな.
+▽CollisionObjectの作成
+▽当たり判定描画
+▽敵クラスの作成
+
+            
+            if( m_enemy.CheckHit( pos ) )
+            {
+                PlayerAttack( m_enemy.Status() );
+            }
+▽ガードの音
+    
+
+▽レベルは無い事にするか？
+    うーん、レベルor装備
+▽防御したら絶対食らわないようにすれば、シューティング的になる
+    避ける代わりにガードする
+        盾が壊れるとか？
+▽こうなると敵が攻撃してくるタイミングってのが目で見える必要があるわけだ。
+    ゲージ
+    弾が飛んでくる
+▽RPGとシューティングは近しい？
+    比較的ね
+
+▽装備ってつまりレベルじゃね？
+    そりゃそうだ、つまり装備いらね
+    属性の方がむしろ必要なのか…
+▽今ある敵を敵クラスに置き換える
+    ImageLoaderの処理順序を直す.
+        
+
+
+▽当たり判定で攻撃できる.ようにする
+
+▽倒した敵をカウントするか
+
+2010年9月18日22:07:01
+
+▽playerattackの改造
+
+2010年9月18日22:09:34
+
+▽攻撃バーをDrawStatusに追加
+    なんでふたりとも減ってるんだ
+        m_enemyを参照してたわ
+
+2010年9月18日22:30:09
+
+▽音を変える.
+    打撃音を変える.
+        拾ってくる
+            http://taira-komori.jpn.org/freesound06.html
+    
+    ガード音鳴らす処理入れてない.
+2010年9月18日23:15:22
+
+▽敵の再生成時、場所をずらすしょり
+2010年9月19日0:42:27
+
+▽敵を複数化.
+    固定でやるか…、増えすぎても問題だし、管理が面倒だ.
+    敵死んだらSAFE_DELETEしないとな
+    とりあえず定期的に追加するか
+    一気に出すぎ
+2010年9月19日0:44:54
+▽２匹しか生まれない
+    ==300にしてた
+
+2010年9月19日0:46:11
+▽プレイヤー攻撃が複数にあたる
+
+2010年9月19日0:56:54
+▽描画したつもりのないステータスが描画される
+    コンストラクタでAddEnemyしてた
+2010年9月19日22:36:31
+▽配列してる事を疑って、単体で扱ってたリビジョンからdeleteしてみる。
+    単体の時からdelete行っても問題ない
+
+▽あー！分かったー！
+    enemyに退避してるからだ…
+        んー、SAFE_DELETEの認識が間違ってる？
+  
+
+▽ヒープ破壊してるっぽい
+    んー、結構綺麗なコードだけどね
+        デストラクタ描いてみるか
+            関係ない
+    何をしたら破壊が起こる？
+        敵を倒したら
+            敵を倒した時何をする？
+                deleteやねぇうーん…
+
+▽終了しない
+
+▽m_attack_frameの加算がはやいｗ
+    現象をもう一回見る
+    
+    

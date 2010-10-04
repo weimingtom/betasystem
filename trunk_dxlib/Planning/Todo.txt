@@ -1,10 +1,21 @@
-▽ガードが無敵すぎる
+・svnの更新でメニューが出なくなってるので再インスコする
+    した
+    
+・todo競合の解消.
+
+
+
+
+
+    
     制限時間は設けるけどさ…
     ガード開始時からガードレベルが下がっていく
     いや、これじゃまずいな
     Lv3 = 完全ガード+必殺ゲージ上昇
     Lv2 = 完全ガード
     Lv1 = 通常ガード　1のダメージ？
+
+▽連続攻撃に制限をかける
 
 ▽TIPS集
     ・基本操作　左クリックで攻撃　右クリックで防御
@@ -27,6 +38,8 @@
     位置取りに関しては調整しないとだめかなー
         重なり合ったら攻撃しづらいじゃない
 
+▽敵同士が重なると殴りにくい
+
 ▽アイテムを出現させるようにする.
     ・どんなアイテムがあるか
         ・お金
@@ -46,6 +59,10 @@
         ・クリックしたらその場で使用
         ・アイテム欄に溜まっていく
         
+▽実体を返す場合って関数のconstってどうなるの？みたいな
+
+▽ガードが無敵すぎる
+
 ▽アイテム
     ・CheckHitできる
         class Item : public CollisionObject
@@ -69,8 +86,6 @@
     ぶっちゃけ死ぬのはストレスですから
         でも、戦う以上しんじゃうのよね。
             →ずっと死なないような感じにしないと、おもしろくない！
-
-▽倒した敵をカウントするか
 
 ▽フィールドの設計が間違ってるので考え直す
 
@@ -456,105 +471,3 @@ static int s_monster_weight[] =
                 …今のところ回復以外何も要らないなー
 
 
-◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
-
-▽レベルを消す.
-    消した
-        ビルド
-            おｋ
-
-
-▽NeedPointOfいらね
-c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\attacktype.cpp(28) : warning C4715: 'NeedPointOf' : 値を返さないコントロール パスがあります。
-▽AAWserviceってなに
-    メモリをアホみたいに食ってる
-    adawareが腐ってるらしい
-    削除した
-    ▽型の警告を解消
-c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\damageprinter.cpp(60) : warning C4244: '引数' : 'const double' から 'int' への変換です。データが失われる可能性があります。
-c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\damageprinter.cpp(60) : warning C4244: '引数' : 'const double' から 'int' への変換です。データが失われる可能性があります。
-
-
-
-▽AttackListも要らない
-    
-▽ガードをつける
-    bool m_is_guard;
-    
-    /**
-    
-    */
-    void SetGuard( bool is_guard );
-
-▽右クリでガード
-▽攻撃される時にガードを考慮する
-    動作確認
-        TrigじゃなくてHoldだった
-        LogPrinterとDamagePrinterは別物
-▽攻撃に音つける
-    音のローダーはどこだ
-▽敵の攻撃タイミングを視覚化する
-    どういう風にする？
-    m_frameをCharacterStatusに含めるか？
-    m_attack_frame
-    案外計算式が面倒だなぁ、
-    後引数がちょっと頭おかしい。
-    
-    c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\stategamemain.cpp(237) : warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
-
-    
-▽黄色って何が混ざって出来るんだっけ
-    赤と緑だった
-
-▽ガードを視覚化する
-    画像作った
-    表示する
-▽CharacterをCharacterStatusにするかな
-
-c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.cpp(21) : error C2555: 'MapGreenForest::NextMonster': オーバーライドする仮想関数の戻り値の型が異なり、'MapBase::NextMonster' の covariant ではありません。
-1>        c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.hpp(17) : 'MapBase::NextMonster' の宣言を確認してください。
-1>c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.cpp(64) : error C2555: 'MapRedForest::NextMonster': オーバーライドする仮想関数の戻り値の型が異なり、'MapBase::NextMonster' の covariant ではありません。
-1>        c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\map.hpp(17) : 'MapBase::NextMonster' の宣言を確認してください。
-1>SaveData.cpp
-1>StateGameMain.cpp
-1>c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\stategamemain.cpp(110) : error C2664: 'CharacterStatus::CharacterStatus(const CharacterStatus &)' : 1 番目の引数を 'Character' から 'const CharacterStatus &' に変換できません。(新しい機能 ; ヘルプを参照)
-1>        理由: 'Character' から 'const CharacterStatus' へは変換できません。
-1>        この変換を実行可能なユーザー定義変換演算子がないか、または演算子を呼び出せません。
-1>c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\stategamemain.cpp(368) : error C2679: 二項演算子 '=' : 型 'Character' の右オペランドを扱う演算子が見つかりません (または変換できません)。
-1>        c:\documents and settings\shion\デスクトップ\dxlib\dxlib\source\project\characterstatus.hpp(29): 'CharacterStatus &CharacterStatus::operator =(const CharacterStatus &)' の可能性があります。
-1>        引数リスト '(CharacterStatus, Character)' を一致させようとしているとき
-
-
-▽m_attack_frameも追加したいな.
-▽CollisionObjectの作成
-▽当たり判定描画
-▽敵クラスの作成
-
-            
-            if( m_enemy.CheckHit( pos ) )
-            {
-                PlayerAttack( m_enemy.Status() );
-            }
-▽ガードの音
-    
-
-▽レベルは無い事にするか？
-    うーん、レベルor装備
-▽防御したら絶対食らわないようにすれば、シューティング的になる
-    避ける代わりにガードする
-        盾が壊れるとか？
-▽こうなると敵が攻撃してくるタイミングってのが目で見える必要があるわけだ。
-    ゲージ
-    弾が飛んでくる
-▽RPGとシューティングは近しい？
-    比較的ね
-
-▽装備ってつまりレベルじゃね？
-    そりゃそうだ、つまり装備いらね
-    属性の方がむしろ必要なのか…
-▽今ある敵を敵クラスに置き換える
-    ImageLoaderの処理順序を直す.
-        
-
-
-▽当たり判定で攻撃できる.ようにする
