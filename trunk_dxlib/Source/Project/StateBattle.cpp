@@ -28,10 +28,10 @@
 #include "Project/DamagePrinter.hpp"
 #include "Project/Enemy.hpp"
 
-class StateGameMain : public StateBase
+class StateBattle : public StateBase
 {
 public:
-    StateGameMain( StateManagerBase& project_state_manager );
+    StateBattle( StateManagerBase& project_state_manager );
     
 public:
     void Update();
@@ -96,7 +96,7 @@ private:
     int m_frame;
 };
 
-StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
+StateBattle::StateBattle( StateManagerBase& project_state_manager )
  : m_map( new_Map( GetBackground() ) )
  , m_image_loader( new_ImageLoader() )
  , m_mouse( new_MouseInput() )
@@ -117,7 +117,7 @@ StateGameMain::StateGameMain( StateManagerBase& project_state_manager )
     InitEnemyList();
 }
 
-void StateGameMain::Update()
+void StateBattle::Update()
 {
     m_state = m_next_state;
     
@@ -158,7 +158,7 @@ void StateGameMain::Update()
     }
 }
 
-void StateGameMain::CheckOnButton()
+void StateBattle::CheckOnButton()
 {   
     bool on_button = false;
     Vector2 const mouse_pos = m_mouse->Position();
@@ -182,7 +182,7 @@ void StateGameMain::CheckOnButton()
     m_on_button = on_button;
 }
 
-void StateGameMain::Draw()
+void StateBattle::Draw()
 {
     DrawBackground();
     DrawFormatString( 0 , 0 , ColorOf() , "m_break_num[%d]" , m_break_num );
@@ -224,14 +224,14 @@ void StateGameMain::Draw()
     m_log_printer->Draw();
 }
 
-void StateGameMain::DrawBattle()
+void StateBattle::DrawBattle()
 {
     DrawPlayer();
     DrawEnemy();
     DrawButton();
 }
 
-void StateGameMain::DrawButton()
+void StateBattle::DrawButton()
 {
     BOOST_FOREACH( ButtonPtr const& button , m_button_list )
     {
@@ -239,7 +239,7 @@ void StateGameMain::DrawButton()
     }
 }
 
-void StateGameMain::DrawBackground()
+void StateBattle::DrawBackground()
 {
     switch( GetBackground() )
     {
@@ -252,7 +252,7 @@ void StateGameMain::DrawBackground()
     }
 }
 
-void StateGameMain::DrawPlayer()
+void StateBattle::DrawPlayer()
 {
     Vector2 pos( 400 , 230 );
     if( m_player.IsGuard() )
@@ -263,7 +263,7 @@ void StateGameMain::DrawPlayer()
     }
 }
 
-void StateGameMain::DrawEnemy()
+void StateBattle::DrawEnemy()
 {
     for( int i = 0 ; i < m_enemy_max ; i ++ )
     {
@@ -274,7 +274,7 @@ void StateGameMain::DrawEnemy()
     }
 }
 
-ButtonPtr StateGameMain::new_ButtonRunAway()
+ButtonPtr StateBattle::new_ButtonRunAway()
 {
     Vector2 pos( 500 , 300 );
     Vector2 size( 100 , 100 );
@@ -289,7 +289,7 @@ ButtonPtr StateGameMain::new_ButtonRunAway()
     return result;
 }
 
-void StateGameMain::PlayerAttack( Enemy* enemy )
+void StateBattle::PlayerAttack( Enemy* enemy )
 {
     if( enemy == 0 ){ return; }
     if( !m_player.IsGuard() )
@@ -305,7 +305,7 @@ void StateGameMain::PlayerAttack( Enemy* enemy )
     }
 }
 
-void StateGameMain::EnemyAttack( Enemy& enemy )
+void StateBattle::EnemyAttack( Enemy& enemy )
 {
     if( m_player.IsGuard() )
     {
@@ -324,7 +324,7 @@ void StateGameMain::EnemyAttack( Enemy& enemy )
     }
 }
 
-void StateGameMain::UpdateBattle()
+void StateBattle::UpdateBattle()
 {
     if( m_init )
     {
@@ -339,7 +339,7 @@ void StateGameMain::UpdateBattle()
     PushButton();
 }
 
-void StateGameMain::CheckEnd()
+void StateBattle::CheckEnd()
 {
     if( IsGameOver() )
     {
@@ -351,7 +351,7 @@ void StateGameMain::CheckEnd()
     }
 }
 
-Enemy* StateGameMain::new_Enemy( int index )
+Enemy* StateBattle::new_Enemy( int index )
 {
     if( m_map->HasNextMonster() )
     {
@@ -366,7 +366,7 @@ Enemy* StateGameMain::new_Enemy( int index )
     }
 }
 
-void StateGameMain::AddEnemy()
+void StateBattle::AddEnemy()
 {
     for( int i = 0 ; i < m_enemy_max ; i++ )
     {
@@ -378,7 +378,7 @@ void StateGameMain::AddEnemy()
     }
 }
 
-void StateGameMain::InitEnemyList()
+void StateBattle::InitEnemyList()
 {
     for( int i = 0 ; i < m_enemy_max ; i++ )
     {
@@ -386,7 +386,7 @@ void StateGameMain::InitEnemyList()
     }
 }
 
-void StateGameMain::UpdateBornMonster()
+void StateBattle::UpdateBornMonster()
 {
     m_frame++; 
     if( m_frame % 100 == 0 )
@@ -395,12 +395,12 @@ void StateGameMain::UpdateBornMonster()
     }
 }
 
-bool StateGameMain::IsGameOver()
+bool StateBattle::IsGameOver()
 {
     return ( m_player.IsDead() );
 }
 
-bool StateGameMain::IsEndBattle()
+bool StateBattle::IsEndBattle()
 {
     for( int i = 0 ; i < m_enemy_max ; i++ )
     {
@@ -412,7 +412,7 @@ bool StateGameMain::IsEndBattle()
     return ( !m_map->HasNextMonster() );
 }
 
-void StateGameMain::UpdatePlayer()
+void StateBattle::UpdatePlayer()
 {
     if( m_mouse->IsTrig( MouseInput::Type_Right ) )
     {
@@ -444,7 +444,7 @@ void StateGameMain::UpdatePlayer()
     }
 }
 
-void StateGameMain::UpdateEnemyList()
+void StateBattle::UpdateEnemyList()
 {
     for( int i = 0 ; i < m_enemy_max ; i++ )
     {
@@ -461,7 +461,7 @@ void StateGameMain::UpdateEnemyList()
     }
 }
 
-void StateGameMain::PushButton()
+void StateBattle::PushButton()
 {
     if( m_mouse->IsTrig( MouseInput::Type_Left ) )
     {
@@ -479,7 +479,7 @@ void StateGameMain::PushButton()
     }
 }
 
-void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base_x , int base_y )
+void StateBattle::DrawCharacterStatus( CharacterStatus const& chara , int base_x , int base_y )
 {
     int y = base_y;
     int const margin_y = 12;
@@ -520,7 +520,7 @@ void StateGameMain::DrawCharacterStatus( CharacterStatus const& chara , int base
     }
 }
 
-char const* StateGameMain::StateNameOf( State state )
+char const* StateBattle::StateNameOf( State state )
 {
     static char const* const name[ State_Num ] =
     {
@@ -533,14 +533,14 @@ char const* StateGameMain::StateNameOf( State state )
     return name[ state ];
 }
 
-void StateGameMain::ChangeState( State state )
+void StateBattle::ChangeState( State state )
 {
     m_next_state = state;
     m_init = true;
 }
 
-StateBase* new_StateGameMain( StateManagerBase& project_state_manager )
+StateBase* new_StateBattle( StateManagerBase& project_state_manager )
 {
-    return new StateGameMain( project_state_manager );
+    return new StateBattle( project_state_manager );
 }
 

@@ -2,7 +2,7 @@
 
 #include <assert.h>
 #include "System/StateManagerBase.hpp"
-#include "Project/StateGameMain.hpp"
+#include "Project/StateBattle.hpp"
 #include "Project/StateWorldMap.hpp"
 #include "Project/StateCamp.hpp"
 #include "Project/StateGameOver.hpp"
@@ -31,7 +31,7 @@ StateBase* ProjectStateManager::new_State( int select_index )
     case ProjectState_WorldMap:
         return new_StateWorldMap( *this );
     case ProjectState_Battle:
-        return new_StateGameMain( *this );
+        return new_StateBattle( *this );
     case ProjectState_Camp:
         return new_StateCamp( *this );
     case ProjectState_GameOver:

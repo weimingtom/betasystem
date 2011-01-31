@@ -7,7 +7,7 @@ class StateBase;
 /**
     ¶¬ŠÖ”.
 */
-StateBase* new_StateGameMain( StateManagerBase& project_state_manager );
+StateBase* new_StateBattle( StateManagerBase& project_state_manager );
 
 
 #endif
