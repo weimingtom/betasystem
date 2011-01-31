@@ -6,22 +6,28 @@
 #include "System/StateManagerBase.hpp"
 #include "Project/ProjectStateManager.hpp"
 
+/**
+	アプリケーションの一番上になる StateManager.
+*/
 std::auto_ptr< StateManagerBase > g_state_manager;
 
 int InitApplication()
 {
-    int const font_size = 12;
-    
-    SetGraphMode( 640 , 480 , 16 ) ;
-    ChangeWindowMode( TRUE ) ;
-    if( DxLib_Init() == ApplicationFailure ) { return ApplicationFailure; }
-    
-    SetDrawScreen( DX_SCREEN_BACK );
-    SetFontSize( font_size );
-    
     g_state_manager.reset( new_ProjectStateManager() );
     g_state_manager->ChangeState( ProjectState_Battle );
-    
+
+    SetGraphMode( 640 , 480 , 16 ) ;
+    ChangeWindowMode( TRUE ) ;
+    if( DxLib_Init() == ApplicationFailure ){
+		return ApplicationFailure;
+	}
+	SetDrawScreen( DX_SCREEN_BACK );
+
+	//フォントサイズ設定.
+	int const font_size = 12;
+    SetFontSize( font_size );
+	
+	//初期化成功.
     return ApplicationSuccess;
 }
 
