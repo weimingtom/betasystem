@@ -300,14 +300,6 @@
 				</File>
 			</Filter>
 		</Filter>
-		<Filter
-			Name="Effect"
-			>
-			<File
-				RelativePath="..\Source\Effect\snow.cpp"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath="..\Source\main.cpp"
 			>
