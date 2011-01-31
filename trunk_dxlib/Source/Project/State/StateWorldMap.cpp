@@ -1,4 +1,4 @@
-#include "Project/StateWorldMap.hpp"
+#include "StateWorldMap.hpp"
 
 #include <memory>
 #include <boost/foreach.hpp>

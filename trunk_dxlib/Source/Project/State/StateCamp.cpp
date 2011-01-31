@@ -1,4 +1,4 @@
-#include "Project/StateGameOver.hpp"
+#include "StateCamp.hpp"
 
 #include <memory>
 #include "System/StateBase.hpp"
@@ -12,10 +12,10 @@
 #include "Project/CharacterStatusFactory.hpp"
 #include "Project/SaveData.hpp"
 
-class StateGameOver : public StateBase
+class StateCamp : public StateBase
 {
 public:
-    StateGameOver( StateManagerBase& project_state_manager );
+    StateCamp( StateManagerBase& project_state_manager );
 public:
     void Update();
     void Draw();
@@ -25,17 +25,17 @@ private:
     std::auto_ptr< MouseInput > m_mouse_input;
 };
 
-StateGameOver::StateGameOver( StateManagerBase& project_state_manager )
+StateCamp::StateCamp( StateManagerBase& project_state_manager )
  : m_project_state_manager( project_state_manager )
  , m_image_loader( new_ImageLoader() )
  , m_mouse_input( new_MouseInput() )
 {
     m_image_loader->Load();
     CharacterStatus& player_status = SaveData::GetInstance().m_player_status;
-    player_status = CharacterStatusOf( CharaType_Player );
+    player_status.m_hp = player_status.m_hp_max;
 }
 
-void StateGameOver::Update()
+void StateCamp::Update()
 {
     m_mouse_input->Update();
     if( m_mouse_input->IsTrig( MouseInput::Type_Left ) )
@@ -44,13 +44,13 @@ void StateGameOver::Update()
     }
 }
 
-void StateGameOver::Draw()
+void StateCamp::Draw()
 {
-    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
+    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_Camp ) ) );
 }
 
-StateBase* new_StateGameOver( StateManagerBase& project_state_manager )
+StateBase* new_StateCamp( StateManagerBase& project_state_manager )
 {
-    return new StateGameOver( project_state_manager );
+    return new StateCamp( project_state_manager );
 }
 

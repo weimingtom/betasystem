@@ -263,22 +263,42 @@
 				RelativePath="..\Source\Project\SaveData.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\Source\Project\StateBattle.cpp"
+			<Filter
+				Name="State"
 				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\StateCamp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\StateGameOver.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\StateWorldMap.cpp"
-				>
-			</File>
+				<File
+					RelativePath="..\Source\Project\State\StateBattle.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateBattle.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateCamp.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateCamp.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateGameOver.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateGameOver.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateWorldMap.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateWorldMap.hpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Effect"
