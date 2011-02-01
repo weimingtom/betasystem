@@ -260,7 +260,19 @@
 			Name="Project"
 			>
 			<File
+				RelativePath="..\Source\Project\AttackType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\AttackType.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\BackgroundFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\BackgroundFactory.hpp"
 				>
 			</File>
 			<File
@@ -268,7 +280,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\CharacterStatus.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\CharacterStatusFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\CharacterStatusFactory.hpp"
 				>
 			</File>
 			<File
@@ -276,7 +296,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\DamagePrinter.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\Enemy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\Enemy.hpp"
 				>
 			</File>
 			<File
@@ -284,7 +312,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\Map.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\ProjectImageLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\ProjectImageLoader.hpp"
 				>
 			</File>
 			<File
@@ -292,11 +328,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\ProjectSoundLoader.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\ProjectStateManager.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\ProjectStateManager.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\SaveData.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\SaveData.hpp"
 				>
 			</File>
 			<Filter
