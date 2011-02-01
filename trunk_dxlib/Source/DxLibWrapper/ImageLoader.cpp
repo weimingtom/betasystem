@@ -4,7 +4,7 @@
 #include <map>
 #include <assert.h>
 #include <vector>
-#include "DxLibWrapper/DxLibWrapper.hpp"
+#include "DxLibWrapper/ReturnVariable.hpp"
 
 typedef std::vector<std::string> ImageNameList;
 typedef std::map< std::string , int > ImageMap;

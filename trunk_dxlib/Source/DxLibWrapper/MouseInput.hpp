@@ -1,4 +1,4 @@
-#include "DxLibWrapper.hpp"
+#include "ReturnVariable.hpp"
 /*
 	マウス入力関連.
 */

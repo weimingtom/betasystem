@@ -2,7 +2,7 @@
 /*
 	マウス入力関連.
 */
-#include "DxLibWrapper.hpp"
+#include "ReturnVariable.hpp"
 #include "System/Vector2.hpp"
 
 class MouseInput::Impl : public MouseInput

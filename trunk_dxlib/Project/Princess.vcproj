@@ -176,7 +176,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\DxLibWrapper.cpp"
+				RelativePath="..\Source\DxLibWrapper\Button.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\Color.hpp"
 				>
 			</File>
 			<File
@@ -184,7 +188,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\DxLibWrapper\Graphics.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\ImageLoader.hpp"
 				>
 			</File>
 			<File
@@ -192,7 +204,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\DxLibWrapper\KeyboardInput.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\LogPrinter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\LogPrinter.hpp"
 				>
 			</File>
 			<File
@@ -200,7 +220,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\DxLibWrapper\MouseInput.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\Random.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\ReturnVariable.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\SoundLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\SoundLoader.hpp"
 				>
 			</File>
 		</Filter>

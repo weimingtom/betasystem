@@ -1,6 +1,6 @@
 #include "KeyboardInput.hpp"
 
-#include "DxLibWrapper/DxLibWrapper.hpp"
+#include "DxLibWrapper/ReturnVariable.hpp"
 
 class KeyboardInput::Impl : public KeyboardInput
 {
