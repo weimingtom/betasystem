@@ -5,9 +5,7 @@ class StateManagerBase;
 
 enum ProjectState
 {
-    ProjectState_WorldMap,
     ProjectState_Battle,
-    ProjectState_Camp,
     ProjectState_GameOver,
 };
 

@@ -144,13 +144,13 @@ void StateBattle::Update()
     case State_Win:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            m_project_state_manager.ChangeState( ProjectState_WorldMap );
+//            m_project_state_manager.ChangeState( ProjectState_WorldMap );
         }
         break;
     case State_RunAway:
         if( m_mouse->IsTrig( MouseInput::Type_Left ) )
         {
-            m_project_state_manager.ChangeState( ProjectState_Camp );
+//            m_project_state_manager.ChangeState( ProjectState_Camp );
         }
         break;
     default:

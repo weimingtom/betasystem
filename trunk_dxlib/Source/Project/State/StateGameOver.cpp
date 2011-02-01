@@ -40,7 +40,7 @@ void StateGameOver::Update()
     m_mouse_input->Update();
     if( m_mouse_input->IsTrig( MouseInput::Type_Left ) )
     {
-        m_project_state_manager.ChangeState( ProjectState_WorldMap );
+//        m_project_state_manager.ChangeState( ProjectState_WorldMap );
     }
 }
 
