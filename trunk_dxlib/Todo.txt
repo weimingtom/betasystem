@@ -1,6 +1,5 @@
 
 
-boost入ってないので、入れる.
 
 
 
@@ -10,6 +9,8 @@ boost入ってないので、入れる.
 
 
 
+//取り除きたいinclude
+C:\Documents and Settings\a_kuboi\デスクトップ\kuboi_work\Princess\Source\DxLibWrapper\ReturnVariable.hpp (7,1): 
 
 
 
@@ -55,3 +56,11 @@ NextStageなんか作る必要ないんじゃないのか、という。
 ・
 
 
+■■■■■■
+
+boost入ってないので、入れる.
+
+・何か大本の仕組みがおかしく感じるので、原因を探る.
+	DxLibWrapperはライブラリなんだが、
+	DxLibWrapper.cpp内で、new_ProjectStateManagerしてしまっているのが気持ち悪い.相互参照になっとるね。
+	おｋ
