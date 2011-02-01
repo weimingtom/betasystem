@@ -3,9 +3,6 @@
 /**
 	–ß‚è’l‚Ì’è‹`.
 */
-
-#include "DxLib.h"
-
 int const ApplicationSuccess = 0;
 int const ApplicationFailure = -1;
 int const FunctionFailure = -1;

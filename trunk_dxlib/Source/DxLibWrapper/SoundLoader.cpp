@@ -2,6 +2,7 @@
 
 #include <map>
 #include <assert.h>
+#include <DxLib.h>
 #include "DxLibWrapper/ReturnVariable.hpp"
 
 typedef std::map< std::string , int > HandleMap;

@@ -11,6 +11,7 @@
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/Graphics.hpp"
 #include "DxLibWrapper/Button.hpp"
+#include "DxLibWrapper/ReturnVariable.hpp"
 #include "Project/CharacterStatus.hpp"
 #include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectSoundLoader.hpp"

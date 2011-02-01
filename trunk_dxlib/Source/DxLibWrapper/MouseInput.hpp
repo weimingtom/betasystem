@@ -1,4 +1,4 @@
-#include "ReturnVariable.hpp"
+#include <DxLib.h>
 /*
 	マウス入力関連.
 */

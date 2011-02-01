@@ -1,4 +1,4 @@
-
+#include <DxLib.h>
 #include "DxLibWrapper/ReturnVariable.hpp"
 #include <memory>
 #include "System/StateBase.hpp"
