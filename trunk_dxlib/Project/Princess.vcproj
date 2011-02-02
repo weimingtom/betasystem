@@ -200,6 +200,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\DxLibWrapper\InputMouse.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\DxLibWrapper\InputMouse.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\DxLibWrapper\KeyboardInput.cpp"
 				>
 			</File>
@@ -213,14 +221,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\DxLibWrapper\LogPrinter.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\MouseInput.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\MouseInput.hpp"
 				>
 			</File>
 			<File
@@ -364,6 +364,18 @@
 				</File>
 				<File
 					RelativePath="..\Source\Project\State\StateGameOver.hpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Singleton"
+				>
+				<File
+					RelativePath="..\Source\Project\Singleton\SingletonInputMouse.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Singleton\SingletonInputMouse.hpp"
 					>
 				</File>
 			</Filter>

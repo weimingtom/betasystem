@@ -5,6 +5,7 @@
 #include "System/Vector2.hpp"
 #include "System/StateManagerBase.hpp"
 #include "Project/ProjectStateManager.hpp"
+#include "Project/Singleton/SingletonInputMouse.hpp"
 
 int InitApplication();
 void LoopApplication();
@@ -36,6 +37,9 @@ int InitApplication()
 {
     g_state_manager.reset( new_ProjectStateManager() );
     g_state_manager->ChangeState( ProjectState_Battle );
+    
+    SingletonInputMouse::Init();
+    
 
     SetGraphMode( 640 , 480 , 16 ) ;
     ChangeWindowMode( TRUE ) ;
@@ -56,6 +60,7 @@ void LoopApplication()
 {
     while( ProcessMessage() == 0 && CheckHitKey( KEY_INPUT_ESCAPE ) == 0 )
     {
+    	SingletonInputMouse::Update();
         g_state_manager->Update();
         
         ClearDrawScreen() ;    // ‰æ–Ê‚ğ‰Šú‰»‚·‚é

@@ -4,7 +4,7 @@
 */
 class Vector2;
 
-class MouseInput
+class InputMouse
 {
 public:
 	enum Type
@@ -16,8 +16,8 @@ public:
 	};
     
 public:
-    friend MouseInput* new_MouseInput( int is_visible_cursor );
-    virtual ~MouseInput(){}
+    friend InputMouse* new_InputMouse( int is_visible_cursor );
+    virtual ~InputMouse(){}
 
 public:
     virtual void Update() = 0;
@@ -33,5 +33,5 @@ private:
 };
 
 
-MouseInput* new_MouseInput( int is_visible_cursor = TRUE );
+InputMouse* new_InputMouse( int is_visible_cursor = TRUE );
 

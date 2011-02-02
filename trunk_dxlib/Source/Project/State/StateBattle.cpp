@@ -6,12 +6,12 @@
 #include "DxLibWrapper/Random.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/SoundLoader.hpp"
-#include "DxLibWrapper/MouseInput.hpp"
 #include "DxLibWrapper/LogPrinter.hpp"
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/Graphics.hpp"
 #include "DxLibWrapper/Button.hpp"
 #include "DxLibWrapper/ReturnVariable.hpp"
+#include "DxLibWrapper/InputMouse.hpp"
 #include "Project/CharacterStatus.hpp"
 #include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectSoundLoader.hpp"
@@ -28,6 +28,7 @@
 #include "Project/Map.hpp"
 #include "Project/DamagePrinter.hpp"
 #include "Project/Enemy.hpp"
+#include "Project/Singleton/SingletonInputMouse.hpp"
 
 class StateBattle : public StateBase
 {
@@ -77,7 +78,6 @@ private:
 private:
     std::auto_ptr< MapBase > m_map;
     std::auto_ptr< ImageLoader > m_image_loader;
-    std::auto_ptr< MouseInput > m_mouse;
     CharacterStatus& m_player;
     State m_state;
     State m_next_state;
@@ -100,7 +100,6 @@ private:
 StateBattle::StateBattle( StateManagerBase& project_state_manager )
  : m_map( new_Map( GetBackground() ) )
  , m_image_loader( new_ImageLoader() )
- , m_mouse( new_MouseInput() )
  , m_player( SaveData::GetInstance().m_player_status )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
@@ -122,12 +121,13 @@ void StateBattle::Update()
 {
     m_state = m_next_state;
     
+	InputMouse* m_mouse = SingletonInputMouse::Get();
     m_mouse->Update();
     m_damage_printer->Update();
     switch( m_state )
     {
     case State_Begin:
-        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        if( m_mouse->IsTrig( InputMouse::Type_Left ) )
         {
             ChangeState( State_Battle );
         }
@@ -136,19 +136,19 @@ void StateBattle::Update()
         UpdateBattle();
         break;
     case State_Lose:
-        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        if( m_mouse->IsTrig( InputMouse::Type_Left ) )
         {
             m_project_state_manager.ChangeState( ProjectState_GameOver );
         }
         break;
     case State_Win:
-        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        if( m_mouse->IsTrig( InputMouse::Type_Left ) )
         {
 //            m_project_state_manager.ChangeState( ProjectState_WorldMap );
         }
         break;
     case State_RunAway:
-        if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+        if( m_mouse->IsTrig( InputMouse::Type_Left ) )
         {
 //            m_project_state_manager.ChangeState( ProjectState_Camp );
         }
@@ -162,7 +162,7 @@ void StateBattle::Update()
 void StateBattle::CheckOnButton()
 {   
     bool on_button = false;
-    Vector2 const mouse_pos = m_mouse->Position();
+	Vector2 const mouse_pos = SingletonInputMouse::Get()->Position();
     BOOST_FOREACH( ButtonPtr const& button , m_button_list )
     {
         if( button->CheckHit( mouse_pos ) )
@@ -415,13 +415,14 @@ bool StateBattle::IsEndBattle()
 
 void StateBattle::UpdatePlayer()
 {
-    if( m_mouse->IsTrig( MouseInput::Type_Right ) )
+	InputMouse* m_mouse = SingletonInputMouse::Get();
+    if( m_mouse->IsTrig( InputMouse::Type_Right ) )
     {
         m_sound_loader->Play( NameOf( SoundType_BeginGuard ) );
     }
-    m_player.SetGuard( m_mouse->IsHold( MouseInput::Type_Right ) );
+    m_player.SetGuard( m_mouse->IsHold( InputMouse::Type_Right ) );
     
-    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+    if( m_mouse->IsTrig( InputMouse::Type_Left ) )
     {
         Vector2 const pos = m_mouse->Position();
         for( int i = 0 ; i < m_enemy_max ; i ++ )
@@ -464,7 +465,8 @@ void StateBattle::UpdateEnemyList()
 
 void StateBattle::PushButton()
 {
-    if( m_mouse->IsTrig( MouseInput::Type_Left ) )
+	InputMouse* m_mouse = SingletonInputMouse::Get();
+    if( m_mouse->IsTrig( InputMouse::Type_Left ) )
     {
        Vector2 const mouse_pos = m_mouse->Position();
        BOOST_FOREACH( ButtonPtr const& button , m_button_list )

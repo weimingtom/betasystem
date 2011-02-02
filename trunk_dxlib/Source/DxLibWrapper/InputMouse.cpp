@@ -1,11 +1,11 @@
-#include "MouseInput.hpp"
+#include "InputMouse.hpp"
 /*
 	マウス入力関連.
 */
 #include "ReturnVariable.hpp"
 #include "System/Vector2.hpp"
 
-class MouseInput::Impl : public MouseInput
+class InputMouse::Impl : public InputMouse
 {
 public:
 	Impl( int is_visible_cursor );
@@ -17,8 +17,8 @@ public:
 public:
     Vector2 Position() const { return Vector2( m_x , m_y ); }
     void SetPos( int x , int y ) const;
-    bool IsTrig( MouseInput::Type type ) const ;
-    bool IsHold( MouseInput::Type type ) const ;
+    bool IsTrig( InputMouse::Type type ) const ;
+    bool IsHold( InputMouse::Type type ) const ;
 
 private:
     void UpdatePosition();
@@ -27,11 +27,11 @@ private:
 private:
 	int m_x;
 	int m_y;
-    int m_press_frame[ MouseInput::Type_Num ];
+    int m_press_frame[ InputMouse::Type_Num ];
 };
 
 
-MouseInput::Impl::Impl( int is_visible_cursor )
+InputMouse::Impl::Impl( int is_visible_cursor )
 : m_x( 0 )
 , m_y( 0 )
 {
@@ -41,17 +41,17 @@ MouseInput::Impl::Impl( int is_visible_cursor )
 	}
 }
 
-MouseInput::Impl::~Impl()
+InputMouse::Impl::~Impl()
 {
 }
 
-void MouseInput::Impl::Update()
+void InputMouse::Impl::Update()
 {
     UpdatePosition();
     UpdateInput();
 }
 
-void MouseInput::Impl::UpdatePosition()
+void InputMouse::Impl::UpdatePosition()
 {
 	if( GetMousePoint( &m_x , &m_y ) == FunctionFailure )
 	{
@@ -59,16 +59,16 @@ void MouseInput::Impl::UpdatePosition()
 	}
 }
 
-void MouseInput::Impl::UpdateInput()
+void InputMouse::Impl::UpdateInput()
 {
-    int const input_flag[ MouseInput::Type_Num ] =
+    int const input_flag[ InputMouse::Type_Num ] =
     {
         MOUSE_INPUT_RIGHT,
         MOUSE_INPUT_LEFT,
         MOUSE_INPUT_MIDDLE,
     };
     
-    for( int i = 0 ; i < MouseInput::Type_Num ; i++ )
+    for( int i = 0 ; i < InputMouse::Type_Num ; i++ )
     {
         if( ( GetMouseInput() & input_flag[i] ) == 0 )
         {
@@ -79,17 +79,17 @@ void MouseInput::Impl::UpdateInput()
     }
 }
 
-bool MouseInput::Impl::IsTrig( MouseInput::Type type ) const
+bool InputMouse::Impl::IsTrig( InputMouse::Type type ) const
 {
     return ( m_press_frame[ type ] == 1 );
 }
 
-bool MouseInput::Impl::IsHold( MouseInput::Type type ) const
+bool InputMouse::Impl::IsHold( InputMouse::Type type ) const
 {
     return ( m_press_frame[ type ] != 0 );
 }
 
-void MouseInput::Impl::SetPos( int x , int y ) const
+void InputMouse::Impl::SetPos( int x , int y ) const
 {
 	if( SetMousePoint( x , y ) == FunctionFailure )
 	{
@@ -97,8 +97,8 @@ void MouseInput::Impl::SetPos( int x , int y ) const
 	}
 }
 
-MouseInput* new_MouseInput( int is_visible_cursor )
+InputMouse* new_InputMouse( int is_visible_cursor )
 {
-	return new MouseInput::Impl( is_visible_cursor );
+	return new InputMouse::Impl( is_visible_cursor );
 }
 
