@@ -13,7 +13,6 @@
 #include "DxLibWrapper/ReturnVariable.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "Project/CharacterStatus.hpp"
-#include "Project/ProjectSoundLoader.hpp"
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
 #include "System/StringOf.hpp"
@@ -29,6 +28,7 @@
 #include "Project/Enemy.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
+#include "Project/Singleton/SingletonSoundLoader.hpp"
 
 class StateBattle : public StateBase
 {
@@ -102,14 +102,12 @@ StateBattle::StateBattle( StateManagerBase& project_state_manager )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
  , m_project_state_manager( project_state_manager )
- , m_sound_loader( new_SoundLoader( SoundFileList() ) )
  , m_on_button( false )
  , m_damage_printer( new_DamagePrinter() )
  , m_break_num(0)
  , m_frame(0)
 {
     ChangeState( State_Battle );
-    m_sound_loader->Load();
 //    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
     InitEnemyList();
 }

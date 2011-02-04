@@ -316,14 +316,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Project\ProjectSoundLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\ProjectSoundLoader.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Project\ProjectStateManager.cpp"
 				>
 			</File>
@@ -376,6 +368,14 @@
 				</File>
 				<File
 					RelativePath="..\Source\Project\Singleton\SingletonInputMouse.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.hpp"
 					>
 				</File>
 			</Filter>
