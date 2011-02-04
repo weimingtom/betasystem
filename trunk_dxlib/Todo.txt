@@ -1,25 +1,10 @@
 
-必要な遷移.
-・タイトルムービー
-・タイトル画面
-・戦闘画面
-・ゲームオーバー
 
-
-
-なんだこれ、mouseinputがシングルトンじゃない…
-
-ImageLoaderも毎回やってるなぁ、アホらしい。
-
-
-
-
-
-
-
-//取り除きたいinclude
-C:\Documents and Settings\a_kuboi\デスクトップ\kuboi_work\Princess\Source\DxLibWrapper\ReturnVariable.hpp (7,1): 
-
+次は遷移の作成かな。
+	・タイトルムービー
+	・タイトル画面
+	・戦闘画面
+	・ゲームオーバー
 
 
 
@@ -72,3 +57,12 @@ boost入ってないので、入れる.
 	DxLibWrapperはライブラリなんだが、
 	DxLibWrapper.cpp内で、new_ProjectStateManagerしてしまっているのが気持ち悪い.相互参照になっとるね。
 	おｋ
+
+なんだこれ、mouseinputがシングルトンじゃない…
+
+ImageLoaderも毎回やってるなぁ、アホらしい。
+
+//取り除きたいinclude
+C:\Documents and Settings\a_kuboi\デスクトップ\kuboi_work\Princess\Source\DxLibWrapper\ReturnVariable.hpp (7,1): 
+
+2011年2月4日14:13:10
