@@ -6,6 +6,7 @@
 #include "System/StateManagerBase.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
+#include "Project/Singleton/SingletonImageLoader.hpp"
 
 int InitApplication();
 void LoopApplication();
@@ -39,7 +40,7 @@ int InitApplication()
     g_state_manager->ChangeState( ProjectState_Battle );
     
     SingletonInputMouse::Init();
-    
+    SingletonImageLoader::Init();
 
     SetGraphMode( 640 , 480 , 16 ) ;
     ChangeWindowMode( TRUE ) ;

@@ -1,8 +1,11 @@
-#include "Project/ProjectImageLoader.hpp"
+#include "SingletonImageLoader.hpp"
 
+#include <memory>
 #include "DxLibWrapper/ImageLoader.hpp"
-#include "System/ArraySize.hpp"
 
+/**
+	Žg—p‚·‚é‰æ‘œ–¼.
+*/
 char const* const image_name[ ImageType_Num ] =
 {
     "Resource/Image.png",
@@ -19,14 +22,25 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/Player_Guard.png",
 };
 
+
+namespace SingletonImageLoader
+{
+	std::auto_ptr<ImageLoader> instance;
+
+	void Init()
+	{
+		instance.reset( new_ImageLoader( image_name , ImageType_Num ) );
+		instance->Load();
+	}
+	
+	ImageLoader* Get()
+	{
+		return instance.get();
+	}
+}
+
 char const* NameOf( ImageType type )
 {
-    return image_name[ type ];
+	return image_name[type];
 }
-
-ImageLoader* new_ImageLoader()
-{
-    return new_ImageLoader( image_name , ARRAY_SIZE( image_name ) );
-}
-
 

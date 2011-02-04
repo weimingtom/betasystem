@@ -33,7 +33,7 @@ private:
     class Impl;
 };
 
-ImageLoader* new_ImageLoader( char const* const name_list[] );
+ImageLoader* new_ImageLoader( char const* const name_list[] , int list_size );
 
 #endif
 

@@ -1,12 +1,11 @@
-#ifndef include_b927764f_14d7_4d98_b1ae_73828a6b6191
-#define include_b927764f_14d7_4d98_b1ae_73828a6b6191
-/** @file
-    プロジェクト専用 ImageLoader の生成.
-    @note   ファイル名が素直に "ImageLoader" でない理由は、
-            同名のオブジェクトファイルが衝突するのを回避するため.
-*/
+#ifndef include_7aee0d29_36ae_42db_814b_3702121f9903
+#define include_7aee0d29_36ae_42db_814b_3702121f9903
+
 class ImageLoader;
 
+/**
+	使用する
+*/
 enum ImageType
 {
     ImageType_Forest,
@@ -24,9 +23,23 @@ enum ImageType
     ImageType_Num,
 };
 
+/**
+	ファイル名の取得.
+*/
 char const* NameOf( ImageType type );
 
-ImageLoader* new_ImageLoader();
+namespace SingletonImageLoader
+{
+	/**
+		初期化.
+	*/
+	void Init();
+	/**
+		インスタンスの取得.
+	*/
+	ImageLoader* Get();
+}
 
-#endif
+
+#endif //include_7aee0d29_36ae_42db_814b_3702121f9903
 

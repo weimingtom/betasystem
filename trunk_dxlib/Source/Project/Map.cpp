@@ -4,7 +4,7 @@
 #include <vector>
 #include "Project/CharacterStatusFactory.hpp"
 #include "System/ArraySize.hpp"
-#include "DxLibWrapper/DxLibWrapper.hpp"
+#include "DxLibWrapper/ReturnVariable.hpp"
 
 typedef std::vector<CharacterStatus> CharacterStatusList;
 

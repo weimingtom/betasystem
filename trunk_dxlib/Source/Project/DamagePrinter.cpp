@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <boost/foreach.hpp>
-#include "DxLibWrapper/DxLibWrapper.hpp"
 #include "DxLibWrapper/Color.hpp"
 
 struct DamagePrintObject

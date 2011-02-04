@@ -13,7 +13,6 @@
 #include "DxLibWrapper/ReturnVariable.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "Project/CharacterStatus.hpp"
-#include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectSoundLoader.hpp"
 #include "System/Vector2.hpp"
 #include "System/CheckHit.hpp"
@@ -29,6 +28,7 @@
 #include "Project/DamagePrinter.hpp"
 #include "Project/Enemy.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
+#include "Project/Singleton/SingletonImageLoader.hpp"
 
 class StateBattle : public StateBase
 {
@@ -77,7 +77,6 @@ private:
     
 private:
     std::auto_ptr< MapBase > m_map;
-    std::auto_ptr< ImageLoader > m_image_loader;
     CharacterStatus& m_player;
     State m_state;
     State m_next_state;
@@ -99,7 +98,6 @@ private:
 
 StateBattle::StateBattle( StateManagerBase& project_state_manager )
  : m_map( new_Map( GetBackground() ) )
- , m_image_loader( new_ImageLoader() )
  , m_player( SaveData::GetInstance().m_player_status )
  , m_log_printer( new_LogPrinter( 240 , 0 ) )
  , m_init( true )
@@ -111,7 +109,6 @@ StateBattle::StateBattle( StateManagerBase& project_state_manager )
  , m_frame(0)
 {
     ChangeState( State_Battle );
-    m_image_loader->Load();
     m_sound_loader->Load();
 //    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
     InitEnemyList();
@@ -206,7 +203,7 @@ void StateBattle::Draw()
         DrawPlayer();
         break;
     case State_RunAway:
-        DrawGraph( 50 , 50 , m_image_loader->ImageHandleOf( NameOf( ImageType_RunAway ) ) );
+		DrawGraph( 50 , 50 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_RunAway ) ) );
         break;
     default:
         assert( !"m_state is invalid." );
@@ -245,10 +242,10 @@ void StateBattle::DrawBackground()
     switch( GetBackground() )
     {
     case BackgroundType_Forest:
-        DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_Forest ) ) );
+		DrawGraph( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_Forest ) ) );
         break;
     case BackgroundType_RedForest:
-        DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_RedForest ) ) );
+        DrawGraph( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_RedForest ) ) );
         break;
     }
 }
@@ -258,9 +255,9 @@ void StateBattle::DrawPlayer()
     Vector2 pos( 400 , 230 );
     if( m_player.IsGuard() )
     {
-        DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Player_Guard ) ) );
+        DrawGraph( pos , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_Player_Guard ) ) );
     }else{
-        DrawGraph( pos , m_image_loader->ImageHandleOf( NameOf( ImageType_Player ) ) );
+        DrawGraph( pos , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_Player ) ) );
     }
 }
 
@@ -281,7 +278,7 @@ ButtonPtr StateBattle::new_ButtonRunAway()
     Vector2 size( 100 , 100 );
     ButtonPtr result(
         new Button(
-            m_image_loader->ImageHandleOf( NameOf( ImageType_IconRunAway ) ) ,
+            SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_IconRunAway ) ) ,
             pos ,
             size ,
             "RunAway"
@@ -359,7 +356,7 @@ Enemy* StateBattle::new_Enemy( int index )
         return new Enemy(
             Vector2( 10 + index * 100 , 270 ) ,
             Vector2( enemy_size , enemy_size ) ,
-            m_image_loader->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
+            SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_Enemy ) ) ,
             m_map->NextMonster()
         );
     }else{

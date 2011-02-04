@@ -6,12 +6,12 @@
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/Graphics.hpp"
-#include "Project/ProjectImageLoader.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "Project/CharacterStatus.hpp"
 #include "Project/CharacterStatusFactory.hpp"
 #include "Project/SaveData.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
+#include "Project/Singleton/SingletonImageLoader.hpp"
 
 class StateGameOver : public StateBase
 {
@@ -27,9 +27,7 @@ private:
 
 StateGameOver::StateGameOver( StateManagerBase& project_state_manager )
  : m_project_state_manager( project_state_manager )
- , m_image_loader( new_ImageLoader() )
 {
-    m_image_loader->Load();
     CharacterStatus& player_status = SaveData::GetInstance().m_player_status;
     player_status = CharacterStatusOf( CharaType_Player );
 }
@@ -46,7 +44,7 @@ void StateGameOver::Update()
 
 void StateGameOver::Draw()
 {
-    DrawGraph( 0 , 0 , m_image_loader->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
+	DrawGraph( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
 }
 
 StateBase* new_StateGameOver( StateManagerBase& project_state_manager )
