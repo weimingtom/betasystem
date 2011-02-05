@@ -32,7 +32,7 @@ StateBase* ProjectStateManager::new_State( int select_index )
     switch( select_index )
     {
     case ProjectState_Battle:
-        return new_StateBattle( *this );
+        return new StateBattle( *this );
     case ProjectState_GameOver:
         return new_StateGameOver( *this );
     case ProjectState_Title:
