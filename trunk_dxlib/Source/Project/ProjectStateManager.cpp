@@ -4,7 +4,11 @@
 #include "System/StateManagerBase.hpp"
 #include "Project/State/StateBattle.hpp"
 #include "Project/State/StateGameOver.hpp"
+#include "Project/State/StateTitle.hpp"
 
+/**
+    プロジェクトの一番上に位置するStateManager.
+*/
 class ProjectStateManager : public StateManagerBase
 {
 public:
@@ -16,6 +20,7 @@ protected:
 
 ProjectStateManager::ProjectStateManager()
 {
+	ChangeState( ProjectState_Title );
 }
 
 ProjectStateManager::~ProjectStateManager()
@@ -30,6 +35,8 @@ StateBase* ProjectStateManager::new_State( int select_index )
         return new_StateBattle( *this );
     case ProjectState_GameOver:
         return new_StateGameOver( *this );
+    case ProjectState_Title:
+        return new StateTitle();
     default:
         assert( false );
         return 0;

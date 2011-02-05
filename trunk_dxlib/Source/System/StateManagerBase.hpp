@@ -5,7 +5,8 @@
 #include "System/StateBase.hpp"
 
 /**
-    遷移管理クラス.
+     State管理クラスの基本となるクラス.
+     Stateの遷移を管理したい場合はコレを継承して使う.
 */
 class StateManagerBase
 {
@@ -18,10 +19,16 @@ public:
     virtual ~StateManagerBase(){}
     
 public:
+    /**
+        遷移切り替え.
+    */
     void ChangeState( int state_index )
     {
         m_next_state.reset( new_State( state_index ) );
     }
+    /**
+        更新.
+    */
     void Update()
     {
         if( m_next_state.get() )
@@ -30,13 +37,19 @@ public:
         }
         m_current_state->Update();
     }
+    /**
+        描画.
+    */
     void Draw()
     {
         m_current_state->Draw();
     }
     
 protected:
-    //これだけは自作してもらう.
+    /**
+        渡されたインデックスに対応したステートを生成する関数.
+        継承したクラスは、この中身を実装する必要がある.
+    */
     virtual StateBase* new_State( int select_index ) = 0;
     
 private:

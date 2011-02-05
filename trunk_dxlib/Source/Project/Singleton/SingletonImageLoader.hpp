@@ -20,6 +20,7 @@ enum ImageType
     ImageType_Camp,
     ImageType_GameOver,
     ImageType_Player_Guard,
+    ImageType_Stand,
     ImageType_Num,
 };
 

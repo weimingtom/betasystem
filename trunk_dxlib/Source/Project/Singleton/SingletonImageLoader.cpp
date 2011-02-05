@@ -20,8 +20,8 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/Camp.png",
     "Resource/GameOver.png",
     "Resource/Player_Guard.png",
+    "Resource/Stand.png",
 };
-
 
 namespace SingletonImageLoader
 {

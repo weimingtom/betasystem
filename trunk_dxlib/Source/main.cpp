@@ -53,7 +53,6 @@ int InitApplication()
     SingletonSoundLoader::Init();
 	
     g_state_manager.reset( new_ProjectStateManager() );
-    g_state_manager->ChangeState( ProjectState_Battle );
     
 	//‰Šú‰»¬Œ÷.
     return ApplicationSuccess;

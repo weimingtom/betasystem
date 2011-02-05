@@ -3,8 +3,12 @@
 
 class StateManagerBase;
 
+/**
+    プロジェクトの大本の遷移.
+*/
 enum ProjectState
 {
+    ProjectState_Title,
     ProjectState_Battle,
     ProjectState_GameOver,
 };

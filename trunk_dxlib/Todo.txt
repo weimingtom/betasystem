@@ -1,4 +1,17 @@
 
+なぜか起動しなかった原因は、初期化の位置でした。
+
+
+
+Imageloaderはハンドルを返すだけで、描画は管理してないのか.
+描画は何じゃらほい？
+
+コレ.
+DrawGraph( pos , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_Player_Guard ) ) );
+
+
+
+
 
 次は遷移の作成かな。
 	・タイトルムービー

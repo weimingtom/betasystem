@@ -300,6 +300,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Project\Draw.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Project\Draw.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Project\Enemy.cpp"
 				>
 			</File>
@@ -348,6 +356,14 @@
 				</File>
 				<File
 					RelativePath="..\Source\Project\State\StateGameOver.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateTitle.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\State\StateTitle.hpp"
 					>
 				</File>
 			</Filter>
