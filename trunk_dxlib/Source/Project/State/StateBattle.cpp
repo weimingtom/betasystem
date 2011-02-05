@@ -10,18 +10,31 @@ StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_meter(0)
  , m_add_meter(0)
+ , m_step( Step_DecideMeter )
+ , m_player_x(0)
 {
 }
 
 void StateBattle::Update()
 {
-	UpdateMeter();
-	DecideMeter();
+	switch( m_step )
+	{
+	case Step_DecideMeter:
+		UpdateMeter();
+		DecideMeter();
+		break;
+	case Step_Dash:
+		DashPlayer();
+		break;
+	case Step_Result:
+		break;
+	}
 }
 
 void StateBattle::Draw()
 {
 	DrawTexture( 0, 0, ImageType_Forest );
+	DrawTexture( m_player_x, 200, ImageType_Player );
 	int const x = 50;
 	int const y = 50;
 	int const height = 50;
@@ -48,6 +61,21 @@ void StateBattle::DecideMeter()
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
     	m_add_meter = 0;
+    	SetStep( Step_Dash );
     }
+}
+
+void StateBattle::SetStep( Step step )
+{
+	m_step = step;
+}
+
+void StateBattle::DashPlayer()
+{
+	m_meter--;
+	m_player_x++;
+	if( m_meter <= 0 ){
+		SetStep( Step_Result );
+	}
 }
 

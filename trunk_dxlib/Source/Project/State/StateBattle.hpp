@@ -14,13 +14,28 @@ public:
     void Draw();
 
 private:
+	/**
+		State “à‚Å‚Ì‘JˆÚ.
+	*/
+	enum Step
+	{
+		Step_DecideMeter,
+		Step_Dash,
+		Step_Result,
+	};
+	
+private:
 	void UpdateMeter();
 	void DecideMeter();
-	
+	void SetStep( Step step );
+	void DashPlayer();
+
 private:
     StateManagerBase& m_manager;
     int m_meter;
     int m_add_meter;
+    Step m_step;
+    int m_player_x;
 };
 
 #endif
