@@ -36,12 +36,6 @@ int WINAPI WinMain(
 
 int InitApplication()
 {
-    g_state_manager.reset( new_ProjectStateManager() );
-    g_state_manager->ChangeState( ProjectState_Battle );
-    
-    SingletonInputMouse::Init();
-    SingletonImageLoader::Init();
-
     SetGraphMode( 640 , 480 , 16 ) ;
     ChangeWindowMode( TRUE ) ;
     if( DxLib_Init() == ApplicationFailure ){
@@ -52,6 +46,12 @@ int InitApplication()
 	//フォントサイズ設定.
 	int const font_size = 12;
     SetFontSize( font_size );
+
+    g_state_manager.reset( new_ProjectStateManager() );
+    g_state_manager->ChangeState( ProjectState_Battle );
+    
+    SingletonInputMouse::Init();
+    SingletonImageLoader::Init();
 	
 	//初期化成功.
     return ApplicationSuccess;
