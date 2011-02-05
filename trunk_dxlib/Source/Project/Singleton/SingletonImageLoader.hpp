@@ -38,6 +38,10 @@ namespace SingletonImageLoader
 		インスタンスの取得.
 	*/
 	ImageLoader* Get();
+    /**
+        開放処理.
+    */
+    void Release();
 }
 
 

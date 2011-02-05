@@ -31,6 +31,10 @@ namespace SingletonSoundLoader
 		インスタンスの取得.
 	*/
 	SoundLoader* Get();
+	/**
+	    開放処理.
+	*/
+	void Release();
 }
 
 

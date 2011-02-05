@@ -7,6 +7,7 @@
 #include "Project/ProjectStateManager.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
+#include "Project/Singleton/SingletonSoundLoader.hpp"
 
 int InitApplication();
 void LoopApplication();
@@ -47,12 +48,13 @@ int InitApplication()
 	int const font_size = 12;
     SetFontSize( font_size );
 
+    SingletonInputMouse::Init();
+    SingletonImageLoader::Init();
+    SingletonSoundLoader::Init();
+	
     g_state_manager.reset( new_ProjectStateManager() );
     g_state_manager->ChangeState( ProjectState_Battle );
     
-    SingletonInputMouse::Init();
-    SingletonImageLoader::Init();
-	
 	//初期化成功.
     return ApplicationSuccess;
 }
@@ -73,6 +75,11 @@ void LoopApplication()
 int EndApplication()
 {
     g_state_manager.reset(0);
+    /*
+        DxLib_Endより後ろだと、メモリ上のデータの開放に失敗するので、手前で開放.
+    */
+    SingletonSoundLoader::Release();
+    SingletonImageLoader::Release();
     DxLib_End();
     return ApplicationSuccess;
 }

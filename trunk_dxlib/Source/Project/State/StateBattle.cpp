@@ -84,7 +84,6 @@ private:
     std::auto_ptr< LogPrinter > m_log_printer;
     ButtonPtrList m_button_list;
     StateManagerBase& m_project_state_manager;
-    std::auto_ptr< SoundLoader > m_sound_loader;
     bool m_on_button;
     std::auto_ptr< DamagePrinter > m_damage_printer;
     static int const enemy_x = 200;
@@ -108,7 +107,7 @@ StateBattle::StateBattle( StateManagerBase& project_state_manager )
  , m_frame(0)
 {
     ChangeState( State_Battle );
-//    m_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
+//    SingletonSoundLoader::Get()_sound_loader->Play( NameOf( SoundType_WorldMap ) , true );
     InitEnemyList();
 }
 
@@ -170,9 +169,9 @@ void StateBattle::CheckOnButton()
     {
         if( on_button )
         {
-            m_sound_loader->Play( NameOf( SoundType_OnButton ) );
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_OnButton ) );
         }else{
-//            m_sound_loader->Play( NameOf( SoundType_ReleaseButton ) );
+//            SingletonSoundLoader::Get()->Play( NameOf( SoundType_ReleaseButton ) );
         }
     }
     m_on_button = on_button;
@@ -290,7 +289,7 @@ void StateBattle::PlayerAttack( Enemy* enemy )
     if( enemy == 0 ){ return; }
     if( !m_player.IsGuard() )
     {
-        m_sound_loader->Play( NameOf( SoundType_Attack ) );
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Attack ) );
         
         int const damage = m_player.AttackDamage(); 
         enemy->Status().m_hp -= damage;
@@ -305,12 +304,12 @@ void StateBattle::EnemyAttack( Enemy& enemy )
 {
     if( m_player.IsGuard() )
     {
-        m_sound_loader->Play( NameOf( SoundType_SuccessGuard ) );
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_SuccessGuard ) );
         int const damage = 0 ;
         m_log_printer->Print( "damaged->" + StringOf( damage ) );
         m_damage_printer->Begin( Vector2( 400 , 250 ) , damage );
     }else{
-        m_sound_loader->Play( NameOf( SoundType_Attack ) );
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Attack ) );
         int const damage = enemy.Status().m_attack;
         m_player.m_hp -= damage;
         m_log_printer->Print( "damaged->" + StringOf( damage ) );
@@ -413,7 +412,7 @@ void StateBattle::UpdatePlayer()
 	InputMouse* m_mouse = SingletonInputMouse::Get();
     if( m_mouse->IsTrig( InputMouse::Type_Right ) )
     {
-        m_sound_loader->Play( NameOf( SoundType_BeginGuard ) );
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_BeginGuard ) );
     }
     m_player.SetGuard( m_mouse->IsHold( InputMouse::Type_Right ) );
     

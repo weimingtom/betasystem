@@ -37,6 +37,11 @@ namespace SingletonImageLoader
 	{
 		return instance.get();
 	}
+	
+	void Release()
+	{
+	    instance.reset(0);
+	}
 }
 
 char const* NameOf( ImageType type )

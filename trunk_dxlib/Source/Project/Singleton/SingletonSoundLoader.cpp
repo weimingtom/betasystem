@@ -46,5 +46,10 @@ namespace SingletonSoundLoader
 	{
 		return instance.get();
 	}
+	
+	void Release()
+	{
+	    instance.reset(0);
+	}
 }
 
