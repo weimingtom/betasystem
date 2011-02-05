@@ -44,7 +44,7 @@ void StateGameOver::Update()
 
 void StateGameOver::Draw()
 {
-	DrawGraph( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
+	DrawTexture( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
 }
 
 StateBase* new_StateGameOver( StateManagerBase& project_state_manager )

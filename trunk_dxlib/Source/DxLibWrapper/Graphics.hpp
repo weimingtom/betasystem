@@ -2,8 +2,16 @@
 #define include_16c4d634_37a9_412e_85e9_002d61522780
 
 class Vector2;
+#include "System/Vector2.hpp"
 
-void DrawGraph( int x , int y , int image_handle );
-void DrawGraph( Vector2 const& pos , int image_handle );
+/**
+    ‰æ‘œ‚Ì•`‰æ.
+*/
+void DrawTexture( int x , int y , int image_handle );
+
+/**
+    Vector2 ”Å
+*/
+void DrawTexture( Vector2 const& pos , int image_handle );
 
 #endif

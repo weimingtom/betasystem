@@ -18,7 +18,7 @@ Button::Button(
 
 void Button::Draw() const
 {
-    DrawGraph( m_pos , m_image_handle );
+    DrawTexture( m_pos , m_image_handle );
     DrawCollision();
 }
 

@@ -6,7 +6,7 @@
 
 void DrawTexture( int x, int y, ImageType image_type )
 {
-    DrawGraph( x, y, SingletonImageLoader::Get()->ImageHandleOf( NameOf( image_type ) ) );
+    DrawTexture( x, y, SingletonImageLoader::Get()->ImageHandleOf( NameOf( image_type ) ) );
 }
 
 void DrawTexture( Vector2 const& pos, ImageType image_type )
