@@ -14,7 +14,13 @@ public:
     void Draw();
 
 private:
+	void UpdateMeter();
+	void DecideMeter();
+	
+private:
     StateManagerBase& m_manager;
+    int m_meter;
+    int m_add_meter;
 };
 
 #endif
