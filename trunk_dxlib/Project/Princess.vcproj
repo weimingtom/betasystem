@@ -169,281 +169,301 @@
 	</References>
 	<Files>
 		<Filter
-			Name="DxLibWrapper"
+			Name="Resource"
 			>
 			<File
-				RelativePath="..\Source\DxLibWrapper\Button.cpp"
+				RelativePath="..\Resource\icon.ico"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\Button.hpp"
+				RelativePath="..\Resource\resource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\DxLibWrapper\Color.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\Graphics.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\Graphics.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\ImageLoader.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\InputMouse.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\InputMouse.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\KeyboardInput.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\KeyboardInput.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\LogPrinter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\LogPrinter.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\Random.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\ReturnVariable.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\SoundLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\DxLibWrapper\SoundLoader.hpp"
+				RelativePath="..\Resource\Resource.rc"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="System"
+			Name="Source"
 			>
 			<File
-				RelativePath="..\Source\System\ArraySize.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\CheckHit.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\CheckHit.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\CollisionObject.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\ProcessBase.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\Range.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\Range.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\RewritableVariable.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StateBase.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StateManagerBase.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\String.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StringOf.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\StringOf.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\System\Vector2.hpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Project"
-			>
-			<File
-				RelativePath="..\Source\Project\AttackType.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\AttackType.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\BackgroundFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\BackgroundFactory.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\CharacterStatus.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\CharacterStatus.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\CharacterStatusFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\CharacterStatusFactory.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\DamagePrinter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\DamagePrinter.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Draw.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Draw.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Enemy.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Enemy.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Map.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\Map.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\ProjectStateManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\ProjectStateManager.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\SaveData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Project\SaveData.hpp"
+				RelativePath="..\Source\main.cpp"
 				>
 			</File>
 			<Filter
-				Name="State"
+				Name="DxLibWrapper"
 				>
 				<File
-					RelativePath="..\Source\Project\State\StateBattle.cpp"
+					RelativePath="..\Source\DxLibWrapper\Button.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\State\StateBattle.hpp"
+					RelativePath="..\Source\DxLibWrapper\Button.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\State\StateGameOver.cpp"
+					RelativePath="..\Source\DxLibWrapper\Color.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\State\StateGameOver.hpp"
+					RelativePath="..\Source\DxLibWrapper\Graphics.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\State\StateTitle.cpp"
+					RelativePath="..\Source\DxLibWrapper\Graphics.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\State\StateTitle.hpp"
+					RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\ImageLoader.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\InputMouse.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\InputMouse.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\KeyboardInput.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\KeyboardInput.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\LogPrinter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\LogPrinter.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\Random.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\ReturnVariable.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\SoundLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\SoundLoader.hpp"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="Singleton"
+				Name="Project"
 				>
 				<File
-					RelativePath="..\Source\Project\Singleton\SingletonImageLoader.cpp"
+					RelativePath="..\Source\Project\AttackType.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Singleton\SingletonImageLoader.hpp"
+					RelativePath="..\Source\Project\AttackType.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Singleton\SingletonInputMouse.cpp"
+					RelativePath="..\Source\Project\BackgroundFactory.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Singleton\SingletonInputMouse.hpp"
+					RelativePath="..\Source\Project\BackgroundFactory.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.cpp"
+					RelativePath="..\Source\Project\CharacterStatus.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.hpp"
+					RelativePath="..\Source\Project\CharacterStatus.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\CharacterStatusFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\CharacterStatusFactory.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\DamagePrinter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\DamagePrinter.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Draw.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Draw.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Enemy.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Enemy.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Map.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\Map.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\ProjectStateManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\ProjectStateManager.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\SaveData.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\SaveData.hpp"
+					>
+				</File>
+				<Filter
+					Name="State"
+					>
+					<File
+						RelativePath="..\Source\Project\State\StateBattle.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateBattle.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateGameOver.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateGameOver.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateTitle.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateTitle.hpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Singleton"
+					>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonImageLoader.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonImageLoader.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonInputMouse.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonInputMouse.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.hpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="System"
+				>
+				<File
+					RelativePath="..\Source\System\ArraySize.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\CheckHit.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\CheckHit.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\CollisionObject.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\ProcessBase.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\Range.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\Range.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\RewritableVariable.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\StateBase.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\StateManagerBase.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\String.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\StringOf.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\StringOf.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\System\Vector2.hpp"
 					>
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\Source\main.cpp"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

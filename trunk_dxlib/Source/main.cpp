@@ -8,6 +8,7 @@
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
+#include "../Resource/resource.h"
 
 int InitApplication();
 void LoopApplication();
@@ -37,6 +38,8 @@ int WINAPI WinMain(
 
 int InitApplication()
 {
+    SetWindowIconID( IDI_ICON1 ); //!< DxLib_Init ‚æ‚è‘O‚Å‚ ‚é•K—v‚ª‚ ‚é.
+
     SetGraphMode( 640 , 480 , 16 ) ;
     ChangeWindowMode( TRUE ) ;
     if( DxLib_Init() == ApplicationFailure ){
@@ -53,6 +56,7 @@ int InitApplication()
     SingletonSoundLoader::Init();
 	
     g_state_manager.reset( new_ProjectStateManager() );
+    
     
 	//‰Šú‰»¬Œ÷.
     return ApplicationSuccess;

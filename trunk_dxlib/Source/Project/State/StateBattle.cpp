@@ -27,6 +27,10 @@ void StateBattle::Update()
 		DashPlayer();
 		break;
 	case Step_Result:
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
+	    {
+	    	m_manager.ChangeState( ProjectState_Title );
+	    }
 		break;
 	}
 }
