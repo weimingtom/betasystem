@@ -1,8 +1,10 @@
 #include "SingletonSoundLoader.hpp"
 
-#include "DxLibWrapper/SoundLoader.hpp"
 #include <memory>
 
+/**
+    プロジェクトで使用するサウンドファイル名一覧.
+*/
 char const* const sound_list[ SoundType_Num ] =
 {
     "Resource/mast.mp3",
@@ -16,6 +18,9 @@ char const* const sound_list[ SoundType_Num ] =
 
 namespace
 {
+    /**
+        サウンドファイル名一覧を StringList で返す.
+    */
 	StringList SoundFileList()
 	{
 	    StringList result;

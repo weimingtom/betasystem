@@ -1,9 +1,13 @@
+#ifndef input_mouse_hpp
+#define input_mouse_hpp
+
 #include <DxLib.h>
-/*
-	マウス入力関連.
-*/
+
 class Vector2;
 
+/*+
+	マウス入力.
+*/
 class InputMouse
 {
 public:
@@ -32,6 +36,6 @@ private:
 	class Impl;
 };
 
-
 InputMouse* new_InputMouse( int is_visible_cursor = TRUE );
 
+#endif // input_mouse_hpp

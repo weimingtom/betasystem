@@ -1,7 +1,6 @@
 #include "SingletonInputMouse.hpp"
 
 #include <memory>
-#include "DxLibWrapper/InputMouse.hpp"
 
 namespace {
 

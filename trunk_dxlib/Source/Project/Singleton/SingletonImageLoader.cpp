@@ -1,7 +1,6 @@
 #include "SingletonImageLoader.hpp"
 
 #include <memory>
-#include "DxLibWrapper/ImageLoader.hpp"
 
 /**
 	Žg—p‚·‚é‰æ‘œ–¼.

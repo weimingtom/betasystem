@@ -1,10 +1,10 @@
 #ifndef include_7aee0d29_36ae_42db_814b_3702121f9903
 #define include_7aee0d29_36ae_42db_814b_3702121f9903
 
-class ImageLoader;
+#include "DxLibWrapper/ImageLoader.hpp"
 
 /**
-	使用する
+	使用する画像.
 */
 enum ImageType
 {
@@ -29,6 +29,9 @@ enum ImageType
 */
 char const* NameOf( ImageType type );
 
+/**
+    プロジェクト唯一の ImageLoader.
+*/
 namespace SingletonImageLoader
 {
 	/**
@@ -44,7 +47,6 @@ namespace SingletonImageLoader
     */
     void Release();
 }
-
 
 #endif //include_7aee0d29_36ae_42db_814b_3702121f9903
 
