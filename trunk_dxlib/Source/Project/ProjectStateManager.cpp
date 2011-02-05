@@ -36,7 +36,7 @@ StateBase* ProjectStateManager::new_State( int select_index )
     case ProjectState_GameOver:
         return new_StateGameOver( *this );
     case ProjectState_Title:
-        return new StateTitle();
+        return new StateTitle( this );
     default:
         assert( false );
         return 0;

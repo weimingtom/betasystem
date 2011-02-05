@@ -244,7 +244,23 @@
 			Name="System"
 			>
 			<File
+				RelativePath="..\Source\System\ArraySize.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\System\CheckHit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\CheckHit.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\CollisionObject.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\ProcessBase.hpp"
 				>
 			</File>
 			<File
@@ -252,7 +268,35 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\System\Range.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\RewritableVariable.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\StateBase.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\StateManagerBase.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\String.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\System\StringOf.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\StringOf.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\System\Vector2.hpp"
 				>
 			</File>
 		</Filter>

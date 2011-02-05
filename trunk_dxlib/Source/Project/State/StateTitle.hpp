@@ -1,6 +1,7 @@
 #ifndef state_title_hpp
 #define state_title_hpp
 
+class StateManagerBase;
 #include "System/StateBase.hpp"
 
 /**
@@ -9,11 +10,13 @@
 class StateTitle : public StateBase
 {
 public:
-    StateTitle();
+    StateTitle( StateManagerBase* manager );
     ~StateTitle(){}
 public:
     void Update();
     void Draw();
+private:
+    StateManagerBase* m_manager;
 };
 
 #endif
