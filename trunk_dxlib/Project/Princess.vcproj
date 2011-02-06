@@ -346,6 +346,14 @@
 					RelativePath="..\Source\Project\SaveData.hpp"
 					>
 				</File>
+				<File
+					RelativePath="..\Source\Project\ScrollBackground.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\ScrollBackground.hpp"
+					>
+				</File>
 				<Filter
 					Name="State"
 					>

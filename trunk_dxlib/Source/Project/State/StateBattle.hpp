@@ -2,7 +2,10 @@
 #define include_guard_dab9ac90_e1c4_4e8c_bed1_df0275db9b24
 
 class StateManagerBase;
+class ScrollBackground;
 #include "System/StateBase.hpp"
+#include <memory>
+
 
 class StateBattle : public StateBase
 {
@@ -36,6 +39,8 @@ private:
     int m_add_meter;
     Step m_step;
     int m_player_x;
+    int m_move_result; //!< ÅI’n“_.
+    std::auto_ptr<ScrollBackground> m_background;
 };
 
 #endif
