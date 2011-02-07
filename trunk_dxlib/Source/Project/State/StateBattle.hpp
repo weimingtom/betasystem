@@ -38,8 +38,8 @@ private:
     int m_meter;
     int m_add_meter;
     Step m_step;
-    int m_player_x;
-    int m_move_result; //!< ÅI’n“_.
+    float m_player_x;
+    float m_player_speed;
     std::auto_ptr<ScrollBackground> m_background;
 };
 

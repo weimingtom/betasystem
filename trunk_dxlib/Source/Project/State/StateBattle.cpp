@@ -15,6 +15,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_step( Step_DecideMeter )
  , m_player_x(0)
  , m_background( new ScrollBackground() )
+ , m_player_speed(0.0f)
 {
 }
 
@@ -70,8 +71,7 @@ void StateBattle::DecideMeter()
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
     	m_add_meter = 0;
-    	//最終地点の決定.
-    	m_move_result = m_meter * 10;
+    	m_player_speed = static_cast<float>(m_meter); //!< 初速の決定.
     	SetStep( Step_Dash );
     }
 }
@@ -83,9 +83,10 @@ void StateBattle::SetStep( Step step )
 
 void StateBattle::DashPlayer()
 {
-    m_background->SetScroll( m_player_x );
-	m_player_x += 3;
-	if( m_player_x > m_move_result ){
+	m_player_speed *= 0.98f; //!< 推進力減退.
+	m_player_x += m_player_speed;
+    m_background->SetScroll( static_cast<int>(m_player_x) );
+	if( m_player_speed < 0.01f ){
 		SetStep( Step_Result );
 	}
 }
