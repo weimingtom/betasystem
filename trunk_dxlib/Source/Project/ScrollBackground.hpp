@@ -1,6 +1,9 @@
 #ifndef scroll_background_hpp
 #define scroll_background_hpp
 
+/**
+	ƒXƒNƒ[ƒ‹‚·‚é”wŒi‚ğÀŒ»‚·‚éƒNƒ‰ƒX.
+*/
 class ScrollBackground
 {
 public:
@@ -15,7 +18,8 @@ public:
     void Draw();
 
 private:
-    int m_first_x;
+    int m_first_x;	//!< ‚P–‡–Ú‚Ì”wŒi‚ÌÀ•W.
+	int m_second_x;	//!< ‚Q–‡–Ú‚Ì”wŒi‚ÌÀ•W.
 };
 
 
