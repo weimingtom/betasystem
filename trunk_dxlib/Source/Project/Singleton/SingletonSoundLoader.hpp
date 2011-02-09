@@ -6,13 +6,8 @@
 
 enum SoundType
 {
-    SoundType_WorldMap,
+    SoundType_Mast,
     SoundType_Decide,
-    SoundType_OnButton,
-    SoundType_ReleaseButton,
-    SoundType_Attack,
-    SoundType_BeginGuard,
-    SoundType_SuccessGuard,
     SoundType_Num,
 };
 

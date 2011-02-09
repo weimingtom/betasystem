@@ -22,25 +22,29 @@ private:
 	*/
 	enum Step
 	{
-		Step_DecideMeter,
+		Step_DecideMeter1,
+		Step_DecideMeter2,
+		Step_WaitDash, //!< ダッシュ前のアクション.
 		Step_Dash,
 		Step_Result,
 	};
 	
 private:
-	void UpdateMeter();
+	void UpdateMeter( int meter_index );
 	void DecideMeter();
 	void SetStep( Step step );
+	void StepWaitDash();
 	void DashPlayer();
 
 private:
     StateManagerBase& m_manager;
-    int m_meter;
+    int m_meter[2];
     int m_add_meter;
     Step m_step;
     float m_player_x;
     float m_player_speed;
     std::auto_ptr<ScrollBackground> m_background;
+    int m_frame;
 };
 
 #endif
