@@ -71,8 +71,12 @@ void StateBattle::Draw()
 	
 	for( int i = 0; i < 2 ; i++ ){
     	int const y = 80 * i + 100;
-    	DrawCircle( x, y, meter_max / 2, GetColor( 0,0,0 ), TRUE ); 
-    	DrawCircle( x, y, m_meter[i] / 2 , GetColor( 0,255 / meter_max * m_meter[i],0 ), TRUE ); 
+    	DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE ); 
+    	if( i == 0 ){
+        	DrawCircle( x, y, m_meter[i] / 3 , GetColor( 0, 255 / meter_max * m_meter[i], 0), TRUE );
+        }else{
+    	    DrawCircle( x, y, m_meter[i] / 3 , GetColor( 255 / meter_max * m_meter[i], 0,0), TRUE ); 
+        }
     }
 
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_x[%f]", m_player_x );
