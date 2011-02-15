@@ -25,6 +25,10 @@ StateBattle::StateBattle( StateManagerBase& manager )
     m_player_pos.y = 250;
     m_meter[0]=0;
     m_meter[1]=0;
+    
+    for( int i = 0 ; i < EnemyNum; i++ ){
+        m_enemy[i].SetPosition( Vector2( i * 200 + 600 , 300 ) );
+    }
 }
 
 void StateBattle::Update()
@@ -85,6 +89,10 @@ void StateBattle::Draw()
     	    DrawCircle( x, y, m_meter[i] / 3 , GetColor( 255 / meter_max * m_meter[i], 0,0), TRUE ); 
         }
     }
+    for( int i = 0 ; i < EnemyNum ; i++ ){
+		m_enemy[i].Draw( m_camera->Position() );
+    }
+    //デバッグ描画.
 	DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
 }

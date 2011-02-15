@@ -7,6 +7,7 @@ class Camera;
 #include <memory>
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
+#include "Project/Enemy.hpp"
 
 class StateBattle : public StateBase
 {
@@ -29,6 +30,8 @@ private:
 		Step_Dash,
 		Step_Result,
 	};
+private:
+	static int const EnemyNum = 100;
 	
 private:
 	void UpdateMeter( int meter_index );
@@ -47,6 +50,7 @@ private:
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
     std::auto_ptr<Camera> m_camera;
+    Enemy m_enemy[ EnemyNum ];
 };
 
 #endif

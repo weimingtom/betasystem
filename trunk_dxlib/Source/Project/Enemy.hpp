@@ -2,6 +2,7 @@
 #define include_d1df1b84_ffb8_489d_9781_f028508ad404
 
 #include "System/Vector2.hpp"
+#include "Project/Draw.hpp"
 
 /**
 	敵クラス.
@@ -11,9 +12,8 @@ class Enemy
 public:
 	/**
 		コンストラクタ.
-		@param pos 初期座標.
 	*/
-    Enemy( Vector2 init_pos );
+    Enemy();
 	~Enemy(){}
 public:
 	/**
@@ -23,7 +23,11 @@ public:
 	/**
 		描画.
 	*/
-    void Draw() const;
+    void Draw( Vector2 camera_pos ) const;
+    /**
+        位置の設定.
+    */
+    void SetPosition( Vector2 pos ){ m_pos = pos; }
     /**
     	速度の設定.
     */

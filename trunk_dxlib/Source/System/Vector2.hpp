@@ -15,14 +15,14 @@ public:
         y = y_;
     }
     
-    Vector2 operator +( Vector2 const& vec2 )
+    Vector2 operator +( Vector2 const& vec2 ) const
     {
         Vector2 result;
         result.x = this->x + vec2.x;
         result.y = this->y + vec2.y;
         return result;
     }
-    Vector2 operator -( Vector2 const& vec2 )
+    Vector2 operator -( Vector2 const& vec2 ) const
     {
         Vector2 result;
         result.x = this->x - vec2.x;
