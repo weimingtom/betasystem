@@ -26,6 +26,7 @@ public:
     {
         this->x += vec2.x;
         this->y += vec2.y;
+		return *this;
     }
 
 public:

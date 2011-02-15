@@ -1,21 +1,18 @@
 #include "Project/Enemy.hpp"
-#include "DxLibWrapper/Graphics.hpp"
 
-Enemy::Enemy(
-    Vector2 pos ,
-    Vector2 size ,
-    int image_handle ,
-    CharacterStatus status )
- : CollisionObject( pos , size )
- , m_status( status )
- , m_image_handle( image_handle )
+Enemy::Enemy( Vector2 init_pos )
+ : m_pos( init_pos )
+ , m_speed( Vector2(0,0) )
+ , m_is_alive( true )
 {
+}
+
+void Enemy::Update()
+{
+	m_pos += m_speed;
 }
 
 void Enemy::Draw() const
 {
-    DrawTexture( m_pos , m_image_handle );
-    DrawCollision();
 }
-
 
