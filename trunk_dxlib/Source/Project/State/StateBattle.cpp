@@ -1,6 +1,7 @@
 #include "StateBattle.hpp"
 
 #include "System/StateManagerBase.hpp"
+#include "System/Camera.hpp"
 #include "Project/ProjectStateManager.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/Color.hpp"
@@ -16,18 +17,24 @@ StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_add_meter(0)
  , m_step( Step_DecideMeter1 )
- , m_player_x(0)
  , m_background( new ScrollBackground() )
  , m_player_speed(0.0f)
  , m_frame(0)
+ , m_camera( new Camera() )
 {
+    m_player_pos.y = 250;
     m_meter[0]=0;
     m_meter[1]=0;
 }
 
-
 void StateBattle::Update()
 {
+    //カメラはプレイヤー追尾.
+	m_camera->SetPosition( m_player_pos - Vector2(640/2,480/2) );
+	
+	//背景スクロール
+    m_background->SetScroll( static_cast<int>(m_camera->Position().x) );
+
     //直ぐリセットできるように
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
     {
@@ -66,7 +73,7 @@ void StateBattle::Update()
 void StateBattle::Draw()
 {
     m_background->Draw();
-	DrawTexture( 50 , 230, ImageType_Player );
+	DrawTexture( m_player_pos - m_camera->Position(), ImageType_Player );
 	int const x = 100;
 	
 	for( int i = 0; i < 2 ; i++ ){
@@ -78,8 +85,7 @@ void StateBattle::Draw()
     	    DrawCircle( x, y, m_meter[i] / 3 , GetColor( 255 / meter_max * m_meter[i], 0,0), TRUE ); 
         }
     }
-
-    DrawFormatString( 0 , 0 , ColorOf() , "m_player_x[%f]", m_player_x );
+	DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
 }
 /**
@@ -136,8 +142,7 @@ void StateBattle::DashPlayer()
     }else{
         m_player_speed *= 0.9f;
     }
-	m_player_x += m_player_speed;
-    m_background->SetScroll( static_cast<int>(m_player_x) );
+	m_player_pos.x += m_player_speed;
 	if( m_player_speed < 0.01f ){
 		SetStep( Step_Result );
 	}

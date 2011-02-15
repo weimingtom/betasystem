@@ -2,6 +2,7 @@
 #define include_camera_hpp
 
 #include "System/Vector2.hpp"
+
 /**
     カメラの役割をするクラス.
 */
@@ -11,7 +12,7 @@ public:
     /**
         座標の設定.
     */
-    void SetPos( Vector2 pos ){ m_pos = pos; }
+    void SetPosition( Vector2 pos ){ m_pos = pos; }
     /**
         座標の取得.
     */

@@ -3,9 +3,10 @@
 
 class StateManagerBase;
 class ScrollBackground;
-#include "System/StateBase.hpp"
+class Camera;
 #include <memory>
-
+#include "System/StateBase.hpp"
+#include "System/Vector2.hpp"
 
 class StateBattle : public StateBase
 {
@@ -41,10 +42,11 @@ private:
     int m_meter[2];
     int m_add_meter;
     Step m_step;
-    float m_player_x;
+    Vector2 m_player_pos;
     float m_player_speed;
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
+    std::auto_ptr<Camera> m_camera;
 };
 
 #endif
