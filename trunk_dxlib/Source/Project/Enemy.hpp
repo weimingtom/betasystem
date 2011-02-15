@@ -29,6 +29,10 @@ public:
     */
     void SetPosition( Vector2 pos ){ m_pos = pos; }
     /**
+        ˆÊ’u‚Ìæ“¾.
+    */
+    Vector2 Position() const { return m_pos; }
+    /**
     	‘¬“x‚Ìİ’è.
     */
     void SetSpeed( Vector2 speed ){ m_speed = speed; }
@@ -36,6 +40,10 @@ public:
     	¶€‚Ìİ’è.
     */
     void SetAlive( bool is_alive ){ m_is_alive = is_alive; }
+    /**
+        ¶€‚Ìæ“¾.
+    */
+    bool IsAlive() const { return m_is_alive; }
 	
 private:
 	Vector2 m_pos;

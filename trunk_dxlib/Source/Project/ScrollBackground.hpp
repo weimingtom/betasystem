@@ -1,6 +1,8 @@
 #ifndef scroll_background_hpp
 #define scroll_background_hpp
 
+#include "System/Vector2.hpp"
+
 /**
 	ƒXƒNƒ[ƒ‹‚·‚é”wŒi‚ğÀŒ»‚·‚éƒNƒ‰ƒX.
 */
@@ -14,12 +16,12 @@ public:
     /**
         ”wŒi‚ğ‚¸‚ç‚·—Ê‚ğİ’è‚·‚é.
     */
-    void SetScroll( int scroll_x );
-    void Draw();
+    void SetScroll( Vector2 pos );
+	void Draw( Vector2 camera_pos );
 
 private:
-    int m_first_x;	//!< ‚P–‡–Ú‚Ì”wŒi‚ÌÀ•W.
-	int m_second_x;	//!< ‚Q–‡–Ú‚Ì”wŒi‚ÌÀ•W.
+    Vector2 m_first;	//!< ‚P–‡–Ú‚Ì”wŒi‚ÌÀ•W.
+	Vector2 m_second;	//!< ‚Q–‡–Ú‚Ì”wŒi‚ÌÀ•W.
 };
 
 

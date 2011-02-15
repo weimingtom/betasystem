@@ -12,9 +12,9 @@ namespace {
 		@param scroll_x スクロールした値.
 		@param base_x 基本座標.
 	*/
-	int ScrolledPosition( int scroll_x, int base_x )
+	int ScrolledPosition( Vector2 scroll, int base_x )
 	{
-	    int position_x = base_x - scroll_x;
+	    int position_x = static_cast<int>( base_x - scroll.x );
 	    while( position_x < -640 ){
 	        position_x += 1280;
 	    }
@@ -24,8 +24,8 @@ namespace {
 } // namespace unnamed
 
 ScrollBackground::ScrollBackground()
- : m_first_x( first_base )
- , m_second_x( second_base )
+ : m_first( Vector2( first_base , 0 ) )
+ , m_second( Vector2( second_base , 0 ) )
 {
 }
 
@@ -33,17 +33,15 @@ ScrollBackground::~ScrollBackground()
 {
 }
 
-void ScrollBackground::SetScroll( int scroll_x )
+void ScrollBackground::SetScroll( Vector2 scroll )
 {
-    int const first_base = 0;
-	
-	m_first_x = ScrolledPosition( scroll_x, first_base );
-	m_second_x = ScrolledPosition( scroll_x, second_base );
+	m_first.x = ScrolledPosition( scroll , first_base );
+	m_second.x = ScrolledPosition( scroll , second_base );
 }
 
-void ScrollBackground::Draw()
+void ScrollBackground::Draw( Vector2 camera_pos )
 {
-	DrawTexture( m_first_x, 0, ImageType_Forest );
-	DrawTexture( m_second_x, 0, ImageType_Forest );
+	DrawTexture( Vector2( m_first.x , m_first.y - camera_pos.y ) , ImageType_Forest );
+	DrawTexture( Vector2( m_second.x , m_second.y - camera_pos.y ) , ImageType_Forest );
 }
 

@@ -5,6 +5,7 @@
 #include "Project/ProjectStateManager.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/Color.hpp"
+#include "DxLibWrapper/Random.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Draw.hpp"
@@ -22,27 +23,41 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_frame(0)
  , m_camera( new Camera() )
 {
-    m_player_pos.y = 250;
+    m_player_pos.y = 300;
     m_meter[0]=0;
     m_meter[1]=0;
     
     for( int i = 0 ; i < EnemyNum; i++ ){
-        m_enemy[i].SetPosition( Vector2( i * 200 + 600 , 300 ) );
+        m_enemy[i].SetPosition( Vector2( i * 200 + 600 , 350 ) );
     }
 }
 
 void StateBattle::Update()
 {
-    //カメラはプレイヤー追尾.
-	m_camera->SetPosition( m_player_pos - Vector2(640/2,480/2) );
-	
-	//背景スクロール
-    m_background->SetScroll( static_cast<int>(m_camera->Position().x) );
-
     //直ぐリセットできるように
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
     {
         m_manager.ChangeState( ProjectState_Battle );
+    }
+
+    //カメラはプレイヤー追尾.
+	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
+	
+	//背景スクロール
+    m_background->SetScroll( m_camera->Position() );
+    
+    /**
+        プレイヤーと敵がぶつかったら、敵をふっとばす.
+    */
+    for( int i = 0 ; i < EnemyNum ; i++ ){
+        m_enemy[i].Update();
+        if( m_enemy[i].IsAlive() ){
+            if( m_enemy[i].Position().x < m_player_pos.x ){
+                SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK2 ) );
+                m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(10) ) );
+                m_enemy[i].SetAlive( false );
+            }
+        }
     }
     
 	switch( m_step )
@@ -76,7 +91,7 @@ void StateBattle::Update()
 
 void StateBattle::Draw()
 {
-    m_background->Draw();
+    m_background->Draw( m_camera->Position() );
 	DrawTexture( m_player_pos - m_camera->Position(), ImageType_Player );
 	int const x = 100;
 	
@@ -95,6 +110,17 @@ void StateBattle::Draw()
     //デバッグ描画.
 	DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
+    {
+        int break_enemy = 0;
+        for( int i = 0 ; i < EnemyNum ; i++ ){
+            if( !m_enemy[i].IsAlive() ){
+                break_enemy++;
+            }else{
+                break;
+            }
+        }
+        DrawFormatString( 300 , 100 , ColorOf() , "[%d]", break_enemy );
+    }
 }
 /**
 	メーターの更新.
