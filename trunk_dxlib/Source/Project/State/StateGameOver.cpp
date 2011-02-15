@@ -28,8 +28,6 @@ private:
 StateGameOver::StateGameOver( StateManagerBase& project_state_manager )
  : m_project_state_manager( project_state_manager )
 {
-    CharacterStatus& player_status = SaveData::GetInstance().m_player_status;
-    player_status = CharacterStatusOf( CharaType_Player );
 }
 
 void StateGameOver::Update()

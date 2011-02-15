@@ -1,25 +1,17 @@
 #include "Project/SaveData.hpp"
 
-#include <memory>
-#include "Project/CharacterStatusFactory.hpp"
 
-namespace{
+namespace {
 
-static std::auto_ptr< SaveData > g_save_data;
+	
 
-} // namespace unnamed
+} // unnamed
 
-SaveData::SaveData()
- : m_player_status( CharacterStatusOf( CharaType_Player ) )
+void SaveData::Save()
 {
 }
 
-SaveData& SaveData::GetInstance()
+void SaveData::Load()
 {
-    if( !g_save_data.get() )
-    {
-        g_save_data.reset( new SaveData() );
-    }
-    return *g_save_data;
 }
 

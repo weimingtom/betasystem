@@ -1,16 +1,22 @@
 #ifndef include_6227f8ae_11de_44fc_ae49_2133fed65c60
 #define include_6227f8ae_11de_44fc_ae49_2133fed65c60
 
-#include "Project/CharacterStatus.hpp"
-
-class SaveData
+/**
+	セーブ情報をまとめた構造体.
+*/
+struct SaveData
 {
 public:
-    static SaveData& GetInstance();
-private:
-    SaveData();
+	/**
+		セーブする.
+	*/
+	void Save();
+	/**
+		ロードする.
+	*/
+	void Load();
 public:
-    CharacterStatus m_player_status;
+	int hoge;	//中身は未実装.
 };
 
 #endif
