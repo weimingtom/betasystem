@@ -28,10 +28,11 @@ private:
 		Step_DecideMeter2,
 		Step_WaitDash, //!< ダッシュ前のアクション.
 		Step_Dash,
+		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
 	};
 private:
-	static int const EnemyNum = 100;
+	static int const EnemyNum = 300;
 	
 private:
 	void UpdateMeter( int meter_index );

@@ -28,7 +28,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     m_meter[1]=0;
     
     for( int i = 0 ; i < EnemyNum; i++ ){
-        m_enemy[i].SetPosition( Vector2( i * 200 + 600 , 350 ) );
+        m_enemy[i].SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
 }
 
@@ -80,9 +80,13 @@ void StateBattle::Update()
 	case Step_Dash:
 		DashPlayer();
 		break;
+    case Step_DashEnd:
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+	    	SetStep( Step_Result );
+	    }
+        break;
 	case Step_Result:
-	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
-	    {
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 	    	m_manager.ChangeState( ProjectState_Title );
 	    }
 		break;
@@ -91,13 +95,15 @@ void StateBattle::Update()
 
 void StateBattle::Draw() const
 {
+    DrawBox( 0, 0, 640 , 480, GetColor( 200,222,200 ), TRUE );
+    
     m_background->Draw( m_camera->Position() );
 	DrawTexture( m_player_pos - m_camera->Position(), ImageType_Player );
 	int const x = 100;
 	
 	for( int i = 0; i < 2 ; i++ ){
     	int const y = 80 * i + 100;
-    	DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE ); 
+    	DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
     	if( i == 0 ){
         	DrawCircle( x, y, m_meter[i] / 3 , GetColor( 0, 255 / meter_max * m_meter[i], 0), TRUE );
         }else{
@@ -107,9 +113,21 @@ void StateBattle::Draw() const
     for( int i = 0 ; i < EnemyNum ; i++ ){
 		m_enemy[i].Draw( m_camera->Position() );
     }
-    if( m_step == Step_Result ){
-    	DrawTexture( 100, 100, ImageType_GameEnd );
+    
+    switch( m_step )
+    {
+    case Step_DecideMeter1:
+    case Step_DecideMeter2:
+        DrawTexture( 100, 100, ImageType_Explain );
+        break;
+    case Step_DashEnd:
+        DrawTexture( 100, 100, ImageType_GameEnd );
+        break;
+    case Step_Result:
+        DrawTexture( 100, 100, ImageType_Result );
+        break;
     }
+
     DrawDebug();
 }
 
@@ -169,7 +187,7 @@ void StateBattle::DashPlayer()
     }
 	m_player_pos.x += m_player_speed;
 	if( m_player_speed < 0.01f ){
-		SetStep( Step_Result );
+		SetStep( Step_DashEnd );
 	}
 }
 
@@ -189,7 +207,7 @@ void StateBattle::DrawDebug() const
                 break;
             }
         }
-        DrawFormatString( 300 , 100 , ColorOf() , "[%d]", break_enemy );
+        DrawFormatString( 300 , 200 , ColorOf() , "[%d]", break_enemy );
     }
 }
 

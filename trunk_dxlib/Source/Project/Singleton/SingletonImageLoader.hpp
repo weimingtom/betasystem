@@ -14,6 +14,8 @@ enum ImageType
     ImageType_Stand,
     ImageType_GameEnd,
     ImageType_Title,
+    ImageType_Explain,
+    ImageType_Result,
 
     ImageType_Num,
 };
