@@ -89,7 +89,7 @@ void StateBattle::Update()
 	}
 }
 
-void StateBattle::Draw()
+void StateBattle::Draw() const
 {
     m_background->Draw( m_camera->Position() );
 	DrawTexture( m_player_pos - m_camera->Position(), ImageType_Player );
@@ -107,21 +107,12 @@ void StateBattle::Draw()
     for( int i = 0 ; i < EnemyNum ; i++ ){
 		m_enemy[i].Draw( m_camera->Position() );
     }
-    //デバッグ描画.
-	DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
-    DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
-    {
-        int break_enemy = 0;
-        for( int i = 0 ; i < EnemyNum ; i++ ){
-            if( !m_enemy[i].IsAlive() ){
-                break_enemy++;
-            }else{
-                break;
-            }
-        }
-        DrawFormatString( 300 , 100 , ColorOf() , "[%d]", break_enemy );
+    if( m_step == Step_Result ){
+    	DrawTexture( 100, 100, ImageType_GameEnd );
     }
+    DrawDebug();
 }
+
 /**
 	メーターの更新.
 */
@@ -180,5 +171,25 @@ void StateBattle::DashPlayer()
 	if( m_player_speed < 0.01f ){
 		SetStep( Step_Result );
 	}
+}
+
+/**
+    デバッグ情報描画.
+*/
+void StateBattle::DrawDebug() const
+{
+    DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
+    DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
+    {
+        int break_enemy = 0;
+        for( int i = 0 ; i < EnemyNum ; i++ ){
+            if( !m_enemy[i].IsAlive() ){
+                break_enemy++;
+            }else{
+                break;
+            }
+        }
+        DrawFormatString( 300 , 100 , ColorOf() , "[%d]", break_enemy );
+    }
 }
 

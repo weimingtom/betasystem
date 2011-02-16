@@ -19,7 +19,7 @@ public:
     StateGameOver( StateManagerBase& project_state_manager );
 public:
     void Update();
-    void Draw();
+    void Draw() const;
 private:
     StateManagerBase& m_project_state_manager;
     std::auto_ptr< ImageLoader > m_image_loader;
@@ -40,9 +40,9 @@ void StateGameOver::Update()
     }
 }
 
-void StateGameOver::Draw()
+void StateGameOver::Draw() const
 {
-	DrawTexture( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
+//	DrawTexture( 0 , 0 , SingletonImageLoader::Get()->ImageHandleOf( NameOf( ImageType_GameOver ) ) );
 }
 
 StateBase* new_StateGameOver( StateManagerBase& project_state_manager )

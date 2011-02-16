@@ -9,18 +9,12 @@
 enum ImageType
 {
     ImageType_Forest,
-    ImageType_RedForest,
     ImageType_Player,
     ImageType_Enemy,
-    ImageType_Sword,
-    ImageType_Magic,
-    ImageType_Shield,
-    ImageType_IconRunAway,
-    ImageType_RunAway,
-    ImageType_Camp,
-    ImageType_GameOver,
-    ImageType_Player_Guard,
     ImageType_Stand,
+    ImageType_GameEnd,
+    ImageType_Title,
+
     ImageType_Num,
 };
 

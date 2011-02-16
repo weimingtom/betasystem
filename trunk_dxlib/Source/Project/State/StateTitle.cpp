@@ -19,9 +19,9 @@ void StateTitle::Update()
     }
 }
 
-void StateTitle::Draw()
+void StateTitle::Draw() const
 {
-	DrawTexture( 0, 0, ImageType_Stand );
+	DrawTexture( 0, 0, ImageType_Title );
 }
 
 

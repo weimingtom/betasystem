@@ -8,18 +8,11 @@
 char const* const image_name[ ImageType_Num ] =
 {
     "Resource/BG_Forest.png",
-    "Resource/BG_RedForest.png",
     "Resource/Player.png",
     "Resource/Enemy.png",
-    "Resource/sword.png",
-    "Resource/magic.png",
-    "Resource/shield.png",
-    "Resource/icon_RunAway.png",
-    "Resource/RunAway.png",
-    "Resource/Camp.png",
-    "Resource/GameOver.png",
-    "Resource/Player_Guard.png",
     "Resource/Stand.png",
+    "Resource/GameEnd.png",
+    "Resource/Title.png",
 };
 
 namespace SingletonImageLoader

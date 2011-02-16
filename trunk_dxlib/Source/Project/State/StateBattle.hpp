@@ -16,7 +16,7 @@ public:
     
 public:
     void Update();
-    void Draw();
+    void Draw() const;
 
 private:
 	/**
@@ -39,6 +39,7 @@ private:
 	void SetStep( Step step );
 	void StepWaitDash();
 	void DashPlayer();
+	void DrawDebug() const;
 
 private:
     StateManagerBase& m_manager;

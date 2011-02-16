@@ -13,8 +13,8 @@ public:
     StateTitle( StateManagerBase* manager );
     ~StateTitle(){}
 public:
-    void Update();
-    void Draw();
+	void Update();
+	void Draw() const;
 private:
     StateManagerBase* m_manager;
 };
