@@ -21,7 +21,7 @@ void StateTitle::Update()
 
 void StateTitle::Draw() const
 {
-	DrawTexture( 0, 0, ImageType_Title );
+	DrawTexture( Vector2(0,0), ImageType_Title );
 }
 
 

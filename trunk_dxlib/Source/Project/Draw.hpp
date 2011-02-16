@@ -1,16 +1,13 @@
 #ifndef draw_hpp
 #define draw_hpp
 
-class Vector2;
+#include "System/Vector2.hpp"
 #include "Singleton/SingletonImageLoader.hpp"
 
 /**
     ‰æ‘œ•`‰æ.
 */
-void DrawTexture( int x, int y, ImageType image_type );
-
 void DrawTexture( Vector2 const& pos, ImageType image_type );
 
+#endif //draw_hpp
 
-
-#endif

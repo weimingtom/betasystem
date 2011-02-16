@@ -118,13 +118,13 @@ void StateBattle::Draw() const
     {
     case Step_DecideMeter1:
     case Step_DecideMeter2:
-        DrawTexture( 100, 100, ImageType_Explain );
+        DrawTexture( Vector2(100,100), ImageType_Explain );
         break;
     case Step_DashEnd:
-        DrawTexture( 100, 100, ImageType_GameEnd );
+        DrawTexture( Vector2(100,100), ImageType_GameEnd );
         break;
     case Step_Result:
-        DrawTexture( 100, 100, ImageType_Result );
+        DrawTexture( Vector2(100,100), ImageType_Result );
         break;
     }
 
