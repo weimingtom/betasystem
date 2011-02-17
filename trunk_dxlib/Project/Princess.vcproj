@@ -207,14 +207,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Source\DxLibWrapper\Graphics.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\DxLibWrapper\Graphics.hpp"
-					>
-				</File>
-				<File
 					RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
 					>
 				</File>

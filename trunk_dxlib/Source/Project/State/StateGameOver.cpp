@@ -5,7 +5,6 @@
 #include "System/StateManagerBase.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
-#include "DxLibWrapper/Graphics.hpp"
 #include "Project/State/ProjectStateManager.hpp"
 #include "Project/CharacterStatus.hpp"
 #include "Project/CharacterStatusFactory.hpp"

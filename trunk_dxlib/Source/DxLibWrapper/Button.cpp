@@ -2,7 +2,6 @@
 
 #include <memory>
 #include "DxLib.h"
-#include "DxLibWrapper/Graphics.hpp"
 #include "System/CheckHit.hpp"
 
 Button::Button(
@@ -18,7 +17,7 @@ Button::Button(
 
 void Button::Draw() const
 {
-    DrawTexture( m_pos , m_image_handle );
+//    DrawTexture( m_pos , m_image_handle );
     DrawCollision();
 }
 
