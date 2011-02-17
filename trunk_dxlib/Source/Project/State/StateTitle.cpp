@@ -4,7 +4,7 @@
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "System/StateManagerBase.hpp"
-#include "Project/ProjectStateManager.hpp"
+#include "Project/State/ProjectStateManager.hpp"
 
 StateTitle::StateTitle( StateManagerBase* manager )
  : m_manager( manager )

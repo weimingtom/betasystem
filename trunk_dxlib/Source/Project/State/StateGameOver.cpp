@@ -6,10 +6,9 @@
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/ImageLoader.hpp"
 #include "DxLibWrapper/Graphics.hpp"
-#include "Project/ProjectStateManager.hpp"
+#include "Project/State/ProjectStateManager.hpp"
 #include "Project/CharacterStatus.hpp"
 #include "Project/CharacterStatusFactory.hpp"
-#include "Project/SaveData.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 
