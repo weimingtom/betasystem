@@ -22,6 +22,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_speed(0.0f)
  , m_frame(0)
  , m_camera( new Camera() )
+ , m_player_power(0)
 {
     m_player_pos.y = 300;
     m_meter[0]=0;
@@ -34,25 +35,15 @@ StateBattle::StateBattle( StateManagerBase& manager )
 
 void StateBattle::Update()
 {
+    for( int i = 0 ; i < EnemyNum ; i++ ){
+        m_enemy[i].Update();
+    }
+
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	
 	//背景スクロール
     m_background->SetScroll( m_camera->Position() );
-    
-    /**
-        プレイヤーと敵がぶつかったら、敵をふっとばす.
-    */
-    for( int i = 0 ; i < EnemyNum ; i++ ){
-        m_enemy[i].Update();
-        if( m_enemy[i].IsAlive() ){
-            if( m_enemy[i].Position().x < m_player_pos.x ){
-                SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK2 ) );
-                m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(10) ) );
-                m_enemy[i].SetAlive( false );
-            }
-        }
-    }
     
 	switch( m_step )
 	{
@@ -168,8 +159,7 @@ void StateBattle::DecideMeter()
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
         SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-    	m_add_meter = 0;
-    	m_player_speed = static_cast<float>( m_meter[0] + m_meter[1] ) / 10; //!< 初速の決定.
+    	m_player_power = m_meter[0] + m_meter[1];
     	SetStep( Step_WaitDash );
     }
 }
@@ -189,20 +179,34 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::DashPlayer()
 {
-    // 推進力減退処理.
-    if( m_player_speed > 5.5f ){
-        m_player_speed *= 0.999f;
+    m_player_speed = 25;
+    if( m_player_power < 100 ){
+        m_player_speed = 20;
     }
-    else if( m_player_speed > 2.0f ){
-    	m_player_speed *= 0.995f;
+    if( m_player_power < 30 ){
+        m_player_speed = 10;
     }
-    else if( m_player_speed > 1.0f ){
-    	m_player_speed *= 0.99f;
-    }else{
-        m_player_speed *= 0.9f;
+    if( m_player_power < 20 ){
+        m_player_speed = 5;
     }
-	m_player_pos.x += m_player_speed;
-	if( m_player_speed < 0.01f ){
+    m_player_pos.x += m_player_speed;
+
+    /**
+        プレイヤーと敵がぶつかったら、敵をふっとばす.
+    */
+    for( int i = 0 ; i < EnemyNum ; i++ ){
+        if( m_enemy[i].IsAlive() ){
+            if( m_enemy[i].Position().x < m_player_pos.x ){
+                m_player_power--;
+                SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK2 ) );
+                m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(10) ) );
+                m_enemy[i].SetAlive( false );
+            }
+        }
+    }
+    
+    //ダッシュ終了.
+	if( m_player_power <= 0 ){
 		SetStep( Step_DashEnd );
 	}
 }

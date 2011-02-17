@@ -45,7 +45,7 @@ private:
 private:
     StateManagerBase& m_manager;
     int m_meter[2];
-    int m_add_meter;
+    int m_add_meter; //!< ƒ[ƒ^[‚Ì‘‰Á—Ê.
     Step m_step;
     Vector2 m_player_pos;
     float m_player_speed;
@@ -53,6 +53,7 @@ private:
     int m_frame;
     std::auto_ptr<Camera> m_camera;
     Enemy m_enemy[ EnemyNum ];
+    int m_player_power;
 };
 
 #endif
