@@ -34,12 +34,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
 
 void StateBattle::Update()
 {
-    //直ぐリセットできるように
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
-    {
-        m_manager.ChangeState( ProjectState_Battle );
-    }
-
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	
@@ -71,6 +65,11 @@ void StateBattle::Update()
         }
 		break;
 	case Step_DecideMeter2:
+        //やり直し機能.
+        if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
+        {
+            m_manager.ChangeState( ProjectState_Battle );
+        }
 		UpdateMeter(1);
 		DecideMeter();
 	    break;
