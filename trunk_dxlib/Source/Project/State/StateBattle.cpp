@@ -110,24 +110,21 @@ void StateBattle::Draw() const
     case Step_DecideMeter1:
     case Step_DecideMeter2:
 		//ê‡ñæ
-        DrawTexture( Vector2(100,100), ImageType_Explain );
+        DrawTexture( Vector2(250,30), ImageType_Explain );
 	case Step_WaitDash:
 		//ÉQÅ[ÉWÇÃï`âÊ
-		{
-    		int const x = 50;
-    		for( int i = 0; i < 2 ; i++ ){
-        		int const y = 80 * i + 100;
-        		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
-        		if( i == 0 ){
-            		DrawCircle( x, y, m_meter[i] / 3 , GetColor( 0, 255 / meter_max * m_meter[i], 0), TRUE );
-				}else{
-        			DrawCircle( x, y, m_meter[i] / 3 , GetColor( 255 / meter_max * m_meter[i], 0,0), TRUE ); 
-				}
-			}
-		}
-		DrawTexture( Vector2(200, 100), ImageType_Gauge, 1.0f );
 		for( int i = 0; i < 2 ; i++ ){
-			DrawTexture( Vector2(200, 100), ImageType_Gauge, m_meter[i] * 0.01f, m_meter[i] /5);
+    		int const x = 50;
+    		int const y = 80 * i + 100;
+    		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
+
+    		int color = GetColor( 0, 255 / meter_max * m_meter[i], 0);
+    		if( m_meter[i] > 98 ){ color = GetColor( 255, 255, 0 ); }
+    		if( i == 0 ){
+        		DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
+			}else{
+    			DrawCircle( x, y, m_meter[i] / 3 , color, TRUE ); 
+			}
 		}
         break;
     case Step_DashEnd:
@@ -135,9 +132,19 @@ void StateBattle::Draw() const
         break;
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
+        {
+            int break_enemy = 0;
+            for( int i = 0 ; i < EnemyNum ; i++ ){
+                if( !m_enemy[i].IsAlive() ){
+                    break_enemy++;
+                }else{
+                    break;
+                }
+            }
+            DrawFormatString( 250 , 200 , ColorOf() , "%dïCÅI", break_enemy );
+        }
         break;
     }
-
     DrawDebug();
 }
 
@@ -208,16 +215,5 @@ void StateBattle::DrawDebug() const
 {
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
-    {
-        int break_enemy = 0;
-        for( int i = 0 ; i < EnemyNum ; i++ ){
-            if( !m_enemy[i].IsAlive() ){
-                break_enemy++;
-            }else{
-                break;
-            }
-        }
-        DrawFormatString( 300 , 200 , ColorOf() , "[%d]", break_enemy );
-    }
 }
 
