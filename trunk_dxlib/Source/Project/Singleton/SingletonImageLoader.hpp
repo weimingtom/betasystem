@@ -16,6 +16,7 @@ enum ImageType
     ImageType_Title,
     ImageType_Explain,
     ImageType_Result,
+    ImageType_Gauge,
 
     ImageType_Num,
 };

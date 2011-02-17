@@ -9,5 +9,7 @@
 */
 void DrawTexture( Vector2 const& pos, ImageType image_type );
 
+void DrawTexture( Vector2 const& pos, ImageType image_type, double scale, double angle = 0.0f );
+
 #endif //draw_hpp
 

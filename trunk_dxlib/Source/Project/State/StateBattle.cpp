@@ -99,17 +99,8 @@ void StateBattle::Draw() const
     
     m_background->Draw( m_camera->Position() );
 	DrawTexture( m_player_pos - m_camera->Position(), ImageType_Player );
-	int const x = 100;
-	
-	for( int i = 0; i < 2 ; i++ ){
-    	int const y = 80 * i + 100;
-    	DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
-    	if( i == 0 ){
-        	DrawCircle( x, y, m_meter[i] / 3 , GetColor( 0, 255 / meter_max * m_meter[i], 0), TRUE );
-        }else{
-    	    DrawCircle( x, y, m_meter[i] / 3 , GetColor( 255 / meter_max * m_meter[i], 0,0), TRUE ); 
-        }
-    }
+
+	//ìGÇÃï`âÊ.
     for( int i = 0 ; i < EnemyNum ; i++ ){
 		m_enemy[i].Draw( m_camera->Position() );
     }
@@ -118,7 +109,26 @@ void StateBattle::Draw() const
     {
     case Step_DecideMeter1:
     case Step_DecideMeter2:
+		//ê‡ñæ
         DrawTexture( Vector2(100,100), ImageType_Explain );
+	case Step_WaitDash:
+		//ÉQÅ[ÉWÇÃï`âÊ
+		{
+    		int const x = 50;
+    		for( int i = 0; i < 2 ; i++ ){
+        		int const y = 80 * i + 100;
+        		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
+        		if( i == 0 ){
+            		DrawCircle( x, y, m_meter[i] / 3 , GetColor( 0, 255 / meter_max * m_meter[i], 0), TRUE );
+				}else{
+        			DrawCircle( x, y, m_meter[i] / 3 , GetColor( 255 / meter_max * m_meter[i], 0,0), TRUE ); 
+				}
+			}
+		}
+		DrawTexture( Vector2(200, 100), ImageType_Gauge, 1.0f );
+		for( int i = 0; i < 2 ; i++ ){
+			DrawTexture( Vector2(200, 100), ImageType_Gauge, m_meter[i] * 0.01f, m_meter[i] /5);
+		}
         break;
     case Step_DashEnd:
         DrawTexture( Vector2(100,100), ImageType_GameEnd );
