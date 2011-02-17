@@ -41,6 +41,7 @@ private:
 	void StepWaitDash();
 	void DashPlayer();
 	void DrawDebug() const;
+	void DrawGauge() const;
 
 private:
     StateManagerBase& m_manager;

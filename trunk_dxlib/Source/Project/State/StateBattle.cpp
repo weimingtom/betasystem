@@ -35,6 +35,11 @@ StateBattle::StateBattle( StateManagerBase& manager )
 
 void StateBattle::Update()
 {
+    //やり直し機能.
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
+        m_manager.ChangeState( ProjectState_Battle );
+    }
+
     for( int i = 0 ; i < EnemyNum ; i++ ){
         m_enemy[i].Update();
     }
@@ -56,11 +61,6 @@ void StateBattle::Update()
         }
 		break;
 	case Step_DecideMeter2:
-        //やり直し機能.
-        if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
-        {
-            m_manager.ChangeState( ProjectState_Battle );
-        }
 		UpdateMeter(1);
 		DecideMeter();
 	    break;
@@ -99,23 +99,14 @@ void StateBattle::Draw() const
     {
     case Step_DecideMeter1:
     case Step_DecideMeter2:
+        DrawGauge();
 		//説明
         DrawTexture( Vector2(250,30), ImageType_Explain );
+        break;
 	case Step_WaitDash:
-		//ゲージの描画
-		for( int i = 0; i < 2 ; i++ ){
-    		int const x = 50;
-    		int const y = 80 * i + 100;
-    		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
-
-    		int color = GetColor( 0, 255 / meter_max * m_meter[i], 0);
-    		if( m_meter[i] > 98 ){ color = GetColor( 255, 255, 0 ); }
-    		if( i == 0 ){
-        		DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
-			}else{
-    			DrawCircle( x, y, m_meter[i] / 3 , color, TRUE ); 
-			}
-		}
+        DrawGauge();
+		//カットインの描画.
+		DrawTexture( Vector2(0,100), ImageType_Cutin );
         break;
     case Step_DashEnd:
         DrawTexture( Vector2(100,100), ImageType_GameEnd );
@@ -218,5 +209,24 @@ void StateBattle::DrawDebug() const
 {
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
+}
+
+/**
+    ゲージの描画
+*/
+void StateBattle::DrawGauge() const
+{
+	for( int i = 0; i < 2 ; i++ ){
+		int const x = 50;
+		int const y = 80 * i + 100;
+		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
+		int color = GetColor( 0, 255 / meter_max * m_meter[i], 0);
+		if( m_meter[i] > 98 ){ color = GetColor( 255, 255, 0 ); }
+		if( i == 0 ){
+    		DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
+		}else{
+			DrawCircle( x, y, m_meter[i] / 3 , color, TRUE ); 
+		}
+	}
 }
 
