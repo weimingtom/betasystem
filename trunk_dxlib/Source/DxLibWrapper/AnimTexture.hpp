@@ -8,7 +8,6 @@ class AnimTexture
 {
 public:
 	/**
-		更新処理.
 		@param image_handle 表示する画像のハンドル.
 		@param anim_data アニメーションデータ.
 	*/
