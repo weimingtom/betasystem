@@ -4,6 +4,7 @@
 class StateManagerBase;
 class ScrollBackground;
 class Camera;
+class AnimTexture;
 #include <memory>
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
@@ -42,6 +43,7 @@ private:
 	void DashPlayer();
 	void DrawDebug() const;
 	void DrawGauge() const;
+	void UpdateCommon();
 
 private:
     StateManagerBase& m_manager;
@@ -55,6 +57,7 @@ private:
     std::auto_ptr<Camera> m_camera;
     Enemy m_enemy[ EnemyNum ];
     int m_player_power;
+    std::auto_ptr<AnimTexture> m_player_texture;
 };
 
 #endif

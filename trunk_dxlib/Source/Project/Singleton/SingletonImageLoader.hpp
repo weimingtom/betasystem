@@ -36,15 +36,16 @@ namespace SingletonImageLoader
 		初期化.
 	*/
 	void Init();
-	/**
-		インスタンスの取得.
-	*/
-	ImageLoader* Get();
     /**
         開放処理.
     */
     void Release();
 }
+
+/**
+    イメージハンドル取得.
+*/
+int ImageHandleOf( ImageType type );
 
 #endif //include_7aee0d29_36ae_42db_814b_3702121f9903
 

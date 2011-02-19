@@ -6,10 +6,13 @@
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/Color.hpp"
 #include "DxLibWrapper/Random.hpp"
+#include "DxLibWrapper/AnimTexture.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Draw.hpp"
 #include "Project/ScrollBackground.hpp"
+#include "Project/AnimData.hpp"
+#include "Project/AnimData.hpp"
 
 static int const meter_max = 100;
 
@@ -23,6 +26,8 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_frame(0)
  , m_camera( new Camera() )
  , m_player_power(0)
+ , m_player_texture( new AnimTexture(
+    ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
 {
     m_player_pos.y = 300;
     m_meter[0]=0;
@@ -35,21 +40,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
 
 void StateBattle::Update()
 {
-    //やり直し機能.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-        m_manager.ChangeState( ProjectState_Battle );
-    }
-
-    for( int i = 0 ; i < EnemyNum ; i++ ){
-        m_enemy[i].Update();
-    }
-
-    //カメラはプレイヤー追尾.
-	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
-	
-	//背景スクロール
-    m_background->SetScroll( m_camera->Position() );
-    
+    UpdateCommon();
 	switch( m_step )
 	{
 	case Step_DecideMeter1:
@@ -88,7 +79,7 @@ void StateBattle::Draw() const
     DrawBox( 0, 0, 640 , 480, GetColor( 200,222,200 ), TRUE );
     
     m_background->Draw( m_camera->Position() );
-	DrawTexture( m_player_pos - m_camera->Position(), ImageType_Player );
+    m_player_texture->Draw( m_camera->Position() );
 
 	//敵の描画.
     for( int i = 0 ; i < EnemyNum ; i++ ){
@@ -228,5 +219,23 @@ void StateBattle::DrawGauge() const
 			DrawCircle( x, y, m_meter[i] / 3 , color, TRUE ); 
 		}
 	}
+}
+
+void StateBattle::UpdateCommon()
+{
+    m_player_texture->Update();
+    m_player_texture->Set( m_player_pos );
+    //敵更新
+    for( int i = 0 ; i < EnemyNum ; i++ ){
+        m_enemy[i].Update();
+    }
+    //やり直し機能.
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
+        m_manager.ChangeState( ProjectState_Battle );
+    }
+    //カメラはプレイヤー追尾.
+	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
+	//背景スクロール
+    m_background->SetScroll( m_camera->Position() );
 }
 

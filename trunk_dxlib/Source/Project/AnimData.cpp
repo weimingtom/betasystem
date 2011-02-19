@@ -1,3 +1,5 @@
+#include "AnimData.hpp"
+
 #include "System/AnimFormat.hpp"
 
 /**
@@ -5,13 +7,12 @@
 */
 AnimFormat const gAnimData[ AnimType_Num ] =
 {
-	{ 2, 0, 0, 100, 100, 5, -1 }
-	{ 2, 0, 0, 100, 100, 5, -1 }
+    //  –‡”,   x,  y,  width,  height, •\¦ŠúŠÔ,   ƒ‹[ƒv‰ñ”
+	{   3,      0,  0,  100,    150,    20,         AnimFormat::InfinityLoop },
 };
 
 AnimFormat const& AnimDataOf( AnimType anim_type )
 {
 	return gAnimData[anim_type];
 }
-
 

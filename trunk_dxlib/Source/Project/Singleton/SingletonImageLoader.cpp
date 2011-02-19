@@ -19,29 +19,35 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/Cutin.png",
 };
 
+char const* NameOf( ImageType type )
+{
+	return image_name[type];
+}
+
+std::auto_ptr<ImageLoader> gImageLoader;
+
 namespace SingletonImageLoader
 {
-	std::auto_ptr<ImageLoader> instance;
 
 	void Init()
 	{
-		instance.reset( new_ImageLoader( image_name , ImageType_Num ) );
-		instance->Load();
+		gImageLoader.reset( new_ImageLoader( image_name , ImageType_Num ) );
+		gImageLoader->Load();
 	}
 	
 	ImageLoader* Get()
 	{
-		return instance.get();
+		return gImageLoader.get();
 	}
 	
 	void Release()
 	{
-	    instance.reset(0);
+	    gImageLoader.reset(0);
 	}
 }
 
-char const* NameOf( ImageType type )
+int ImageHandleOf( ImageType type )
 {
-	return image_name[type];
+    return gImageLoader->ImageHandleOf( NameOf(type) );
 }
 
