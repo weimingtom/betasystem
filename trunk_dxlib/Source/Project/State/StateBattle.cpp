@@ -12,7 +12,7 @@
 #include "Project/Draw.hpp"
 #include "Project/ScrollBackground.hpp"
 #include "Project/AnimData.hpp"
-#include "Project/AnimData.hpp"
+#include "Project/SaveData.hpp"
 
 static int const meter_max = 100;
 
@@ -28,6 +28,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_power(0)
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
+ , m_get_item( ItemType_Meet )
 {
     m_player_pos.y = 300;
     m_meter[0]=0;
@@ -64,6 +65,7 @@ void StateBattle::Update()
     case Step_DashEnd:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 	    	SetStep( Step_Result );
+	    	InitResult();
 	    }
         break;
 	case Step_Result:
@@ -76,23 +78,22 @@ void StateBattle::Update()
 
 void StateBattle::Draw() const
 {
+    //背景色のリセット.
     DrawBox( 0, 0, 640 , 480, GetColor( 200,222,200 ), TRUE );
-    
     m_background->Draw( m_camera->Position() );
     m_player_texture->Draw( m_camera->Position() );
-
 	//敵の描画.
     for( int i = 0 ; i < EnemyNum ; i++ ){
 		m_enemy[i].Draw( m_camera->Position() );
     }
-    
+
     switch( m_step )
     {
     case Step_DecideMeter1:
     case Step_DecideMeter2:
         DrawGauge();
 		//説明
-        DrawTexture( Vector2(250,30), ImageType_Explain );
+        DrawTexture( Vector2(200,30), ImageType_Explain );
         break;
 	case Step_WaitDash:
         DrawGauge();
@@ -114,6 +115,8 @@ void StateBattle::Draw() const
                 }
             }
             DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", break_enemy );
+            DrawFormatString( 250 , 220 , ColorOf() , "「%s」をゲットした！", NameOf(m_get_item) );
+            
         }
         break;
     }
@@ -141,7 +144,7 @@ void StateBattle::DecideMeter()
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
         SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-    	m_player_power = m_meter[0] + m_meter[1];
+    	m_player_power = (m_meter[0] + m_meter[1])/ 2;
     	SetStep( Step_WaitDash );
     }
 }
@@ -161,16 +164,7 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::DashPlayer()
 {
-    m_player_speed = 25;
-    if( m_player_power < 100 ){
-        m_player_speed = 20;
-    }
-    if( m_player_power < 30 ){
-        m_player_speed = 10;
-    }
-    if( m_player_power < 20 ){
-        m_player_speed = 5;
-    }
+    m_player_speed = 50;
     m_player_pos.x += m_player_speed;
 
     /**
@@ -200,6 +194,11 @@ void StateBattle::DrawDebug() const
 {
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
+    //所持アイテムの表示.
+    DrawFormatString( 0 , 300 , ColorOf() , "所持アイテム." );
+    for( int i = 0; i < ItemType_Num ; i++ ){
+        DrawFormatString( 0 , 310 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
+    }
 }
 
 /**
@@ -237,5 +236,13 @@ void StateBattle::UpdateCommon()
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	//背景スクロール
     m_background->SetScroll( m_camera->Position() );
+}
+
+void StateBattle::InitResult()
+{
+    // アイテムゲット.
+    ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
+    gSaveData.m_item[type]++;
+    m_get_item = type;
 }
 

@@ -9,6 +9,7 @@ class AnimTexture;
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
 #include "Project/Enemy.hpp"
+#include "Project/Item.hpp"
 
 class StateBattle : public StateBase
 {
@@ -44,6 +45,8 @@ private:
 	void DrawDebug() const;
 	void DrawGauge() const;
 	void UpdateCommon();
+	void InitResult();
+	void DrawBack() const;
 
 private:
     StateManagerBase& m_manager;
@@ -58,6 +61,7 @@ private:
     Enemy m_enemy[ EnemyNum ];
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
+    ItemType m_get_item; //!< 取得したアイテムの一時置き場.
 };
 
 #endif

@@ -48,7 +48,7 @@ int InitApplication()
 	SetDrawScreen( DX_SCREEN_BACK );
 
 	//フォントサイズ設定.
-	int const font_size = 14;
+	int const font_size = 12;
     SetFontSize( font_size );
 
     SingletonInputMouse::Init();
