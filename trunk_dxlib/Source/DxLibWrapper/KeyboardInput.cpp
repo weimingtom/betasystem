@@ -5,8 +5,8 @@
 class KeyboardInput::Impl : public KeyboardInput
 {
 public:
-    Impl();
-    ~Impl();
+    Impl(){}
+    ~Impl(){}
     
 public:
     void Update();
@@ -28,15 +28,17 @@ int const KeyboardInput::Impl::m_key_flag[ KeyboardInput::Type_Num ] =
     KEY_INPUT_RETURN,
     KEY_INPUT_RSHIFT,
     KEY_INPUT_RCONTROL,
+    KEY_INPUT_0,
+    KEY_INPUT_1,
+    KEY_INPUT_2,
+    KEY_INPUT_3,
+    KEY_INPUT_4,
+    KEY_INPUT_5,
+    KEY_INPUT_6,
+    KEY_INPUT_7,
+    KEY_INPUT_8,
+    KEY_INPUT_9,
 };
-
-KeyboardInput::Impl::Impl()
-{
-}
-
-KeyboardInput::Impl::~Impl()
-{
-}
 
 void KeyboardInput::Impl::Update()
 {

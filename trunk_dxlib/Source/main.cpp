@@ -8,6 +8,7 @@
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
+#include "Project/Singleton/Keyboard.hpp"
 #include "../Resource/resource.h"
 
 int InitApplication();
@@ -54,6 +55,7 @@ int InitApplication()
     SingletonInputMouse::Init();
     SingletonImageLoader::Init();
     SingletonSoundLoader::Init();
+    Singleton::InitKeyInput();
 	
     g_state_manager.reset( new_ProjectStateManager() );
     
@@ -68,6 +70,7 @@ void LoopApplication()
     {
     	SingletonInputMouse::Update();
         g_state_manager->Update();
+		Singleton::UpdateKeyInput();
         
         ClearDrawScreen() ;    // ‰æ–Ê‚ð‰Šú‰»‚·‚é
         g_state_manager->Draw();

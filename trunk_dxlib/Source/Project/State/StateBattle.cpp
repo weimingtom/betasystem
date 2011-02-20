@@ -9,6 +9,7 @@
 #include "DxLibWrapper/AnimTexture.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
+#include "Project/Singleton/Keyboard.hpp"
 #include "Project/Draw.hpp"
 #include "Project/ScrollBackground.hpp"
 #include "Project/AnimData.hpp"
@@ -26,7 +27,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , m_get_item( ItemType_Meet )
  , m_player_life(2)//適当.
- , m_meter_max(120)
+ , m_meter_max(100)
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
@@ -78,7 +79,7 @@ void StateBattle::Draw() const
 		m_enemy[i].Draw( m_camera->Position() );
     }
     //プレイヤーパワーの描画.
-    DrawBox( 0, 50, m_player_power , 20, GetColor( 255, 0, 0 ), TRUE );
+    DrawBox( 0, 420, 0+m_player_power , 420+20, GetColor( 255, 0, 0 ), TRUE );
 
     switch( m_step )
     {
@@ -207,6 +208,7 @@ void StateBattle::DrawGauge() const
 
 void StateBattle::UpdateCommon()
 {
+    UseItem();
     m_player_texture->Update();
     m_player_texture->Set( m_player_pos );
     //敵更新
@@ -259,3 +261,23 @@ void StateBattle::StepDecideMeter()
     }
 }
 
+/**
+    アイテムの使用.
+*/
+void StateBattle::UseItem()
+{
+    if( KeyInput()->IsTrig( KeyboardInput::Type_1 ) )
+    {
+        if( gSaveData.m_item[0] > 0 ){
+            gSaveData.m_item[0]--;
+            m_meter_max += 10;
+        }
+    }
+    if( KeyInput()->IsTrig( KeyboardInput::Type_2 ) )
+    {
+        if( gSaveData.m_item[1] > 0 ){
+            gSaveData.m_item[1]--;
+            m_player_power += 10;
+        }
+    }
+}

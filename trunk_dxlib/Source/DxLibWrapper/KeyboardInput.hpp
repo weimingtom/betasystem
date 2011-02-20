@@ -1,3 +1,6 @@
+#ifndef keyboardinput_hpp
+#define keyboardinput_hpp
+
 /**
     キーボード入力管理.
 */
@@ -13,7 +16,17 @@ public:
         Type_Backspace,
         Type_Enter,
         Type_RightShift,
-        Type_RightControll,
+        Type_RightControl,
+        Type_0,
+        Type_1,
+        Type_2,
+        Type_3,
+        Type_4,
+        Type_5,
+        Type_6,
+        Type_7,
+        Type_8,
+        Type_9,
         
         Type_Num,
     };
@@ -32,3 +45,4 @@ private:
 
 KeyboardInput* new_KeyboardInput();
 
+#endif // keyboardinput_hpp

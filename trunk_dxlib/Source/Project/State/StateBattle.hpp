@@ -48,6 +48,7 @@ private:
 	void DrawBack() const;
 	void InitStepDecideMeter();
 	void StepDecideMeter();
+    void UseItem();
 
 private:
     StateManagerBase& m_manager;

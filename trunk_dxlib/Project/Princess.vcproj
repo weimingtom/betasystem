@@ -380,6 +380,14 @@
 					Name="Singleton"
 					>
 					<File
+						RelativePath="..\Source\Project\Singleton\Keyboard.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\Keyboard.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\Singleton\SingletonImageLoader.cpp"
 						>
 					</File>
