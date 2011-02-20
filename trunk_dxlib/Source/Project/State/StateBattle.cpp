@@ -70,7 +70,7 @@ void StateBattle::Update()
         break;
 	case Step_Result:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	    	m_manager.ChangeState( ProjectState_Title );
+	    	m_manager.ChangeState( ProjectState_Battle );
 	    }
 		break;
 	}
@@ -98,26 +98,22 @@ void StateBattle::Draw() const
 	case Step_WaitDash:
         DrawGauge();
 		//カットインの描画.
-		DrawTexture( Vector2(0,100), ImageType_Cutin );
+		DrawTexture( Vector2(100,100), ImageType_Cutin );
         break;
     case Step_DashEnd:
         DrawTexture( Vector2(100,100), ImageType_GameEnd );
         break;
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
-        {
-            int break_enemy = 0;
-            for( int i = 0 ; i < EnemyNum ; i++ ){
-                if( !m_enemy[i].IsAlive() ){
-                    break_enemy++;
-                }else{
-                    break;
-                }
+        //倒した数計算
+        int break_enemy = 0;
+        for( int i = 0 ; i < EnemyNum ; i++ ){
+            if( !m_enemy[i].IsAlive() ){
+                break_enemy++;
             }
-            DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", break_enemy );
-            DrawFormatString( 250 , 220 , ColorOf() , "「%s」をゲットした！", NameOf(m_get_item) );
-            
         }
+        DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", break_enemy );
+        DrawFormatString( 250 , 220 , ColorOf() , "「%s」をゲットした！", NameOf(m_get_item) );
         break;
     }
     DrawDebug();
@@ -144,7 +140,7 @@ void StateBattle::DecideMeter()
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
         SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-    	m_player_power = (m_meter[0] + m_meter[1])/ 2;
+    	m_player_power = m_meter[0] + m_meter[1] ;
     	SetStep( Step_WaitDash );
     }
 }
@@ -166,7 +162,6 @@ void StateBattle::DashPlayer()
 {
     m_player_speed = 50;
     m_player_pos.x += m_player_speed;
-
     /**
         プレイヤーと敵がぶつかったら、敵をふっとばす.
     */
@@ -180,7 +175,6 @@ void StateBattle::DashPlayer()
             }
         }
     }
-    
     //ダッシュ終了.
 	if( m_player_power <= 0 ){
 		SetStep( Step_DashEnd );
@@ -195,9 +189,9 @@ void StateBattle::DrawDebug() const
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
     //所持アイテムの表示.
-    DrawFormatString( 0 , 300 , ColorOf() , "所持アイテム." );
+    DrawFormatString( 0 , 200 , ColorOf() , "所持アイテム." );
     for( int i = 0; i < ItemType_Num ; i++ ){
-        DrawFormatString( 0 , 310 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
+        DrawFormatString( 0 , 210 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
     }
 }
 
@@ -208,7 +202,7 @@ void StateBattle::DrawGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
 		int const x = 50;
-		int const y = 80 * i + 100;
+		int const y = 70 * i + 300;
 		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
 		int color = GetColor( 0, 255 / meter_max * m_meter[i], 0);
 		if( m_meter[i] > 98 ){ color = GetColor( 255, 255, 0 ); }
