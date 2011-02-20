@@ -86,6 +86,8 @@ void StateBattle::Draw() const
     for( int i = 0 ; i < EnemyNum ; i++ ){
 		m_enemy[i].Draw( m_camera->Position() );
     }
+    //プレイヤーパワーの描画.
+    DrawBox( 0, 50, m_player_power , 20, GetColor( 255, 0, 0 ), TRUE );
 
     switch( m_step )
     {
@@ -170,7 +172,7 @@ void StateBattle::DashPlayer()
             if( m_enemy[i].Position().x < m_player_pos.x ){
                 m_player_power--;
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK2 ) );
-                m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(10) ) );
+                m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
                 m_enemy[i].SetAlive( false );
             }
         }
