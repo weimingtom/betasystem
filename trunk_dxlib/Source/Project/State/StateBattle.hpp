@@ -26,8 +26,7 @@ private:
 	*/
 	enum Step
 	{
-		Step_DecideMeter1,
-		Step_DecideMeter2,
+		Step_DecideMeter,
 		Step_WaitDash, //!< ダッシュ前のアクション.
 		Step_Dash,
 		Step_DashEnd, //!< ダッシュ終了.
@@ -38,7 +37,6 @@ private:
 	
 private:
 	void UpdateMeter( int meter_index );
-	void DecideMeter();
 	void SetStep( Step step );
 	void InitStepWaitDash();
 	void StepWaitDash();
@@ -48,6 +46,8 @@ private:
 	void UpdateCommon();
 	void InitResult();
 	void DrawBack() const;
+	void InitStepDecideMeter();
+	void StepDecideMeter();
 
 private:
     StateManagerBase& m_manager;
@@ -64,6 +64,7 @@ private:
     std::auto_ptr<AnimTexture> m_player_texture;
     ItemType m_get_item; //!< 取得したアイテムの一時置き場.
     int m_player_life;
+    int m_target_meter;
 };
 
 #endif

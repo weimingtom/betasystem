@@ -20,7 +20,6 @@ static int const meter_max = 100;
 StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_add_meter(0)
- , m_step( Step_DecideMeter1 )
  , m_background( new ScrollBackground() )
  , m_player_speed(0.0f)
  , m_frame(0)
@@ -32,12 +31,10 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_life(2)//適当.
 {
     m_player_pos.y = 300;
-    m_meter[0]=0;
-    m_meter[1]=0;
-    
     for( int i = 0 ; i < EnemyNum; i++ ){
         m_enemy[i].SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
+    InitStepDecideMeter();
 }
 
 void StateBattle::Update()
@@ -45,18 +42,8 @@ void StateBattle::Update()
     UpdateCommon();
 	switch( m_step )
 	{
-	case Step_DecideMeter1:
-		UpdateMeter(0);
-        if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
-        {
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-            SetStep( Step_DecideMeter2 );
-        }
-		break;
-	case Step_DecideMeter2:
-		UpdateMeter(1);
-		DecideMeter();
-		InitStepWaitDash();
+	case Step_DecideMeter:
+	    StepDecideMeter();
 	    break;
     case Step_WaitDash:
         StepWaitDash();
@@ -73,7 +60,7 @@ void StateBattle::Update()
 	case Step_Result:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 	        if( m_player_life > 0 ){
-	            SetStep( Step_DecideMeter1 );
+	            InitStepDecideMeter();
 	        }else{
     	    	m_manager.ChangeState( ProjectState_Battle );
             }
@@ -97,8 +84,7 @@ void StateBattle::Draw() const
 
     switch( m_step )
     {
-    case Step_DecideMeter1:
-    case Step_DecideMeter2:
+    case Step_DecideMeter:
         DrawGauge();
 		//説明
         DrawTexture( Vector2(200,30), ImageType_Explain );
@@ -140,18 +126,6 @@ void StateBattle::UpdateMeter( int meter_index )
 		m_add_meter = 2;
 	}
 }
-/**
-	メーターの数値の決定.
-*/
-void StateBattle::DecideMeter()
-{
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
-    {
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-    	m_player_power = m_meter[0] + m_meter[1] ;
-    	SetStep( Step_WaitDash );
-    }
-}
 
 void StateBattle::SetStep( Step step )
 {
@@ -160,7 +134,9 @@ void StateBattle::SetStep( Step step )
 
 void StateBattle::InitStepWaitDash()
 {
+    SetStep( Step_WaitDash );
     m_frame = 0;
+	m_player_power = m_meter[0] + m_meter[1] ;
 }
 
 void StateBattle::StepWaitDash()
@@ -182,7 +158,7 @@ void StateBattle::DashPlayer()
         if( m_enemy[i].IsAlive() ){
             if( m_enemy[i].Position().x < m_player_pos.x ){
                 m_player_power--;
-                SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK2 ) );
+                SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
                 m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
                 m_enemy[i].SetAlive( false );
             }
@@ -201,11 +177,14 @@ void StateBattle::DrawDebug() const
 {
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
-    DrawFormatString( 0 , 20 , ColorOf() , "m_player_life[%d]", m_player_life  );
+    DrawFormatString( 0 , 20 , ColorOf() , "m_meter1[%d]", m_meter[0] );
+    DrawFormatString( 0 , 30 , ColorOf() , "m_meter2[%d]", m_meter[1] );
+
+    DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
     //所持アイテムの表示.
-    DrawFormatString( 0 , 200 , ColorOf() , "所持アイテム." );
+    DrawFormatString( 0 , 210 , ColorOf() , "所持アイテム." );
     for( int i = 0; i < ItemType_Num ; i++ ){
-        DrawFormatString( 0 , 210 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
+        DrawFormatString( 0 , 220 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
     }
 }
 
@@ -256,4 +235,30 @@ void StateBattle::InitResult()
     m_player_life--;
 }
 
+void StateBattle::InitStepDecideMeter()
+{
+    SetStep( Step_DecideMeter );
+    m_target_meter = 0;
+    m_meter[0]=0;
+    m_meter[1]=0;
+}
+
+void StateBattle::StepDecideMeter()
+{
+	UpdateMeter( m_target_meter );
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
+    {
+        if( m_meter[m_target_meter] == 100 ){
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+        }else{
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+        }
+        
+        if( m_target_meter >= 1 ){
+            InitStepWaitDash();
+        }else{
+            m_target_meter++;
+        }
+    }
+}
 

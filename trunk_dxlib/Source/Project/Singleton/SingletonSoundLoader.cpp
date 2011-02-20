@@ -9,8 +9,8 @@ char const* const sound_list[ SoundType_Num ] =
 {
     "Resource/mast.mp3",
     "Resource/se.wav",
-    "Resource/ok.wav",
     "Resource/ok2.wav",
+    "Resource/just.wav",
 };
 
 namespace

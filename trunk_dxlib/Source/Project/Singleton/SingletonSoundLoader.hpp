@@ -9,7 +9,8 @@ enum SoundType
     SoundType_Mast,
     SoundType_Decide,
     SoundType_OK,
-    SoundType_OK2,
+    SoundType_Just,
+
     SoundType_Num,
 };
 
