@@ -29,6 +29,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , m_get_item( ItemType_Meet )
+ , m_player_life(2)//適当.
 {
     m_player_pos.y = 300;
     m_meter[0]=0;
@@ -70,7 +71,11 @@ void StateBattle::Update()
         break;
 	case Step_Result:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	    	m_manager.ChangeState( ProjectState_Battle );
+	        if( m_player_life > 0 ){
+	            SetStep( Step_DecideMeter1 );
+	        }else{
+    	    	m_manager.ChangeState( ProjectState_Battle );
+            }
 	    }
 		break;
 	}
@@ -190,6 +195,7 @@ void StateBattle::DrawDebug() const
 {
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
+    DrawFormatString( 0 , 20 , ColorOf() , "m_player_life[%d]", m_player_life  );
     //所持アイテムの表示.
     DrawFormatString( 0 , 200 , ColorOf() , "所持アイテム." );
     for( int i = 0; i < ItemType_Num ; i++ ){
@@ -240,5 +246,7 @@ void StateBattle::InitResult()
     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
     gSaveData.m_item[type]++;
     m_get_item = type;
+    //プレイヤーを減らす.
+    m_player_life--;
 }
 

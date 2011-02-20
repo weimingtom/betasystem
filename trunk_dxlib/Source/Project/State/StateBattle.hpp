@@ -34,7 +34,7 @@ private:
 		Step_Result,
 	};
 private:
-	static int const EnemyNum = 300;
+	static int const EnemyNum = 400;
 	
 private:
 	void UpdateMeter( int meter_index );
@@ -62,6 +62,7 @@ private:
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
     ItemType m_get_item; //!< 取得したアイテムの一時置き場.
+    int m_player_life;
 };
 
 #endif

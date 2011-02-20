@@ -8,7 +8,7 @@
 AnimFormat const gAnimData[ AnimType_Num ] =
 {
     //  –‡”,   x,  y,  width,  height, •\¦ŠúŠÔ,   ƒ‹[ƒv‰ñ”
-	{   2,      0,  0,  100,    150,    30,         AnimFormat::InfinityLoop },
+	{   2,      0,  0,  100,    150,    20,         AnimFormat::InfinityLoop },
 };
 
 AnimFormat const& AnimDataOf( AnimType anim_type )
