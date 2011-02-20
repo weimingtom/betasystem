@@ -14,9 +14,6 @@
 #include "Project/AnimData.hpp"
 #include "Project/SaveData.hpp"
 
-static int const meter_max = 100;
-
-
 StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_add_meter(0)
@@ -29,6 +26,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , m_get_item( ItemType_Meet )
  , m_player_life(2)//“K“–.
+ , m_meter_max(120)
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
@@ -119,7 +117,7 @@ void StateBattle::Draw() const
 void StateBattle::UpdateMeter( int meter_index )
 {
 	m_meter[meter_index] += m_add_meter;
-	if( m_meter[meter_index] >= meter_max ){
+	if( m_meter[meter_index] >= m_meter_max ){
 		m_add_meter = -2;
 	}
 	if( m_meter[meter_index] <= 0){
@@ -196,9 +194,9 @@ void StateBattle::DrawGauge() const
 	for( int i = 0; i < 2 ; i++ ){
 		int const x = 50;
 		int const y = 70 * i + 300;
-		DrawCircle( x, y, meter_max / 3, GetColor( 0,0,0 ), TRUE );
-		int color = GetColor( 0, 255 / meter_max * m_meter[i], 0);
-		if( m_meter[i] > 98 ){ color = GetColor( 255, 255, 0 ); }
+		DrawCircle( x, y, m_meter_max / 3, GetColor( 0,0,0 ), TRUE );
+		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0);
+		if( m_meter[i] == m_meter_max ){ color = GetColor( 255, 255, 0 ); }
 		if( i == 0 ){
     		DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
 		}else{
@@ -248,12 +246,11 @@ void StateBattle::StepDecideMeter()
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
-        if( m_meter[m_target_meter] == 100 ){
+        if( m_meter[m_target_meter] == m_meter_max ){
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
         }else{
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
         }
-        
         if( m_target_meter >= 1 ){
             InitStepWaitDash();
         }else{

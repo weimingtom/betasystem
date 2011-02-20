@@ -65,6 +65,7 @@ private:
     ItemType m_get_item; //!< 取得したアイテムの一時置き場.
     int m_player_life;
     int m_target_meter;
+    int m_meter_max;
 };
 
 #endif
