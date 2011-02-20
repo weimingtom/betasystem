@@ -40,7 +40,7 @@ private:
 	void SetStep( Step step );
 	void InitStepWaitDash();
 	void StepWaitDash();
-	void DashPlayer();
+	void StepDash();
 	void DrawDebug() const;
 	void DrawGauge() const;
 	void UpdateCommon();
@@ -49,6 +49,7 @@ private:
 	void InitStepDecideMeter();
 	void StepDecideMeter();
     void UseItem();
+    int RemainEnemy() const;
 
 private:
     StateManagerBase& m_manager;

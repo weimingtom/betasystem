@@ -48,7 +48,7 @@ void StateBattle::Update()
         StepWaitDash();
         break;
 	case Step_Dash:
-		DashPlayer();
+		StepDash();
 		break;
     case Step_DashEnd:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
@@ -98,14 +98,7 @@ void StateBattle::Draw() const
         break;
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
-        //倒した数計算
-        int break_enemy = 0;
-        for( int i = 0 ; i < EnemyNum ; i++ ){
-            if( !m_enemy[i].IsAlive() ){
-                break_enemy++;
-            }
-        }
-        DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", break_enemy );
+        DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", EnemyNum - RemainEnemy() );
         DrawFormatString( 250 , 220 , ColorOf() , "「%s」をゲットした！", NameOf(m_get_item) );
         break;
     }
@@ -146,7 +139,7 @@ void StateBattle::StepWaitDash()
     }
 }
 
-void StateBattle::DashPlayer()
+void StateBattle::StepDash()
 {
     m_player_speed = 50;
     m_player_pos.x += m_player_speed;
@@ -166,6 +159,10 @@ void StateBattle::DashPlayer()
     //ダッシュ終了.
 	if( m_player_power <= 0 ){
 		SetStep( Step_DashEnd );
+	}
+	//クリア判定.
+	if( RemainEnemy() == 0 ){
+	    m_manager.ChangeState( ProjectState_Title );
 	}
 }
 
@@ -281,3 +278,15 @@ void StateBattle::UseItem()
         }
     }
 }
+
+int StateBattle::RemainEnemy() const
+{
+    int remain_enemy = 0;
+    for( int i = 0 ; i < EnemyNum ; i++ ){
+        if( m_enemy[i].IsAlive() ){
+            remain_enemy++;
+        }
+    }
+    return remain_enemy;
+}
+
