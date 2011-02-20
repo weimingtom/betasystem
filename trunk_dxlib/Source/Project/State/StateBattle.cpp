@@ -56,6 +56,7 @@ void StateBattle::Update()
 	case Step_DecideMeter2:
 		UpdateMeter(1);
 		DecideMeter();
+		InitStepWaitDash();
 	    break;
     case Step_WaitDash:
         StepWaitDash();
@@ -157,6 +158,11 @@ void StateBattle::SetStep( Step step )
 	m_step = step;
 }
 
+void StateBattle::InitStepWaitDash()
+{
+    m_frame = 0;
+}
+
 void StateBattle::StepWaitDash()
 {
     m_frame++;
@@ -249,4 +255,5 @@ void StateBattle::InitResult()
     //ƒvƒŒƒCƒ„[‚ğŒ¸‚ç‚·.
     m_player_life--;
 }
+
 

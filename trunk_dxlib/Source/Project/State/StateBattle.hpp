@@ -40,6 +40,7 @@ private:
 	void UpdateMeter( int meter_index );
 	void DecideMeter();
 	void SetStep( Step step );
+	void InitStepWaitDash();
 	void StepWaitDash();
 	void DashPlayer();
 	void DrawDebug() const;
