@@ -10,6 +10,7 @@ class AnimTexture;
 #include "System/Vector2.hpp"
 #include "Project/Enemy.hpp"
 #include "Project/Item.hpp"
+#include <boost/tr1/memory.hpp>
 
 class StateBattle : public StateBase
 {

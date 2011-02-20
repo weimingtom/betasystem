@@ -1,6 +1,8 @@
 #ifndef include_d1df1b84_ffb8_489d_9781_f028508ad404
 #define include_d1df1b84_ffb8_489d_9781_f028508ad404
 
+class AnimTexture;
+#include <memory>
 #include "System/Vector2.hpp"
 #include "Project/Draw.hpp"
 
@@ -27,7 +29,7 @@ public:
     /**
         à íuÇÃê›íË.
     */
-    void SetPosition( Vector2 pos ){ m_pos = pos; }
+    void SetPosition( Vector2 pos );
     /**
         à íuÇÃéÊìæ.
     */
@@ -49,6 +51,7 @@ private:
 	Vector2 m_pos;
 	Vector2 m_speed;
 	bool m_is_alive;
+	std::auto_ptr<AnimTexture> m_anim_tex;
 };
 
 #endif

@@ -7,6 +7,7 @@
 enum AnimType
 {
 	AnimType_PlayerIdling,
+	AnimType_EnemyIdling,
 	
 	AnimType_Num,
 };

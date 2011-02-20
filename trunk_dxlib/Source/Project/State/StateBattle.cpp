@@ -141,6 +141,10 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::StepDash()
 {
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+        m_player_power++;
+    }
+
     m_player_speed = 50;
     m_player_pos.x += m_player_speed;
     /**
