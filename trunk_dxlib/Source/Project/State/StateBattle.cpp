@@ -52,8 +52,7 @@ void StateBattle::Update()
 		break;
     case Step_DashEnd:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	    	SetStep( Step_Result );
-	    	InitResult();
+            InitResult();
 	    }
         break;
 	case Step_Result:
@@ -164,7 +163,7 @@ void StateBattle::StepDash()
     }
     //ダッシュ終了.
 	if( m_player_power <= 0 ){
-		m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
+		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
 		SetStep( Step_DashEnd );
 	}
 	//クリア判定.
@@ -227,6 +226,9 @@ void StateBattle::UpdateCommon()
 
 void StateBattle::InitResult()
 {
+	SetStep( Step_Result );
+
+	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
     // アイテムゲット.
     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
     gSaveData.m_item[type]++;
