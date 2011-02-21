@@ -16,7 +16,15 @@ public:
 	void Update();
 	void Draw() const;
 private:
+    enum Step
+    {
+        Step_Title,
+        Step_TitleMovie,
+    };
+private:
     StateManagerBase* m_manager;
+    Step m_step;
+    int m_frame;
 };
 
 #endif

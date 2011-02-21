@@ -135,6 +135,8 @@ void StateBattle::StepWaitDash()
 {
     m_frame++;
     if( m_frame > 100 ){
+        //InitStepDash
+        m_player_texture->Set( AnimDataOf( AnimType_PlayerDash ) );
         SetStep( Step_Dash );
     }
 }
@@ -162,6 +164,7 @@ void StateBattle::StepDash()
     }
     //ダッシュ終了.
 	if( m_player_power <= 0 ){
+		m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
 		SetStep( Step_DashEnd );
 	}
 	//クリア判定.
@@ -216,10 +219,6 @@ void StateBattle::UpdateCommon()
     for( int i = 0 ; i < EnemyNum ; i++ ){
         m_enemy[i].Update();
     }
-    //やり直し機能.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-        m_manager.ChangeState( ProjectState_Battle );
-    }
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	//背景スクロール
@@ -246,6 +245,10 @@ void StateBattle::InitStepDecideMeter()
 
 void StateBattle::StepDecideMeter()
 {
+    //やり直し機能.
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
+        InitStepDecideMeter();
+    }
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {

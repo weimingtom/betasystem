@@ -20,7 +20,7 @@ protected:
 
 ProjectStateManager::ProjectStateManager()
 {
-	ChangeState( ProjectState_Battle );
+	ChangeState( ProjectState_Title );
 }
 
 ProjectStateManager::~ProjectStateManager()
