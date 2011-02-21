@@ -32,6 +32,7 @@ private:
 		Step_Dash,
 		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
+		Step_Clear,
 	};
 private:
 	static int const EnemyNum = 400;

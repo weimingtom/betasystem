@@ -60,10 +60,15 @@ void StateBattle::Update()
 	        if( m_player_life > 0 ){
 	            InitStepDecideMeter();
 	        }else{
-    	    	m_manager.ChangeState( ProjectState_Battle );
+    	    	m_manager.ChangeState( ProjectState_Title );
             }
 	    }
 		break;
+    case Step_Clear:
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+    	    m_manager.ChangeState( ProjectState_Title );
+        }
+        break;
 	}
 }
 
@@ -99,6 +104,9 @@ void StateBattle::Draw() const
         DrawTexture( Vector2(100,100), ImageType_Result );
         DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", EnemyNum - RemainEnemy() );
         DrawFormatString( 250 , 220 , ColorOf() , "「%s」をゲットした！", NameOf(m_get_item) );
+        break;
+    case Step_Clear:
+        DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
     }
     DrawDebug();
@@ -146,7 +154,7 @@ void StateBattle::StepDash()
         m_player_power++;
     }
 
-    m_player_speed = 50;
+    m_player_speed = 30;
     m_player_pos.x += m_player_speed;
     /**
         プレイヤーと敵がぶつかったら、敵をふっとばす.
@@ -168,7 +176,7 @@ void StateBattle::StepDash()
 	}
 	//クリア判定.
 	if( RemainEnemy() == 0 ){
-	    m_manager.ChangeState( ProjectState_Title );
+	    SetStep( Step_Clear );
 	}
 }
 
@@ -183,11 +191,19 @@ void StateBattle::DrawDebug() const
     DrawFormatString( 0 , 30 , ColorOf() , "m_meter2[%d]", m_meter[1] );
 
     DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
-    //所持アイテムの表示.
+    // 所持アイテムの表示.
     DrawFormatString( 0 , 210 , ColorOf() , "所持アイテム." );
     for( int i = 0; i < ItemType_Num ; i++ ){
         DrawFormatString( 0 , 220 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
     }
+    // 現在地の表示.
+    int const width = 300;
+    int const x = 300;
+    DrawBox( x, 0, x + width , 10, GetColor( 255, 0, 0 ), TRUE );
+    DrawBox(
+        x + width * ( EnemyNum - RemainEnemy() ) / EnemyNum , 0,
+        x + width , 10,
+        GetColor( 0, 255, 0), TRUE );
 }
 
 /**
