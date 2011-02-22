@@ -35,7 +35,7 @@ private:
 		Step_Clear,
 	};
 private:
-	static int const EnemyNum = 400;
+	static int const EnemyNum = 1000;
 	
 private:
 	void UpdateMeter( int meter_index );
@@ -69,6 +69,7 @@ private:
     int m_player_life;
     int m_target_meter;
     int m_meter_max;
+    int m_break_num; //!< “¢”°”.
 };
 
 #endif

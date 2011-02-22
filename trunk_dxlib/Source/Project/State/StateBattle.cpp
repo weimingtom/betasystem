@@ -27,6 +27,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , m_player_life(1)
  , m_meter_max(100)
+ , m_break_num(0)
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
@@ -169,6 +170,8 @@ void StateBattle::StepDash()
                     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
                     gSaveData.m_item[type]++;
                 }
+                //討伐カウント.
+                m_break_num++;
             }
         }
     }
@@ -192,6 +195,7 @@ void StateBattle::DrawDebug() const
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
     DrawFormatString( 0 , 20 , ColorOf() , "m_meter1[%d]", m_meter[0] );
     DrawFormatString( 0 , 30 , ColorOf() , "m_meter2[%d]", m_meter[1] );
+    DrawFormatString( 0 , 40 , ColorOf() , "討伐数[%d]", m_break_num );
 
     DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
     // 所持アイテムの表示.
