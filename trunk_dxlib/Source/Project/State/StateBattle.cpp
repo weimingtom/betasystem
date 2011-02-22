@@ -178,11 +178,14 @@ void StateBattle::StepDash()
                 // アイテム取得、今は適当な確率
                 if( GetRandToMax(30) == 0 ){
                     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
-                    gSaveData.m_item[type]++;
+                    if( gSaveData.m_item[type] < 5 ){
+                        gSaveData.m_item[type]++;
+                    }
                 }
                 // 必殺
                 if( GetRandToMax(100) == 0 ){
                     m_special_power++;
+                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
                 }
                 //討伐カウント.
                 m_break_num++;
@@ -249,7 +252,6 @@ void StateBattle::DrawGauge() const
 
 void StateBattle::UpdateCommon()
 {
-    UseItem();
     m_player_texture->Update();
     m_player_texture->Set( m_player_pos );
     //敵更新
@@ -281,6 +283,7 @@ void StateBattle::InitStepDecideMeter()
 
 void StateBattle::StepDecideMeter()
 {
+    UseItem();
     //やり直し機能.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
         InitStepDecideMeter();

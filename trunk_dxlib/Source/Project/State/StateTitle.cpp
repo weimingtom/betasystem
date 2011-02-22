@@ -20,8 +20,8 @@ void StateTitle::Update()
     switch( m_step )
     {
     case Step_Title:
-        m_frame++;
-        if( m_frame > 300 ){ m_step = Step_TitleMovie; }
+///        m_frame++;
+//        if( m_frame > 300 ){ m_step = Step_TitleMovie; }
         if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
         {
             m_manager->ChangeState( ProjectState_Battle );
