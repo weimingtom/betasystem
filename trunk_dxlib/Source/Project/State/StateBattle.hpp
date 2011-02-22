@@ -66,7 +66,6 @@ private:
     Enemy m_enemy[ EnemyNum ];
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
-    ItemType m_get_item; //!< 取得したアイテムの一時置き場.
     int m_player_life;
     int m_target_meter;
     int m_meter_max;

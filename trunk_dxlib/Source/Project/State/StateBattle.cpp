@@ -25,8 +25,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_power(0)
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
- , m_get_item( ItemType_Meet )
- , m_player_life(2)//適当.
+ , m_player_life(1)
  , m_meter_max(100)
 {
     m_player_pos.y = 300;
@@ -103,7 +102,6 @@ void StateBattle::Draw() const
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
         DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", EnemyNum - RemainEnemy() );
-        DrawFormatString( 250 , 220 , ColorOf() , "「%s」をゲットした！", NameOf(m_get_item) );
         break;
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
@@ -166,6 +164,11 @@ void StateBattle::StepDash()
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
                 m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
                 m_enemy[i].SetAlive( false );
+                // アイテム取得、今は適当な確率
+                if( GetRandToMax(30) == 0 ){
+                    ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
+                    gSaveData.m_item[type]++;
+                }
             }
         }
     }
@@ -245,10 +248,6 @@ void StateBattle::InitResult()
 	SetStep( Step_Result );
 
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
-    // アイテムゲット.
-    ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
-    gSaveData.m_item[type]++;
-    m_get_item = type;
     //プレイヤーを減らす.
     m_player_life--;
 }
