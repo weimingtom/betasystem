@@ -33,6 +33,7 @@ private:
 		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
 		Step_Clear,
+		Step_Special, //!< 必殺技使用.
 	};
 private:
 	static int const EnemyNum = 1000;
@@ -70,6 +71,7 @@ private:
     int m_target_meter;
     int m_meter_max;
     int m_break_num; //!< 討伐数.
+    int m_special_power;
 };
 
 #endif

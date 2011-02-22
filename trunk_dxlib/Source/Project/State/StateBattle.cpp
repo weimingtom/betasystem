@@ -28,6 +28,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_life(1)
  , m_meter_max(100)
  , m_break_num(0)
+ , m_special_power(0)
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
@@ -69,6 +70,14 @@ void StateBattle::Update()
     	    m_manager.ChangeState( ProjectState_Title );
         }
         break;
+    case Step_Special:
+        m_frame++;
+        if( m_frame > 100 ){
+            SetStep(Step_Dash);
+            m_player_power += 10 * m_special_power * m_special_power;
+            m_special_power = 0;
+        }
+        break;
 	}
 }
 
@@ -94,8 +103,6 @@ void StateBattle::Draw() const
         break;
 	case Step_WaitDash:
         DrawGauge();
-		//カットインの描画.
-		DrawTexture( Vector2(100,100), ImageType_Cutin );
         break;
     case Step_DashEnd:
         DrawTexture( Vector2(100,100), ImageType_GameEnd );
@@ -107,6 +114,8 @@ void StateBattle::Draw() const
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
+    case Step_Special:
+		DrawTexture( Vector2(100,100), ImageType_Cutin );
     }
     DrawDebug();
 }
@@ -141,7 +150,6 @@ void StateBattle::StepWaitDash()
 {
     m_frame++;
     if( m_frame > 100 ){
-        //InitStepDash
         m_player_texture->Set( AnimDataOf( AnimType_PlayerDash ) );
         SetStep( Step_Dash );
     }
@@ -149,8 +157,10 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::StepDash()
 {
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-        m_player_power++;
+    //必殺技の使用.
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power > 0 ){
+        m_frame = 0;
+        SetStep( Step_Special );
     }
 
     m_player_speed = 30;
@@ -169,6 +179,10 @@ void StateBattle::StepDash()
                 if( GetRandToMax(30) == 0 ){
                     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
                     gSaveData.m_item[type]++;
+                }
+                // 必殺
+                if( GetRandToMax(100) == 0 ){
+                    m_special_power++;
                 }
                 //討伐カウント.
                 m_break_num++;
@@ -196,6 +210,7 @@ void StateBattle::DrawDebug() const
     DrawFormatString( 0 , 20 , ColorOf() , "m_meter1[%d]", m_meter[0] );
     DrawFormatString( 0 , 30 , ColorOf() , "m_meter2[%d]", m_meter[1] );
     DrawFormatString( 0 , 40 , ColorOf() , "討伐数[%d]", m_break_num );
+    DrawFormatString( 0 , 50 , ColorOf() , "必殺技パワー[%d]", m_special_power );
 
     DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
     // 所持アイテムの表示.
