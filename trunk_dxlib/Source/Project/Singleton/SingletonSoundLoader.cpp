@@ -11,6 +11,7 @@ char const* const sound_list[ SoundType_Num ] =
     "Resource/se.wav",
     "Resource/ok2.wav",
     "Resource/just.wav",
+    "Resource/decide.wav",
 };
 
 namespace

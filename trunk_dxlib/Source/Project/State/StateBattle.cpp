@@ -191,6 +191,7 @@ void StateBattle::StepDash()
                 m_enemy[i].SetAlive( false );
                 // アイテム取得、今は適当な確率
                 if( GetRandToMax(30) == 0 ){
+                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
                     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
                     if( gSaveData.m_item[type] < 10 ){
                         gSaveData.m_item[type]++;
