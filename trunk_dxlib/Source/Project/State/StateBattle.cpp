@@ -115,7 +115,21 @@ void StateBattle::Draw() const
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
     case Step_Special:
-		DrawTexture( Vector2(100,100), ImageType_Cutin );
+        switch( m_special_power )
+        {
+        case 0:
+        case 1:
+        case 2:
+    		DrawTexture( Vector2(100,100), ImageType_Cutin );
+    		break;
+        case 3:
+        case 4:
+    		DrawTexture( Vector2(100,100), ImageType_Cutin2 );
+    		break;
+        default:
+    		DrawTexture( Vector2(100,100), ImageType_Cutin3 );
+    		break;
+        }
     }
     DrawDebug();
 }
@@ -178,7 +192,7 @@ void StateBattle::StepDash()
                 // アイテム取得、今は適当な確率
                 if( GetRandToMax(30) == 0 ){
                     ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
-                    if( gSaveData.m_item[type] < 5 ){
+                    if( gSaveData.m_item[type] < 10 ){
                         gSaveData.m_item[type]++;
                     }
                 }

@@ -18,6 +18,8 @@ enum ImageType
     ImageType_Result,
     ImageType_Gauge,
     ImageType_Cutin,
+    ImageType_Cutin2,
+    ImageType_Cutin3,
 
     ImageType_Num,
 };
