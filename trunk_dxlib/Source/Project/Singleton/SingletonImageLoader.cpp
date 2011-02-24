@@ -19,6 +19,7 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/Cutin.png",
     "Resource/Cutin2.png",
     "Resource/Cutin3.png",
+    "Resource/Light.png",
 };
 
 char const* NameOf( ImageType type )

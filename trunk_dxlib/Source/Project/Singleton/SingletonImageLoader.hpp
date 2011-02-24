@@ -20,6 +20,7 @@ enum ImageType
     ImageType_Cutin,
     ImageType_Cutin2,
     ImageType_Cutin3,
+    ImageType_Light,
 
     ImageType_Num,
 };

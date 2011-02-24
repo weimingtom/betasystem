@@ -99,7 +99,14 @@ void StateBattle::Draw() const
     case Step_DecideMeter:
         DrawGauge();
 		//à–¾
-        DrawTexture( Vector2(200,30), ImageType_Explain );
+        DrawTexture( Vector2(100,30), ImageType_Explain );
+        break;
+    case Step_Dash:
+        {
+            //“d‹…
+            Vector2 pos = m_player_pos - m_camera->Position();
+            DrawTexture( pos, ImageType_Light, static_cast<double>(m_special_power), 1.0f );
+        }
         break;
 	case Step_WaitDash:
         DrawGauge();
