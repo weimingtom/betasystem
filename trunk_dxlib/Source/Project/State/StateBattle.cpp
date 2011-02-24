@@ -29,6 +29,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_meter_max(100)
  , m_break_num(0)
  , m_special_power(0)
+ , m_special_random(100)
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
@@ -165,6 +166,12 @@ void StateBattle::InitStepWaitDash()
     SetStep( Step_WaitDash );
     m_frame = 0;
 	m_player_power = m_meter[0] + m_meter[1] ;
+	if( m_meter[0] == m_meter_max ){
+    	m_special_random -= 15;
+	}
+	if( m_meter[1] == m_meter_max ){
+	    m_special_random -= 15;
+	}
 }
 
 void StateBattle::StepWaitDash()
@@ -180,6 +187,7 @@ void StateBattle::StepDash()
 {
     //•KŽE‹Z‚ÌŽg—p.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power > 0 ){
+        m_special_random += 10; //!< ‚Ð‚ç‚ß‚«‚É‚­‚­‚È‚Á‚Ä‚¢‚­.
         m_frame = 0;
         SetStep( Step_Special );
     }
@@ -205,7 +213,7 @@ void StateBattle::StepDash()
                     }
                 }
                 // •KŽE
-                if( GetRandToMax(100) == 0 ){
+                if( GetRandToMax(m_special_random) == 0 ){
                     m_special_power++;
                     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
                 }
