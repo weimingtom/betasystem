@@ -6,11 +6,11 @@
 
 enum SoundType
 {
-    SoundType_Mast,
     SoundType_Decide,
     SoundType_OK,
     SoundType_Just,
     SoundType_Item,
+    SoundType_Special,
 
     SoundType_Num,
 };

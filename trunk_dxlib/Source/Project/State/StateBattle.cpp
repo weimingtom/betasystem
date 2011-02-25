@@ -187,6 +187,7 @@ void StateBattle::StepDash()
 {
     //•KŽE‹Z‚ÌŽg—p.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power > 0 ){
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Special ) );
         m_special_random += 10; //!< ‚Ð‚ç‚ß‚«‚É‚­‚­‚È‚Á‚Ä‚¢‚­.
         m_frame = 0;
         SetStep( Step_Special );
