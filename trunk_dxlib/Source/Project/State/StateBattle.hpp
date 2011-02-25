@@ -35,7 +35,7 @@ private:
 		Step_Special, //!< •KŽE‹ZŽg—p.
 	};
 private:
-	static int const EnemyNum = 1000;
+	static int const EnemyNum = 2000;
 	
 private:
 	void UpdateMeter( int meter_index );

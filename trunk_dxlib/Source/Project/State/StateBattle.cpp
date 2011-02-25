@@ -93,9 +93,6 @@ void StateBattle::Draw() const
     for( int i = 0 ; i < EnemyNum ; i++ ){
 		m_enemy[i].Draw( m_camera->Position() );
     }
-    //プレイヤーパワーの描画.
-    int const green = Clamp( 0, m_player_power, 255 );
-    DrawBox( 0, 460, 0+m_player_power , 460+20, GetColor( 255, green, 0 ), TRUE );
 
     switch( m_step )
     {
@@ -119,7 +116,6 @@ void StateBattle::Draw() const
         break;
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
-        SetFontSize( 20 );
         DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", EnemyNum - RemainEnemy() );
         break;
     case Step_Clear:
@@ -142,6 +138,10 @@ void StateBattle::Draw() const
     		break;
         }
     }
+    //プレイヤーパワーの描画.
+    DrawFormatString( 0 , 440 , ColorOf() , "power[%d]", m_player_power );
+    int const green = Clamp( 0, m_player_power, 255 );
+    DrawBox( 0, 460, 0+m_player_power , 460+20, GetColor( 255, green, 0 ), TRUE );
     DrawDebug();
 }
 
@@ -168,7 +168,7 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	m_player_power = m_meter[0] + m_meter[1] ;
+	m_player_power += m_meter[0] + m_meter[1] ;
 	if( m_meter[0] == m_meter_max ){
     	m_special_random -= 15;
 	}
@@ -242,15 +242,6 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    SetFontSize( 10 );
-
-    DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
-    DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
-    DrawFormatString( 0 , 20 , ColorOf() , "m_meter1[%d]", m_meter[0] );
-    DrawFormatString( 0 , 30 , ColorOf() , "m_meter2[%d]", m_meter[1] );
-
-    SetFontSize( 14 );
-
     DrawFormatString( 0 , 160 , ColorOf() , "討伐数[%d]", m_break_num );
     DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d]", m_special_power );
 
@@ -351,6 +342,7 @@ void StateBattle::UseItem()
     if( KeyInput()->IsTrig( KeyboardInput::Type_1 ) )
     {
         if( gSaveData.m_item[0] > 0 ){
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
             gSaveData.m_item[0]--;
             m_meter_max += 10;
         }
@@ -358,6 +350,7 @@ void StateBattle::UseItem()
     if( KeyInput()->IsTrig( KeyboardInput::Type_2 ) )
     {
         if( gSaveData.m_item[1] > 0 ){
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
             gSaveData.m_item[1]--;
             m_player_power += 10;
         }
