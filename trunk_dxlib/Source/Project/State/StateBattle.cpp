@@ -2,6 +2,7 @@
 
 #include "System/StateManagerBase.hpp"
 #include "System/Camera.hpp"
+#include "System/Range.hpp"
 #include "Project/State/ProjectStateManager.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/Color.hpp"
@@ -93,7 +94,8 @@ void StateBattle::Draw() const
 		m_enemy[i].Draw( m_camera->Position() );
     }
     //プレイヤーパワーの描画.
-    DrawBox( 0, 420, 0+m_player_power , 420+20, GetColor( 255, 0, 0 ), TRUE );
+    int const green = Clamp( 0, m_player_power, 255 );
+    DrawBox( 0, 460, 0+m_player_power , 460+20, GetColor( 255, green, 0 ), TRUE );
 
     switch( m_step )
     {
@@ -117,6 +119,7 @@ void StateBattle::Draw() const
         break;
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
+        SetFontSize( 20 );
         DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", EnemyNum - RemainEnemy() );
         break;
     case Step_Clear:
@@ -239,18 +242,23 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
+    SetFontSize( 10 );
+
     DrawFormatString( 0 , 0 , ColorOf() , "m_player_pos[%f,%f]", m_player_pos.x , m_player_pos.y );
     DrawFormatString( 0 , 10 , ColorOf() , "m_player_speed[%f]", m_player_speed );
     DrawFormatString( 0 , 20 , ColorOf() , "m_meter1[%d]", m_meter[0] );
     DrawFormatString( 0 , 30 , ColorOf() , "m_meter2[%d]", m_meter[1] );
-    DrawFormatString( 0 , 40 , ColorOf() , "討伐数[%d]", m_break_num );
-    DrawFormatString( 0 , 50 , ColorOf() , "必殺技パワー[%d]", m_special_power );
+
+    SetFontSize( 14 );
+
+    DrawFormatString( 0 , 160 , ColorOf() , "討伐数[%d]", m_break_num );
+    DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d]", m_special_power );
 
     DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
     // 所持アイテムの表示.
-    DrawFormatString( 0 , 210 , ColorOf() , "所持アイテム." );
+    DrawFormatString( 0 , 220 , ColorOf() , "所持アイテム." );
     for( int i = 0; i < ItemType_Num ; i++ ){
-        DrawFormatString( 0 , 220 + i*10 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
+        DrawFormatString( 0 , 240 + i*20 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
     }
     // 現在地の表示.
     int const width = 300;
@@ -269,7 +277,7 @@ void StateBattle::DrawGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
 		int const x = 50;
-		int const y = 70 * i + 300;
+		int const y = 70 * i + 350;
 		DrawCircle( x, y, m_meter_max / 3, GetColor( 0,0,0 ), TRUE );
 		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0);
 		if( m_meter[i] == m_meter_max ){ color = GetColor( 255, 255, 0 ); }
