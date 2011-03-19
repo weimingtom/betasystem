@@ -74,7 +74,7 @@ void StateBattle::Update()
         break;
     case Step_Special:
         m_frame++;
-        if( m_frame > 100 ){
+        if( m_frame > 80 ){
             SetStep(Step_Dash);
             m_player_power += 10 * m_special_power * m_special_power;
             m_special_power = 0;
@@ -127,14 +127,14 @@ void StateBattle::Draw() const
         case 0:
         case 1:
         case 2:
-    		DrawTexture( Vector2(100,100), ImageType_Cutin );
+    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
     		break;
         case 3:
         case 4:
-    		DrawTexture( Vector2(100,100), ImageType_Cutin2 );
+    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin2 );
     		break;
         default:
-    		DrawTexture( Vector2(100,100), ImageType_Cutin3 );
+    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin3 );
     		break;
         }
     }
