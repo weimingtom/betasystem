@@ -29,6 +29,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_life(1)
  , m_meter_max(100)
  , m_break_num(0)
+ , m_special_power_max(5)
  , m_special_power(0)
  , m_special_random(100)
 {
@@ -131,10 +132,10 @@ void StateBattle::Draw() const
     		break;
         case 3:
         case 4:
-    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin2 );
+    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
     		break;
         default:
-    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin3 );
+    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
     		break;
         }
     }
@@ -219,6 +220,9 @@ void StateBattle::StepDash()
                 // 必殺
                 if( GetRandToMax(m_special_random) == 0 ){
                     m_special_power++;
+                    if( m_special_power > m_special_power_max ){
+                        m_special_power = m_special_power_max;
+                    }
                     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
                 }
                 //討伐カウント.
@@ -243,7 +247,7 @@ void StateBattle::StepDash()
 void StateBattle::DrawDebug() const
 {
     DrawFormatString( 0 , 160 , ColorOf() , "討伐数[%d]", m_break_num );
-    DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d]", m_special_power );
+    DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
 
     DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
     // 所持アイテムの表示.

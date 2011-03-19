@@ -70,6 +70,7 @@ private:
     int m_target_meter;
     int m_meter_max;
     int m_break_num; //!< “¢”°”.
+    int m_special_power_max;
     int m_special_power;
     int m_special_random; //!<•KEƒQ[ƒW‚ª—­‚Ü‚éŠm—¦.
 };
