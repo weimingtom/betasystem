@@ -19,7 +19,6 @@ private:
     enum Step
     {
         Step_Title,
-        Step_TitleMovie,
     };
 private:
     StateManagerBase* m_manager;

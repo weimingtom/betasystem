@@ -10,6 +10,7 @@
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Singleton/Keyboard.hpp"
 #include "../Resource/resource.h"
+#include "Project/SaveData.hpp"
 
 int InitApplication();
 void LoopApplication();
@@ -57,8 +58,9 @@ int InitApplication()
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
 	
-    g_state_manager.reset( new_ProjectStateManager() );
+    gSaveData.Load();
     
+    g_state_manager.reset( new_ProjectStateManager() );
     
 	//‰Šú‰»¬Œ÷.
     return ApplicationSuccess;

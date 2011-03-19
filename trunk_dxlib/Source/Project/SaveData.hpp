@@ -6,18 +6,17 @@
 /**
     セーブデータの型.
 */
-struct SaveData{
+struct SaveData
+{
+public:
+    SaveData();
+    void Save();
+    void Load();
+
+public:
     int m_item[ItemType_Num];
     int m_total_break;
-    /**
-        初期化.
-    */
-    SaveData(){
-        for( int i = 0 ; i < ItemType_Num ; i ++ ){
-            m_item[i] = 0;
-        }
-        m_total_break = 0;
-    }
+    int m_max_break;
 };
 
 /**
