@@ -247,16 +247,16 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
+    // 所持アイテムの表示.
+    for( int i = 0; i < ItemType_Num ; i++ ){
+        DrawFormatString( 0 , i*20 , ColorOf() , "[%dキー]>%s[%d個]", i+1,NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
+    }
+
     DrawFormatString( 0 , 140 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
     DrawFormatString( 0 , 160 , ColorOf() , "討伐数[%d]", m_break_num );
     DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
 
     DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
-    // 所持アイテムの表示.
-    DrawFormatString( 0 , 220 , ColorOf() , "所持アイテム." );
-    for( int i = 0; i < ItemType_Num ; i++ ){
-        DrawFormatString( 0 , 240 + i*20 , ColorOf() , "%s[%d個]", NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
-    }
     // 現在地の表示.
     int const width = 300;
     int const x = 300;
