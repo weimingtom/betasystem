@@ -8,6 +8,7 @@
 */
 struct SaveData{
     int m_item[ItemType_Num];
+    int m_total_break;
     /**
         ‰Šú‰».
     */
@@ -15,6 +16,7 @@ struct SaveData{
         for( int i = 0 ; i < ItemType_Num ; i ++ ){
             m_item[i] = 0;
         }
+        m_total_break = 0;
     }
 };
 

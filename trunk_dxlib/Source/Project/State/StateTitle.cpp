@@ -7,6 +7,7 @@
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/State/ProjectStateManager.hpp"
+#include "Project/SaveData.hpp"
 
 StateTitle::StateTitle( StateManagerBase* manager )
  : m_manager( manager )
@@ -44,6 +45,7 @@ void StateTitle::Draw() const
     {
     case Step_Title:
         DrawTexture( Vector2(0,0), ImageType_Title );
+        DrawFormatString( 0 , 0 , ColorOf() , "ëçì¢î∞êî[%d]", gSaveData.m_total_break );
         break;
     case Step_TitleMovie:
         {

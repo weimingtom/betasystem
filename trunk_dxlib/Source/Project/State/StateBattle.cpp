@@ -227,6 +227,7 @@ void StateBattle::StepDash()
                 }
                 //討伐カウント.
                 m_break_num++;
+                gSaveData.m_total_break++;
             }
         }
     }
@@ -246,6 +247,7 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
+    DrawFormatString( 0 , 140 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
     DrawFormatString( 0 , 160 , ColorOf() , "討伐数[%d]", m_break_num );
     DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
 
