@@ -65,6 +65,10 @@ void StateBattle::Update()
 	        if( m_player_life > 0 ){
 	            InitStepDecideMeter();
 	        }else{
+	            //ハイスコア更新処理.
+	            if( gSaveData.m_max_break < m_break_num ){
+	                gSaveData.m_max_break = m_break_num;
+	            }
     	    	m_manager.ChangeState( ProjectState_Title );
             }
 	    }
@@ -244,13 +248,13 @@ void StateBattle::DrawDebug() const
 {
     // 所持アイテムの表示.
     for( int i = 0; i < SaveData::ItemBagSize ; i++ ){
-        DrawFormatString( 0 , i*20 , ColorOf() , "[F%dキー]>%s", i+1, NameOf( static_cast<ItemType>(gSaveData.m_item[i]) ) );
+        DrawFormatString( 0 , i*15 , ColorOf() , "[F%d]>%s", i+1, NameOf( static_cast<ItemType>(gSaveData.m_item[i]) ) );
     }
 
-    DrawFormatString( 0 , 220 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
-    DrawFormatString( 0 , 240 , ColorOf() , "討伐数[%d]", m_break_num );
-    DrawFormatString( 0 , 260 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
-    DrawFormatString( 0 , 280 , ColorOf() , "残機[%d]", m_player_life  );
+    DrawFormatString( 0 , 180 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
+    DrawFormatString( 0 , 200 , ColorOf() , "今まで倒した数[%d]", gSaveData.m_total_break );
+    DrawFormatString( 0 , 220 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
+    DrawFormatString( 0 , 240 , ColorOf() , "残機[%d]", m_player_life  );
 
     // 現在地の表示.
     int const width = 300;
