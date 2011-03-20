@@ -8,7 +8,8 @@ enum ItemType
 {
     ItemType_None,
     ItemType_Meet,
-	ItemType_Water,
+    ItemType_GoodMeet,
+    ItemType_LifeWater,
     
     ItemType_Num,
 };

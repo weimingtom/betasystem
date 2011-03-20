@@ -351,19 +351,27 @@ void StateBattle::UseItem()
         if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F1 + i ) ) )
         {
             if( gSaveData.m_item[i] != ItemType_None ){
-				switch( gSaveData.m_item[i] ){
-                case ItemType_Meet:
-                    m_meter_max += 10;
-                    break;
-                case ItemType_Water:
-                    m_player_power += 10;
-                    break;
-                }
-                SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+                UseItem( static_cast<ItemType>( gSaveData.m_item[i] ) );
                 gSaveData.m_item[i] = ItemType_None;
             }
         }
     }
+}
+
+void StateBattle::UseItem( ItemType type )
+{
+	switch( type ){
+    case ItemType_Meet:
+        m_meter_max += 5;
+        break;
+    case ItemType_GoodMeet:
+        m_meter_max += 10;
+        break;
+    case ItemType_LifeWater:
+        m_player_life++;
+        break;
+    }
+    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
 }
 
 int StateBattle::RemainEnemy() const

@@ -51,6 +51,7 @@ private:
 	void InitStepDecideMeter();
 	void StepDecideMeter();
     void UseItem();
+    void UseItem( ItemType type );
     int RemainEnemy() const;
     int DigitOf(int num,int digit) const;
     void DrawBreakNum() const;

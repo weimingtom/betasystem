@@ -6,7 +6,8 @@ char const* NameOf( ItemType type )
     {
         "なし",
         "スライムの肉",
-        "スライムの水",
+        "スライムの上質な肉",
+        "生命の雫",
     };
 	return item[type];
 }
