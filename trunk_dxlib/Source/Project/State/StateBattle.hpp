@@ -52,6 +52,8 @@ private:
 	void StepDecideMeter();
     void UseItem();
     int RemainEnemy() const;
+    int DigitOf(int num,int digit) const;
+    void DrawBreakNum() const;
 
 private:
     StateManagerBase& m_manager;
