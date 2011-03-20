@@ -14,7 +14,8 @@ public:
     void Load();
 
 public:
-    int m_item[ItemType_Num];
+    static int const ItemBagSize = 8;
+    int m_item[ItemBagSize];
     int m_total_break;
     int m_max_break;
 };

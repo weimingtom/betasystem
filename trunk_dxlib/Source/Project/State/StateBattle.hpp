@@ -54,6 +54,7 @@ private:
     int RemainEnemy() const;
     int DigitOf(int num,int digit) const;
     void DrawBreakNum() const;
+    void GetItem();
 
 private:
     StateManagerBase& m_manager;

@@ -6,6 +6,7 @@
 */
 enum ItemType
 {
+    ItemType_None,
     ItemType_Meet,
 	ItemType_Water,
     

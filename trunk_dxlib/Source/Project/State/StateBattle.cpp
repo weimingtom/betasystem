@@ -211,14 +211,7 @@ void StateBattle::StepDash()
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
                 m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
                 m_enemy[i].SetAlive( false );
-                // アイテム取得、今は適当な確率
-                if( GetRandToMax(30) == 0 ){
-                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-                    ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num) );
-                    if( gSaveData.m_item[type] < 10 ){
-                        gSaveData.m_item[type]++;
-                    }
-                }
+                GetItem();
                 // 必殺
                 if( GetRandToMax(m_special_random) == 0 ){
                     m_special_power++;
@@ -250,15 +243,15 @@ void StateBattle::StepDash()
 void StateBattle::DrawDebug() const
 {
     // 所持アイテムの表示.
-    for( int i = 0; i < ItemType_Num ; i++ ){
-        DrawFormatString( 0 , i*20 , ColorOf() , "[%dキー]>%s[%d個]", i+1,NameOf( static_cast<ItemType>(i) ) , gSaveData.m_item[i] );
+    for( int i = 0; i < SaveData::ItemBagSize ; i++ ){
+        DrawFormatString( 0 , i*20 , ColorOf() , "[F%dキー]>%s", i+1, NameOf( static_cast<ItemType>(gSaveData.m_item[i]) ) );
     }
 
-    DrawFormatString( 0 , 140 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
-    DrawFormatString( 0 , 160 , ColorOf() , "討伐数[%d]", m_break_num );
-    DrawFormatString( 0 , 180 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
+    DrawFormatString( 0 , 220 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
+    DrawFormatString( 0 , 240 , ColorOf() , "討伐数[%d]", m_break_num );
+    DrawFormatString( 0 , 260 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
+    DrawFormatString( 0 , 280 , ColorOf() , "残機[%d]", m_player_life  );
 
-    DrawFormatString( 0 , 200 , ColorOf() , "残機[%d]", m_player_life  );
     // 現在地の表示.
     int const width = 300;
     int const x = 300;
@@ -347,20 +340,21 @@ void StateBattle::StepDecideMeter()
 */
 void StateBattle::UseItem()
 {
-    if( KeyInput()->IsTrig( KeyboardInput::Type_1 ) )
-    {
-        if( gSaveData.m_item[0] > 0 ){
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-            gSaveData.m_item[0]--;
-            m_meter_max += 10;
-        }
-    }
-    if( KeyInput()->IsTrig( KeyboardInput::Type_2 ) )
-    {
-        if( gSaveData.m_item[1] > 0 ){
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-            gSaveData.m_item[1]--;
-            m_player_power += 10;
+    for( int i = 0 ; i < SaveData::ItemBagSize ; i++ ){
+        if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F1 + i ) ) )
+        {
+            if( gSaveData.m_item[i] != ItemType_None ){
+				switch( gSaveData.m_item[i] ){
+                case ItemType_Meet:
+                    m_meter_max += 10;
+                    break;
+                case ItemType_Water:
+                    m_player_power += 10;
+                    break;
+                }
+                SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+                gSaveData.m_item[i] = ItemType_None;
+            }
         }
     }
 }
@@ -414,6 +408,23 @@ void StateBattle::DrawBreakNum() const
             0 + width * DigitOf(m_break_num,i), 0,
             width, height,
             ImageHandleOf(ImageType_Number), TRUE, FALSE );
+    }
+}
+
+void StateBattle::GetItem()
+{
+    // まだ適当な確率.
+    if( GetRandToMax(30) == 0 ){
+        //取得するアイテムの決定.
+        ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num-1) + 1); // Noneが出ないように小細工.
+        //空いてる場所に詰め込む
+        for( int i = 0 ; i < SaveData::ItemBagSize ; i++ ){
+            if( gSaveData.m_item[i] == ItemType_None ){
+                gSaveData.m_item[i] = type;
+                SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+                return;
+            }
+        }
     }
 }
 

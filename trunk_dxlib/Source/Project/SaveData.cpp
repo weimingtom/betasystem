@@ -7,7 +7,7 @@ SaveData gSaveData;
 
 SaveData::SaveData()
 {
-    for( int i = 0 ; i < ItemType_Num ; i ++ ){
+    for( int i = 0 ; i < ItemBagSize ; i ++ ){
         m_item[i] = 0;
     }
     m_total_break = 0;
