@@ -38,6 +38,18 @@ int const KeyboardInput::Impl::m_key_flag[ KeyboardInput::Type_Num ] =
     KEY_INPUT_7,
     KEY_INPUT_8,
     KEY_INPUT_9,
+    KEY_INPUT_F1,
+    KEY_INPUT_F2,
+    KEY_INPUT_F3,
+    KEY_INPUT_F4,
+    KEY_INPUT_F5,
+    KEY_INPUT_F6,
+    KEY_INPUT_F7,
+    KEY_INPUT_F8,
+    KEY_INPUT_F9,
+    KEY_INPUT_F10,
+    KEY_INPUT_F11,
+    KEY_INPUT_F12,
 };
 
 void KeyboardInput::Impl::Update()

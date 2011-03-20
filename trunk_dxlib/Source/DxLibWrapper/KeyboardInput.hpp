@@ -27,6 +27,18 @@ public:
         Type_7,
         Type_8,
         Type_9,
+        Type_F1,
+        Type_F2,
+        Type_F3,
+        Type_F4,
+        Type_F5,
+        Type_F6,
+        Type_F7,
+        Type_F8,
+        Type_F9,
+        Type_F10,
+        Type_F11,
+        Type_F12,
         
         Type_Num,
     };
