@@ -22,6 +22,8 @@ enum ImageType
     ImageType_Cutin3,
     ImageType_Light,
     ImageType_Number,
+    ImageType_ItemFrame,
+    ImageType_ItemList,
 
     ImageType_Num,
 };

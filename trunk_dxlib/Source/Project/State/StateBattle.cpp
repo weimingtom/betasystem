@@ -149,6 +149,7 @@ void StateBattle::Draw() const
     int const green = Clamp( 0, m_player_power, 255 );
     DrawBox( 0, 460, 0+m_player_power , 460+20, GetColor( 255, green, 0 ), TRUE );
     DrawBreakNum();
+    DrawItem();
     DrawDebug();
 }
 
@@ -246,19 +247,14 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    // 所持アイテムの表示.
-    for( int i = 0; i < SaveData::ItemBagSize ; i++ ){
-        DrawFormatString( 0 , i*15 , ColorOf() , "[F%d]>%s", i+1, NameOf( static_cast<ItemType>(gSaveData.m_item[i]) ) );
-    }
-
     DrawFormatString( 0 , 180 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
     DrawFormatString( 0 , 200 , ColorOf() , "今まで倒した数[%d]", gSaveData.m_total_break );
     DrawFormatString( 0 , 220 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
     DrawFormatString( 0 , 240 , ColorOf() , "残機[%d]", m_player_life  );
 
     // 現在地の表示.
-    int const width = 300;
-    int const x = 300;
+    int const width = 100;
+    int const x = 500;
     DrawBox( x, 0, x + width , 10, GetColor( 255, 0, 0 ), TRUE );
     DrawBox(
         x + width * ( EnemyNum - RemainEnemy() ) / EnemyNum , 0,
@@ -431,4 +427,19 @@ void StateBattle::GetItem()
         }
     }
 }
+
+void StateBattle::DrawItem() const
+{
+    int const width = 50;
+	int const height = 50;
+    for(int i = 0 ; i < SaveData::ItemBagSize ; i++ ){
+        DrawRectGraph(
+            i*width, 0,
+            gSaveData.m_item[i] * width , 0,
+            width, height,
+            ImageHandleOf(ImageType_ItemList), TRUE, FALSE );
+    }
+    DrawTexture( Vector2(0,0), ImageType_ItemFrame );
+}
+
 

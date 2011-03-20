@@ -55,6 +55,7 @@ private:
     int DigitOf(int num,int digit) const;
     void DrawBreakNum() const;
     void GetItem();
+    void DrawItem() const;
 
 private:
     StateManagerBase& m_manager;
