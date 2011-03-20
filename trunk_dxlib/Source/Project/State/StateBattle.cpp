@@ -112,6 +112,10 @@ void StateBattle::Draw() const
             //“d‹…
             Vector2 pos = m_player_pos - m_camera->Position();
             DrawTexture( pos, ImageType_Light, static_cast<double>(m_special_power), 1.0f );
+            //”{‘¬
+            if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
+                DrawFormatString( 600 , 10 , ColorOf() , "~‚Q" );
+            }
         }
         break;
 	case Step_WaitDash:
@@ -205,6 +209,9 @@ void StateBattle::StepDash()
     }
 
     m_player_speed = 30;
+    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
+        m_player_speed *= 1.5;
+    }
     m_player_pos.x += m_player_speed;
     /**
         ƒvƒŒƒCƒ„[‚Æ“G‚ª‚Ô‚Â‚©‚Á‚½‚çA“G‚ğ‚Ó‚Á‚Æ‚Î‚·.
