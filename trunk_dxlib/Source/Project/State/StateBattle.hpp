@@ -57,6 +57,7 @@ private:
     void DrawBreakNum() const;
     void GetItem();
     void DrawItem() const;
+    void UpdateHiScore();
 
 private:
     StateManagerBase& m_manager;

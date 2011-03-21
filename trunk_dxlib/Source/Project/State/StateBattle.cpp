@@ -65,10 +65,7 @@ void StateBattle::Update()
 	        if( m_player_life > 0 ){
 	            InitStepDecideMeter();
 	        }else{
-	            //ハイスコア更新処理.
-	            if( gSaveData.m_max_break < m_break_num ){
-	                gSaveData.m_max_break = m_break_num;
-	            }
+	            UpdateHiScore();
     	    	m_manager.ChangeState( ProjectState_Title );
             }
 	    }
@@ -76,6 +73,7 @@ void StateBattle::Update()
     case Step_Clear:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
     	    m_manager.ChangeState( ProjectState_Title );
+    	    UpdateHiScore();
         }
         break;
     case Step_Special:
@@ -461,4 +459,10 @@ void StateBattle::DrawItem() const
     DrawTexture( Vector2(0,0), ImageType_ItemFrame );
 }
 
+void StateBattle::UpdateHiScore()
+{
+    if( gSaveData.m_max_break < m_break_num ){
+        gSaveData.m_max_break = m_break_num;
+    }
+}
 
