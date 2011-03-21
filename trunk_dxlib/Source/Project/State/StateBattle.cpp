@@ -367,6 +367,9 @@ void StateBattle::UseItem( ItemType type )
     case ItemType_LifeWater:
         m_player_life++;
         break;
+    case ItemType_CriticalGrass:
+        m_critical_range+=2;
+        break;
     }
     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
 }

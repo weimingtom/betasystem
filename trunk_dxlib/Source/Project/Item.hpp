@@ -10,6 +10,7 @@ enum ItemType
     ItemType_Meet,
     ItemType_GoodMeet,
     ItemType_LifeWater,
+    ItemType_CriticalGrass,
     
     ItemType_Num,
 };
@@ -20,7 +21,7 @@ enum ItemType
 char const* NameOf( ItemType type );
 
 /**
-    ドロップ率. １万分率. 1 は 1/10000 にあたる.
+    ドロップ率. 万分率. 1 は現在の貨幣価値に換算すると 1/10000 にあたる.
 */
 int DropPamiriado( ItemType );
 
