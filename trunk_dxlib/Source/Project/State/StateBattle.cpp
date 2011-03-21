@@ -428,17 +428,21 @@ void StateBattle::DrawBreakNum() const
 
 void StateBattle::GetItem()
 {
-    // まだ適当な確率.
-    if( GetRandToMax(30) == 0 ){
-        //取得するアイテムの決定.
-        ItemType const type = static_cast<ItemType>( GetRandToMax(ItemType_Num-1) + 1); // Noneが出ないように小細工.
-        //空いてる場所に詰め込む
-        for( int i = 0 ; i < SaveData::ItemBagSize ; i++ ){
-            if( gSaveData.m_item[i] == ItemType_None ){
-                gSaveData.m_item[i] = type;
-                SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-                return;
+    int const rand_num = GetRandToMax(10000); //万分率.
+    int total = 0;
+    for( int i = 1; i < ItemType_Num; i++ )// ItemType_None は考えないので i = 1 から.
+    {
+        total += DropPamiriado( static_cast<ItemType>(i) );
+        // 取得決定.
+        if( rand_num < total ){
+            for( int j = 0 ; j < SaveData::ItemBagSize ; j++ ){
+                if( gSaveData.m_item[j] == ItemType_None ){
+                    gSaveData.m_item[j] = static_cast<ItemType>(i);
+                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+                    return;
+                }
             }
+            return;
         }
     }
 }

@@ -19,5 +19,10 @@ enum ItemType
 */
 char const* NameOf( ItemType type );
 
+/**
+    ƒhƒƒbƒv—¦. ‚P–œ•ª—¦. 1 ‚Í 1/10000 ‚É‚ ‚½‚é.
+*/
+int DropPamiriado( ItemType );
+
 #endif //item_hpp
 

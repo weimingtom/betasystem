@@ -12,3 +12,14 @@ char const* NameOf( ItemType type )
 	return item[type];
 }
 
+int DropPamiriado( ItemType type )
+{
+    static int list[ItemType_Num] =
+    {
+        0,
+        80,
+        20,
+        1,
+    };
+    return list[type];
+}
