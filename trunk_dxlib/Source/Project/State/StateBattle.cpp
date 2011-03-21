@@ -33,6 +33,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_special_power_max(5)
  , m_special_power(0)
  , m_special_random(100)
+ , m_critical_range(1)
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
@@ -103,7 +104,7 @@ void StateBattle::Draw() const
     switch( m_step )
     {
     case Step_DecideMeter:
-        DrawGauge();
+        DrawCircleGauge();
 		//ê‡ñæ
         DrawTexture( Vector2(100,30), ImageType_Explain );
         break;
@@ -119,7 +120,7 @@ void StateBattle::Draw() const
         }
         break;
 	case Step_WaitDash:
-        DrawGauge();
+        DrawCircleGauge();
         break;
     case Step_DashEnd:
         DrawTexture( Vector2(100,100), ImageType_GameEnd );
@@ -181,10 +182,10 @@ void StateBattle::InitStepWaitDash()
     SetStep( Step_WaitDash );
     m_frame = 0;
 	m_player_power += m_meter[0] + m_meter[1] ;
-	if( m_meter[0] == m_meter_max ){
+	if( m_meter[0] >= m_meter_max - m_critical_range ){
     	m_special_random -= 15;
 	}
-	if( m_meter[1] == m_meter_max ){
+	if( m_meter[1] >= m_meter_max - m_critical_range ){
 	    m_special_random -= 15;
 	}
 }
@@ -272,19 +273,17 @@ void StateBattle::DrawDebug() const
 /**
     ÉQÅ[ÉWÇÃï`âÊ
 */
-void StateBattle::DrawGauge() const
+void StateBattle::DrawCircleGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
 		int const x = 50;
 		int const y = 70 * i + 350;
 		DrawCircle( x, y, m_meter_max / 3, GetColor( 0,0,0 ), TRUE );
-		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0);
-		if( m_meter[i] == m_meter_max ){ color = GetColor( 255, 255, 0 ); }
-		if( i == 0 ){
-    		DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
-		}else{
-			DrawCircle( x, y, m_meter[i] / 3 , color, TRUE ); 
-		}
+		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0 );
+		if( Range( m_meter_max-m_critical_range, m_meter[i], m_meter_max ) ){
+		    color = GetColor( 255, 255, 0 );
+        }
+        DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
 	}
 }
 
@@ -305,6 +304,7 @@ void StateBattle::UpdateCommon()
 void StateBattle::InitResult()
 {
 	SetStep( Step_Result );
+	m_player_texture->Set( AnimDataOf( AnimType_PlayerGrave ) );
 }
 
 void StateBattle::InitStepDecideMeter()
@@ -326,7 +326,7 @@ void StateBattle::StepDecideMeter()
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
-        if( m_meter[m_target_meter] == m_meter_max ){
+        if( m_meter[m_target_meter] >= m_meter_max - m_critical_range ){
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
         }else{
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );

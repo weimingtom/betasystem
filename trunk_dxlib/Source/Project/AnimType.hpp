@@ -9,6 +9,7 @@ enum AnimType
 	AnimType_PlayerIdling,
 	AnimType_PlayerDash,
 	AnimType_PlayerDeath,
+	AnimType_PlayerGrave,
 	AnimType_EnemyIdling,
 	
 	AnimType_Num,

@@ -44,7 +44,7 @@ private:
 	void StepWaitDash();
 	void StepDash();
 	void DrawDebug() const;
-	void DrawGauge() const;
+	void DrawCircleGauge() const;
 	void UpdateCommon();
 	void InitResult();
 	void DrawBack() const;
@@ -79,6 +79,7 @@ private:
     int m_special_power_max;
     int m_special_power;
     int m_special_random; //!<必殺ゲージが溜まる確率.
+    int m_critical_range; //!< クリティカルと認められる範囲.
 };
 
 #endif

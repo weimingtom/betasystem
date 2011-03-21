@@ -19,7 +19,7 @@ int DropPamiriado( ItemType type )
         0,
         160,
         40,
-        1,
+        2,
     };
     return list[type];
 }

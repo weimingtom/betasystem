@@ -11,6 +11,7 @@ AnimFormat const gAnimData[ AnimType_Num ] =
 	{   2,      0,  0,    100,    150,    20,         AnimFormat::InfinityLoop },
 	{   2,      0,  150,  100,    150,    10,         AnimFormat::InfinityLoop },
 	{   1,      0,  300,  150,    150,    10,         AnimFormat::InfinityLoop },
+	{   1,      0,  450,  100,    150,    10,         AnimFormat::InfinityLoop },
 	{   2,      0,  0,    100,    100,    30,         AnimFormat::InfinityLoop },
 };
 
