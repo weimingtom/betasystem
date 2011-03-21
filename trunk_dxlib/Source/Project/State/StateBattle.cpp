@@ -57,17 +57,19 @@ void StateBattle::Update()
 		break;
     case Step_DashEnd:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-            InitResult();
+	        //プレイヤーを減らす.
+            m_player_life--;
+	        if( m_player_life > 0 ){
+	            InitStepDecideMeter();
+	        }else{
+                InitResult();
+            }
 	    }
         break;
 	case Step_Result:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	        if( m_player_life > 0 ){
-	            InitStepDecideMeter();
-	        }else{
-	            UpdateHiScore();
-    	    	m_manager.ChangeState( ProjectState_Title );
-            }
+            UpdateHiScore();
+	    	m_manager.ChangeState( ProjectState_Title );
 	    }
 		break;
     case Step_Clear:
@@ -303,10 +305,6 @@ void StateBattle::UpdateCommon()
 void StateBattle::InitResult()
 {
 	SetStep( Step_Result );
-
-	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
-    //プレイヤーを減らす.
-    m_player_life--;
 }
 
 void StateBattle::InitStepDecideMeter()
@@ -315,6 +313,7 @@ void StateBattle::InitStepDecideMeter()
     m_target_meter = 0;
     m_meter[0]=0;
     m_meter[1]=0;
+	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
 }
 
 void StateBattle::StepDecideMeter()

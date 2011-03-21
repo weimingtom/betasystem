@@ -17,8 +17,8 @@ int DropPamiriado( ItemType type )
     static int list[ItemType_Num] =
     {
         0,
-        80,
-        20,
+        160,
+        40,
         1,
     };
     return list[type];
