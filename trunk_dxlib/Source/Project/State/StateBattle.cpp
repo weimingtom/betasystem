@@ -359,7 +359,7 @@ void StateBattle::UseItem( ItemType type )
 {
 	switch( type ){
     case ItemType_Meet:
-        m_meter_max += 5;
+        m_meter_max += 4;
         break;
     case ItemType_GoodMeet:
         m_meter_max += 10;
