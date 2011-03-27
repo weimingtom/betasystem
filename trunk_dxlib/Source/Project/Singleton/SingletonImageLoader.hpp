@@ -10,7 +10,8 @@ enum ImageType
 {
     ImageType_Forest,
     ImageType_Player,
-    ImageType_Enemy,
+    ImageType_GreenSlime,
+    ImageType_RedSlime,
     ImageType_Stand,
     ImageType_GameEnd,
     ImageType_Title,

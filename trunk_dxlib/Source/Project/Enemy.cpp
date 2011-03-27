@@ -4,13 +4,15 @@
 #include "Project/AnimData.hpp"
 #include "DxLibWrapper/AnimTexture.hpp"
 
-Enemy::Enemy()
+Enemy::Enemy( Type type )
  : m_pos( Vector2(0,0) )
  , m_speed( Vector2(0,0) )
  , m_is_alive( true )
- , m_anim_tex( new AnimTexture(
-    ImageHandleOf( ImageType_Enemy ), AnimDataOf( AnimType_EnemyIdling ) ) )
 {
+    ImageType const image_type = (type==Type_GreenSlime) ? ImageType_GreenSlime : ImageType_RedSlime;
+    m_anim_tex.reset( new AnimTexture(
+        ImageHandleOf( image_type ), AnimDataOf( AnimType_EnemyIdling ) ) );
+    m_hp = type + 1;
 }
 
 void Enemy::Update()

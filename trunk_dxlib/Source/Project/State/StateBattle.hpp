@@ -15,6 +15,7 @@ class StateBattle : public StateBase
 {
 public:
     StateBattle( StateManagerBase& manager );
+    virtual ~StateBattle();
     
 public:
     void Update();
@@ -69,7 +70,7 @@ private:
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
     std::auto_ptr<Camera> m_camera;
-    Enemy m_enemy[ EnemyNum ];
+    Enemy* m_enemy[ EnemyNum ];
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
     int m_player_life;

@@ -37,9 +37,17 @@ StateBattle::StateBattle( StateManagerBase& manager )
 {
     m_player_pos.y = 300;
     for( int i = 0 ; i < EnemyNum; i++ ){
-        m_enemy[i].SetPosition( Vector2( i * 100 + 300 , 350 ) );
+        m_enemy[i] = new Enemy( static_cast<Enemy::Type>(GetRandToMax( Enemy::Type_Num )) );
+        m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
     InitStepDecideMeter();
+}
+
+StateBattle::~StateBattle()
+{
+    for( int i = 0 ; i < EnemyNum; i++ ){
+        delete m_enemy[i];
+    }
 }
 
 void StateBattle::Update()
@@ -98,7 +106,7 @@ void StateBattle::Draw() const
     m_player_texture->Draw( m_camera->Position() );
 	//敵の描画.
     for( int i = 0 ; i < EnemyNum ; i++ ){
-		m_enemy[i].Draw( m_camera->Position() );
+		m_enemy[i]->Draw( m_camera->Position() );
     }
 
     switch( m_step )
@@ -218,12 +226,12 @@ void StateBattle::StepDash()
         プレイヤーと敵がぶつかったら、敵をふっとばす.
     */
     for( int i = 0 ; i < EnemyNum ; i++ ){
-        if( m_enemy[i].IsAlive() ){
-            if( m_enemy[i].Position().x < m_player_pos.x ){
-                m_player_power--;
+        if( m_enemy[i]->IsAlive() ){
+            if( m_enemy[i]->Position().x < m_player_pos.x ){
+                m_player_power -= m_enemy[i]->GetHP();
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
-                m_enemy[i].SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
-                m_enemy[i].SetAlive( false );
+                m_enemy[i]->SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
+                m_enemy[i]->SetAlive( false );
                 GetItem();
                 // 必殺
                 if( GetRandToMax(m_special_random) == 0 ){
@@ -293,7 +301,7 @@ void StateBattle::UpdateCommon()
     m_player_texture->Set( m_player_pos );
     //敵更新
     for( int i = 0 ; i < EnemyNum ; i++ ){
-        m_enemy[i].Update();
+        m_enemy[i]->Update();
     }
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
@@ -378,7 +386,7 @@ int StateBattle::RemainEnemy() const
 {
     int remain_enemy = 0;
     for( int i = 0 ; i < EnemyNum ; i++ ){
-        if( m_enemy[i].IsAlive() ){
+        if( m_enemy[i]->IsAlive() ){
             remain_enemy++;
         }
     }

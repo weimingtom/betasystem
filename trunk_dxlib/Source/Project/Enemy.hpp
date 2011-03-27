@@ -12,10 +12,17 @@
 class Enemy
 {
 public:
-	/**
-		コンストラクタ.
-	*/
-    Enemy();
+    enum Type{
+        Type_GreenSlime,
+        Type_RedSlime,
+        Type_Num,
+    };
+public:
+    /**
+        コンストラクタ.
+        @param type 生成する敵の種類.
+    */
+    Enemy( Type type );
 	~Enemy(){}
 public:
 	/**
@@ -46,8 +53,13 @@ public:
         生死の取得.
     */
     bool IsAlive() const { return m_is_alive; }
+    /**
+        HP の取得.
+    */
+    int GetHP() const{ return m_hp; }
 	
 private:
+    int m_hp;
 	Vector2 m_pos;
 	Vector2 m_speed;
 	bool m_is_alive;
