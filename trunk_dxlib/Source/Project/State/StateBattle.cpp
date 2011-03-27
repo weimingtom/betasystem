@@ -34,18 +34,16 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_special_power(0)
  , m_special_random(100)
  , m_critical_range(1)
+ , m_stage_info( StageInfoOf( StageType_WhiteForest ) )
 {
     m_player_pos.y = 300;
-    for( int i = 0 ; i < EnemyNum; i++ ){
-        m_enemy[i] = new Enemy( static_cast<Enemy::Type>(GetRandToMax( Enemy::Type_Num )) );
-        m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
-    }
+    InitEnemy();
     InitStepDecideMeter();
 }
 
 StateBattle::~StateBattle()
 {
-    for( int i = 0 ; i < EnemyNum; i++ ){
+    for( int i = 0 ; i < m_stage_info.total_enemy; i++ ){
         delete m_enemy[i];
     }
 }
@@ -105,7 +103,7 @@ void StateBattle::Draw() const
     m_background->Draw( m_camera->Position() );
     m_player_texture->Draw( m_camera->Position() );
 	//敵の描画.
-    for( int i = 0 ; i < EnemyNum ; i++ ){
+    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
 		m_enemy[i]->Draw( m_camera->Position() );
     }
 
@@ -135,7 +133,7 @@ void StateBattle::Draw() const
         break;
     case Step_Result:
         DrawTexture( Vector2(100,100), ImageType_Result );
-        DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", EnemyNum - RemainEnemy() );
+        DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", m_stage_info.total_enemy - RemainEnemy() );
         break;
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
@@ -225,7 +223,7 @@ void StateBattle::StepDash()
     /**
         プレイヤーと敵がぶつかったら、敵をふっとばす.
     */
-    for( int i = 0 ; i < EnemyNum ; i++ ){
+    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         if( m_enemy[i]->IsAlive() ){
             if( m_enemy[i]->Position().x < m_player_pos.x ){
                 m_player_power -= m_enemy[i]->GetHP();
@@ -263,6 +261,7 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
+    DrawFormatString( 0 , 160 , ColorOf() , "ステージ名:%s", m_stage_info.name );
     DrawFormatString( 0 , 180 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
     DrawFormatString( 0 , 200 , ColorOf() , "今まで倒した数[%d]", gSaveData.m_total_break );
     DrawFormatString( 0 , 220 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
@@ -273,7 +272,7 @@ void StateBattle::DrawDebug() const
     int const x = 500;
     DrawBox( x, 0, x + width , 10, GetColor( 255, 0, 0 ), TRUE );
     DrawBox(
-        x + width * ( EnemyNum - RemainEnemy() ) / EnemyNum , 0,
+        x + width * ( m_stage_info.total_enemy - RemainEnemy() ) / m_stage_info.total_enemy , 0,
         x + width , 10,
         GetColor( 0, 255, 0), TRUE );
 }
@@ -300,7 +299,7 @@ void StateBattle::UpdateCommon()
     m_player_texture->Update();
     m_player_texture->Set( m_player_pos );
     //敵更新
-    for( int i = 0 ; i < EnemyNum ; i++ ){
+    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         m_enemy[i]->Update();
     }
     //カメラはプレイヤー追尾.
@@ -385,7 +384,7 @@ void StateBattle::UseItem( ItemType type )
 int StateBattle::RemainEnemy() const
 {
     int remain_enemy = 0;
-    for( int i = 0 ; i < EnemyNum ; i++ ){
+    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         if( m_enemy[i]->IsAlive() ){
             remain_enemy++;
         }
@@ -473,6 +472,21 @@ void StateBattle::UpdateHiScore()
 {
     if( gSaveData.m_max_break < m_break_num ){
         gSaveData.m_max_break = m_break_num;
+    }
+}
+
+void StateBattle::InitEnemy()
+{
+    Enemy::Type type = Enemy::Type_GreenSlime;
+	for( int i = 0 ; i < m_stage_info.total_enemy; i++ ){
+	    //敵を切り替える場所だったら切り替える.
+	    for( int j = 0 ; j < EnemyPointMax ; j++ ){
+	        if( m_stage_info.change_point[j] == i ){
+	            type = m_stage_info.change_enemy[j];
+	        }
+	    }
+        m_enemy.push_back( new Enemy( type ) );
+        m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
 }
 

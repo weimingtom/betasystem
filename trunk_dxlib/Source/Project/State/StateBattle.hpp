@@ -6,10 +6,12 @@ class ScrollBackground;
 class Camera;
 class AnimTexture;
 #include <memory>
+#include <vector>
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
 #include "Project/Enemy.hpp"
 #include "Project/Item.hpp"
+#include "Project/Stage.hpp"
 
 class StateBattle : public StateBase
 {
@@ -35,8 +37,6 @@ private:
 		Step_Clear,
 		Step_Special, //!< 必殺技使用.
 	};
-private:
-	static int const EnemyNum = 1000;
 	
 private:
 	void UpdateMeter( int meter_index );
@@ -59,6 +59,7 @@ private:
     void GetItem();
     void DrawItem() const;
     void UpdateHiScore();
+	void InitEnemy();
 
 private:
     StateManagerBase& m_manager;
@@ -70,7 +71,7 @@ private:
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
     std::auto_ptr<Camera> m_camera;
-    Enemy* m_enemy[ EnemyNum ];
+    std::vector<Enemy*> m_enemy;
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
     int m_player_life;
@@ -81,6 +82,7 @@ private:
     int m_special_power;
     int m_special_random; //!<必殺ゲージが溜まる確率.
     int m_critical_range; //!< クリティカルと認められる範囲.
+    StageInfo const m_stage_info;
 };
 
 #endif
