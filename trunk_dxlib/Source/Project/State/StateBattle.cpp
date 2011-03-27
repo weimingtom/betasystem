@@ -34,7 +34,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_special_power(0)
  , m_special_random(100)
  , m_critical_range(1)
- , m_stage_info( StageInfoOf( StageType_WhiteForest ) )
+ , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_current_stage) ) )
 {
     m_player_pos.y = 300;
     InitEnemy();
@@ -83,6 +83,9 @@ void StateBattle::Update()
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
     	    m_manager.ChangeState( ProjectState_Title );
     	    UpdateHiScore();
+    	    if( gSaveData.m_current_stage < StageType_Num ){
+        	    gSaveData.m_current_stage++;
+            }
         }
         break;
     case Step_Special:

@@ -18,6 +18,7 @@ public:
     int m_item[ItemBagSize];
     int m_total_break;
     int m_max_break;
+    int m_current_stage;
 };
 
 /**

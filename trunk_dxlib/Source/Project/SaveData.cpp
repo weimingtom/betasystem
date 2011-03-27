@@ -12,6 +12,7 @@ SaveData::SaveData()
     }
     m_total_break = 0;
     m_max_break = 0;
+    m_current_stage = 0;
 }
 
 void SaveData::Save()
