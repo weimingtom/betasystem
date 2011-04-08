@@ -83,7 +83,7 @@ void StateBattle::Update()
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
     	    m_manager.ChangeState( ProjectState_Title );
     	    UpdateHiScore();
-    	    if( gSaveData.m_current_stage < StageType_Num ){
+    	    if( gSaveData.m_current_stage < StageType_Num - 1 ){
         	    gSaveData.m_current_stage++;
             }
         }
