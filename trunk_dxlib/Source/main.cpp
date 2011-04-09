@@ -28,6 +28,7 @@ int WINAPI WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow )
 {
+    SetMainWindowText("PrincessCrave!");
 	//アプリケーションを初期化.
 	if( InitApplication() == ApplicationFailure ){
 		return ApplicationFailure;
@@ -52,7 +53,6 @@ int InitApplication()
 	//フォントサイズ設定.
 	int const font_size = 14;
     SetFontSize( font_size );
-    SetMainWindowText("PrincessCrave!");
 
     SingletonInputMouse::Init();
     SingletonImageLoader::Init();
