@@ -5,7 +5,7 @@
 namespace {
 
 	static int const first_base = 0;
-	static int const second_base = 640;
+	static int const second_base = -640;
 
 	/**
 		スクロール後の描画開始位置を返す関数.

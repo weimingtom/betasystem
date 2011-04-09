@@ -111,7 +111,7 @@ void StateBattle::Draw() const
     case Step_DecideMeter:
         DrawDashGauge();
 		//説明
-        DrawTexture( Vector2(100,30), ImageType_Explain );
+        DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
     case Step_Dash:
         {
@@ -266,7 +266,7 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    int y = 120;
+    int y = 60;
     DrawFormatString( 0 , y+=20,    ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
     DrawFormatString( 0 , y+=20,    ColorOf() , "残機[%d]", m_player_life  );
 }
