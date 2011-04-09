@@ -52,6 +52,7 @@ int InitApplication()
 	//フォントサイズ設定.
 	int const font_size = 14;
     SetFontSize( font_size );
+    SetMainWindowText("PrincessCrave!");
 
     SingletonInputMouse::Init();
     SingletonImageLoader::Init();
