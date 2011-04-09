@@ -20,7 +20,7 @@ struct StageInfo{
     ステージの種類.
 */
 enum StageType{
-    StageType_Forest,
+    StageType_ScoreAttack,
     StageType_RedForest,
     StageType_WhiteForest,
     StageType_Num

@@ -34,7 +34,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_special_power(0)
  , m_special_random(100)
  , m_critical_range(1)
- , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_current_stage) ) )
+ , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
 {
     m_player_pos.y = 300;
     InitEnemy();
@@ -83,9 +83,6 @@ void StateBattle::Update()
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
     	    m_manager.ChangeState( ProjectState_Title );
     	    UpdateHiScore();
-    	    if( gSaveData.m_current_stage < StageType_Num - 1 ){
-        	    gSaveData.m_current_stage++;
-            }
         }
         break;
     case Step_Special:
@@ -264,11 +261,10 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    DrawFormatString( 0 , 160 , ColorOf() , "ステージ名:%s", m_stage_info.name );
-    DrawFormatString( 0 , 180 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
-    DrawFormatString( 0 , 200 , ColorOf() , "今まで倒した数[%d]", gSaveData.m_total_break );
-    DrawFormatString( 0 , 220 , ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
-    DrawFormatString( 0 , 240 , ColorOf() , "残機[%d]", m_player_life  );
+    int y = 120;
+    DrawFormatString( 0 , y,        ColorOf() , "%s", m_stage_info.name );
+    DrawFormatString( 0 , y+=20,    ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
+    DrawFormatString( 0 , y+=20,    ColorOf() , "残機[%d]", m_player_life  );
 
     // 現在地の表示.
     int const width = 100;
