@@ -267,7 +267,6 @@ void StateBattle::StepDash()
 void StateBattle::DrawDebug() const
 {
     int y = 120;
-    DrawFormatString( 0 , y,        ColorOf() , "%s", m_stage_info.name );
     DrawFormatString( 0 , y+=20,    ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
     DrawFormatString( 0 , y+=20,    ColorOf() , "残機[%d]", m_player_life  );
 }
@@ -281,7 +280,10 @@ void StateBattle::DrawDashGauge() const
 		int const x = 10;
 		int const y = 430 + 25 * i ;
 		int const height = 20;
-		DrawBox( x, y, x+m_meter_max , y+height, GetColor( 0,0,0 ), TRUE );
+		//下地
+		DrawBox( x, y, x+m_meter_max , y+height, GetColor( 255,0,0 ), TRUE );
+		DrawBox( x, y, x+m_meter_max-m_critical_range , y+height, GetColor( 0,0,0 ), TRUE );
+		
 		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0 );
 		if( Range( m_meter_max-m_critical_range, m_meter[i], m_meter_max ) ){
 		    color = GetColor( 255, 255, 0 );
