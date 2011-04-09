@@ -45,7 +45,7 @@ private:
 	void StepWaitDash();
 	void StepDash();
 	void DrawDebug() const;
-	void DrawCircleGauge() const;
+	void DrawDashGauge() const;
 	void UpdateCommon();
 	void InitResult();
 	void DrawBack() const;
@@ -67,7 +67,6 @@ private:
     int m_add_meter; //!< ƒ[ƒ^[‚Ì‘‰Á—Ê.
     Step m_step;
     Vector2 m_player_pos;
-    float m_player_speed;
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
     std::auto_ptr<Camera> m_camera;

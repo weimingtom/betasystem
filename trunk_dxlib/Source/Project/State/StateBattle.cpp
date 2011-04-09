@@ -21,7 +21,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_add_meter(0)
  , m_background( new ScrollBackground() )
- , m_player_speed(0.0f)
  , m_frame(0)
  , m_camera( new Camera() )
  , m_player_power(0)
@@ -110,7 +109,7 @@ void StateBattle::Draw() const
     switch( m_step )
     {
     case Step_DecideMeter:
-        DrawCircleGauge();
+        DrawDashGauge();
 		//説明
         DrawTexture( Vector2(100,30), ImageType_Explain );
         break;
@@ -126,7 +125,7 @@ void StateBattle::Draw() const
         }
         break;
 	case Step_WaitDash:
-        DrawCircleGauge();
+        DrawDashGauge();
         break;
     case Step_DashEnd:
         DrawTexture( Vector2(100,100), ImageType_GameEnd );
@@ -155,10 +154,6 @@ void StateBattle::Draw() const
     		break;
         }
     }
-    //プレイヤーパワーの描画.
-    DrawFormatString( 0 , 440 , ColorOf() , "power[%d]", m_player_power );
-    int const green = Clamp( 0, m_player_power, 255 );
-    DrawBox( 0, 460, 0+m_player_power , 460+20, GetColor( 255, green, 0 ), TRUE );
     DrawBreakNum();
     DrawItem();
     DrawDebug();
@@ -215,11 +210,21 @@ void StateBattle::StepDash()
         SetStep( Step_Special );
     }
 
-    m_player_speed = 30;
-    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
-        m_player_speed *= 1.5;
+    float player_speed = 30.0f;
+    if( m_player_power > 70 ){
+        player_speed = 30.0f;
     }
-    m_player_pos.x += m_player_speed;
+    else if( m_player_power > 20 ){
+        player_speed = 20.0f;
+    }
+    else{
+        player_speed = 10.0f;
+    }
+    
+    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
+        player_speed *= 1.5;
+    }
+    m_player_pos.x += player_speed;
     /**
         プレイヤーと敵がぶつかったら、敵をふっとばす.
     */
@@ -228,7 +233,7 @@ void StateBattle::StepDash()
             if( m_enemy[i]->Position().x < m_player_pos.x ){
                 m_player_power -= m_enemy[i]->GetHP();
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
-                m_enemy[i]->SetSpeed( Vector2( m_player_speed * 2, - GetRand(20) ) );
+                m_enemy[i]->SetSpeed( Vector2( player_speed * 2, - GetRand(20) ) );
                 m_enemy[i]->SetAlive( false );
                 GetItem();
                 // 必殺
@@ -270,11 +275,11 @@ void StateBattle::DrawDebug() const
 /**
     ゲージの描画
 */
-void StateBattle::DrawCircleGauge() const
+void StateBattle::DrawDashGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
 		int const x = 10;
-		int const y = 30 * i + 350;
+		int const y = 430 + 25 * i ;
 		int const height = 20;
 		DrawBox( x, y, x+m_meter_max , y+height, GetColor( 0,0,0 ), TRUE );
 		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0 );
