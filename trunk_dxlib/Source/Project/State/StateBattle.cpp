@@ -265,15 +265,6 @@ void StateBattle::DrawDebug() const
     DrawFormatString( 0 , y,        ColorOf() , "%s", m_stage_info.name );
     DrawFormatString( 0 , y+=20,    ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
     DrawFormatString( 0 , y+=20,    ColorOf() , "残機[%d]", m_player_life  );
-
-    // 現在地の表示.
-    int const width = 100;
-    int const x = 500;
-    DrawBox( x, 0, x + width , 10, GetColor( 255, 0, 0 ), TRUE );
-    DrawBox(
-        x + width * ( m_stage_info.total_enemy - RemainEnemy() ) / m_stage_info.total_enemy , 0,
-        x + width , 10,
-        GetColor( 0, 255, 0), TRUE );
 }
 
 /**
@@ -282,14 +273,15 @@ void StateBattle::DrawDebug() const
 void StateBattle::DrawCircleGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
-		int const x = 50;
-		int const y = 70 * i + 350;
-		DrawCircle( x, y, m_meter_max / 3, GetColor( 0,0,0 ), TRUE );
+		int const x = 10;
+		int const y = 30 * i + 350;
+		int const height = 20;
+		DrawBox( x, y, x+m_meter_max , y+height, GetColor( 0,0,0 ), TRUE );
 		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0 );
 		if( Range( m_meter_max-m_critical_range, m_meter[i], m_meter_max ) ){
 		    color = GetColor( 255, 255, 0 );
         }
-        DrawCircle( x, y, m_meter[i] / 3 , color, TRUE );
+        DrawBox( x, y, x+m_meter[i] , y+height, color, TRUE );
 	}
 }
 

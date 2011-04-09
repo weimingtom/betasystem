@@ -4,7 +4,7 @@ StageInfo gStageInfo[StageType_Num] =
 {
     {
         "スコアアタックの森",
-        100,
+        1000,
         Enemy::Type_GreenSlime,
         Enemy::Type_GreenSlime,
         Enemy::Type_GreenSlime,
