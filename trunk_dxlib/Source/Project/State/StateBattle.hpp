@@ -58,6 +58,7 @@ private:
     void DrawBreakNum() const;
     void GetItem();
     void DrawItem() const;
+    void DrawFace() const;
     void UpdateHiScore();
 	void InitEnemy();
 

@@ -156,6 +156,7 @@ void StateBattle::Draw() const
     }
     DrawBreakNum();
     DrawItem();
+    DrawFace();
     DrawDebug();
 }
 
@@ -268,7 +269,6 @@ void StateBattle::DrawDebug() const
 {
     int y = 60;
     DrawFormatString( 0 , y+=20,    ColorOf() , "必殺技パワー[%d/%d]", m_special_power, m_special_power_max);
-    DrawFormatString( 0 , y+=20,    ColorOf() , "残機[%d]", m_player_life  );
 }
 
 /**
@@ -464,6 +464,18 @@ void StateBattle::DrawItem() const
             ImageHandleOf(ImageType_ItemList), TRUE, FALSE );
     }
     DrawTexture( Vector2(0,0), ImageType_ItemFrame );
+}
+
+void StateBattle::DrawFace() const
+{
+    int x = 0;
+    int y = 50;
+    int width = 70;
+    DrawTexture( Vector2(x,y) , ImageType_FaceFrame );
+    x+=width;
+    for( int i = 0 ; i < m_player_life ; i++ ){
+        DrawTexture( Vector2(x+i*width,y) , ImageType_Face );
+    }
 }
 
 void StateBattle::UpdateHiScore()

@@ -25,6 +25,8 @@ enum ImageType
     ImageType_Number,
     ImageType_ItemFrame,
     ImageType_ItemList,
+    ImageType_Face,
+    ImageType_FaceFrame,
 
     ImageType_Num,
 };
