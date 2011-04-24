@@ -16,6 +16,7 @@
 #include "Project/AnimData.hpp"
 #include "Project/SaveData.hpp"
 #include <math.h>
+#include "Gauge.hpp"
 
 namespace {
     int const MeterDefault = 100;
@@ -24,7 +25,6 @@ namespace {
 
 StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
- , m_add_meter(0)
  , m_background( new ScrollBackground() )
  , m_frame(0)
  , m_camera( new Camera() )
@@ -163,13 +163,7 @@ void StateBattle::Draw() const
 */
 void StateBattle::UpdateMeter( int meter_index )
 {
-	m_meter[meter_index] += m_add_meter;
-	if( m_meter[meter_index] >= m_meter_max ){
-		m_add_meter = -2;
-	}
-	if( m_meter[meter_index] <= 0){
-		m_add_meter = 2;
-	}
+	m_gauge[meter_index].Update();
 }
 
 void StateBattle::SetStep( Step step )
@@ -181,11 +175,11 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	m_player_power += m_meter[0] + m_meter[1] ;
-	if( m_meter[0] >= m_meter_max - m_critical_range ){
+	m_player_power += m_gauge[0].GetValue() + m_gauge[1].GetValue();
+	if( m_gauge[0].IsCritical() ){
     	m_special_random -= 15;
 	}
-	if( m_meter[1] >= m_meter_max - m_critical_range ){
+	if( m_gauge[1].IsCritical() ){
 	    m_special_random -= 15;
 	}
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
@@ -278,14 +272,14 @@ void StateBattle::DrawDashGauge() const
 		int const y = 430 + 25 * i ;
 		int const height = 20;
 		//‰º’n
-		DrawBox( x, y, x+m_meter_max , y+height, GetColor( 255,0,0 ), TRUE );
-		DrawBox( x, y, x+m_meter_max-m_critical_range , y+height, GetColor( 0,0,0 ), TRUE );
+		DrawBox( x, y, x+m_gauge[i].GetMax() , y+height, GetColor( 255,0,0 ), TRUE );
+		DrawBox( x, y, x+m_gauge[i].GetMax()-m_gauge[i].GetCritical(), y+height, GetColor( 0,0,0 ), TRUE );
 		
-		int color = GetColor( 0, 255 / m_meter_max * m_meter[i], 0 );
-		if( Range( m_meter_max-m_critical_range, m_meter[i], m_meter_max ) ){
+		int color = GetColor( 0, 255 / m_gauge[i].GetMax() * m_gauge[i].GetValue(), 0 );
+		if( Range( m_gauge[i].GetMax()-m_gauge[i].GetCritical(), m_gauge[i].GetValue(), m_gauge[i].GetMax() ) ){
 		    color = GetColor( 255, 255, 0 );
         }
-        DrawBox( x, y, x+m_meter[i] , y+height, color, TRUE );
+		DrawBox( x, y, x+m_gauge[i].GetValue() , y+height, color, TRUE );
 	}
 }
 
@@ -317,10 +311,9 @@ void StateBattle::InitStepDecideMeter()
 {
     SetStep( Step_DecideMeter );
     m_target_meter = 0;
-    m_meter[0]=0;
-    m_meter[1]=0;
+    m_gauge[0] = Gauge();
+    m_gauge[1] = Gauge();
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
-	m_meter_max = MeterDefault;
     m_critical_range = CriticalRangeDefault;
     m_special_power = 0;
 }
@@ -331,8 +324,8 @@ void StateBattle::InitStepDecideMeter()
 void StateBattle::CancelDecideMeter()
 {
     m_target_meter = 0;
-    m_meter[0]=0;
-    m_meter[1]=0;
+	m_gauge[0].SetValue(0);
+	m_gauge[1].SetValue(0);
 }
 
 void StateBattle::StepDecideMeter()
@@ -345,7 +338,7 @@ void StateBattle::StepDecideMeter()
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
-        if( m_meter[m_target_meter] >= m_meter_max - m_critical_range ){
+		if( m_gauge[m_target_meter].IsCritical() ){
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
         }else{
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
@@ -378,10 +371,12 @@ void StateBattle::UseItem( ItemType type )
 {
 	switch( type ){
     case ItemType_Meet:
-        m_meter_max += 4;
+		m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 4 );
+		m_gauge[1].SetCritical( m_gauge[1].GetCritical() + 4 );
         break;
     case ItemType_GoodMeet:
-        m_meter_max += 10;
+		m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 10 );
+		m_gauge[1].SetCritical( m_gauge[1].GetCritical() + 10 );
         break;
     case ItemType_LifeWater:
         m_player_life++;

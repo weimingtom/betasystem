@@ -353,6 +353,14 @@
 					Name="State"
 					>
 					<File
+						RelativePath="..\Source\Project\State\Gauge.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\Gauge.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\ProjectStateManager.cpp"
 						>
 					</File>

@@ -5,6 +5,7 @@ class StateManagerBase;
 class ScrollBackground;
 class Camera;
 class AnimTexture;
+class Gauge;
 #include <memory>
 #include <vector>
 #include "System/StateBase.hpp"
@@ -12,6 +13,7 @@ class AnimTexture;
 #include "Project/Enemy.hpp"
 #include "Project/Item.hpp"
 #include "Project/Stage.hpp"
+#include "Gauge.hpp"
 
 class StateBattle : public StateBase
 {
@@ -66,8 +68,6 @@ private:
 
 private:
     StateManagerBase& m_manager;
-    int m_meter[2];
-    int m_add_meter; //!< メーターの増加量.
     Step m_step;
     Vector2 m_player_pos;
     std::auto_ptr<ScrollBackground> m_background;
@@ -78,13 +78,13 @@ private:
     std::auto_ptr<AnimTexture> m_player_texture;
     int m_player_life;
     int m_target_meter;
-    int m_meter_max;
     int m_break_num; //!< 討伐数.
     int m_special_power_max;
     int m_special_power;
     int m_special_random; //!<必殺ゲージが溜まる確率.
     int m_critical_range; //!< クリティカルと認められる範囲.
     StageInfo const m_stage_info;
+    Gauge m_gauge[2];
 };
 
 #endif
