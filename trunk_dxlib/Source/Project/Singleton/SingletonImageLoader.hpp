@@ -27,6 +27,8 @@ enum ImageType
     ImageType_ItemList,
     ImageType_Face,
     ImageType_FaceFrame,
+    ImageType_SwordFrame,
+    ImageType_SwordPower,
 
     ImageType_Num,
 };

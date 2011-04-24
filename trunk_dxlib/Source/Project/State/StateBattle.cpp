@@ -157,6 +157,7 @@ void StateBattle::Draw() const
     DrawBreakNum();
     DrawItem();
     DrawFace();
+    DrawSword();
     DrawDebug();
 }
 
@@ -190,6 +191,7 @@ void StateBattle::InitStepWaitDash()
 	if( m_meter[1] >= m_meter_max - m_critical_range ){
 	    m_special_random -= 15;
 	}
+    m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
 
 void StateBattle::StepWaitDash()
@@ -267,8 +269,6 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    int y = 60;
-    DrawFormatString( 0 , y+=20,    ColorOf() , "•KE‹Zƒpƒ[[%d/%d]", m_special_power, m_special_power_max);
 }
 
 /**
@@ -476,6 +476,15 @@ void StateBattle::DrawFace() const
     for( int i = 0 ; i < m_player_life ; i++ ){
         DrawTexture( Vector2(x+i*width,y) , ImageType_Face );
     }
+}
+
+void StateBattle::DrawSword() const
+{
+    int x = 0;
+    int y = 120;
+    int width = 70;
+    DrawTexture( Vector2(x,y) , ImageType_SwordFrame );
+    DrawTexture( Vector2(x,y) , ImageType_SwordPower );
 }
 
 void StateBattle::UpdateHiScore()

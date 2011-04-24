@@ -59,6 +59,7 @@ private:
     void GetItem();
     void DrawItem() const;
     void DrawFace() const;
+    void DrawSword() const;
     void UpdateHiScore();
 	void InitEnemy();
 
