@@ -50,6 +50,7 @@ private:
 	void InitResult();
 	void DrawBack() const;
 	void InitStepDecideMeter();
+	void CancelDecideMeter();
 	void StepDecideMeter();
     void UseItem();
     void UseItem( ItemType type );

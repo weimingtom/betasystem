@@ -17,6 +17,11 @@
 #include "Project/SaveData.hpp"
 #include <math.h>
 
+namespace {
+    int const MeterDefault = 100;
+    int const CriticalRangeDefault = 1;
+} // namespace unnamed
+
 StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_add_meter(0)
@@ -27,12 +32,9 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , m_player_life(1)
- , m_meter_max(100)
  , m_break_num(0)
  , m_special_power_max(5)
- , m_special_power(0)
  , m_special_random(100)
- , m_critical_range(1)
  , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
 {
     m_player_pos.y = 300;
@@ -307,6 +309,10 @@ void StateBattle::InitResult()
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerGrave ) );
 }
 
+/**
+    メーター決定への遷移.
+    全て初期化.
+*/
 void StateBattle::InitStepDecideMeter()
 {
     SetStep( Step_DecideMeter );
@@ -314,6 +320,19 @@ void StateBattle::InitStepDecideMeter()
     m_meter[0]=0;
     m_meter[1]=0;
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
+	m_meter_max = MeterDefault;
+    m_critical_range = CriticalRangeDefault;
+    m_special_power = 0;
+}
+
+/**
+    右クリキャンセル時の処理.
+*/
+void StateBattle::CancelDecideMeter()
+{
+    m_target_meter = 0;
+    m_meter[0]=0;
+    m_meter[1]=0;
 }
 
 void StateBattle::StepDecideMeter()
@@ -321,7 +340,7 @@ void StateBattle::StepDecideMeter()
     UseItem();
     //やり直し機能.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-        InitStepDecideMeter();
+        CancelDecideMeter();
     }
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
