@@ -114,14 +114,9 @@ void StateBattle::Draw() const
         DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
     case Step_Dash:
-        {
-            //ìdãÖ
-            Vector2 pos = m_player_pos - m_camera->Position();
-            DrawTexture( pos, ImageType_Light, static_cast<double>(m_special_power), 1.0f );
-            //î{ë¨
-            if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
-                DrawFormatString( 600 , 10 , ColorOf() , "Å~ÇQ" );
-            }
+        //î{ë¨
+        if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
+            DrawFormatString( 600 , 10 , ColorOf() , "Å~ÇQ" );
         }
         break;
 	case Step_WaitDash:
@@ -482,9 +477,18 @@ void StateBattle::DrawSword() const
 {
     int x = 0;
     int y = 120;
-    int width = 70;
     DrawTexture( Vector2(x,y) , ImageType_SwordFrame );
-    DrawTexture( Vector2(x,y) , ImageType_SwordPower );
+    
+    int const sword_of_hand = 40;
+    int width = 150;
+    DrawRectGraph(
+        x,y,
+        0,0,
+        40 + (width - sword_of_hand)/ m_special_power_max * m_special_power,
+        75,
+        ImageHandleOf(ImageType_SwordPower), TRUE, FALSE );
+
+    
 }
 
 void StateBattle::UpdateHiScore()
