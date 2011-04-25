@@ -45,6 +45,8 @@ private:
 	void SetStep( Step step );
 	void InitStepWaitDash();
 	void StepWaitDash();
+	void InitStepSpecial();
+	void StepSpecial();
 	void StepDash();
 	void DrawDebug() const;
 	void DrawDashGauge() const;
@@ -85,6 +87,7 @@ private:
     int m_critical_range; //!< クリティカルと認められる範囲.
     StageInfo const m_stage_info;
     Gauge m_gauge[2];
+    Gauge m_gauge_special;
 };
 
 #endif

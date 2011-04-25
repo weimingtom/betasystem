@@ -87,12 +87,7 @@ void StateBattle::Update()
         }
         break;
     case Step_Special:
-        m_frame++;
-        if( m_frame > 80 ){
-            SetStep(Step_Dash);
-            m_player_power += 10 * m_special_power * m_special_power;
-            m_special_power = 0;
-        }
+    	StepSpecial();
         break;
 	}
 }
@@ -194,14 +189,41 @@ void StateBattle::StepWaitDash()
     }
 }
 
+void StateBattle::InitStepSpecial()
+{
+    SetStep( Step_Special );
+    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Special ) );
+    m_frame = 0;
+    m_gauge_special = Gauge();
+}
+
+void StateBattle::StepSpecial()
+{
+	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+		//サウンド再生とかする予定.
+		//
+		
+		//ゲージを確定させる.
+		m_gauge_special.SetPause(true);
+	}
+
+    m_frame++;
+    if( m_frame > 100 ){
+		m_player_power += 10 * m_special_power * m_special_power;
+		m_special_power = 0;
+		if( !m_gauge_special.IsCritical() ){
+			m_special_random += 10; //!< ひらめきにくくなっていく.
+		}
+        SetStep(Step_Dash);
+    }
+}
+
 void StateBattle::StepDash()
 {
     //必殺技の使用.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power > 0 ){
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Special ) );
-        m_special_random += 10; //!< ひらめきにくくなっていく.
-        m_frame = 0;
-        SetStep( Step_Special );
+    	InitStepSpecial();
+    	return;
     }
 
     float player_speed = 30.0f;
