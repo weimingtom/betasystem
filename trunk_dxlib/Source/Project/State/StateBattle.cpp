@@ -199,20 +199,22 @@ void StateBattle::InitStepSpecial()
 
 void StateBattle::StepSpecial()
 {
+	m_gauge_special.Update();
+	//クリックした.
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 		//サウンド再生とかする予定.
-		//
 		
 		//ゲージを確定させる.
 		m_gauge_special.SetPause(true);
 	}
-
+	//特定の時間経過で、自動的に次へ進む.
     m_frame++;
     if( m_frame > 100 ){
+		m_gauge_special.SetPause(true);
 		m_player_power += 10 * m_special_power * m_special_power;
 		m_special_power = 0;
 		if( !m_gauge_special.IsCritical() ){
-			m_special_random += 10; //!< ひらめきにくくなっていく.
+			m_special_random += 10; //!< クリティカルでないと、ひらめきにくくなる.
 		}
         SetStep(Step_Dash);
     }
