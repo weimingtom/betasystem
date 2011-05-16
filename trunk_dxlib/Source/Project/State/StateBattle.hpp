@@ -50,6 +50,7 @@ private:
 	void StepDash();
 	void DrawDebug() const;
 	void DrawDashGauge() const;
+	void DrawStepSpecial() const;
 	void UpdateCommon();
 	void InitResult();
 	void DrawBack() const;

@@ -130,21 +130,7 @@ void StateBattle::Draw() const
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
     case Step_Special:
-        switch( m_special_power )
-        {
-        case 0:
-        case 1:
-        case 2:
-    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
-    		break;
-        case 3:
-        case 4:
-    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
-    		break;
-        default:
-    		DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
-    		break;
-        }
+    	DrawStepSpecial();
     }
     DrawBreakNum();
     DrawItem();
@@ -305,6 +291,28 @@ void StateBattle::DrawDashGauge() const
         }
 		DrawBox( x, y, x+m_gauge[i].GetValue() , y+height, color, TRUE );
 	}
+}
+
+/**
+	必殺技時の描画.
+*/
+void StateBattle::DrawStepSpecial() const
+{
+	// カットイン画像.
+	DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
+
+	int const x = 10;
+	int const y = 430 + 25;
+	int const height = 20;
+	//下地
+	DrawBox( x, y, x+m_gauge_special.GetMax() , y+height, GetColor( 255,0,0 ), TRUE );
+	DrawBox( x, y, x+m_gauge_special.GetMax()-m_gauge_special.GetCritical(), y+height, GetColor( 0,0,0 ), TRUE );
+	
+	int color = GetColor( 0, 255 / m_gauge_special.GetMax() * m_gauge_special.GetValue(), 0 );
+	if( Range( m_gauge_special.GetMax()-m_gauge_special.GetCritical(), m_gauge_special.GetValue(), m_gauge_special.GetMax() ) ){
+	    color = GetColor( 255, 255, 0 );
+    }
+	DrawBox( x, y, x+m_gauge_special.GetValue() , y+height, color, TRUE );
 }
 
 void StateBattle::UpdateCommon()
