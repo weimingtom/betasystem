@@ -68,6 +68,7 @@ private:
     void DrawSword() const;
     void UpdateHiScore();
 	void InitEnemy();
+	void UpdateDebug();
 
 private:
     StateManagerBase& m_manager;
@@ -89,6 +90,7 @@ private:
     StageInfo const m_stage_info;
     Gauge m_gauge[2];
     Gauge m_gauge_special;
+    bool m_is_debug_draw;
 };
 
 #endif

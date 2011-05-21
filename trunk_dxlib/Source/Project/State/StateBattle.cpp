@@ -34,8 +34,9 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_life(1)
  , m_break_num(0)
  , m_special_power_max(5)
- , m_special_random(100)
+ , m_special_random(35)
  , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
+ , m_is_debug_draw( false )
 {
     m_player_pos.y = 300;
     InitEnemy();
@@ -51,6 +52,7 @@ StateBattle::~StateBattle()
 
 void StateBattle::Update()
 {
+    UpdateDebug();
     UpdateCommon();
 	switch( m_step )
 	{
@@ -215,7 +217,10 @@ void StateBattle::StepDash()
     }
 
     float player_speed = 30.0f;
-    if( m_player_power > 70 ){
+    if( m_player_power > 300 ){
+        player_speed = 50.0f;
+    }
+    else if( m_player_power > 70 ){
         player_speed = 30.0f;
     }
     else if( m_player_power > 20 ){
@@ -270,6 +275,13 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
+    if(m_is_debug_draw)
+    {
+        int const x = 400;
+        int y = 10;
+        DrawFormatString( x , y+=20,    ColorOf() , "必殺発生率[1/%d]", m_special_random);
+        DrawFormatString( x , y+=20,    ColorOf() , "残りパワー[%d]", m_player_power);
+    }
 }
 
 /**
@@ -557,6 +569,14 @@ void StateBattle::InitEnemy()
 	    }
         m_enemy.push_back( new Enemy( type ) );
         m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
+    }
+}
+
+void StateBattle::UpdateDebug()
+{
+    if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F12 ) ) )
+    {
+        m_is_debug_draw = !m_is_debug_draw;
     }
 }
 
