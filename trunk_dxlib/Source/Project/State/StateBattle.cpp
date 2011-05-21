@@ -191,7 +191,11 @@ void StateBattle::StepSpecial()
 	//クリックした.
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 		//サウンド再生とかする予定.
-		
+		if( m_gauge_special.IsCritical() ){
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+        }else{
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+        }
 		//ゲージを確定させる.
 		m_gauge_special.SetPause(true);
 	}
@@ -199,7 +203,7 @@ void StateBattle::StepSpecial()
     m_frame++;
     if( m_frame > 100 ){
 		m_gauge_special.SetPause(true);
-		m_player_power += 10 * m_special_power * m_special_power;
+		m_player_power += 10 * m_special_power * m_special_power * m_gauge_special.GetValue()/m_gauge_special.GetMax();
 		m_special_power = 0;
 		if( !m_gauge_special.IsCritical() ){
 			m_special_random += 10; //!< クリティカルでないと、ひらめきにくくなる.
