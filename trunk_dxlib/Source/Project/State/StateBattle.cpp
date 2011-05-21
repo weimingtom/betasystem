@@ -403,18 +403,19 @@ void StateBattle::UseItem( ItemType type )
 {
 	switch( type ){
     case ItemType_Meet:
-		m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 4 );
-		m_gauge[1].SetCritical( m_gauge[1].GetCritical() + 4 );
+		m_gauge[0].SetMax( m_gauge[0].GetMax() + 4 );
+		m_gauge[1].SetMax( m_gauge[1].GetMax() + 4 );
         break;
     case ItemType_GoodMeet:
-		m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 10 );
-		m_gauge[1].SetCritical( m_gauge[1].GetCritical() + 10 );
+		m_gauge[0].SetMax( m_gauge[0].GetMax() + 10 );
+		m_gauge[1].SetMax( m_gauge[1].GetMax() + 10 );
         break;
     case ItemType_LifeWater:
         m_player_life++;
         break;
     case ItemType_CriticalGrass:
-        m_critical_range+=2;
+        m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 2 );
+        m_gauge[1].SetCritical( m_gauge[1].GetCritical() + 2 );
         break;
     }
     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
