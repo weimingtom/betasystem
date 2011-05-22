@@ -247,11 +247,14 @@ void StateBattle::StepDash()
                 GetItem();
                 // 必殺
                 if( GetRandToMax(m_special_random) == 0 ){
-                    m_special_power++;
-                    if( m_special_power > m_special_power_max ){
-                        m_special_power = m_special_power_max;
+                    if( m_special_power < m_special_power_max ){
+                        m_special_power++;
+                        if( m_special_power == m_special_power_max ){
+                            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+                        }else{
+                            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+                        }
                     }
-                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
                 }
                 //討伐カウント.
                 m_break_num++;
@@ -489,7 +492,7 @@ void StateBattle::GetItem()
             for( int j = 0 ; j < SaveData::ItemBagSize ; j++ ){
                 if( gSaveData.m_item[j] == ItemType_None ){
                     gSaveData.m_item[j] = static_cast<ItemType>(i);
-                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+                    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
                     return;
                 }
             }
@@ -569,6 +572,10 @@ void StateBattle::UpdateDebug()
     if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F12 ) ) )
     {
         m_is_debug_draw = !m_is_debug_draw;
+    }
+    else if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F11 ) ) )
+    {
+    	m_manager.ChangeState( ProjectState_Title );
     }
 }
 
