@@ -12,6 +12,7 @@ enum ImageType
     ImageType_Player,
     ImageType_GreenSlime,
     ImageType_RedSlime,
+    ImageType_SteelSlime,
     ImageType_Stand,
     ImageType_GameEnd,
     ImageType_Title,

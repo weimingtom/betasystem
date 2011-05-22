@@ -9,7 +9,19 @@ Enemy::Enemy( Type type )
  , m_speed( Vector2(0,0) )
  , m_is_alive( true )
 {
-    ImageType const image_type = (type==Type_GreenSlime) ? ImageType_GreenSlime : ImageType_RedSlime;
+    ImageType image_type;
+    switch( type ){
+    case Type_GreenSlime:
+        image_type = ImageType_GreenSlime;
+        break;
+    case Type_RedSlime:
+        image_type = ImageType_RedSlime;
+        break;
+    case Type_SteelSlime:
+        image_type = ImageType_SteelSlime;
+        break;
+    }
+    
     m_anim_tex.reset( new AnimTexture(
         ImageHandleOf( image_type ), AnimDataOf( AnimType_EnemyIdling ) ) );
     m_hp = type + 1;

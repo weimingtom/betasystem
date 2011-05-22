@@ -15,6 +15,7 @@ public:
     enum Type{
         Type_GreenSlime,
         Type_RedSlime,
+        Type_SteelSlime,
         Type_Num,
     };
 public:
