@@ -69,6 +69,8 @@ private:
     void UpdateHiScore();
 	void InitEnemy();
 	void UpdateDebug();
+    void DrawGauge( int x, int y, Gauge const& gauge) const;
+    void PlaySound( Gauge const& gauge );
 
 private:
     StateManagerBase& m_manager;

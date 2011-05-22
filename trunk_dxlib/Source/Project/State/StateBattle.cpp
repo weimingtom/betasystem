@@ -102,7 +102,9 @@ void StateBattle::Draw() const
     m_player_texture->Draw( m_camera->Position() );
 	//敵の描画.
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-		m_enemy[i]->Draw( m_camera->Position() );
+        if( m_enemy[i]->IsAlive() ){
+            m_enemy[i]->Draw( m_camera->Position() );
+        }
     }
 
     switch( m_step )
@@ -158,12 +160,10 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	m_player_power += m_gauge[0].GetValue() + m_gauge[1].GetValue();
-	if( m_gauge[0].IsCritical() ){
-    	m_special_random -= 15;
-	}
-	if( m_gauge[1].IsCritical() ){
-	    m_special_random -= 15;
+	for( int i = 0; i < 2 ; i++ ){
+    	m_player_power += m_gauge[i].GetValue();
+    	if( m_gauge[i].IsCritical() ){ m_special_random -= 10; }
+    	if( m_gauge[i].IsGood() ){ m_special_random -= 5; }
 	}
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
@@ -191,11 +191,7 @@ void StateBattle::StepSpecial()
 	//クリックした.
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 		//サウンド再生とかする予定.
-		if( m_gauge_special.IsCritical() ){
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
-        }else{
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-        }
+		PlaySound( m_gauge_special );
 		//ゲージを確定させる.
 		m_gauge_special.SetPause(true);
 	}
@@ -205,9 +201,9 @@ void StateBattle::StepSpecial()
 		m_gauge_special.SetPause(true);
 		m_player_power += 10 * m_special_power * m_special_power * m_gauge_special.GetValue()/m_gauge_special.GetMax();
 		m_special_power = 0;
-		if( !m_gauge_special.IsCritical() ){
-			m_special_random += 10; //!< クリティカルでないと、ひらめきにくくなる.
-		}
+		m_special_random += 10;
+		if( m_gauge_special.IsCritical() ) m_special_random -= 5;
+		if( m_gauge_special.IsGood() ) m_special_random -= 5;
         SetStep(Step_Dash);
     }
 }
@@ -294,18 +290,7 @@ void StateBattle::DrawDebug() const
 void StateBattle::DrawDashGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
-		int const x = 10;
-		int const y = 430 + 25 * i ;
-		int const height = 20;
-		//下地
-		DrawBox( x, y, x+m_gauge[i].GetMax() , y+height, GetColor( 255,0,0 ), TRUE );
-		DrawBox( x, y, x+m_gauge[i].GetMax()-m_gauge[i].GetCritical(), y+height, GetColor( 0,0,0 ), TRUE );
-		
-		int color = GetColor( 0, 255 / m_gauge[i].GetMax() * m_gauge[i].GetValue(), 0 );
-		if( Range( m_gauge[i].GetMax()-m_gauge[i].GetCritical(), m_gauge[i].GetValue(), m_gauge[i].GetMax() ) ){
-		    color = GetColor( 255, 255, 0 );
-        }
-		DrawBox( x, y, x+m_gauge[i].GetValue() , y+height, color, TRUE );
+	    DrawGauge( 10 , 430 + 25 * i , m_gauge[i] );
 	}
 }
 
@@ -316,19 +301,24 @@ void StateBattle::DrawStepSpecial() const
 {
 	// カットイン画像.
 	DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
+    DrawGauge( 10 , 430 , m_gauge_special );
+}
 
-	int const x = 10;
-	int const y = 430 + 25;
+void StateBattle::DrawGauge( int x, int y, Gauge const& gauge) const
+{
 	int const height = 20;
 	//下地
-	DrawBox( x, y, x+m_gauge_special.GetMax() , y+height, GetColor( 255,0,0 ), TRUE );
-	DrawBox( x, y, x+m_gauge_special.GetMax()-m_gauge_special.GetCritical(), y+height, GetColor( 0,0,0 ), TRUE );
+	DrawBox( x, y, x+gauge.GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
+	DrawBox( x+gauge.GetMax() - gauge.GetGood(), y, x+gauge.GetMax() , y+height, GetColor( 255,255,0 ), TRUE );
+	DrawBox( x+gauge.GetMax() - gauge.GetCritical(), y, x+gauge.GetMax() , y+height, GetColor( 255,100,100 ), TRUE );
 	
-	int color = GetColor( 0, 255 / m_gauge_special.GetMax() * m_gauge_special.GetValue(), 0 );
-	if( Range( m_gauge_special.GetMax()-m_gauge_special.GetCritical(), m_gauge_special.GetValue(), m_gauge_special.GetMax() ) ){
-	    color = GetColor( 255, 255, 0 );
+	int color = GetColor( 0, 255 / gauge.GetMax() * gauge.GetValue(), 0 );
+	if( gauge.IsCritical() ){
+	    color = GetColor( 255, 0, 0 );
+    }else if( gauge.IsGood() ){
+        color = GetColor( 255,255,0 );
     }
-	DrawBox( x, y, x+m_gauge_special.GetValue() , y+height, color, TRUE );
+	DrawBox( x, y, x+gauge.GetValue() , y+height, color, TRUE );
 }
 
 void StateBattle::UpdateCommon()
@@ -337,7 +327,9 @@ void StateBattle::UpdateCommon()
     m_player_texture->Set( m_player_pos );
     //敵更新
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        m_enemy[i]->Update();
+        if( m_enemy[i]->IsAlive() ){
+            m_enemy[i]->Update();
+        }
     }
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
@@ -386,11 +378,7 @@ void StateBattle::StepDecideMeter()
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
-		if( m_gauge[m_target_meter].IsCritical() ){
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
-        }else{
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-        }
+        PlaySound( m_gauge[m_target_meter] );
         if( m_target_meter >= 1 ){
             InitStepWaitDash();
         }else{
@@ -583,4 +571,16 @@ void StateBattle::UpdateDebug()
         m_is_debug_draw = !m_is_debug_draw;
     }
 }
+
+void StateBattle::PlaySound( Gauge const& gauge )
+{
+	if( gauge.IsCritical() ){
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+    }else if( gauge.IsGood() ){
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+    }else{
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+    }
+}
+
 
