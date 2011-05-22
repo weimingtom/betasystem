@@ -202,7 +202,7 @@ void StateBattle::StepSpecial()
 		m_player_power += 10 * m_special_power * m_special_power * m_gauge_special.GetValue()/m_gauge_special.GetMax();
 		m_special_power = 0;
 		m_special_random += 10;
-		if( m_gauge_special.IsCritical() ) m_special_random -= 5;
+		if( m_gauge_special.IsCritical() ) m_special_random -= 10;
 		if( m_gauge_special.IsGood() ) m_special_random -= 5;
         SetStep(Step_Dash);
     }
