@@ -31,7 +31,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_power(0)
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
- , m_player_life(1)
+ , m_player_life(3)
  , m_break_num(0)
  , m_special_power_max(5)
  , m_special_random(35)
@@ -211,7 +211,7 @@ void StateBattle::StepSpecial()
 void StateBattle::StepDash()
 {
     //•KŽE‹Z‚ÌŽg—p.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power > 0 ){
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power >= 3 ){
     	InitStepSpecial();
     	return;
     }
