@@ -9,11 +9,11 @@ static int const EnemyPointMax = 5;
     ステージ情報.
 */
 struct StageInfo{
-    char const* name;
-    int total_enemy;
-    Enemy::Type change_enemy[EnemyPointMax];
-    int change_point[EnemyPointMax];
-    Enemy::Type boss;
+    char const* name;							//!< ステージ名.
+    int total_enemy;							//!< 総敵数.
+    Enemy::Type change_enemy[EnemyPointMax];	//!< ザコ敵の種類.
+    int change_point[EnemyPointMax];			//!< ザコ敵が切り替わるポイント.
+    Enemy::Type boss;							//!< ボスの種類.
 };
 
 /**
