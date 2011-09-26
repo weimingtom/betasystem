@@ -14,6 +14,7 @@ class Gauge;
 #include "Project/Item.hpp"
 #include "Project/Stage.hpp"
 #include "Gauge.hpp"
+#include "boost/shared_ptr.hpp"
 
 class StateBattle : public StateBase
 {
