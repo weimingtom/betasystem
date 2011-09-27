@@ -11,6 +11,8 @@ public:
 	int Num() const{ return mBreakNum; }
 	void Draw() const;
 private:
+	int DigitOf(int num,int digit) const;
+private:
 	int mBreakNum;
 };
 
