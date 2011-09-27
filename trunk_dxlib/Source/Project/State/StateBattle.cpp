@@ -10,7 +10,7 @@
 #include "DxLibWrapper/AnimTexture.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
-#include "Project/Singleton/Keyboard.hpp"
+#include "Project/Singleton/SingletonInputKey.hpp"
 #include "Project/Draw.hpp"
 #include "Project/ScrollBackground.hpp"
 #include "Project/AnimData.hpp"
@@ -393,7 +393,7 @@ void StateBattle::StepDecideMeter()
 void StateBattle::UseItem()
 {
     for( int i = 0 ; i < SaveData::ItemBagSize ; i++ ){
-        if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F1 + i ) ) )
+        if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F1 + i ) ) )
         {
             if( gSaveData.m_item[i] != ItemType_None ){
                 UseItem( static_cast<ItemType>( gSaveData.m_item[i] ) );
@@ -566,11 +566,11 @@ void StateBattle::InitEnemy()
 
 void StateBattle::UpdateDebug()
 {
-    if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F12 ) ) )
+    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F12 ) ) )
     {
         m_is_debug_draw = !m_is_debug_draw;
     }
-    else if( KeyInput()->IsTrig( static_cast<KeyboardInput::Type>( KeyboardInput::Type_F11 ) ) )
+    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F11 ) ) )
     {
     	m_manager.ChangeState( ProjectState_Title );
     }

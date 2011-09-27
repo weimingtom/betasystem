@@ -1,10 +1,10 @@
-#ifndef keyboardinput_hpp
-#define keyboardinput_hpp
+#ifndef InputKey_hpp
+#define InputKey_hpp
 
 /**
     キーボード入力管理.
 */
-class KeyboardInput
+class InputKey
 {
 public:
     enum Type
@@ -44,8 +44,8 @@ public:
     };
     
 public:
-    friend KeyboardInput* new_KeyboardInput();
-    virtual ~KeyboardInput(){}
+    friend InputKey* new_InputKey();
+    virtual ~InputKey(){}
     
 public:
     virtual void Update() = 0;
@@ -55,6 +55,6 @@ private:
     class Impl;
 };
 
-KeyboardInput* new_KeyboardInput();
+InputKey* new_InputKey();
 
-#endif // keyboardinput_hpp
+#endif // InputKey_hpp

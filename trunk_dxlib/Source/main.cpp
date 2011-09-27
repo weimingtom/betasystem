@@ -8,7 +8,7 @@
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
-#include "Project/Singleton/Keyboard.hpp"
+#include "Project/Singleton/SingletonInputKey.hpp"
 #include "../Resource/resource.h"
 #include "Project/SaveData.hpp"
 

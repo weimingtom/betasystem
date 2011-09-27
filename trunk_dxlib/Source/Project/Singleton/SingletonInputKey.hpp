@@ -3,7 +3,7 @@
 /** @file
     プロジェクト唯一のキー入力管理.
 */
-#include "DxLibWrapper/KeyboardInput.hpp"
+#include "DxLibWrapper/InputKey.hpp"
 
 namespace Singleton
 {
@@ -20,6 +20,6 @@ namespace Singleton
 /**
     インスタンスの取得.
 */
-KeyboardInput* KeyInput();
+InputKey* KeyInput();
 
 #endif

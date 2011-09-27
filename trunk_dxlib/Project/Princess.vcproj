@@ -226,19 +226,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Source\DxLibWrapper\InputKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\DxLibWrapper\InputKey.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Source\DxLibWrapper\InputMouse.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\Source\DxLibWrapper\InputMouse.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\DxLibWrapper\KeyboardInput.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\DxLibWrapper\KeyboardInput.hpp"
 					>
 				</File>
 				<File
@@ -397,19 +397,19 @@
 					Name="Singleton"
 					>
 					<File
-						RelativePath="..\Source\Project\Singleton\Keyboard.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Singleton\Keyboard.hpp"
-						>
-					</File>
-					<File
 						RelativePath="..\Source\Project\Singleton\SingletonImageLoader.cpp"
 						>
 					</File>
 					<File
 						RelativePath="..\Source\Project\Singleton\SingletonImageLoader.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonInputKey.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonInputKey.hpp"
 						>
 					</File>
 					<File

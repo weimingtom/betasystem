@@ -1,8 +1,8 @@
-#include "KeyboardInput.hpp"
+#include "InputKey.hpp"
 
 #include <DxLib.h>
 
-class KeyboardInput::Impl : public KeyboardInput
+class InputKey::Impl : public InputKey
 {
 public:
     Impl(){}
@@ -10,15 +10,15 @@ public:
     
 public:
     void Update();
-    bool IsTrig( KeyboardInput::Type ) const;
-    bool IsHold( KeyboardInput::Type ) const;
+    bool IsTrig( InputKey::Type ) const;
+    bool IsHold( InputKey::Type ) const;
     
 private:
-    static int const m_key_flag[ KeyboardInput::Type_Num ];
-    int m_press_frame[ KeyboardInput::Type_Num ];
+    static int const m_key_flag[ InputKey::Type_Num ];
+    int m_press_frame[ InputKey::Type_Num ];
 };
 
-int const KeyboardInput::Impl::m_key_flag[ KeyboardInput::Type_Num ] =
+int const InputKey::Impl::m_key_flag[ InputKey::Type_Num ] =
 {
     KEY_INPUT_UP,
     KEY_INPUT_LEFT,
@@ -52,9 +52,9 @@ int const KeyboardInput::Impl::m_key_flag[ KeyboardInput::Type_Num ] =
     KEY_INPUT_F12,
 };
 
-void KeyboardInput::Impl::Update()
+void InputKey::Impl::Update()
 {
-    for( int i = 0 ; i < KeyboardInput::Type_Num ; i++ )
+    for( int i = 0 ; i < InputKey::Type_Num ; i++ )
     {
         if( CheckHitKey( m_key_flag[i] ) == 1 )
         {
@@ -65,18 +65,18 @@ void KeyboardInput::Impl::Update()
     }
 }
 
-bool KeyboardInput::Impl::IsTrig( KeyboardInput::Type type ) const
+bool InputKey::Impl::IsTrig( InputKey::Type type ) const
 {
     return ( m_press_frame[type] == 1 );
 }
 
-bool KeyboardInput::Impl::IsHold( KeyboardInput::Type type ) const
+bool InputKey::Impl::IsHold( InputKey::Type type ) const
 {
     return ( m_press_frame[type] != 0 );
 }
 
-KeyboardInput* new_KeyboardInput()
+InputKey* new_InputKey()
 {
-    return new KeyboardInput::Impl();
+    return new InputKey::Impl();
 }
 
