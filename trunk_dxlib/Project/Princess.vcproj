@@ -326,6 +326,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Source\Project\PlayerLife.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\PlayerLife.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Source\Project\SaveData.cpp"
 					>
 				</File>
