@@ -10,7 +10,7 @@ public:
 	SpecialGauge();
 	virtual ~SpecialGauge();
 public:
-	void Add(){ mGaugeNum++; }
+	void Add(){ if(mGaugeNum<GaugeMax){ mGaugeNum++; } }
 	void Reset(){ mGaugeNum=0; }
 	void Draw() const;
 private:
