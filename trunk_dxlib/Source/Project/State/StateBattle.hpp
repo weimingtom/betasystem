@@ -8,6 +8,7 @@ class AnimTexture;
 class Gauge;
 class PlayerLife;
 class SpecialGauge;
+class BreakEnemyCounter;
 #include <memory>
 #include <vector>
 #include "System/StateBase.hpp"
@@ -63,8 +64,6 @@ private:
     void UseItem();
     void UseItem( ItemType type );
     int RemainEnemy() const;
-    int DigitOf(int num,int digit) const;
-    void DrawBreakNum() const;
     void GetItem();
     void DrawItem() const;
     void UpdateHiScore();
@@ -86,7 +85,7 @@ private:
     std::auto_ptr<AnimTexture> m_player_texture;
     std::auto_ptr<PlayerLife> mPlayerLife;
     int m_target_meter;
-    int m_break_num; //!< 討伐数.
+    std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
     std::auto_ptr<SpecialGauge> mSpecialGauge;
     int m_special_random; //!<必殺ゲージが溜まる確率.
     int m_critical_range; //!< クリティカルと認められる範囲.

@@ -17,6 +17,7 @@
 #include "Project/SaveData.hpp"
 #include "Project/PlayerLife.hpp"
 #include "Project/SpecialGauge.hpp"
+#include "Project/BreakEnemyCounter.hpp"
 #include <math.h>
 #include "Gauge.hpp"
 
@@ -34,7 +35,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , mPlayerLife( new PlayerLife(3) )
- , m_break_num(0)
+ , mBreakEnemyCounter( new BreakEnemyCounter() )
  , mSpecialGauge( new SpecialGauge() )
  , m_special_random(35)
  , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
@@ -135,7 +136,7 @@ void StateBattle::Draw() const
     case Step_Special:
     	DrawStepSpecial();
     }
-    DrawBreakNum();
+    mBreakEnemyCounter->Draw();
     DrawItem();
     mPlayerLife->Draw();
     mSpecialGauge->Draw();
@@ -262,8 +263,7 @@ void StateBattle::StepDash()
                         }
                     }
                 }
-                //討伐カウント.
-                m_break_num++;
+                mBreakEnemyCounter->Add();
                 gSaveData.m_total_break++;
             }
         }
@@ -444,47 +444,6 @@ int StateBattle::RemainEnemy() const
     return remain_enemy;
 }
 
-/**
-    指定した桁の数字を取得する.
-    @param num 操作対象の数値.
-    @param digit 取得したい桁. １桁目ならば１、２桁目ならば２.
-*/
-int StateBattle::DigitOf(int num,int digit) const
-{
-    double const d_digit = static_cast<double>(digit);
-    double const Ten = 10.0f;
-
-    double const result = num % static_cast<int>( pow( Ten, d_digit ) );
-    return static_cast<int>( result / pow(Ten,d_digit-1.0f) );
-}
-
-void StateBattle::DrawBreakNum() const
-{
-    int const width = 50;
-    int const height = 100;
-    int max_digit = 5;
-    
-    /*
-        上の桁の有無によって、表示非表示を決定する.
-        その桁が０で、且つ上位桁が全て０ならば表示しない.
-    */
-    for(int i = 1 ; i < max_digit ; i++ ){
-        if( DigitOf(m_break_num,i) == 0 ){
-            int total = 0;
-            for( int j = i + 1 ; j < max_digit ; j++ ){
-                total += DigitOf(m_break_num,j);
-            }
-            if( total == 0 ){ continue; }
-        }
-        
-        DrawRectGraph(
-            600 - i*width, 30,
-            0 + width * DigitOf(m_break_num,i), 0,
-            width, height,
-            ImageHandleOf(ImageType_Number), TRUE, FALSE );
-    }
-}
-
 void StateBattle::GetItem()
 {
     int const rand_num = GetRandToMax(10000); //万分率.
@@ -522,8 +481,8 @@ void StateBattle::DrawItem() const
 
 void StateBattle::UpdateHiScore()
 {
-    if( gSaveData.m_max_break < m_break_num ){
-        gSaveData.m_max_break = m_break_num;
+    if( gSaveData.m_max_break < mBreakEnemyCounter->Num() ){
+        gSaveData.m_max_break = mBreakEnemyCounter->Num();
     }
 }
 
