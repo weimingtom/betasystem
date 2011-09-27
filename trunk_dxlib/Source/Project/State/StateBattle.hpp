@@ -72,6 +72,7 @@ private:
 	void UpdateDebug();
     void DrawGauge( int x, int y, Gauge const& gauge) const;
     void PlaySound( Gauge const& gauge );
+    bool LotteryAddSpecialGauge() const;
 
 private:
     StateManagerBase& m_manager;

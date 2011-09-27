@@ -207,6 +207,14 @@ void StateBattle::StepSpecial()
     }
 }
 
+/**
+	•KŽEƒQ[ƒW‚ª—­‚Ü‚é‚©‚Ç‚¤‚©‚Ì”»’è.
+*/
+bool StateBattle::LotteryAddSpecialGauge() const
+{
+	return ( GetRandToMax(m_special_random) == 0 );
+}
+
 void StateBattle::StepDash()
 {
     //•KŽE‹Z‚ÌŽg—p.
@@ -244,8 +252,7 @@ void StateBattle::StepDash()
                 m_enemy[i]->SetSpeed( Vector2( player_speed * 2, - GetRand(20) ) );
                 m_enemy[i]->SetAlive( false );
                 GetItem();
-                // •KŽE
-                if( GetRandToMax(m_special_random) == 0 ){
+                if( LotteryAddSpecialGauge() ){
                     if( !mSpecialGauge->IsFull() ){
                         mSpecialGauge->Add();
                         if( mSpecialGauge->IsFull() ){
