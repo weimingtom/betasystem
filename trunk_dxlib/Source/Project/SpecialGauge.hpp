@@ -13,6 +13,9 @@ public:
 	void Add(){ if(mGaugeNum<GaugeMax){ mGaugeNum++; } }
 	void Reset(){ mGaugeNum=0; }
 	void Draw() const;
+	int Num() const{ return mGaugeNum; };
+	bool CanUseSpecial() const{ return (mGaugeNum == GaugeMax); }
+	bool IsFull() const { return (mGaugeNum == GaugeMax); }
 private:
 	static int const GaugeMax = 5;
 	int mGaugeNum;

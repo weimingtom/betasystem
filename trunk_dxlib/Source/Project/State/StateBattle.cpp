@@ -16,6 +16,7 @@
 #include "Project/AnimData.hpp"
 #include "Project/SaveData.hpp"
 #include "Project/PlayerLife.hpp"
+#include "Project/SpecialGauge.hpp"
 #include <math.h>
 #include "Gauge.hpp"
 
@@ -34,7 +35,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , mPlayerLife( new PlayerLife(3) )
  , m_break_num(0)
- , m_special_power_max(5)
+ , mSpecialGauge( new SpecialGauge() )
  , m_special_random(35)
  , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
  , m_is_debug_draw( false )
@@ -137,7 +138,7 @@ void StateBattle::Draw() const
     DrawBreakNum();
     DrawItem();
     mPlayerLife->Draw();
-    DrawSword();
+    mSpecialGauge->Draw();
     DrawDebug();
 }
 
@@ -197,8 +198,8 @@ void StateBattle::StepSpecial()
     m_frame++;
     if( m_frame > 100 ){
 		m_gauge_special.SetPause(true);
-		m_player_power += 10 * m_special_power * m_special_power * m_gauge_special.GetValue()/m_gauge_special.GetMax();
-		m_special_power = 0;
+		m_player_power += 10 * mSpecialGauge->Num() * mSpecialGauge->Num() * m_gauge_special.GetValue()/m_gauge_special.GetMax();
+		mSpecialGauge->Reset();
 		m_special_random += 10;
 		if( m_gauge_special.IsCritical() ) m_special_random -= 10;
 		if( m_gauge_special.IsGood() ) m_special_random -= 5;
@@ -209,7 +210,7 @@ void StateBattle::StepSpecial()
 void StateBattle::StepDash()
 {
     //•KŽE‹Z‚ÌŽg—p.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && m_special_power >= 3 ){
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && mSpecialGauge->CanUseSpecial() ){
     	InitStepSpecial();
     	return;
     }
@@ -245,9 +246,9 @@ void StateBattle::StepDash()
                 GetItem();
                 // •KŽE
                 if( GetRandToMax(m_special_random) == 0 ){
-                    if( m_special_power < m_special_power_max ){
-                        m_special_power++;
-                        if( m_special_power == m_special_power_max ){
+                    if( !mSpecialGauge->IsFull() ){
+                        mSpecialGauge->Add();
+                        if( mSpecialGauge->IsFull() ){
                             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
                         }else{
                             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
@@ -356,7 +357,6 @@ void StateBattle::InitStepDecideMeter()
     m_gauge[1] = Gauge();
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
     m_critical_range = CriticalRangeDefault;
-    m_special_power = 0;
 }
 
 /**
@@ -511,24 +511,6 @@ void StateBattle::DrawItem() const
             ImageHandleOf(ImageType_ItemList), TRUE, FALSE );
     }
     DrawTexture( Vector2(0,0), ImageType_ItemFrame );
-}
-
-void StateBattle::DrawSword() const
-{
-    int x = 0;
-    int y = 120;
-    DrawTexture( Vector2(x,y) , ImageType_SwordFrame );
-    
-    int const sword_of_hand = 40;
-    int width = 150;
-    DrawRectGraph(
-        x,y,
-        0,0,
-        40 + (width - sword_of_hand)/ m_special_power_max * m_special_power,
-        75,
-        ImageHandleOf(ImageType_SwordPower), TRUE, FALSE );
-
-    
 }
 
 void StateBattle::UpdateHiScore()

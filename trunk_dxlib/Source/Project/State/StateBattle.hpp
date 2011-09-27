@@ -7,6 +7,7 @@ class Camera;
 class AnimTexture;
 class Gauge;
 class PlayerLife;
+class SpecialGauge;
 #include <memory>
 #include <vector>
 #include "System/StateBase.hpp"
@@ -66,7 +67,6 @@ private:
     void DrawBreakNum() const;
     void GetItem();
     void DrawItem() const;
-    void DrawSword() const;
     void UpdateHiScore();
 	void InitEnemy();
 	void UpdateDebug();
@@ -86,8 +86,7 @@ private:
     std::auto_ptr<PlayerLife> mPlayerLife;
     int m_target_meter;
     int m_break_num; //!< 討伐数.
-    int m_special_power_max;
-    int m_special_power;
+    std::auto_ptr<SpecialGauge> mSpecialGauge;
     int m_special_random; //!<必殺ゲージが溜まる確率.
     int m_critical_range; //!< クリティカルと認められる範囲.
     StageInfo const m_stage_info;

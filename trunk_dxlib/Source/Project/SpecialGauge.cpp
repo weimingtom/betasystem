@@ -2,6 +2,15 @@
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Draw.hpp"
 
+SpecialGauge::SpecialGauge()
+ : mGaugeNum(0)
+{
+}
+
+SpecialGauge::~SpecialGauge()
+{
+}
+
 void SpecialGauge::Draw() const
 {
     int x = 0;
