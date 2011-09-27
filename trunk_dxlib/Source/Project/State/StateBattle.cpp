@@ -45,9 +45,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
 
 StateBattle::~StateBattle()
 {
-    for( int i = 0 ; i < m_stage_info.total_enemy; i++ ){
-        delete m_enemy[i];
-    }
 }
 
 void StateBattle::Update()
@@ -562,7 +559,7 @@ void StateBattle::InitEnemy()
 	            type = m_stage_info.change_enemy[j];
 	        }
 	    }
-        m_enemy.push_back( new Enemy( type ) );
+		m_enemy.push_back( boost::shared_ptr<Enemy>(new Enemy( type )) );
         m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
 }

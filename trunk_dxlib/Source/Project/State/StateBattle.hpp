@@ -80,7 +80,7 @@ private:
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
     std::auto_ptr<Camera> m_camera;
-    std::vector<Enemy*> m_enemy;
+    std::vector<boost::shared_ptr<Enemy>> m_enemy;
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
     int m_player_life;
