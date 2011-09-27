@@ -15,6 +15,7 @@
 #include "Project/ScrollBackground.hpp"
 #include "Project/AnimData.hpp"
 #include "Project/SaveData.hpp"
+#include "Project/PlayerLife.hpp"
 #include <math.h>
 #include "Gauge.hpp"
 
@@ -31,7 +32,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_power(0)
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
- , m_player_life(3)
+ , mPlayerLife( new PlayerLife(3) )
  , m_break_num(0)
  , m_special_power_max(5)
  , m_special_random(35)
@@ -65,8 +66,8 @@ void StateBattle::Update()
     case Step_DashEnd:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 	        //ƒvƒŒƒCƒ„[‚ðŒ¸‚ç‚·.
-            m_player_life--;
-	        if( m_player_life > 0 ){
+			mPlayerLife->Sub();
+	        if( !mPlayerLife->IsEmpty() ){
 	            InitStepDecideMeter();
 	        }else{
                 InitResult();
@@ -135,7 +136,7 @@ void StateBattle::Draw() const
     }
     DrawBreakNum();
     DrawItem();
-    DrawFace();
+    mPlayerLife->Draw();
     DrawSword();
     DrawDebug();
 }
@@ -415,7 +416,7 @@ void StateBattle::UseItem( ItemType type )
 		m_gauge[1].SetMax( m_gauge[1].GetMax() + 10 );
         break;
     case ItemType_LifeWater:
-        m_player_life++;
+    	mPlayerLife->Add();
         break;
     case ItemType_CriticalGrass:
         m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 2 );
@@ -510,18 +511,6 @@ void StateBattle::DrawItem() const
             ImageHandleOf(ImageType_ItemList), TRUE, FALSE );
     }
     DrawTexture( Vector2(0,0), ImageType_ItemFrame );
-}
-
-void StateBattle::DrawFace() const
-{
-    int x = 0;
-    int y = 50;
-    int width = 70;
-    DrawTexture( Vector2(x,y) , ImageType_FaceFrame );
-    x+=width;
-    for( int i = 0 ; i < m_player_life ; i++ ){
-        DrawTexture( Vector2(x+i*width,y) , ImageType_Face );
-    }
 }
 
 void StateBattle::DrawSword() const

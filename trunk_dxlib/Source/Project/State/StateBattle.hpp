@@ -6,6 +6,7 @@ class ScrollBackground;
 class Camera;
 class AnimTexture;
 class Gauge;
+class PlayerLife;
 #include <memory>
 #include <vector>
 #include "System/StateBase.hpp"
@@ -65,7 +66,6 @@ private:
     void DrawBreakNum() const;
     void GetItem();
     void DrawItem() const;
-    void DrawFace() const;
     void DrawSword() const;
     void UpdateHiScore();
 	void InitEnemy();
@@ -83,7 +83,7 @@ private:
     std::vector<boost::shared_ptr<Enemy>> m_enemy;
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
-    int m_player_life;
+    std::auto_ptr<PlayerLife> mPlayerLife;
     int m_target_meter;
     int m_break_num; //!< “¢”°”.
     int m_special_power_max;

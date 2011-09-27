@@ -13,7 +13,7 @@ public:
 	void Add(){ mLifeNum++; }
 	void Sub(){ if( mLifeNum > 0 ){ mLifeNum--; } }
 	void Draw() const;
-	bool IsDead() const{ return (mLifeNum == 0); }
+	bool IsEmpty() const{ return (mLifeNum == 0); }
 private:
 	int mLifeNum;
 };
