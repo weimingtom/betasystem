@@ -278,6 +278,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Source\Project\BreakEnemyCounter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\BreakEnemyCounter.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Source\Project\CharacterStatus.cpp"
 					>
 				</File>
