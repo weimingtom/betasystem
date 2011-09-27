@@ -350,6 +350,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Source\Project\SpecialGauge.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\SpecialGauge.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Source\Project\Stage.cpp"
 					>
 				</File>
