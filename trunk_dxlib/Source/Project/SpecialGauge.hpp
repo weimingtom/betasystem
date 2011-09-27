@@ -18,6 +18,5 @@ private:
 	int mGaugeNum;
 };
 
-
 #endif // include_41221b54_6f0f_4e4d_9b0c_2659ed1c8124
 
