@@ -461,6 +461,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Msg"
+					>
+					<File
+						RelativePath="..\Source\Project\Msg\MsgPrinter.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Msg\MsgPrinter.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="System"

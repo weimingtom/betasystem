@@ -7,32 +7,24 @@
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/State/ProjectStateManager.hpp"
-#include "Project/SaveData.hpp"
+#include "Project/Msg/MsgPrinter.hpp"
 
 StateTestMsg::StateTestMsg( StateManagerBase* manager )
  : m_manager( manager )
  , m_step( Step_Default )
- , m_frame(0)
+ , m_msg_printer( new MsgPrinter() )
 {
-    gSaveData.Save();
+    m_msg_printer->SetMsg("おはようございます。　こんにちわ。　こんばんわ。");
 }
 
 void StateTestMsg::Update()
 {
-    switch( m_step )
-    {
-    case Step_Default:
-        break;
-    }
+    m_msg_printer->Update();
 }
 
 void StateTestMsg::Draw() const
 {
-    switch( m_step )
-    {
-    case Step_Default:
-        DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "メッセージテスト" );
-        break;
-    }
+    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "メッセージテスト遷移" );
+    m_msg_printer->Draw();
 }
 

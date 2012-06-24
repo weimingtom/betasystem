@@ -2,6 +2,8 @@
 #define state_test_msg_hpp
 
 class StateManagerBase;
+class MsgPrinter;
+#include <memory>
 #include "System/StateBase.hpp"
 
 /**
@@ -23,7 +25,7 @@ private:
 private:
     StateManagerBase* m_manager;
     Step m_step;
-    int m_frame;
+    std::auto_ptr<MsgPrinter> m_msg_printer;
 };
 
 #endif
