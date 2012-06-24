@@ -26,6 +26,9 @@ void StateTitle::Update()
         {
             m_manager->ChangeState( ProjectState_Battle );
         }
+        else if( SingletonInputMouse::Get()->IsTrig(InputMouse::Type_Right) ){
+            m_manager->ChangeState( ProjectState_TestMsg );
+        }
         break;
     }
 }

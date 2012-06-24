@@ -11,6 +11,10 @@ enum ProjectState
     ProjectState_Title,
     ProjectState_Battle,
     ProjectState_GameOver,
+    ProjectState_TestMsg,
+    
+    ProjectState_DebugTop,
+    ProjectState_Num,
 };
 
 StateManagerBase* new_ProjectStateManager();
