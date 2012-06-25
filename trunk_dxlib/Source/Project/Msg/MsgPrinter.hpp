@@ -18,12 +18,18 @@ public:
 private:
     void Init();
 private:
+    enum Step{
+        Step_UpdateMsg,
+        Step_WaitClick,
+    };
+private:
     int m_count_frame;
     int m_msg_speed;
-    int m_visible_index; //!< 文字列で表示する部分までのインデックス.
+    int m_analyze_index; //!< 解析位置.
     std::string m_msg;
     int m_x;
     int m_y;
+    Step m_step;
 };
 
 

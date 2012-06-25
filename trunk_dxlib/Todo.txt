@@ -5,23 +5,11 @@
 
 ＡＤＶパートを作る。
     メッセージシステムを作る。
-        メッセージテストステートを作る。
-            作った。
-        どんなクラスにするか？
-            class MsgPrinter;
-                void SetMsg(std::string msg);
-                void Update();
-                
-                int msg_speed;
-                int msg_visible_index;  //!< 表示する文字数.
-                
-                int x;
-                int y;
-                
-                enum State{
-                    State_UpdateMsg,
-                    State_WaitClick,
-                };
+        クリック待ちを作る。
+            おｋ
+
+
+        改行。
             
     キャラクター表示を作る。
 

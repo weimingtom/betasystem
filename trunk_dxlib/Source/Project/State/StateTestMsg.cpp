@@ -14,11 +14,13 @@ StateTestMsg::StateTestMsg( StateManagerBase* manager )
  , m_step( Step_Default )
  , m_msg_printer( new MsgPrinter() )
 {
-    m_msg_printer->SetMsg("おはようございます。　こんにちわ。　こんばんわ。");
 }
 
 void StateTestMsg::Update()
 {
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
+        m_msg_printer->SetMsg("おはようございます。[click]こんにちわ。こんばんわ。");
+    }
     m_msg_printer->Update();
 }
 
