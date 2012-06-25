@@ -21,12 +21,14 @@ private:
     enum Step{
         Step_UpdateMsg,
         Step_WaitClick,
+		Step_Idle,
     };
 private:
     int m_count_frame;
     int m_msg_speed;
     int m_analyze_index; //!< ‰ðÍˆÊ’u.
     std::string m_msg;
+    std::string m_draw_msg;
     int m_x;
     int m_y;
     Step m_step;
