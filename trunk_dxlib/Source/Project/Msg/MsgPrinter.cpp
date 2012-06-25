@@ -38,29 +38,33 @@ void MsgPrinter::Update()
             
             //解析文字抽出.
             char const analyze_target = m_msg[m_analyze_index];
-
-            //タグ開始を発見.
+            
+            //改行だった場合.
+            if( analyze_target == '\n' ){
+                m_analyze_index++;
+                break;
+            }
+            //タグだった場合.
             if( analyze_target == '[' ){
-
                 //タグ文字抽出.
                 std::string const tag_end = "]";
                 std::string::size_type const tag_end_index = m_msg.find( tag_end, m_analyze_index );
                 std::string const tag = m_msg.substr( m_analyze_index, tag_end_index - m_analyze_index + tag_end.length() );
                 m_analyze_index = tag_end_index + tag_end.length();
-
                 //クリック待ち状態へ.
                 if( tag == "[click]" ){
                     m_step = Step_WaitClick;
                 }
+				break;
             }
-			//解析文字列が終了したらアイドリング状態へ.
-			else if(analyze_target=='\0'){
+			//解析終了の場合.
+			if(analyze_target=='\0'){
 				m_step = Step_Idle;
+				break;
 			}
-			else{
-                m_draw_msg+=analyze_target;
-                m_analyze_index++;
-            }
+			//それ以外.
+            m_draw_msg+=analyze_target;
+            m_analyze_index++;
         }
 
         break;
