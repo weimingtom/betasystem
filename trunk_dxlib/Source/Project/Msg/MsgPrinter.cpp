@@ -16,7 +16,8 @@ MsgPrinter::~MsgPrinter()
 void MsgPrinter::Init()
 {
     m_msg = "";
-    m_draw_msg = "";
+    m_draw_msg.clear();
+    m_draw_msg.push_back("");
     m_msg_speed = 1;
     m_count_frame = 0;
     m_analyze_index = 0;
@@ -42,6 +43,7 @@ void MsgPrinter::Update()
             //改行だった場合.
             if( analyze_target == '\n' ){
                 m_analyze_index++;
+                m_draw_msg.push_back("");
                 break;
             }
             //タグだった場合.
@@ -63,7 +65,7 @@ void MsgPrinter::Update()
 				break;
 			}
 			//それ以外.
-            m_draw_msg+=analyze_target;
+            m_draw_msg.at( m_draw_msg.size()-1 ) += analyze_target;
             m_analyze_index++;
         }
 
@@ -81,7 +83,10 @@ void MsgPrinter::Update()
 
 void MsgPrinter::Draw() const
 {
-    DrawFormatString( m_x , m_y , ColorOf(0,255,0) , m_draw_msg.c_str() );
+    int const kaigyou_height = 20;
+	for( std::vector<std::string>::size_type i = 0 ; i < m_draw_msg.size() ; i ++ ){
+        DrawFormatString( m_x , m_y + i * kaigyou_height , ColorOf(0,255,0) , m_draw_msg.at(i).c_str() );
+    }
 }
 
 void MsgPrinter::SetMsg(std::string msg)

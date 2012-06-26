@@ -2,9 +2,9 @@
 #define state_test_msg_hpp
 
 class StateManagerBase;
-class MsgPrinter;
 #include <memory>
 #include "System/StateBase.hpp"
+#include "Project/Msg/MsgPrinter.hpp"
 
 /**
     メッセージテスト.

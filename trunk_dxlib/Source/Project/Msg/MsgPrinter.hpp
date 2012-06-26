@@ -2,6 +2,7 @@
 #define IncludeGuardMsgPrinter
 
 #include <string>
+#include <vector>
 
 /**
     メッセージ表示クラス.
@@ -28,7 +29,7 @@ private:
     int m_msg_speed;
     int m_analyze_index; //!< 解析位置.
     std::string m_msg;
-    std::string m_draw_msg;
+    std::vector<std::string> m_draw_msg;
     int m_x;
     int m_y;
     Step m_step;
