@@ -25,6 +25,8 @@ enum ImageType
     ImageType_FaceFrame,
     ImageType_SwordFrame,
     ImageType_SwordPower,
+    ImageType_StandFuriru,
+    ImageType_Dummy,
 
     ImageType_Num,
 };

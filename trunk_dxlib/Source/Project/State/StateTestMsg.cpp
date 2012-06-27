@@ -15,6 +15,7 @@ StateTestMsg::StateTestMsg( StateManagerBase* manager )
  , m_msg_printer( new MsgPrinter() )
  , m_chara_drawer( new CharacterDrawer() )
 {
+	m_chara_drawer->SetChara( ImageType_StandFuriru, CharacterDrawer::CharaPos_Left );
 }
 
 void StateTestMsg::Update()
@@ -28,8 +29,8 @@ void StateTestMsg::Update()
 
 void StateTestMsg::Draw() const
 {
-    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "メッセージテスト遷移" );
-    m_msg_printer->Draw();
     m_chara_drawer->Draw();
+    m_msg_printer->Draw();
+    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "テスト遷移" );
 }
 
