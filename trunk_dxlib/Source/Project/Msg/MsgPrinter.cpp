@@ -22,7 +22,7 @@ void MsgPrinter::Init()
     m_count_frame = 0;
     m_analyze_index = 0;
     m_x = 100;
-    m_y = 100;
+    m_y = 300;
     m_step = Step_UpdateMsg;
 }
 
@@ -83,9 +83,13 @@ void MsgPrinter::Update()
 
 void MsgPrinter::Draw() const
 {
-    int const kaigyou_height = 20;
+    int const kaigyou_height = 15;
 	for( std::vector<std::string>::size_type i = 0 ; i < m_draw_msg.size() ; i ++ ){
-        DrawFormatString( m_x , m_y + i * kaigyou_height , ColorOf(0,255,0) , m_draw_msg.at(i).c_str() );
+        DrawFormatString( m_x-1 , m_y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
+        DrawFormatString( m_x+1 , m_y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
+        DrawFormatString( m_x , m_y + i * kaigyou_height-1 , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
+        DrawFormatString( m_x , m_y + i * kaigyou_height+1 , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
+        DrawFormatString( m_x , m_y + i * kaigyou_height , ColorOf(255,255,255) , m_draw_msg.at(i).c_str() );
     }
 }
 

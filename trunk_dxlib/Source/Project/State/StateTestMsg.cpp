@@ -21,7 +21,7 @@ StateTestMsg::StateTestMsg( StateManagerBase* manager )
 void StateTestMsg::Update()
 {
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-        m_msg_printer->SetMsg("おはようございます。[click]\n改行テストです。てすてす。\n[click]こんばんわ。\n[click]abc");
+        m_msg_printer->SetMsg("【フリル】\nはろうフリルちゃんです。おはようございます。[click]\n改行テストです。てすてす。\n[click]こんばんわ。\n[click]abc");
     }
     m_msg_printer->Update();
     m_chara_drawer->Update();

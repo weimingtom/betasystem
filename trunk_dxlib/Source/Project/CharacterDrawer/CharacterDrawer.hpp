@@ -17,9 +17,11 @@ public:
 public:
     struct DrawInfo{
         ImageType image_type;
+        int alpha;
         DrawInfo()
         {
             image_type = ImageType_Dummy;
+            alpha = 0;
         }
     };
 public:
