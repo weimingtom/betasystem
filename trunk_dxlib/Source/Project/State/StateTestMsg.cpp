@@ -13,6 +13,7 @@ StateTestMsg::StateTestMsg( StateManagerBase* manager )
  : m_manager( manager )
  , m_step( Step_Default )
  , m_msg_printer( new MsgPrinter() )
+ , m_chara_drawer( new CharacterDrawer() )
 {
 }
 
@@ -22,11 +23,13 @@ void StateTestMsg::Update()
         m_msg_printer->SetMsg("おはようございます。[click]\n改行テストです。てすてす。\n[click]こんばんわ。\n[click]abc");
     }
     m_msg_printer->Update();
+    m_chara_drawer->Update();
 }
 
 void StateTestMsg::Draw() const
 {
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "メッセージテスト遷移" );
     m_msg_printer->Draw();
+    m_chara_drawer->Draw();
 }
 

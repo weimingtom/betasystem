@@ -473,6 +473,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="CharacterDrawer"
+					>
+					<File
+						RelativePath="..\Source\Project\CharacterDrawer\CharacterDrawer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\CharacterDrawer\CharacterDrawer.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="System"

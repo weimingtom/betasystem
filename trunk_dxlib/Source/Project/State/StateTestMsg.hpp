@@ -5,6 +5,7 @@ class StateManagerBase;
 #include <memory>
 #include "System/StateBase.hpp"
 #include "Project/Msg/MsgPrinter.hpp"
+#include "Project/CharacterDrawer/CharacterDrawer.hpp"
 
 /**
     メッセージテスト.
@@ -26,6 +27,7 @@ private:
     StateManagerBase* m_manager;
     Step m_step;
     std::auto_ptr<MsgPrinter> m_msg_printer;
+    std::auto_ptr<CharacterDrawer> m_chara_drawer;
 };
 
 #endif
