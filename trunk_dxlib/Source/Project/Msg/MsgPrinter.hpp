@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "Project/CharacterDrawer/CharacterDrawer.hpp"
 
 /**
     メッセージ表示クラス.
@@ -33,6 +34,7 @@ private:
     int m_x;
     int m_y;
     Step m_step;
+    std::auto_ptr<CharacterDrawer> m_chara_drawer; //保持はちょっとありえないけど、メッセージ解析後指示出すために参照か何か持つのは確定なので今はこれ。
 };
 
 

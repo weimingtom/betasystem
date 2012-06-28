@@ -5,6 +5,7 @@
 #include "Project/Singleton/SingletonInputMouse.hpp"
 
 MsgPrinter::MsgPrinter()
+ : m_chara_drawer( new CharacterDrawer() )
 {
     Init();
 }
@@ -28,11 +29,13 @@ void MsgPrinter::Init()
 
 void MsgPrinter::Update()
 {
+    m_chara_drawer->Update();
     switch( m_step )
     {
     case Step_UpdateMsg:
         m_count_frame++;
         if( m_count_frame >= m_msg_speed ){
+            
             //解析位置を進める.
             m_analyze_index = Clamp(0,m_analyze_index,m_msg.length());
             m_count_frame = 0;
@@ -57,6 +60,14 @@ void MsgPrinter::Update()
                 if( tag == "[click]" ){
                     m_step = Step_WaitClick;
                 }
+                //画像タグの場合.
+                if( tag.find("[image,") != std::string::npos ){
+                    //画像番号抽出.
+					ImageType const image_type = ImageType_StandFuriru; // 未実装.
+                    //表示位置抽出.
+					CharacterDrawer::CharaPos const chara_pos = CharacterDrawer::CharaPos_Left; //未実装.
+					m_chara_drawer->SetChara(image_type,chara_pos);
+                }
 				break;
             }
 			//解析終了の場合.
@@ -64,7 +75,7 @@ void MsgPrinter::Update()
 				m_step = Step_Idle;
 				break;
 			}
-			//それ以外.
+			//それ以外(普通の文字)
             m_draw_msg.at( m_draw_msg.size()-1 ) += analyze_target;
             m_analyze_index++;
         }
@@ -83,6 +94,8 @@ void MsgPrinter::Update()
 
 void MsgPrinter::Draw() const
 {
+    m_chara_drawer->Draw();
+    
     int const kaigyou_height = 15;
 	for( std::vector<std::string>::size_type i = 0 ; i < m_draw_msg.size() ; i ++ ){
         DrawFormatString( m_x-1 , m_y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //影.
