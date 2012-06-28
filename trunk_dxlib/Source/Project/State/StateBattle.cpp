@@ -34,7 +34,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_player_power(0)
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
- , mPlayerLife( new PlayerLife(3) )
+ , mPlayerLife( new PlayerLife(1) )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
  , mSpecialGauge( new SpecialGauge() )
  , m_special_random(35)
@@ -138,7 +138,7 @@ void StateBattle::Draw() const
     }
     mBreakEnemyCounter->Draw();
     DrawItem();
-    mPlayerLife->Draw();
+    //mPlayerLife->Draw();
     mSpecialGauge->Draw();
     DrawDebug();
 }
