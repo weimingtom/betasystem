@@ -199,13 +199,24 @@ void StateBattle::StepDash()
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
                 m_enemy[i]->SetSpeed( Vector2( player_speed * 2, - GetRand(20) ) );
                 m_enemy[i]->SetAlive( false );
-                //GetItem();
                 mBreakEnemyCounter->Add();
                 gSaveData.m_total_break++;
+                gSaveData.m_player_exp += m_enemy[i]->GetExp();
             }
         }
     }
-    //ダッシュ終了.
+    //レベルアップ判定.
+    {
+        if(gSaveData.m_player_exp > gSaveData.m_player_level*10){
+            gSaveData.m_player_exp -= gSaveData.m_player_level*10;
+            gSaveData.m_player_level++;
+            gSaveData.m_player_hp+=10;
+            m_player_power+=10;
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+        }
+    }
+    
+    //ゲームオーバー判定.
 	if( m_player_power <= 0 ){
 		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
 		SetStep( Step_DashEnd );
@@ -226,6 +237,8 @@ void StateBattle::DrawDebug() const
     DrawFormatString( x , y+=20,    ColorOf() , "max_hp[%d]", gSaveData.m_player_hp);
     DrawFormatString( x , y+=20,    ColorOf() , "max_mp[%d]", gSaveData.m_player_mp);
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", m_player_power);
+    DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
+    DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
 }
 
 /**

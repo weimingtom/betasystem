@@ -15,6 +15,8 @@ SaveData::SaveData()
     m_current_stage = 0;
     m_player_hp = 120;
     m_player_mp = 100;
+    m_player_exp = 0;
+    m_player_level = 1;
 }
 
 void SaveData::Save()

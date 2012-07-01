@@ -21,6 +21,8 @@ public:
     int m_current_stage;
     int m_player_hp;
     int m_player_mp;
+    int m_player_exp;
+    int m_player_level;
 };
 
 /**

@@ -58,9 +58,14 @@ public:
         HP ‚ÌŽæ“¾.
     */
     int GetHP() const{ return m_hp; }
+    /**
+        ŒoŒ±’l‚ÌŽæ“¾.
+    */
+    int GetExp() const{ return m_exp; }
 	
 private:
     int m_hp;
+    int m_exp;
 	Vector2 m_pos;
 	Vector2 m_speed;
 	bool m_is_alive;
