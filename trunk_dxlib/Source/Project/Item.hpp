@@ -10,7 +10,6 @@ enum ItemType
     ItemType_Meet,
     ItemType_GoodMeet,
     ItemType_LifeWater,
-    ItemType_CriticalGrass,
     
     ItemType_Num,
 };

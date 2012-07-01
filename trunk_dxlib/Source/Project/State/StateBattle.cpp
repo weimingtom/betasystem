@@ -37,7 +37,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , mPlayerLife( new PlayerLife(1) )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
  , mSpecialGauge( new SpecialGauge() )
- , m_special_random(35)
  , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
  , m_is_debug_draw( false )
 {
@@ -137,9 +136,9 @@ void StateBattle::Draw() const
     	DrawStepSpecial();
     }
     mBreakEnemyCounter->Draw();
-    DrawItem();
+    //DrawItem();
     //mPlayerLife->Draw();
-    mSpecialGauge->Draw();
+    //mSpecialGauge->Draw();
     DrawDebug();
 }
 
@@ -162,8 +161,6 @@ void StateBattle::InitStepWaitDash()
     m_frame = 0;
 	for( int i = 0; i < 2 ; i++ ){
     	m_player_power += m_gauge[i].GetValue();
-    	if( m_gauge[i].IsCritical() ){ m_special_random -= 10; }
-    	if( m_gauge[i].IsGood() ){ m_special_random -= 5; }
 	}
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
@@ -201,19 +198,8 @@ void StateBattle::StepSpecial()
 		m_gauge_special.SetPause(true);
 		m_player_power += 10 * mSpecialGauge->Num() * mSpecialGauge->Num() * m_gauge_special.GetValue()/m_gauge_special.GetMax();
 		mSpecialGauge->Reset();
-		m_special_random += 10;
-		if( m_gauge_special.IsCritical() ) m_special_random -= 10;
-		if( m_gauge_special.IsGood() ) m_special_random -= 5;
         SetStep(Step_Dash);
     }
-}
-
-/**
-	必殺ゲージが溜まるかどうかの判定.
-*/
-bool StateBattle::LotteryAddSpecialGauge() const
-{
-	return ( GetRandToMax(m_special_random) == 0 );
 }
 
 void StateBattle::StepDash()
@@ -253,16 +239,6 @@ void StateBattle::StepDash()
                 m_enemy[i]->SetSpeed( Vector2( player_speed * 2, - GetRand(20) ) );
                 m_enemy[i]->SetAlive( false );
                 GetItem();
-                if( LotteryAddSpecialGauge() ){
-                    if( !mSpecialGauge->IsFull() ){
-                        mSpecialGauge->Add();
-                        if( mSpecialGauge->IsFull() ){
-                            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
-                        }else{
-                            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-                        }
-                    }
-                }
                 mBreakEnemyCounter->Add();
                 gSaveData.m_total_break++;
             }
@@ -288,7 +264,6 @@ void StateBattle::DrawDebug() const
     {
         int const x = 400;
         int y = 10;
-        DrawFormatString( x , y+=20,    ColorOf() , "必殺発生率[1/%d]", m_special_random);
         DrawFormatString( x , y+=20,    ColorOf() , "残りパワー[%d]", m_player_power);
     }
 }
@@ -318,15 +293,8 @@ void StateBattle::DrawGauge( int x, int y, Gauge const& gauge) const
 	int const height = 20;
 	//下地
 	DrawBox( x, y, x+gauge.GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
-	DrawBox( x+gauge.GetMax() - gauge.GetGood(), y, x+gauge.GetMax() , y+height, GetColor( 255,255,0 ), TRUE );
-	DrawBox( x+gauge.GetMax() - gauge.GetCritical(), y, x+gauge.GetMax() , y+height, GetColor( 255,100,100 ), TRUE );
 	
 	int color = GetColor( 0, 255 / gauge.GetMax() * gauge.GetValue(), 0 );
-	if( gauge.IsCritical() ){
-	    color = GetColor( 255, 0, 0 );
-    }else if( gauge.IsGood() ){
-        color = GetColor( 255,255,0 );
-    }
 	DrawBox( x, y, x+gauge.GetValue() , y+height, color, TRUE );
 }
 
@@ -363,7 +331,6 @@ void StateBattle::InitStepDecideMeter()
     m_gauge[0] = Gauge();
     m_gauge[1] = Gauge();
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
-    m_critical_range = CriticalRangeDefault;
 }
 
 /**
@@ -424,10 +391,6 @@ void StateBattle::UseItem( ItemType type )
         break;
     case ItemType_LifeWater:
     	mPlayerLife->Add();
-        break;
-    case ItemType_CriticalGrass:
-        m_gauge[0].SetCritical( m_gauge[0].GetCritical() + 2 );
-        m_gauge[1].SetCritical( m_gauge[1].GetCritical() + 2 );
         break;
     }
     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
@@ -515,13 +478,7 @@ void StateBattle::UpdateDebug()
 
 void StateBattle::PlaySound( Gauge const& gauge )
 {
-	if( gauge.IsCritical() ){
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
-    }else if( gauge.IsGood() ){
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-    }else{
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-    }
+    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
 }
 
 

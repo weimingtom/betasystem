@@ -8,7 +8,6 @@ char const* NameOf( ItemType type )
         "スライムの肉",
         "スライムの上質な肉",
         "生命の雫",
-        "クリティカル眼鏡",
     };
 	return item[type];
 }
@@ -21,7 +20,6 @@ int DropPamiriado( ItemType type )
         160,
         40,
         2,
-        40,
     };
     return list[type];
 }

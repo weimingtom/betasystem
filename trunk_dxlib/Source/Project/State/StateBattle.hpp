@@ -87,8 +87,6 @@ private:
     int m_target_meter;
     std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
     std::auto_ptr<SpecialGauge> mSpecialGauge;
-    int m_special_random; //!<必殺ゲージが溜まる確率.
-    int m_critical_range; //!< クリティカルと認められる範囲.
     StageInfo const m_stage_info;
     Gauge m_gauge[2];
     Gauge m_gauge_special;
