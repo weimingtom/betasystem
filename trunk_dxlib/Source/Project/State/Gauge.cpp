@@ -6,7 +6,6 @@ Gauge::Gauge( int max )
  , m_value(0)
  , m_pause(false)
  , m_add_value(2)
- , m_critlcal_range(1)
 {
 }
 

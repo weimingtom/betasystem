@@ -24,7 +24,6 @@ private:
     int m_value;
     bool m_pause;
     int m_add_value;
-    int m_critlcal_range;
 };
 
 

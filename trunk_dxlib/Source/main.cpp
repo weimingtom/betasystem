@@ -59,7 +59,7 @@ int InitApplication()
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
 	
-    gSaveData.Load();
+//    gSaveData.Load();
     
     g_state_manager.reset( new_ProjectStateManager() );
     

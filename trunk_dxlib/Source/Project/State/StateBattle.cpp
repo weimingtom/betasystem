@@ -16,7 +16,6 @@
 #include "Project/AnimData.hpp"
 #include "Project/SaveData.hpp"
 #include "Project/PlayerLife.hpp"
-#include "Project/SpecialGauge.hpp"
 #include "Project/BreakEnemyCounter.hpp"
 #include <math.h>
 #include "Gauge.hpp"
@@ -127,11 +126,14 @@ void StateBattle::Draw() const
     //mBreakEnemyCounter->Draw();
     //DrawItem();
     //mPlayerLife->Draw();
-    //mSpecialGauge->Draw();
     
 	{
 		//HP表示.
-//		DrawBox( x, y, x+gauge.GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
+		int x = 10,y = 460;
+		int width = gSaveData.m_player_hp;
+		int height = 20;
+		DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
+		DrawBox( x, y, x+m_player_power , y+height, GetColor( 0,255,0 ), TRUE );
 	}
 
     DrawDebug();
@@ -154,9 +156,7 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	for( int i = 0; i < 2 ; i++ ){
-    	m_player_power += m_gauge[i]->GetValue();
-	}
+	m_player_power += m_gauge[0]->GetValue();
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
 
@@ -199,7 +199,7 @@ void StateBattle::StepDash()
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
                 m_enemy[i]->SetSpeed( Vector2( player_speed * 2, - GetRand(20) ) );
                 m_enemy[i]->SetAlive( false );
-                GetItem();
+                //GetItem();
                 mBreakEnemyCounter->Add();
                 gSaveData.m_total_break++;
             }
@@ -221,12 +221,11 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    if(m_is_debug_draw)
-    {
-        int const x = 400;
-        int y = 10;
-        DrawFormatString( x , y+=20,    ColorOf() , "残りパワー[%d]", m_player_power);
-    }
+    int const x = 400;
+    int y = 10;
+    DrawFormatString( x , y+=20,    ColorOf() , "max_hp[%d]", gSaveData.m_player_hp);
+    DrawFormatString( x , y+=20,    ColorOf() , "max_mp[%d]", gSaveData.m_player_mp);
+    DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", m_player_power);
 }
 
 /**
@@ -296,7 +295,7 @@ void StateBattle::CancelDecideMeter()
 
 void StateBattle::StepDecideMeter()
 {
-    UseItem();
+//    UseItem();
     //やり直し機能.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
         CancelDecideMeter();
@@ -331,6 +330,7 @@ void StateBattle::UseItem()
 
 void StateBattle::UseItem( ItemType type )
 {
+/*
 	switch( type ){
     case ItemType_Meet:
 		m_gauge[0]->SetMax( m_gauge[0]->GetMax() + 4 );
@@ -345,6 +345,7 @@ void StateBattle::UseItem( ItemType type )
         break;
     }
     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
+*/
 }
 
 int StateBattle::RemainEnemy() const

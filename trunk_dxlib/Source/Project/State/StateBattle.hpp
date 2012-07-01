@@ -85,7 +85,6 @@ private:
     std::auto_ptr<PlayerLife> mPlayerLife;
     int m_target_meter;
     std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
-    std::auto_ptr<SpecialGauge> mSpecialGauge;
     StageInfo const m_stage_info;
     std::auto_ptr<Gauge> m_gauge[2];
     bool m_is_debug_draw;
