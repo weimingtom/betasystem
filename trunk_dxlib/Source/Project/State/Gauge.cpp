@@ -1,8 +1,8 @@
 #include "Gauge.hpp"
 
 
-Gauge::Gauge()
- : m_value_max(100)
+Gauge::Gauge( int max )
+ : m_value_max(max)
  , m_value(0)
  , m_pause(false)
  , m_add_value(2)

@@ -41,7 +41,6 @@ private:
 		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
 		Step_Clear,
-		Step_Special, //!< 必殺技使用.
 	};
 	
 private:
@@ -88,8 +87,7 @@ private:
     std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
     std::auto_ptr<SpecialGauge> mSpecialGauge;
     StageInfo const m_stage_info;
-    Gauge m_gauge[2];
-    Gauge m_gauge_special;
+    std::auto_ptr<Gauge> m_gauge[2];
     bool m_is_debug_draw;
 };
 

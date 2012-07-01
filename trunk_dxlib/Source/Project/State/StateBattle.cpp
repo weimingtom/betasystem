@@ -21,11 +21,6 @@
 #include <math.h>
 #include "Gauge.hpp"
 
-namespace {
-    int const MeterDefault = 100;
-    int const CriticalRangeDefault = 1;
-} // namespace unnamed
-
 StateBattle::StateBattle( StateManagerBase& manager )
  : m_manager( manager )
  , m_background( new ScrollBackground() )
@@ -36,7 +31,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , mPlayerLife( new PlayerLife(1) )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
- , mSpecialGauge( new SpecialGauge() )
  , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
  , m_is_debug_draw( false )
 {
@@ -87,9 +81,6 @@ void StateBattle::Update()
     	    UpdateHiScore();
         }
         break;
-    case Step_Special:
-    	StepSpecial();
-        break;
 	}
 }
 
@@ -132,13 +123,17 @@ void StateBattle::Draw() const
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
-    case Step_Special:
-    	DrawStepSpecial();
     }
-    mBreakEnemyCounter->Draw();
+    //mBreakEnemyCounter->Draw();
     //DrawItem();
     //mPlayerLife->Draw();
     //mSpecialGauge->Draw();
+    
+	{
+		//HP表示.
+//		DrawBox( x, y, x+gauge.GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
+	}
+
     DrawDebug();
 }
 
@@ -147,7 +142,7 @@ void StateBattle::Draw() const
 */
 void StateBattle::UpdateMeter( int meter_index )
 {
-	m_gauge[meter_index].Update();
+	m_gauge[meter_index]->Update();
 }
 
 void StateBattle::SetStep( Step step )
@@ -160,7 +155,7 @@ void StateBattle::InitStepWaitDash()
     SetStep( Step_WaitDash );
     m_frame = 0;
 	for( int i = 0; i < 2 ; i++ ){
-    	m_player_power += m_gauge[i].GetValue();
+    	m_player_power += m_gauge[i]->GetValue();
 	}
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
@@ -174,42 +169,8 @@ void StateBattle::StepWaitDash()
     }
 }
 
-void StateBattle::InitStepSpecial()
-{
-    SetStep( Step_Special );
-    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Special ) );
-    m_frame = 0;
-    m_gauge_special = Gauge();
-}
-
-void StateBattle::StepSpecial()
-{
-	m_gauge_special.Update();
-	//クリックした.
-	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-		//サウンド再生とかする予定.
-		PlaySound( m_gauge_special );
-		//ゲージを確定させる.
-		m_gauge_special.SetPause(true);
-	}
-	//特定の時間経過で、自動的に次へ進む.
-    m_frame++;
-    if( m_frame > 100 ){
-		m_gauge_special.SetPause(true);
-		m_player_power += 10 * mSpecialGauge->Num() * mSpecialGauge->Num() * m_gauge_special.GetValue()/m_gauge_special.GetMax();
-		mSpecialGauge->Reset();
-        SetStep(Step_Dash);
-    }
-}
-
 void StateBattle::StepDash()
 {
-    //必殺技の使用.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) && mSpecialGauge->CanUseSpecial() ){
-    	InitStepSpecial();
-    	return;
-    }
-
     float player_speed = 30.0f;
     if( m_player_power > 300 ){
         player_speed = 50.0f;
@@ -274,18 +235,8 @@ void StateBattle::DrawDebug() const
 void StateBattle::DrawDashGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
-	    DrawGauge( 10 , 430 + 25 * i , m_gauge[i] );
+	    DrawGauge( 10 , 410 + 25 * i , *m_gauge[i].get() );
 	}
-}
-
-/**
-	必殺技時の描画.
-*/
-void StateBattle::DrawStepSpecial() const
-{
-	// カットイン画像.
-	DrawTexture( Vector2(100-m_frame*1.5,20), ImageType_Cutin );
-    DrawGauge( 10 , 430 , m_gauge_special );
 }
 
 void StateBattle::DrawGauge( int x, int y, Gauge const& gauge) const
@@ -328,8 +279,8 @@ void StateBattle::InitStepDecideMeter()
 {
     SetStep( Step_DecideMeter );
     m_target_meter = 0;
-    m_gauge[0] = Gauge();
-    m_gauge[1] = Gauge();
+    m_gauge[0].reset( new Gauge(gSaveData.m_player_hp) );
+    m_gauge[1].reset( new Gauge(gSaveData.m_player_mp) );
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
 }
 
@@ -339,8 +290,8 @@ void StateBattle::InitStepDecideMeter()
 void StateBattle::CancelDecideMeter()
 {
     m_target_meter = 0;
-	m_gauge[0].SetValue(0);
-	m_gauge[1].SetValue(0);
+	m_gauge[0]->SetValue(0);
+	m_gauge[1]->SetValue(0);
 }
 
 void StateBattle::StepDecideMeter()
@@ -353,7 +304,7 @@ void StateBattle::StepDecideMeter()
 	UpdateMeter( m_target_meter );
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
-        PlaySound( m_gauge[m_target_meter] );
+        PlaySound( *m_gauge[m_target_meter].get() );
         if( m_target_meter >= 1 ){
             InitStepWaitDash();
         }else{
@@ -382,12 +333,12 @@ void StateBattle::UseItem( ItemType type )
 {
 	switch( type ){
     case ItemType_Meet:
-		m_gauge[0].SetMax( m_gauge[0].GetMax() + 4 );
-		m_gauge[1].SetMax( m_gauge[1].GetMax() + 4 );
+		m_gauge[0]->SetMax( m_gauge[0]->GetMax() + 4 );
+		m_gauge[1]->SetMax( m_gauge[1]->GetMax() + 4 );
         break;
     case ItemType_GoodMeet:
-		m_gauge[0].SetMax( m_gauge[0].GetMax() + 10 );
-		m_gauge[1].SetMax( m_gauge[1].GetMax() + 10 );
+		m_gauge[0]->SetMax( m_gauge[0]->GetMax() + 10 );
+		m_gauge[1]->SetMax( m_gauge[1]->GetMax() + 10 );
         break;
     case ItemType_LifeWater:
     	mPlayerLife->Add();

@@ -8,7 +8,7 @@
 class Gauge
 {
 public:
-    Gauge();
+    Gauge( int max );
     ~Gauge();
 
 public:
