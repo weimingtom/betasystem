@@ -6,6 +6,7 @@
 #include "Project/State/StateGameOver.hpp"
 #include "Project/State/StateTitle.hpp"
 #include "Project/State/StateTestMsg.hpp"
+#include "Project/State/StateSelectStage.hpp"
 
 /**
     プロジェクトの一番上に位置するStateManager.
@@ -32,12 +33,14 @@ StateBase* ProjectStateManager::new_State( int select_index )
 {
     switch( select_index )
     {
+    case ProjectState_Title:
+        return new StateTitle( this );
+    case ProjectState_SelectStage:
+        return new StateSelectStage( this );
     case ProjectState_Battle:
         return new StateBattle( *this );
     case ProjectState_GameOver:
         return new_StateGameOver( *this );
-    case ProjectState_Title:
-        return new StateTitle( this );
     case ProjectState_TestMsg:
         return new StateTestMsg(this);
     default:

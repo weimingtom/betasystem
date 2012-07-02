@@ -76,7 +76,7 @@ void StateBattle::Update()
 		break;
     case Step_Clear:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-    	    m_manager.ChangeState( ProjectState_Title );
+    	    m_manager.ChangeState( ProjectState_SelectStage );
     	    UpdateHiScore();
         }
         break;

@@ -409,6 +409,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\Source\Project\State\StateSelectStage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateSelectStage.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\StateTestMsg.cpp"
 						>
 					</File>

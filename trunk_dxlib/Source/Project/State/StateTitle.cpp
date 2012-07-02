@@ -24,7 +24,7 @@ void StateTitle::Update()
     case Step_Title:
         if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
         {
-            m_manager->ChangeState( ProjectState_Battle );
+            m_manager->ChangeState( ProjectState_SelectStage );
         }
         else if( SingletonInputMouse::Get()->IsTrig(InputMouse::Type_Right) ){
             m_manager->ChangeState( ProjectState_TestMsg );
