@@ -1,6 +1,7 @@
 #include "SaveData.hpp"
 
 #include <assert.h>
+#include "Project/Stage.hpp"
 
 
 SaveData gSaveData;
@@ -17,6 +18,7 @@ SaveData::SaveData()
     m_player_mp = 100;
     m_player_exp = 0;
     m_player_level = 1;
+    m_selected_stage = StageType_ScoreAttack;
 }
 
 void SaveData::Save()

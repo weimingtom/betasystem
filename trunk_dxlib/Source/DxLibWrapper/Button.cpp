@@ -3,6 +3,7 @@
 #include <memory>
 #include "DxLib.h"
 #include "System/CheckHit.hpp"
+#include "Project/Draw.hpp"
 
 Button::Button(
     int image_handle ,
@@ -17,7 +18,7 @@ Button::Button(
 
 void Button::Draw() const
 {
-//    DrawTexture( m_pos , m_image_handle );
+    DrawTexture( m_pos , static_cast<ImageType>(m_image_handle) );
     DrawCollision();
 }
 

@@ -30,7 +30,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , mPlayerLife( new PlayerLife(1) )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
- , m_stage_info( StageInfoOf( StageType_ScoreAttack ) )
+ , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) ) )
  , m_is_debug_draw( false )
 {
     m_player_pos.y = 300;

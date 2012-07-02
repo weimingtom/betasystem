@@ -3,6 +3,7 @@
 
 class StateManagerBase;
 #include "System/StateBase.hpp"
+#include "DxLibWrapper/Button.hpp"
 
 /**
     ƒ^ƒCƒgƒ‹‰æ–Ê‚Ì‘JˆÚ
@@ -16,8 +17,11 @@ public:
 	void Update();
 	void Draw() const;
 private:
+    std::string GetButtonName() const;
+private:
     StateManagerBase* m_manager;
     int m_frame;
+    ButtonPtrList m_button_list;
 };
 
 #endif

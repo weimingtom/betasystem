@@ -1,10 +1,10 @@
 
 
 ・ステージ選択を作る。
-    ステージ選択Stateを作る
-    
     ボタン的なものを作る。
-    
+
+        CollisionObjectList;
+        
     
 
 
