@@ -140,14 +140,6 @@ void StateBattle::Draw() const
     DrawDebug();
 }
 
-/**
-	メーターの更新.
-*/
-void StateBattle::UpdateMeter( int meter_index )
-{
-	m_gauge[meter_index]->Update();
-}
-
 void StateBattle::SetStep( Step step )
 {
 	m_step = step;
@@ -157,7 +149,7 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	m_player_power += m_gauge[0]->GetValue();
+	m_player_power += m_gauge->GetValue();
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
 
@@ -212,7 +204,6 @@ void StateBattle::StepDash()
             gSaveData.m_player_exp -= gSaveData.m_player_level*10;
             gSaveData.m_player_level++;
             gSaveData.m_player_hp+=10;
-            m_player_power+=10;
             SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
         }
     }
@@ -253,18 +244,18 @@ void StateBattle::DrawDebug() const
 void StateBattle::DrawDashGauge() const
 {
 	for( int i = 0; i < 2 ; i++ ){
-	    DrawGauge( 10 , 410 + 25 * i , *m_gauge[i].get() );
+	    DrawGauge( 10 , 410 + 25 * i );
 	}
 }
 
-void StateBattle::DrawGauge( int x, int y, Gauge const& gauge) const
+void StateBattle::DrawGauge( int x, int y) const
 {
 	int const height = 20;
 	//下地
-	DrawBox( x, y, x+gauge.GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
+	DrawBox( x, y, x+m_gauge->GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
 	
-	int const color = GetColor( 0, static_cast<int>(255.0f / gauge.GetMax() * gauge.GetValue()), 0 );
-	DrawBox( x, y, x+gauge.GetValue() , y+height, color, TRUE );
+	int const color = GetColor( 0, static_cast<int>(255.0f / m_gauge->GetMax() * m_gauge->GetValue()), 0 );
+	DrawBox( x, y, x+m_gauge->GetValue() , y+height, color, TRUE );
 }
 
 void StateBattle::UpdateCommon()
@@ -312,38 +303,24 @@ void StateBattle::InitPreTalk()
 void StateBattle::InitStepDecideMeter()
 {
     SetStep( Step_DecideMeter );
-    m_target_meter = 0;
-    m_gauge[0].reset( new Gauge(gSaveData.m_player_hp) );
-    m_gauge[1].reset( new Gauge(gSaveData.m_player_mp) );
+    m_gauge.reset( new Gauge(gSaveData.m_player_hp) );
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
-}
-
-/**
-    右クリキャンセル時の処理.
-*/
-void StateBattle::CancelDecideMeter()
-{
-    m_target_meter = 0;
-	m_gauge[0]->SetValue(0);
-	m_gauge[1]->SetValue(0);
 }
 
 void StateBattle::StepDecideMeter()
 {
-//    UseItem();
-    //やり直し機能.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-        CancelDecideMeter();
-    }
-	UpdateMeter( m_target_meter );
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
+	m_gauge->Update(SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ));
+
+	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
-        PlaySound( *m_gauge[m_target_meter].get() );
-        if( m_target_meter >= 1 ){
-            InitStepWaitDash();
-        }else{
-            m_target_meter++;
-        }
+		//連打音.
+	    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+	}
+
+	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
+    {
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+        InitStepWaitDash();
     }
 }
 
@@ -463,9 +440,5 @@ void StateBattle::UpdateDebug()
     }
 }
 
-void StateBattle::PlaySound( Gauge const& gauge )
-{
-    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
-}
 
 

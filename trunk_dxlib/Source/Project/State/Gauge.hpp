@@ -12,7 +12,7 @@ public:
     ~Gauge();
 
 public:
-    void Update();
+    void Update( bool is_clicked );
     void SetPause(bool is_pause){ m_pause = is_pause; }
     void SetValue(int value){ m_value = value;}
     int GetValue() const{ return m_value; }
@@ -23,7 +23,7 @@ private:
     int m_value_max;
     int m_value;
     bool m_pause;
-    int m_add_value;
+    int m_sub_value;
 };
 
 

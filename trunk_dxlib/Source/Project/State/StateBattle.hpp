@@ -71,8 +71,7 @@ private:
     void UpdateHiScore();
 	void InitEnemy();
 	void UpdateDebug();
-    void DrawGauge( int x, int y, Gauge const& gauge) const;
-    void PlaySound( Gauge const& gauge );
+    void DrawGauge( int x, int y) const;
     bool LotteryAddSpecialGauge() const;
 
 private:
@@ -86,10 +85,9 @@ private:
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
     std::auto_ptr<PlayerLife> mPlayerLife;
-    int m_target_meter;
     std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
     StageInfo const m_stage_info;
-    std::auto_ptr<Gauge> m_gauge[2];
+    std::auto_ptr<Gauge> m_gauge;
     bool m_is_debug_draw;
     std::auto_ptr<MsgPrinter> m_msg_printer;
 };

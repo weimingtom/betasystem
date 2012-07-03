@@ -3,8 +3,8 @@
 StageInfo gStageInfo[StageType_Num] =
 {
     {
-        "スコアアタックの森",
-        100,
+        "腕試しの森",
+        50,
         Enemy::Type_GreenSlime,
         Enemy::Type_RedSlime,
         Enemy::Type_SteelSlime,
@@ -18,7 +18,7 @@ StageInfo gStageInfo[StageType_Num] =
         Enemy::Type_GreenSlime,
     },
     {
-        "スライムの森２",
+        "スライムの森",
         100,
         Enemy::Type_GreenSlime,
         Enemy::Type_RedSlime,
