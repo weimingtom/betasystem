@@ -35,6 +35,7 @@ private:
     std::vector<std::string> m_draw_msg;
     Step m_step;
     std::auto_ptr<CharacterDrawer> m_chara_drawer; //保持はちょっとありえないけど、メッセージ解析後指示出すために参照か何か持つのは確定なので今はこれ。
+    bool m_is_visible;
 };
 
 #endif

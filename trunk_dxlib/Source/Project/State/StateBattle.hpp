@@ -36,6 +36,7 @@ private:
 	*/
 	enum Step
 	{
+	    Step_PreTalk,
 		Step_DecideMeter,
 		Step_WaitDash, //!< ダッシュ前のアクション.
 		Step_Dash,
@@ -47,6 +48,7 @@ private:
 private:
 	void UpdateMeter( int meter_index );
 	void SetStep( Step step );
+	void InitPreTalk();
 	void InitStepWaitDash();
 	void StepWaitDash();
 	void InitStepSpecial();

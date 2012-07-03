@@ -23,6 +23,7 @@ void MsgPrinter::Init()
     m_count_frame = 0;
     m_analyze_index = 0;
     m_step = Step_Idle;
+    m_is_visible = true;
 }
 
 void MsgPrinter::Update()
@@ -66,6 +67,10 @@ void MsgPrinter::Update()
 					CharacterDrawer::CharaPos const chara_pos = CharacterDrawer::CharaPos_Left; //–¢ŽÀ‘•.
 					m_chara_drawer->SetChara(image_type,chara_pos);
                 }
+                //Á‹Ž.
+                if( tag.find("[clear]") != std::string::npos ){
+                    m_is_visible = false;
+                }
 				break;
             }
 			//‰ðÍI—¹‚Ìê‡.
@@ -93,6 +98,10 @@ void MsgPrinter::Update()
 
 void MsgPrinter::Draw() const
 {
+    if( !m_is_visible ){
+        return;
+    }
+
     m_chara_drawer->Draw();
 
     int const window_top = 350;

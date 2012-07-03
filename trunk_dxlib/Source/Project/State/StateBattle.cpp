@@ -36,7 +36,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
 {
     m_player_pos.y = 300;
     InitEnemy();
-    InitStepDecideMeter();
+    InitPreTalk();
 }
 
 StateBattle::~StateBattle()
@@ -49,6 +49,11 @@ void StateBattle::Update()
     UpdateCommon();
 	switch( m_step )
 	{
+	case Step_PreTalk:
+	    if( m_msg_printer->IsEnd() ){
+	        InitStepDecideMeter();
+	    }
+	    break;
 	case Step_DecideMeter:
 	    StepDecideMeter();
 	    break;
@@ -121,6 +126,7 @@ void StateBattle::Draw() const
     //mBreakEnemyCounter->Draw();
     //DrawItem();
     //mPlayerLife->Draw();
+	m_msg_printer->Draw();
     
 	{
 		//HP表示.
@@ -270,12 +276,20 @@ void StateBattle::UpdateCommon()
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	//背景スクロール
     m_background->SetScroll( m_camera->Position() );
+
+    m_msg_printer->Update();
 }
 
 void StateBattle::InitResult()
 {
 	SetStep( Step_Result );
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerGrave ) );
+}
+
+void StateBattle::InitPreTalk()
+{
+    m_step = Step_PreTalk;
+    m_msg_printer->SetMsg("[image,]【フリル】\nぉお、大量におるな。[click]頑張るとするかね。[click][clear]");
 }
 
 /**
