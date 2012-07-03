@@ -25,6 +25,7 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/SwordFrame.png",
     "Resource/SwordPower.png",
     "Resource/stand.png",
+    "Resource/BG_SelectStage.png",
     "Resource/SelectStageButton1.png",
     "Resource/SelectStageButton2.png",
     "Resource/dummy.png",

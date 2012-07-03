@@ -240,6 +240,11 @@ void StateBattle::DrawDebug() const
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", m_player_power);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
+    StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "total_enemy[%d]", info.total_enemy);
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "break_enemy[%d]", mBreakEnemyCounter->Num() );
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "進行度[%f]", (float)mBreakEnemyCounter->Num()/info.total_enemy );
 }
 
 /**
@@ -289,7 +294,15 @@ void StateBattle::InitResult()
 void StateBattle::InitPreTalk()
 {
     m_step = Step_PreTalk;
-    m_msg_printer->SetMsg("[image,]【フリル】\nぉお、大量におるな。[click]頑張るとするかね。[click][clear]");
+    
+    int const msg_num = 3;
+    int const rand_num = GetRandToMax(msg_num); 
+    char const* pre_message[msg_num] = {
+        "[image,]【フリル】\nぉお、大量におるな。[click]頑張るとするかね。[click][clear]",
+        "[image,]【フリル】\nおいしそうなスライムが一杯だ。[click]やる気出てきた。[click][clear]",
+        "[image,]【フリル】\nうぁ、眠い。[click]適当に頑張る。[click][clear]",
+    };
+    m_msg_printer->SetMsg(pre_message[rand_num]);
 }
 
 /**

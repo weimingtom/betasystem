@@ -42,6 +42,8 @@ void StateSelectStage::Update()
 
 void StateSelectStage::Draw() const
 {
+    DrawTexture( Vector2(0,0), ImageType_SelectStage );
+
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "ステージ選択画面");
     
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
