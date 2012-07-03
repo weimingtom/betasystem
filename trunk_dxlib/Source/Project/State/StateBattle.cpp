@@ -243,9 +243,7 @@ void StateBattle::DrawDebug() const
 */
 void StateBattle::DrawDashGauge() const
 {
-	for( int i = 0; i < 2 ; i++ ){
-	    DrawGauge( 10 , 410 + 25 * i );
-	}
+    DrawGauge( 10 , 410 + 25 );
 }
 
 void StateBattle::DrawGauge( int x, int y) const
@@ -319,7 +317,7 @@ void StateBattle::StepDecideMeter()
 
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
     {
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
         InitStepWaitDash();
     }
 }
