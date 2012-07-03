@@ -60,12 +60,14 @@ void SoundLoader::Impl::Play( std::string file_name , bool is_bgm )
 {
     HandleMap::iterator it = m_handle_map.find( file_name );
     assert( it != m_handle_map.end() && "m_handle_map.find() failed." );
+
     if( is_bgm )
     {
         PlaySoundMem( (*it).second , DX_PLAYTYPE_LOOP , TRUE );
     }else{
         PlaySoundMem( (*it).second , DX_PLAYTYPE_BACK , TRUE );
     }
+    int const result = ChangeVolumeSoundMem(30,(*it).second);
 }
 
 SoundLoader* new_SoundLoader( StringList file_name_list )
