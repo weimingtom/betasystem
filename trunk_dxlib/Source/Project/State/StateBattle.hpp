@@ -16,6 +16,7 @@ class BreakEnemyCounter;
 #include "Project/Enemy.hpp"
 #include "Project/Item.hpp"
 #include "Project/Stage.hpp"
+#include "Project/Msg/MsgPrinter.hpp"
 #include "Gauge.hpp"
 #include "boost/shared_ptr.hpp"
 
@@ -88,6 +89,7 @@ private:
     StageInfo const m_stage_info;
     std::auto_ptr<Gauge> m_gauge[2];
     bool m_is_debug_draw;
+    std::auto_ptr<MsgPrinter> m_msg_printer;
 };
 
 #endif

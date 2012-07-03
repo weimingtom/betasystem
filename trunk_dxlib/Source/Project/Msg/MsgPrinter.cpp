@@ -22,9 +22,7 @@ void MsgPrinter::Init()
     m_msg_speed = 1;
     m_count_frame = 0;
     m_analyze_index = 0;
-    m_x = 100;
-    m_y = 300;
-    m_step = Step_UpdateMsg;
+    m_step = Step_Idle;
 }
 
 void MsgPrinter::Update()
@@ -72,7 +70,7 @@ void MsgPrinter::Update()
             }
 			//‰ðÍI—¹‚Ìê‡.
 			if(analyze_target=='\0'){
-				m_step = Step_Idle;
+				m_step = Step_End;
 				break;
 			}
 			//‚»‚êˆÈŠO(•’Ê‚Ì•¶Žš)
@@ -87,29 +85,45 @@ void MsgPrinter::Update()
         }
         break;
 	case Step_Idle:
-		int hoge = 0;
 		break;
+    case Step_End:
+        break;
     }
 }
 
 void MsgPrinter::Draw() const
 {
     m_chara_drawer->Draw();
+
+    int const window_top = 350;
+    int const outside_margin = 10;
+    int const inside_margin = 10;
+    DrawBox( outside_margin, window_top, 640-outside_margin, 480-outside_margin, GetColor( 255,255,255 ), TRUE );
     
     int const kaigyou_height = 15;
 	for( std::vector<std::string>::size_type i = 0 ; i < m_draw_msg.size() ; i ++ ){
-        DrawFormatString( m_x-1 , m_y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
-        DrawFormatString( m_x+1 , m_y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
-        DrawFormatString( m_x , m_y + i * kaigyou_height-1 , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
-        DrawFormatString( m_x , m_y + i * kaigyou_height+1 , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() ); //‰e.
-        DrawFormatString( m_x , m_y + i * kaigyou_height , ColorOf(255,255,255) , m_draw_msg.at(i).c_str() );
+	    int const x = outside_margin + inside_margin;
+	    int const y = window_top + inside_margin;
+	    //•¶Žš‚ÌƒAƒEƒgƒ‰ƒCƒ“•`‰æ.
+        DrawFormatString( x-1 , y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() );
+        DrawFormatString( x+1 , y + i * kaigyou_height , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() );
+        DrawFormatString( x , y + i * kaigyou_height-1 , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() );
+        DrawFormatString( x , y + i * kaigyou_height+1 , ColorOf(0,0,0) , m_draw_msg.at(i).c_str() );
+        //•¶Žš•`‰æ.
+        DrawFormatString( x , y + i * kaigyou_height , ColorOf(255,255,255) , m_draw_msg.at(i).c_str() );
     }
 }
 
 void MsgPrinter::SetMsg(std::string msg)
 {
     Init();
+    m_step = Step_UpdateMsg;
     m_msg = msg;
+}
+
+bool MsgPrinter::IsEnd() const
+{
+    return (m_step == Step_End);
 }
 
 

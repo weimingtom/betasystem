@@ -32,6 +32,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
  , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) ) )
  , m_is_debug_draw( false )
+ , m_msg_printer( new MsgPrinter() )
 {
     m_player_pos.y = 300;
     InitEnemy();

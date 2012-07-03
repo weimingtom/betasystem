@@ -22,6 +22,10 @@ void StateTestMsg::Update()
         m_msg_printer->SetMsg("【フリル】\nはろうフリルちゃんです。[image,]おはようございます。[click]\n改行テストです。てすてす。\n[click]こんばんわ。\n[click]abc");
     }
     m_msg_printer->Update();
+    
+    if( m_msg_printer->IsEnd() ){
+        m_manager->ChangeState( ProjectState_Title );
+    }
 }
 
 void StateTestMsg::Draw() const

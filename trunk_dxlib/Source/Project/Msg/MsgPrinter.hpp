@@ -17,6 +17,7 @@ public:
     void Update();
     void Draw() const;
     void SetMsg(std::string str);
+    bool IsEnd() const;
 private:
     void Init();
 private:
@@ -24,6 +25,7 @@ private:
         Step_UpdateMsg,
         Step_WaitClick,
 		Step_Idle,
+		Step_End,
     };
 private:
     int m_count_frame;
@@ -31,12 +33,9 @@ private:
     int m_analyze_index; //!< 解析位置.
     std::string m_msg;
     std::vector<std::string> m_draw_msg;
-    int m_x;
-    int m_y;
     Step m_step;
     std::auto_ptr<CharacterDrawer> m_chara_drawer; //保持はちょっとありえないけど、メッセージ解析後指示出すために参照か何か持つのは確定なので今はこれ。
 };
 
-
-#endif IncludeGuardMsgPrinter
+#endif
 
