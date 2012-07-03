@@ -8,17 +8,7 @@ SaveData gSaveData;
 
 SaveData::SaveData()
 {
-    for( int i = 0 ; i < ItemBagSize ; i ++ ){
-        m_item[i] = 0;
-    }
-    m_total_break = 0;
-    m_max_break = 0;
-    m_current_stage = 0;
-    m_player_hp = 120;
-    m_player_mp = 100;
-    m_player_exp = 0;
-    m_player_level = 1;
-    m_selected_stage = StageType_ScoreAttack;
+    Reset();
 }
 
 void SaveData::Save()
@@ -52,5 +42,20 @@ void SaveData::Load()
     }
     
     gSaveData = save_data;
+}
+
+void SaveData::Reset()
+{
+    for( int i = 0 ; i < ItemBagSize ; i ++ ){
+        m_item[i] = 0;
+    }
+    m_total_break = 0;
+    m_max_break = 0;
+    m_current_stage = 0;
+    m_player_hp = 120;
+    m_player_mp = 100;
+    m_player_exp = 0;
+    m_player_level = 1;
+    m_selected_stage = StageType_ScoreAttack;
 }
 

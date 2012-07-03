@@ -59,18 +59,13 @@ void StateBattle::Update()
 		break;
     case Step_DashEnd:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	        //プレイヤーを減らす.
-			mPlayerLife->Sub();
-	        if( !mPlayerLife->IsEmpty() ){
-	            InitStepDecideMeter();
-	        }else{
-                InitResult();
-            }
+            InitResult();
 	    }
         break;
 	case Step_Result:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
             UpdateHiScore();
+            gSaveData.Reset(); // セーブデータ消去.
 	    	m_manager.ChangeState( ProjectState_Title );
 	    }
 		break;
@@ -113,11 +108,10 @@ void StateBattle::Draw() const
         DrawDashGauge();
         break;
     case Step_DashEnd:
-        DrawTexture( Vector2(100,100), ImageType_GameEnd );
+        DrawFormatString( 250 , 200 , ColorOf() , "やられたー" );
         break;
     case Step_Result:
-        DrawTexture( Vector2(100,100), ImageType_Result );
-        DrawFormatString( 250 , 200 , ColorOf() , "%d匹！", m_stage_info.total_enemy - RemainEnemy() );
+        DrawFormatString( 250 , 200 , ColorOf() , "がめおべら" );
         break;
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
@@ -257,7 +251,7 @@ void StateBattle::DrawGauge( int x, int y, Gauge const& gauge) const
 	//下地
 	DrawBox( x, y, x+gauge.GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
 	
-	int color = GetColor( 0, 255 / gauge.GetMax() * gauge.GetValue(), 0 );
+	int const color = GetColor( 0, static_cast<int>(255.0f / gauge.GetMax() * gauge.GetValue()), 0 );
 	DrawBox( x, y, x+gauge.GetValue() , y+height, color, TRUE );
 }
 

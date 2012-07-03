@@ -12,6 +12,7 @@ public:
     SaveData();
     void Save();
     void Load();
+    void Reset();
 
 public:
     static int const ItemBagSize = 8;
