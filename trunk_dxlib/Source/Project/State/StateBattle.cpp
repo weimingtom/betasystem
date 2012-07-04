@@ -75,6 +75,14 @@ void StateBattle::Update()
 	    	m_manager.ChangeState( ProjectState_Title );
 	    }
 		break;
+    case Step_BossTalk:
+        if( m_msg_printer->IsEnd() ){
+	        SetStep( Step_BossBattle );
+	    }
+        break;
+    case Step_BossBattle:
+        StepDash();
+        break;
     case Step_Clear:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
     	    m_manager.ChangeState( ProjectState_SelectStage );
@@ -118,6 +126,9 @@ void StateBattle::Draw() const
         break;
     case Step_Result:
         DrawFormatString( 250 , 200 , ColorOf() , "がめおべら" );
+        break;
+    case Step_BossTalk:
+        DrawFormatString( 250 , 200 , ColorOf() , "ボス会話");
         break;
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
@@ -213,9 +224,18 @@ void StateBattle::StepDash()
 		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
 		SetStep( Step_DashEnd );
 	}
+	//ボス判定.
+	if( m_step == Step_Dash ){
+    	if( RemainEnemy() == 1 ){
+    	    m_msg_printer->SetMsg("[image,][right]【フリル】\nおしとおる！[click]\n【スライム】\nそうはいきませんぜ[click][clear]");
+    	    SetStep( Step_BossTalk );
+    	}
+    }
 	//クリア判定.
-	if( RemainEnemy() == 0 ){
-	    SetStep( Step_Clear );
+	if( m_step == Step_BossBattle ){
+        if( RemainEnemy() == 0 ){
+            SetStep( Step_Clear );
+	    }
 	}
 }
 
@@ -312,12 +332,12 @@ void StateBattle::StepDecideMeter()
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
 		//連打音.
-	    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Decide ) );
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
 	}
 
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) )
     {
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
+	    SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
         InitStepWaitDash();
     }
 }

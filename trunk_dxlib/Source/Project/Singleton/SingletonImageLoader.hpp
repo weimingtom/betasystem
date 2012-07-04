@@ -26,6 +26,7 @@ enum ImageType
     ImageType_SwordFrame,
     ImageType_SwordPower,
     ImageType_StandFuriru,
+    ImageType_StandSlime,
     ImageType_SelectStage,
     ImageType_SelectStage1,
     ImageType_SelectStage2,

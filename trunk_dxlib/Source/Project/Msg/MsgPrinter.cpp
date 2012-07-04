@@ -67,6 +67,11 @@ void MsgPrinter::Update()
 					CharacterDrawer::CharaPos const chara_pos = CharacterDrawer::CharaPos_Left; //–¢ŽÀ‘•.
 					m_chara_drawer->SetChara(image_type,chara_pos);
                 }
+                if( tag.find("[right]") != std::string::npos ){
+					ImageType const image_type = ImageType_StandSlime; // –¢ŽÀ‘•.
+					CharacterDrawer::CharaPos const chara_pos = CharacterDrawer::CharaPos_Right; //–¢ŽÀ‘•.
+					m_chara_drawer->SetChara(image_type,chara_pos);
+                }
                 //Á‹Ž.
                 if( tag.find("[clear]") != std::string::npos ){
                     m_is_visible = false;
@@ -104,7 +109,7 @@ void MsgPrinter::Draw() const
 
     m_chara_drawer->Draw();
 
-    int const window_top = 350;
+    int const window_top = 370;
     int const outside_margin = 10;
     int const inside_margin = 10;
     DrawBox( outside_margin, window_top, 640-outside_margin, 480-outside_margin, GetColor( 255,255,255 ), TRUE );
