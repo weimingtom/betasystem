@@ -25,7 +25,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_background( new ScrollBackground() )
  , m_frame(0)
  , m_camera( new Camera() )
- , m_player_power( gSaveData.m_player_max_hp )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , mPlayerLife( new PlayerLife(1) )
@@ -118,7 +117,7 @@ void StateBattle::Draw() const
         break;
     }
     //mBreakEnemyCounter->Draw();
-    //DrawItem();
+    DrawItem();
     //mPlayerLife->Draw();
 	m_msg_printer->Draw();
     
@@ -128,7 +127,7 @@ void StateBattle::Draw() const
 		int width = gSaveData.m_player_max_hp;
 		int height = 20;
 		DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
-		DrawBox( x, y, x+m_player_power , y+height, GetColor( 0,255,0 ), TRUE );
+		DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
 	}
 
     DrawDebug();
@@ -143,7 +142,7 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	m_player_power += m_gauge->GetValue();
+	gSaveData.m_player_hp += m_gauge->GetValue();
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
 
@@ -158,6 +157,8 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::StepDash()
 {
+    UseItem();
+
     if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
         m_player_pos.x += 20.0f;
     }
@@ -172,13 +173,14 @@ void StateBattle::StepDash()
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         if( m_enemy[i]->IsAlive() ){
             if( m_enemy[i]->Position().x < m_player_pos.x ){
-                m_player_power -= m_enemy[i]->GetHP();
+                gSaveData.m_player_hp -= m_enemy[i]->GetHP();
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
                 m_enemy[i]->SetSpeed( Vector2( 20.0f * 2, - GetRand(20)-3 ) );
                 m_enemy[i]->SetAlive( false );
                 mBreakEnemyCounter->Add();
                 gSaveData.m_total_break++;
                 gSaveData.m_player_exp += m_enemy[i]->GetExp();
+                GetItem();
             }
         }
     }
@@ -191,7 +193,7 @@ void StateBattle::StepDash()
     }
     
     //ゲームオーバー判定.
-	if( m_player_power <= 0 ){
+	if( gSaveData.m_player_hp <= 0 ){
 		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
 		SetStep( Step_DashEnd );
 	}
@@ -209,7 +211,7 @@ void StateBattle::DrawDebug() const
     int const x = 400;
     int y = 10;
     DrawFormatString( x , y+=20,    ColorOf() , "max_hp[%d]", gSaveData.m_player_max_hp);
-    DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", m_player_power);
+    DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", gSaveData.m_player_hp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
@@ -321,22 +323,17 @@ void StateBattle::UseItem()
 
 void StateBattle::UseItem( ItemType type )
 {
-/*
 	switch( type ){
     case ItemType_Meet:
-		m_gauge[0]->SetMax( m_gauge[0]->GetMax() + 4 );
-		m_gauge[1]->SetMax( m_gauge[1]->GetMax() + 4 );
+        gSaveData.m_player_hp += 10;
         break;
     case ItemType_GoodMeet:
-		m_gauge[0]->SetMax( m_gauge[0]->GetMax() + 10 );
-		m_gauge[1]->SetMax( m_gauge[1]->GetMax() + 10 );
-        break;
-    case ItemType_LifeWater:
-    	mPlayerLife->Add();
+        gSaveData.m_player_hp += 100;
         break;
     }
+    gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp,gSaveData.m_player_max_hp);
+    
     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-*/
 }
 
 int StateBattle::RemainEnemy() const

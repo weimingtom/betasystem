@@ -53,6 +53,7 @@ void SaveData::Reset()
     m_max_break = 0;
     m_current_stage = 0;
     m_player_max_hp = 120;
+    m_player_hp = m_player_max_hp;
     m_player_exp = 0;
     m_player_level = 1;
     m_selected_stage = StageType_ScoreAttack;
