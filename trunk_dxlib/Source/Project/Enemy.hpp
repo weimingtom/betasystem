@@ -62,6 +62,10 @@ public:
         ŒoŒ±’l‚ÌŽæ“¾.
     */
     int GetExp() const{ return m_exp; }
+    /**
+        •\Ž¦‚·‚é‚©‚Ç‚¤‚©.
+    */
+    bool IsVisible() const { return m_is_visible; }
 	
 private:
     int m_hp;
@@ -70,6 +74,8 @@ private:
 	Vector2 m_speed;
 	bool m_is_alive;
 	std::auto_ptr<AnimTexture> m_anim_tex;
+	bool m_is_visible;
+	int m_frame;
 };
 
 #endif

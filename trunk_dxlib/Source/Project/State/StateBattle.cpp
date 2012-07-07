@@ -25,7 +25,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_background( new ScrollBackground() )
  , m_frame(0)
  , m_camera( new Camera() )
- , m_player_power(0)
+ , m_player_power( gSaveData.m_player_max_hp )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
  , mPlayerLife( new PlayerLife(1) )
@@ -51,15 +51,9 @@ void StateBattle::Update()
 	{
 	case Step_PreTalk:
 	    if( m_msg_printer->IsEnd() ){
-	        InitStepDecideMeter();
+	        SetStep( Step_Dash );
 	    }
 	    break;
-	case Step_DecideMeter:
-	    StepDecideMeter();
-	    break;
-    case Step_WaitDash:
-        StepWaitDash();
-        break;
 	case Step_Dash:
 		StepDash();
 		break;
@@ -75,14 +69,6 @@ void StateBattle::Update()
 	    	m_manager.ChangeState( ProjectState_Title );
 	    }
 		break;
-    case Step_BossTalk:
-        if( m_msg_printer->IsEnd() ){
-	        SetStep( Step_BossBattle );
-	    }
-        break;
-    case Step_BossBattle:
-        StepDash();
-        break;
     case Step_Clear:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
     	    m_manager.ChangeState( ProjectState_SelectStage );
@@ -100,7 +86,7 @@ void StateBattle::Draw() const
     m_player_texture->Draw( m_camera->Position() );
 	//敵の描画.
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        if( m_enemy[i]->IsAlive() ){
+        if( m_enemy[i]->IsVisible() ){
             m_enemy[i]->Draw( m_camera->Position() );
         }
     }
@@ -127,9 +113,6 @@ void StateBattle::Draw() const
     case Step_Result:
         DrawFormatString( 250 , 200 , ColorOf() , "がめおべら" );
         break;
-    case Step_BossTalk:
-        DrawFormatString( 250 , 200 , ColorOf() , "ボス会話");
-        break;
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
@@ -142,7 +125,7 @@ void StateBattle::Draw() const
 	{
 		//HP表示.
 		int x = 10,y = 460;
-		int width = gSaveData.m_player_hp;
+		int width = gSaveData.m_player_max_hp;
 		int height = 20;
 		DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
 		DrawBox( x, y, x+m_player_power , y+height, GetColor( 0,255,0 ), TRUE );
@@ -175,24 +158,14 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::StepDash()
 {
-    float player_speed = 30.0f;
-    if( m_player_power > 300 ){
-        player_speed = 50.0f;
-    }
-    else if( m_player_power > 70 ){
-        player_speed = 30.0f;
-    }
-    else if( m_player_power > 20 ){
-        player_speed = 20.0f;
-    }
-    else{
-        player_speed = 10.0f;
-    }
-    
     if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
-        player_speed *= 1.5;
+        m_player_pos.x += 20.0f;
     }
-    m_player_pos.x += player_speed;
+
+    //クリックしたら進む
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+        m_player_pos.x += 100.0f;
+    }
     /**
         プレイヤーと敵がぶつかったら、敵をふっとばす.
     */
@@ -201,7 +174,7 @@ void StateBattle::StepDash()
             if( m_enemy[i]->Position().x < m_player_pos.x ){
                 m_player_power -= m_enemy[i]->GetHP();
                 SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
-                m_enemy[i]->SetSpeed( Vector2( player_speed * 2, - GetRand(20) ) );
+                m_enemy[i]->SetSpeed( Vector2( 20.0f * 2, - GetRand(20)-3 ) );
                 m_enemy[i]->SetAlive( false );
                 mBreakEnemyCounter->Add();
                 gSaveData.m_total_break++;
@@ -210,13 +183,11 @@ void StateBattle::StepDash()
         }
     }
     //レベルアップ判定.
-    {
-        if(gSaveData.m_player_exp > gSaveData.m_player_level*10){
-            gSaveData.m_player_exp -= gSaveData.m_player_level*10;
-            gSaveData.m_player_level++;
-            gSaveData.m_player_hp+=10;
-            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
-        }
+    if(gSaveData.m_player_exp > gSaveData.m_player_level*10){
+        gSaveData.m_player_exp -= gSaveData.m_player_level*10;
+        gSaveData.m_player_level++;
+        gSaveData.m_player_max_hp+=10;
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
     }
     
     //ゲームオーバー判定.
@@ -224,19 +195,10 @@ void StateBattle::StepDash()
 		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
 		SetStep( Step_DashEnd );
 	}
-	//ボス判定.
-	if( m_step == Step_Dash ){
-    	if( RemainEnemy() == 1 ){
-    	    m_msg_printer->SetMsg("[image,][right]【フリル】\nおしとおる！[click]\n【スライム】\nそうはいきませんぜ[click][clear]");
-    	    SetStep( Step_BossTalk );
-    	}
-    }
 	//クリア判定.
-	if( m_step == Step_BossBattle ){
-        if( RemainEnemy() == 0 ){
-            SetStep( Step_Clear );
-	    }
-	}
+    if( RemainEnemy() == 0 ){
+        SetStep( Step_Clear );
+    }
 }
 
 /**
@@ -246,8 +208,7 @@ void StateBattle::DrawDebug() const
 {
     int const x = 400;
     int y = 10;
-    DrawFormatString( x , y+=20,    ColorOf() , "max_hp[%d]", gSaveData.m_player_hp);
-    DrawFormatString( x , y+=20,    ColorOf() , "max_mp[%d]", gSaveData.m_player_mp);
+    DrawFormatString( x , y+=20,    ColorOf() , "max_hp[%d]", gSaveData.m_player_max_hp);
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", m_player_power);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
@@ -282,7 +243,7 @@ void StateBattle::UpdateCommon()
     m_player_texture->Set( m_player_pos );
     //敵更新
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        if( m_enemy[i]->IsAlive() ){
+        if( m_enemy[i]->IsVisible() ){
             m_enemy[i]->Update();
         }
     }
@@ -321,7 +282,7 @@ void StateBattle::InitPreTalk()
 void StateBattle::InitStepDecideMeter()
 {
     SetStep( Step_DecideMeter );
-    m_gauge.reset( new Gauge(gSaveData.m_player_hp) );
+    m_gauge.reset( new Gauge(gSaveData.m_player_max_hp) );
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
 }
 

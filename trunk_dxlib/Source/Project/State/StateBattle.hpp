@@ -42,8 +42,6 @@ private:
 		Step_Dash,
 		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
-		Step_BossTalk,
-		Step_BossBattle,
 		Step_Clear,
 	};
 	
