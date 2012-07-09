@@ -8,6 +8,9 @@ char const* NameOf( ItemType type )
         "スライムの肉",
         "スライムの上質な肉",
         "生命の雫",
+        "レッドマナストーン",
+        "グリーンマナストーン",
+        "ブルーマナストーン",
     };
 	return item[type];
 }
@@ -18,8 +21,11 @@ int DropPamiriado( ItemType type )
     {
         0,
         500,
-        40,
-        2,
+        250,
+        20,
+        100,
+        100,
+        100,
     };
     return list[type];
 }

@@ -15,8 +15,7 @@ public:
     void Reset();
 
 public:
-    static int const ItemBagSize = 8;
-    int m_item[ItemBagSize];
+    int m_item[ItemType_Num];
     int m_total_break;
     int m_max_break;
     int m_current_stage;
@@ -25,6 +24,7 @@ public:
     int m_player_exp;
     int m_player_level;
     int m_selected_stage;
+    int m_player_mana_type;
 };
 
 /**

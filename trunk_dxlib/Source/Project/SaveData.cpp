@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include "Project/Stage.hpp"
+#include "Project/ManaType.hpp"
 
 
 SaveData gSaveData;
@@ -46,7 +47,7 @@ void SaveData::Load()
 
 void SaveData::Reset()
 {
-    for( int i = 0 ; i < ItemBagSize ; i ++ ){
+    for( int i = 0 ; i < ItemType_Num ; i ++ ){
         m_item[i] = 0;
     }
     m_total_break = 0;
@@ -57,5 +58,6 @@ void SaveData::Reset()
     m_player_exp = 0;
     m_player_level = 1;
     m_selected_stage = StageType_ScoreAttack;
+    m_player_mana_type = ManaType_Red;
 }
 

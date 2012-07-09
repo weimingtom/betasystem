@@ -16,19 +16,24 @@ Enemy::Enemy( Type type )
     switch( type ){
     case Type_GreenSlime:
         image_type = ImageType_GreenSlime;
+        m_mana_type = ManaType_Green;
         break;
     case Type_RedSlime:
         image_type = ImageType_RedSlime;
+        m_mana_type = ManaType_Red;
         break;
     case Type_SteelSlime:
         image_type = ImageType_SteelSlime;
+        m_mana_type = ManaType_Blue;
         break;
     }
     
     m_anim_tex.reset( new AnimTexture(
         ImageHandleOf( image_type ), AnimDataOf( AnimType_EnemyIdling ) ) );
-    m_hp = type + 1;
-    m_exp = (type + 1) * 2;
+    m_hp = 2;
+    m_exp = 1;
+
+
 }
 
 void Enemy::Update()

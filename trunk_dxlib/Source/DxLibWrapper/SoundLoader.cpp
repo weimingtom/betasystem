@@ -67,7 +67,7 @@ void SoundLoader::Impl::Play( std::string file_name , bool is_bgm )
     }else{
         PlaySoundMem( (*it).second , DX_PLAYTYPE_BACK , TRUE );
     }
-    int const result = ChangeVolumeSoundMem(30,(*it).second);
+    int const result = ChangeVolumeSoundMem(1,(*it).second);
 }
 
 SoundLoader* new_SoundLoader( StringList file_name_list )

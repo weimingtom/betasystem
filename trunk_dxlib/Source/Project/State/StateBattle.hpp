@@ -19,6 +19,7 @@ class BreakEnemyCounter;
 #include "Project/Msg/MsgPrinter.hpp"
 #include "Gauge.hpp"
 #include "boost/shared_ptr.hpp"
+#include "DxLibWrapper/LogPrinter.hpp"
 
 class StateBattle : public StateBase
 {
@@ -90,6 +91,7 @@ private:
     std::auto_ptr<Gauge> m_gauge;
     bool m_is_debug_draw;
     std::auto_ptr<MsgPrinter> m_msg_printer;
+    std::auto_ptr<LogPrinter> m_log_printer;
 };
 
 #endif

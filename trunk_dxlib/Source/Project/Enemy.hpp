@@ -5,6 +5,7 @@
 #include "System/Vector2.hpp"
 #include "Project/Draw.hpp"
 #include "DxLibWrapper/AnimTexture.hpp"
+#include "Project/ManaType.hpp"
 
 /**
 	“GƒNƒ‰ƒX.
@@ -66,6 +67,10 @@ public:
         •\¦‚·‚é‚©‚Ç‚¤‚©.
     */
     bool IsVisible() const { return m_is_visible; }
+    /**
+        ‘®«.
+    */
+	ManaType GetManaType() const{ return m_mana_type; }
 	
 private:
     int m_hp;
@@ -76,6 +81,7 @@ private:
 	std::auto_ptr<AnimTexture> m_anim_tex;
 	bool m_is_visible;
 	int m_frame;
+	ManaType m_mana_type;
 };
 
 #endif
