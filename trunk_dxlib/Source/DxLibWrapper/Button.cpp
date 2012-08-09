@@ -4,6 +4,7 @@
 #include "DxLib.h"
 #include "System/CheckHit.hpp"
 #include "Project/Draw.hpp"
+#include "Project/Singleton/SingletonImageLoader.hpp"
 
 Button::Button(
     int image_handle ,
@@ -18,7 +19,10 @@ Button::Button(
 
 void Button::Draw() const
 {
-    DrawTexture( m_pos , static_cast<ImageType>(m_image_handle) );
+    DrawRectGraph( static_cast<int>(m_pos.x), static_cast<int>(m_pos.y),
+        0, 0, static_cast<int>(m_size.x), static_cast<int>(m_size.y),
+        ImageHandleOf(static_cast<ImageType>(m_image_handle)), TRUE, FALSE);
+//    DrawTexture( m_pos , static_cast<ImageType>(m_image_handle) );
     DrawCollision();
 }
 
