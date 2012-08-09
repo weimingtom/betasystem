@@ -252,7 +252,7 @@ void StateBattle::DrawDebug() const
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
-    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "m_player_mana_type[%d]", gSaveData.m_player_mana_type );
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "m_player_mana_type[%s]", NameOf( static_cast<ManaType>(gSaveData.m_player_mana_type)) );
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "êiçsìx");
     
     float width = 200.0f;

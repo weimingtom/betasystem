@@ -334,6 +334,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Source\Project\ManaType.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\ManaType.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Source\Project\PlayerLife.cpp"
 					>
 				</File>
