@@ -16,7 +16,7 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
  , m_frame(0)
 {
     //ボタンを配置する。
-    int const button_left = 100;
+    int button_left = 100;
     int const button_width = 100;
     int const button_height = 50;
     int const button_margin = button_height+10;
@@ -36,8 +36,13 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select5" ) );
     m_button_list.push_back( button );
+    button_left = 300;
+    button_top = 10;
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "level_up" ) );
+    m_button_list.push_back( button );
+    button.reset( new Button( ImageType_SelectStage2,
+        Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "reset_hp" ) );
     m_button_list.push_back( button );
 
 }
@@ -64,6 +69,8 @@ void StateSelectStage::Update()
             m_manager->ChangeState( ProjectState_Battle );
 		}else if( button_name.find("level_up") != std::string::npos ){
             LevelUp();
+		}else if( button_name.find("reset_hp") != std::string::npos ){
+		    gSaveData.m_player_hp = gSaveData.m_player_max_hp;
         }
     }
 }
@@ -71,14 +78,14 @@ void StateSelectStage::Update()
 void StateSelectStage::LevelUp()
 {
     //レベルアップ判定.
-    if(gSaveData.m_player_exp > gSaveData.m_player_level*10){
+    if(gSaveData.m_player_exp > gSaveData.m_player_level*20){
         std::string log = "レベルが";
         log += StringOf(gSaveData.m_player_level);
         log += "に上がった。";
 //        m_log_printer->Print(log,ColorOf(255,0,0));
         gSaveData.m_player_exp -= gSaveData.m_player_level*10;
         gSaveData.m_player_level++;
-        gSaveData.m_player_max_hp+=1;
+        gSaveData.m_player_max_hp+=10;
 //        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
     }
 

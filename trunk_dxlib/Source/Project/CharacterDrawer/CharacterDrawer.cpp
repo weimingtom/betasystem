@@ -38,7 +38,7 @@ void CharacterDrawer::Draw() const
         }
     }
 
-    DrawFormatString( 0 , 300 , ColorOf(0,255,0) , "CharacterDrawer is Running..." );
+//    DrawFormatString( 0 , 300 , ColorOf(0,255,0) , "CharacterDrawer is Running..." );
 }
 
 void CharacterDrawer::SetChara(ImageType type, CharaPos pos)

@@ -38,8 +38,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
     m_player_pos.y = 300;
     InitEnemy();
     InitPreTalk();
-    
-    gSaveData.m_player_hp = gSaveData.m_player_max_hp;
 }
 
 StateBattle::~StateBattle()
@@ -98,7 +96,6 @@ void StateBattle::Draw() const
     switch( m_step )
     {
     case Step_DecideMeter:
-        DrawDashGauge();
 		//説明
         DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
@@ -109,7 +106,6 @@ void StateBattle::Draw() const
         }
         break;
 	case Step_WaitDash:
-        DrawDashGauge();
         break;
     case Step_DashEnd:
         DrawFormatString( 250 , 200 , ColorOf() , "やられたー" );
@@ -125,15 +121,6 @@ void StateBattle::Draw() const
     DrawItem();
     //mPlayerLife->Draw();
 	m_msg_printer->Draw();
-    
-	{
-		//HP表示.
-		int x = 10,y = 460;
-		int width = gSaveData.m_player_max_hp;
-		int height = 20;
-		DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
-		DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
-	}
 
     m_log_printer->Draw();
 
@@ -149,7 +136,6 @@ void StateBattle::InitStepWaitDash()
 {
     SetStep( Step_WaitDash );
     m_frame = 0;
-	gSaveData.m_player_hp += m_gauge->GetValue();
     m_player_texture->Set( AnimDataOf( AnimType_PlayerCharge ) );
 }
 
@@ -238,9 +224,16 @@ void StateBattle::StepDash()
 void StateBattle::DrawDebug() const
 {
     int const x = 400;
-    int y = 10;
-    DrawFormatString( x , y+=20,    ColorOf() , "max_hp[%d]", gSaveData.m_player_max_hp);
-    DrawFormatString( x , y+=20,    ColorOf() , "hp[%d]", gSaveData.m_player_hp);
+    int y = 30;
+    DrawFormatString( x , y+=20,    ColorOf() , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp);
+	{
+		//HPを視覚的に表示.
+		y+=20;
+		int width = gSaveData.m_player_max_hp;
+		int height = 20;
+		DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
+		DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
+	}
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
@@ -253,28 +246,11 @@ void StateBattle::DrawDebug() const
 	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
 	DrawBox( x , y, static_cast<int>(x+width*(float)mBreakEnemyCounter->Num()/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
 
+
     for( int i = 0 ; i < ItemType_Num ; i++ ){
-        DrawFormatString( i*50 , 50 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
+//        DrawFormatString( i*50 , 50 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
     }
 
-}
-
-/**
-    ゲージの描画
-*/
-void StateBattle::DrawDashGauge() const
-{
-    DrawGauge( 10 , 410 + 25 );
-}
-
-void StateBattle::DrawGauge( int x, int y) const
-{
-	int const height = 20;
-	//下地
-	DrawBox( x, y, x+m_gauge->GetMax() , y+height, GetColor( 0,0,0 ), TRUE );
-	
-	int const color = GetColor( 0, static_cast<int>(255.0f / m_gauge->GetMax() * m_gauge->GetValue()), 0 );
-	DrawBox( x, y, x+m_gauge->GetValue() , y+height, color, TRUE );
 }
 
 void StateBattle::UpdateCommon()
@@ -322,14 +298,11 @@ void StateBattle::InitPreTalk()
 void StateBattle::InitStepDecideMeter()
 {
     SetStep( Step_DecideMeter );
-    m_gauge.reset( new Gauge(gSaveData.m_player_max_hp) );
 	m_player_texture->Set( AnimDataOf( AnimType_PlayerIdling ) );
 }
 
 void StateBattle::StepDecideMeter()
 {
-	m_gauge->Update(SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ));
-
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
 		//連打音.
