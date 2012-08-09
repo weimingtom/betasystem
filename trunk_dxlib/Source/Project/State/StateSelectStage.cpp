@@ -94,6 +94,7 @@ void StateSelectStage::Draw() const
     DrawFormatString( 0 , 20 , ColorOf(0,255,0) , "stage_name[%s]", info.name);
 	DrawFormatString( 0 , 40 , ColorOf(0,255,0) , "level[%d]", gSaveData.m_player_level);
 	DrawFormatString( 0 , 60 , ColorOf(0,255,0) , "exp[%d]", gSaveData.m_player_exp);
+	DrawFormatString( 0 , 80 , ColorOf(0,255,0) , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp );
     
 	for( ButtonPtrList::size_type i = 0 ; i < m_button_list.size() ; i++ ){
         m_button_list.at(i)->Draw();

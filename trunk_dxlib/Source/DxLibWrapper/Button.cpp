@@ -24,5 +24,6 @@ void Button::Draw() const
         ImageHandleOf(static_cast<ImageType>(m_image_handle)), TRUE, FALSE);
 //    DrawTexture( m_pos , static_cast<ImageType>(m_image_handle) );
     DrawCollision();
+    DrawFormatString( (int)m_pos.x , (int)m_pos.y, ColorOf(0,255,0) , "%s", m_name.c_str() );
 }
 
