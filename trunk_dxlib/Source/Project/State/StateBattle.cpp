@@ -216,17 +216,6 @@ void StateBattle::StepDash()
             }
         }
     }
-    //レベルアップ判定.
-    if(gSaveData.m_player_exp > gSaveData.m_player_level*10){
-        std::string log = "レベルが";
-        log += StringOf(gSaveData.m_player_level);
-        log += "に上がった。";
-        m_log_printer->Print(log,ColorOf(255,0,0));
-        gSaveData.m_player_exp -= gSaveData.m_player_level*10;
-        gSaveData.m_player_level++;
-        gSaveData.m_player_max_hp+=1;
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
-    }
     
     //ゲームオーバー判定.
 	if( gSaveData.m_player_hp <= 0 ){

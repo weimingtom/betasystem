@@ -18,6 +18,7 @@ public:
 	void Draw() const;
 private:
     std::string GetButtonName() const;
+    void LevelUp();
 private:
     StateManagerBase* m_manager;
     int m_frame;
