@@ -23,6 +23,8 @@ enum StageType{
     StageType_ScoreAttack,
     StageType_RedForest,
     StageType_WhiteForest,
+    StageType_4,
+    StageType_5,
     StageType_Dummy,
     StageType_Num
 };

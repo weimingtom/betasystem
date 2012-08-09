@@ -15,11 +15,26 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
  , m_frame(0)
 {
     //ボタンを配置する。
-    ButtonPtr button( new Button( ImageType_SelectStage1, Vector2(100,100), Vector2(200,100), "Select1" ) );
+    int const button_left = 100;
+    int const button_width = 100;
+    int const button_height = 50;
+    int const button_margin = button_height+10;
+    int button_top = 10;
+    ButtonPtr button( new Button( ImageType_SelectStage1,
+        Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select1" ) );
     m_button_list.push_back( button );
-
-    ButtonPtr button2( new Button( ImageType_SelectStage2, Vector2(100,300), Vector2(200,100), "Select2" ) );
-    m_button_list.push_back( button2 );
+    button.reset( new Button( ImageType_SelectStage2,
+        Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select2" ) );
+    m_button_list.push_back( button );
+    button.reset( new Button( ImageType_SelectStage2,
+        Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select3" ) );
+    m_button_list.push_back( button );
+    button.reset( new Button( ImageType_SelectStage2,
+        Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select4" ) );
+    m_button_list.push_back( button );
+    button.reset( new Button( ImageType_SelectStage2,
+        Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select5" ) );
+    m_button_list.push_back( button );
 
 }
 
@@ -30,6 +45,12 @@ void StateSelectStage::Update()
         gSaveData.m_selected_stage = StageType_ScoreAttack;
     }else if( button_name == "Select2"){
         gSaveData.m_selected_stage = StageType_RedForest;
+    }else if( button_name == "Select3"){
+        gSaveData.m_selected_stage = StageType_WhiteForest;
+    }else if( button_name == "Select4"){
+        gSaveData.m_selected_stage = StageType_4;
+    }else if( button_name == "Select5"){
+        gSaveData.m_selected_stage = StageType_5;
     }
 
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
