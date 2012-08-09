@@ -190,6 +190,10 @@ void StateBattle::StepDash()
 {
     UseItem();
 
+    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F11 ) ) ){
+        m_manager.ChangeState( ProjectState_SelectStage );
+    }
+
     //クリックしたら進む
     if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
         m_player_pos.x += 20.0f;
@@ -448,14 +452,6 @@ void StateBattle::InitEnemy()
 
 void StateBattle::UpdateDebug()
 {
-    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F12 ) ) )
-    {
-        m_is_debug_draw = !m_is_debug_draw;
-    }
-    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F11 ) ) )
-    {
-    	m_manager.ChangeState( ProjectState_Title );
-    }
 }
 
 

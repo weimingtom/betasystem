@@ -62,7 +62,7 @@ void StateSelectStage::Update()
     {
         if( button_name.find("Select") != std::string::npos ){
             m_manager->ChangeState( ProjectState_Battle );
-        }else if( button_name.find("level_up") ){
+		}else if( button_name.find("level_up") != std::string::npos ){
             LevelUp();
         }
     }
