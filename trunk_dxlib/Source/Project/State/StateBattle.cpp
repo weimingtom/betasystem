@@ -38,6 +38,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
     m_player_pos.y = 300;
     InitEnemy();
     InitPreTalk();
+//    SetStep( Step_Dash );
 }
 
 StateBattle::~StateBattle()
@@ -58,23 +59,18 @@ void StateBattle::Update()
 	case Step_Dash:
 		StepDash();
 		break;
-    case Step_DashEnd:
-	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-            InitResult();
-	    }
-        break;
 	case Step_Result:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-            UpdateHiScore();
             gSaveData.Reset(); // セーブデータ消去.
 	    	m_manager.ChangeState( ProjectState_Title );
 	    }
 		break;
     case Step_Clear:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	        gSaveData.m_selected_stage++;
+	        if( gSaveData.m_selected_stage < StageType_Num ){
+    	        gSaveData.m_selected_stage++;
+            }
     	    m_manager.ChangeState( ProjectState_Battle );
-    	    UpdateHiScore();
         }
         break;
 	}
@@ -100,10 +96,6 @@ void StateBattle::Draw() const
         DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
     case Step_Dash:
-        //倍速
-        if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
-            DrawFormatString( 600 , 10 , ColorOf() , "×２" );
-        }
         break;
 	case Step_WaitDash:
         break;
@@ -154,22 +146,10 @@ void StateBattle::StepWaitDash()
 int DamageOf(ManaType player_mana_type,Enemy* enemy)
 {
     int result = enemy->GetHP();
-    switch( player_mana_type )
-    {
-    case ManaType_Red:
-        if( enemy->GetManaType() == ManaType_Blue ){ result *= 2; }
-        if( enemy->GetManaType() == ManaType_Green){ result/=2; }
-        break;
-    case ManaType_Green:
-        if( enemy->GetManaType() == ManaType_Red ){ result *= 2; }
-        if( enemy->GetManaType() == ManaType_Blue){ result/=2; }
-        break;
-    case ManaType_Blue:
-        if( enemy->GetManaType() == ManaType_Green ){ result *= 2; }
-        if( enemy->GetManaType() == ManaType_Red ){ result/=2; }
-        break;
+    if( player_mana_type == enemy->GetManaType() ){
+        result = 0;
     }
-	return result;
+    return result;
 }
 
 void StateBattle::StepDash()
@@ -181,12 +161,17 @@ void StateBattle::StepDash()
     }
 
     //クリックしたら進む
-    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
+//    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
         m_player_pos.x += 20.0f;
-    }
+//    }
 
-    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
-        m_player_pos.x += 30.0f;
+    //属性切り替え.
+    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
+        gSaveData.m_player_mana_type = static_cast<ManaType>(gSaveData.m_player_mana_type + 1);
+        if( gSaveData.m_player_mana_type >= ManaType_Num ){
+            gSaveData.m_player_mana_type = ManaType_Red;
+        }
     }
 
     /**
@@ -210,7 +195,7 @@ void StateBattle::StepDash()
     //ゲームオーバー判定.
 	if( gSaveData.m_player_hp <= 0 ){
 		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
-		SetStep( Step_DashEnd );
+		SetStep( Step_Result );
 	}
 	//クリア判定.
     if( RemainEnemy() == 0 ){
@@ -223,32 +208,52 @@ void StateBattle::StepDash()
 */
 void StateBattle::DrawDebug() const
 {
-    int const x = 400;
-    int y = 30;
+    //hp
+    int const x = 0;
+    int y = 240;
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp);
-	{
-		//HPを視覚的に表示.
-		y+=20;
-		int width = gSaveData.m_player_max_hp;
-		int height = 20;
-		DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
-		DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
-	}
+	y+=20;
+	int width = gSaveData.m_player_max_hp;
+	int height = 20;
+	DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
+	DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
+
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "m_player_mana_type[%s]", NameOf( static_cast<ManaType>(gSaveData.m_player_mana_type)) );
+    width = 20;
+	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
+	    GetColor(
+	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0,
+	        gSaveData.m_player_mana_type == ManaType_Green ? 255 : 0,
+	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0 ),
+            TRUE );
+	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
+	    GetColor(
+	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0,
+	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0,
+	        gSaveData.m_player_mana_type == ManaType_Green ? 255 : 0 ),
+            TRUE );
+	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
+	    GetColor(
+	        gSaveData.m_player_mana_type == ManaType_Green ? 255 : 0,
+	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0,
+	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0 ),
+            TRUE );
+
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "進行度");
     
-    float width = 200.0f;
-	int height = 20;
-	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
-	DrawBox( x , y, static_cast<int>(x+width*(float)mBreakEnemyCounter->Num()/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
-
+    {
+        float width = 200.0f;
+    	int height = 20;
+    	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
+    	DrawBox( x , y, static_cast<int>(x+width*(float)mBreakEnemyCounter->Num()/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
+    }
 
     for( int i = 0 ; i < ItemType_Num ; i++ ){
-//        DrawFormatString( i*50 , 50 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
+        DrawFormatString( i*50 , 50 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
     }
 
 }
@@ -340,22 +345,13 @@ void StateBattle::UseItem( ItemType type )
 {
 	switch( type ){
     case ItemType_Meet:
-        gSaveData.m_player_hp += 5;
+        gSaveData.m_player_hp += 50;
         break;
     case ItemType_GoodMeet:
         gSaveData.m_player_hp += 20;
         break;
     case ItemType_LifeWater:
         gSaveData.m_player_max_hp += 10;
-        break;
-    case ItemType_RedManaStone:
-        gSaveData.m_player_mana_type = ManaType_Red;
-        break;
-    case ItemType_GreenManaStone:
-        gSaveData.m_player_mana_type = ManaType_Green;
-        break;
-    case ItemType_BlueManaStone:
-        gSaveData.m_player_mana_type = ManaType_Blue;
         break;
     }
     gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp,gSaveData.m_player_max_hp);
@@ -410,15 +406,12 @@ void StateBattle::UpdateHiScore()
 
 void StateBattle::InitEnemy()
 {
-    Enemy::Type type = Enemy::Type_GreenSlime;
+    Enemy::Type enemy_type = Enemy::Type_GreenSlime;
 	for( int i = 0 ; i < m_stage_info.total_enemy; i++ ){
-	    //敵を切り替える場所だったら切り替える.
-	    for( int j = 0 ; j < EnemyPointMax ; j++ ){
-	        if( m_stage_info.change_point[j] == i ){
-	            type = m_stage_info.change_enemy[j];
-	        }
+	    if( i%20 == 0 ){
+	        enemy_type = static_cast<Enemy::Type>(GetRandToMax(Enemy::Type_Num));
 	    }
-		m_enemy.push_back( boost::shared_ptr<Enemy>(new Enemy( type )) );
+		m_enemy.push_back( boost::shared_ptr<Enemy>( new Enemy( enemy_type ) ) );
         m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
 }

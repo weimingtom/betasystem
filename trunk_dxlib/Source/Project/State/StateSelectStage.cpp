@@ -10,11 +10,14 @@
 #include "Project/SaveData.hpp"
 #include "Project/Stage.hpp"
 #include "System/StringOf.hpp"
+#include "Project/Singleton/SingletonSoundLoader.hpp"
 
 StateSelectStage::StateSelectStage( StateManagerBase* manager )
  : m_manager( manager )
  , m_frame(0)
 {
+    gSaveData.m_player_hp = gSaveData.m_player_max_hp;
+
     //ボタンを配置する。
     int button_left = 100;
     int const button_width = 100;
@@ -24,6 +27,7 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
     ButtonPtr button( new Button( ImageType_SelectStage1,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select1" ) );
     m_button_list.push_back( button );
+/*
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select2" ) );
     m_button_list.push_back( button );
@@ -36,6 +40,7 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select5" ) );
     m_button_list.push_back( button );
+*/
     button_left = 300;
     button_top = 10;
     button.reset( new Button( ImageType_SelectStage2,
@@ -51,26 +56,18 @@ void StateSelectStage::Update()
 {
     //毎フレームgSaveDataのstage変えてるのは、ボタンの上にカーソル乗せた時点で、行き先名を表示する必要があるため。
     std::string const button_name = GetButtonName();
-    if( button_name == "Select1"){
-        gSaveData.m_selected_stage = StageType_ScoreAttack;
-    }else if( button_name == "Select2"){
-        gSaveData.m_selected_stage = StageType_RedForest;
-    }else if( button_name == "Select3"){
-        gSaveData.m_selected_stage = StageType_WhiteForest;
-    }else if( button_name == "Select4"){
-        gSaveData.m_selected_stage = StageType_4;
-    }else if( button_name == "Select5"){
-        gSaveData.m_selected_stage = StageType_5;
-    }
 
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
     {
         if( button_name.find("Select") != std::string::npos ){
             m_manager->ChangeState( ProjectState_Battle );
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
 		}else if( button_name.find("level_up") != std::string::npos ){
             LevelUp();
+		    gSaveData.m_player_hp = gSaveData.m_player_max_hp;
 		}else if( button_name.find("reset_hp") != std::string::npos ){
 		    gSaveData.m_player_hp = gSaveData.m_player_max_hp;
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
         }
     }
 }
@@ -83,10 +80,10 @@ void StateSelectStage::LevelUp()
         log += StringOf(gSaveData.m_player_level);
         log += "に上がった。";
 //        m_log_printer->Print(log,ColorOf(255,0,0));
-        gSaveData.m_player_exp -= gSaveData.m_player_level*10;
+        gSaveData.m_player_exp -= gSaveData.m_player_level*15;
         gSaveData.m_player_level++;
-        gSaveData.m_player_max_hp+=10;
-//        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+        gSaveData.m_player_max_hp+=5*gSaveData.m_player_level;
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
     }
 
 }

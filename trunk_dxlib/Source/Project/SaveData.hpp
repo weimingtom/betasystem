@@ -18,7 +18,6 @@ public:
     int m_item[ItemType_Num];
     int m_total_break;
     int m_max_break;
-    int m_current_stage;
     int m_player_max_hp;
     int m_player_hp;
     int m_player_exp;

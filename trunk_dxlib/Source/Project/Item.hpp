@@ -10,9 +10,6 @@ enum ItemType
     ItemType_Meet,
     ItemType_GoodMeet,
     ItemType_LifeWater,
-    ItemType_RedManaStone,
-    ItemType_GreenManaStone,
-    ItemType_BlueManaStone,
     
     ItemType_Num,
 };

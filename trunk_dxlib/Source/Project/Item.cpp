@@ -8,9 +8,6 @@ char const* NameOf( ItemType type )
         "スライムの肉",
         "スライムの上質な肉",
         "生命の雫",
-        "レッドマナストーン",
-        "グリーンマナストーン",
-        "ブルーマナストーン",
     };
 	return item[type];
 }
@@ -20,12 +17,9 @@ int DropPamiriado( ItemType type )
     static int list[ItemType_Num] =
     {
         0,
-        500,
-        250,
-        20,
-        100,
-        100,
-        100,
+        50,
+        0,
+        10,
     };
     return list[type];
 }
