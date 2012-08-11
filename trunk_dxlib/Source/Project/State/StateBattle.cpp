@@ -189,9 +189,8 @@ void StateBattle::StepDash()
     if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F11 ) ) ){
         m_manager.ChangeState( ProjectState_SelectStage );
     }
-
     //クリックしたら進む
-    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
+    else if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
         m_player_pos.x += 5.0f;
         
         //エンカウント判定.
@@ -216,7 +215,10 @@ void StateBattle::StepDash()
             }
         }
     }
-    
+    else if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
+        //休憩.
+        gSaveData.m_player_hp = gSaveData.m_player_max_hp;
+    }
 }
 
 /**
