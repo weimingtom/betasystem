@@ -30,7 +30,7 @@ Enemy::Enemy( Type type )
     
     m_anim_tex.reset( new AnimTexture(
         ImageHandleOf( image_type ), AnimDataOf( AnimType_EnemyIdling ) ) );
-    m_hp = 2;
+    m_hp = 4;
     m_exp = 1;
 
 

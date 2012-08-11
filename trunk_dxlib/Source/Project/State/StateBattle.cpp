@@ -70,7 +70,7 @@ void StateBattle::Update()
 	        if( gSaveData.m_selected_stage < StageType_Num ){
     	        gSaveData.m_selected_stage++;
             }
-    	    m_manager.ChangeState( ProjectState_Battle );
+    	    m_manager.ChangeState( ProjectState_SelectStage );
         }
         break;
 	}
@@ -147,7 +147,7 @@ int DamageOf(ManaType player_mana_type,Enemy* enemy)
 {
     int result = enemy->GetHP();
     if( player_mana_type == enemy->GetManaType() ){
-        result = 0;
+        result = 1;
     }
     return result;
 }
@@ -169,10 +169,14 @@ void StateBattle::StepDash()
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
         SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
         gSaveData.m_player_mana_type = static_cast<ManaType>(gSaveData.m_player_mana_type + 1);
-        if( gSaveData.m_player_mana_type >= ManaType_Num ){
-            gSaveData.m_player_mana_type = ManaType_Red;
-        }
     }
+
+    if( gSaveData.m_player_mana_type >= ManaType_Num ){
+        gSaveData.m_player_mana_type = ManaType_Red;
+    }
+    if( gSaveData.m_player_mana_type < 0 ){
+        gSaveData.m_player_mana_type = ManaType_Num - 1;
+    } 
 
     /**
         ƒvƒŒƒCƒ„[‚Æ“G‚ª‚Ô‚Â‚©‚Á‚½‚çA“G‚ð‚Ó‚Á‚Æ‚Î‚·.

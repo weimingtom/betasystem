@@ -39,8 +39,8 @@ void StateTitle::Draw() const
     {
     case Step_Title:
         DrawTexture( Vector2(0,0), ImageType_Title );
-        DrawFormatString( 0 , 0 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
-        DrawFormatString( 0 , 20 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
+//        DrawFormatString( 0 , 0 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
+//        DrawFormatString( 0 , 20 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
         break;
     }
 }
