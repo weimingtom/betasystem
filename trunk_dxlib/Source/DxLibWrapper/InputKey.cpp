@@ -27,6 +27,7 @@ int const InputKey::Impl::m_key_flag[ InputKey::Type_Num ] =
     KEY_INPUT_BACK,
     KEY_INPUT_RETURN,
     KEY_INPUT_RSHIFT,
+    KEY_INPUT_LCONTROL,
     KEY_INPUT_RCONTROL,
     KEY_INPUT_0,
     KEY_INPUT_1,

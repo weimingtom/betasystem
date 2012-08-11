@@ -16,6 +16,7 @@ public:
         Type_Backspace,
         Type_Enter,
         Type_RightShift,
+        Type_LeftControl,
         Type_RightControl,
         Type_0,
         Type_1,

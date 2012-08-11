@@ -24,11 +24,13 @@ void StateTitle::Update()
     case Step_Title:
         if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
         {
-            m_manager->ChangeState( ProjectState_SelectStage );
+            m_manager->ChangeState( ProjectState_Battle );
         }
+/*
         else if( SingletonInputMouse::Get()->IsTrig(InputMouse::Type_Right) ){
             m_manager->ChangeState( ProjectState_TestMsg );
         }
+*/
         break;
     }
 }

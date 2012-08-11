@@ -140,7 +140,7 @@ void StateBattle::Draw() const
         break;
     }
     //mBreakEnemyCounter->Draw();
-    DrawItem();
+    //DrawItem();
     //mPlayerLife->Draw();
 	m_msg_printer->Draw();
 
@@ -192,9 +192,12 @@ void StateBattle::StepDash()
     //クリックしたら進む
     else if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
         m_player_pos.x += 5.0f;
+        if( KeyInput()->IsHold( static_cast<InputKey::Type>( InputKey::Type_LeftControl ) ) ){
+            m_player_pos.x += 10.0f;
+        }
         
         //エンカウント判定.
-        int const rand_num = GetRandToMax(1000);
+        int const rand_num = GetRandToMax(300);
         if( rand_num == 0 ){
             //戦闘
             SetStep(Step_Battle);
@@ -228,7 +231,7 @@ void StateBattle::DrawDebug() const
 {
     //hp
     int const x = 0;
-    int y = 200;
+    int y = 100;
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp);
 	y+=20;
 	int width = gSaveData.m_player_max_hp;
@@ -241,6 +244,8 @@ void StateBattle::DrawDebug() const
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
+
+/*
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "m_player_mana_type[%s]", NameOf( static_cast<ManaType>(gSaveData.m_player_mana_type)) );
     width = 20;
 	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
@@ -261,14 +266,14 @@ void StateBattle::DrawDebug() const
 	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0,
 	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0 ),
             TRUE );
+*/
 
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "進行度");
-    
     {
         float width = 200.0f;
     	int height = 20;
     	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
-    	DrawBox( x , y, static_cast<int>(x+width*(float)mBreakEnemyCounter->Num()/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
+    	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
     }
 
     for( int i = 0 ; i < ItemType_Num ; i++ ){
