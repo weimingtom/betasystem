@@ -73,6 +73,18 @@ void StateBattle::Update()
     	    m_manager.ChangeState( ProjectState_SelectStage );
         }
         break;
+	case Step_Battle:
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+	        gSaveData.m_player_hp -= 10;
+	        if(gSaveData.m_player_hp <= 0){
+                //ゲームオーバー.
+        	    m_manager.ChangeState( ProjectState_Title );
+	        }else{
+	            //勝利.
+    	        SetStep(Step_Dash);
+	        }
+	    }
+        break;
 	}
 }
 
@@ -82,14 +94,7 @@ void StateBattle::Draw() const
     DrawBox( 0, 0, 640 , 480, GetColor( 200,222,200 ), TRUE );
     m_background->Draw( m_camera->Position() );
     m_player_texture->Draw( m_camera->Position() );
-	//敵の描画.
-/*
-    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        if( m_enemy[i]->IsVisible() ){
-            m_enemy[i]->Draw( m_camera->Position() );
-        }
-    }
-*/
+
     switch( m_step )
     {
     case Step_DecideMeter:
@@ -108,6 +113,9 @@ void StateBattle::Draw() const
         break;
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
+        break;
+    case Step_Battle:
+        DrawFormatString( 250 , 200 , ColorOf() , "戦闘中...");
         break;
     }
     //mBreakEnemyCounter->Draw();
@@ -164,49 +172,14 @@ void StateBattle::StepDash()
     //クリックしたら進む
     if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
         m_player_pos.x += 5.0f;
-    }
-    
-/*
-    //属性切り替え.
-    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-        SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
-        gSaveData.m_player_mana_type = static_cast<ManaType>(gSaveData.m_player_mana_type + 1);
-    }
-
-    if( gSaveData.m_player_mana_type >= ManaType_Num ){
-        gSaveData.m_player_mana_type = ManaType_Red;
-    }
-    if( gSaveData.m_player_mana_type < 0 ){
-        gSaveData.m_player_mana_type = ManaType_Num - 1;
-    } 
-*/
-    /**
-        プレイヤーと敵がぶつかったら、敵をふっとばす.
-    */
-/*
-    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        if( m_enemy[i]->IsAlive() ){
-            if( m_enemy[i]->Position().x < m_player_pos.x ){
-                gSaveData.m_player_hp -= DamageOf( static_cast<ManaType>(gSaveData.m_player_mana_type) , m_enemy[i].get() );
-                SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
-                m_enemy[i]->SetSpeed( Vector2( 20.0f * 2, - GetRand(20)-3 ) );
-                m_enemy[i]->SetAlive( false );
-                mBreakEnemyCounter->Add();
-                gSaveData.m_total_break++;
-                gSaveData.m_player_exp += m_enemy[i]->GetExp();
-                GetItem();
-            }
+        
+        //エンカウント判定.
+        int const rand_num = GetRandToMax(1000);
+        if( rand_num < 2 ){
+            SetStep(Step_Battle);
         }
     }
-*/
-
-/*
-    //ゲームオーバー判定.
-	if( gSaveData.m_player_hp <= 0 ){
-		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
-		SetStep( Step_Result );
-	}
-*/
+    
 }
 
 /**
