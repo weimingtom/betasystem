@@ -44,6 +44,8 @@ private:
 		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
 		Step_Battle,
+		Step_OpenGate,
+		Step_TreasureBox,
 		Step_Clear,
 	};
 	

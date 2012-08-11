@@ -85,6 +85,20 @@ void StateBattle::Update()
 	        }
 	    }
         break;
+    case Step_OpenGate:
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+            gSaveData.m_selected_stage = GetRandToMax( StageType_Num );
+    	    m_manager.ChangeState( ProjectState_Battle );
+	    }
+	    else if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
+	        SetStep(Step_Dash);
+	    }
+        break;
+    case Step_TreasureBox:
+	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+	        SetStep(Step_Dash);
+	    }
+        break;
 	}
 }
 
@@ -115,7 +129,13 @@ void StateBattle::Draw() const
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
     case Step_Battle:
-        DrawFormatString( 250 , 200 , ColorOf() , "戦闘中...");
+        DrawFormatString( 250 , 200 , ColorOf() , "戦闘中!");
+        break;
+    case Step_OpenGate:
+        DrawFormatString( 250 , 200 , ColorOf() , "扉発見!");
+        break;
+    case Step_TreasureBox:
+        DrawFormatString( 250 , 200 , ColorOf() , "宝箱発見!");
         break;
     }
     //mBreakEnemyCounter->Draw();
@@ -174,9 +194,13 @@ void StateBattle::StepDash()
         m_player_pos.x += 5.0f;
         
         //エンカウント判定.
-        int const rand_num = GetRandToMax(1000);
-        if( rand_num < 2 ){
+        int const rand_num = GetRandToMax(200);
+        if( rand_num == 0 ){
             SetStep(Step_Battle);
+        }else if( rand_num==1 ){
+            SetStep(Step_OpenGate);
+        }else if( rand_num == 2 ){
+            SetStep(Step_TreasureBox);
         }
     }
     
