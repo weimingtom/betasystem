@@ -88,6 +88,7 @@ private:
     std::vector<boost::shared_ptr<Enemy>> m_enemy;
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
+    std::auto_ptr<AnimTexture> m_enemy_texture;
     std::auto_ptr<PlayerLife> mPlayerLife;
     std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
     StageInfo const m_stage_info;

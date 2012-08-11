@@ -28,6 +28,8 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_camera( new Camera() )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
+ , m_enemy_texture( new AnimTexture(
+    ImageHandleOf( ImageType_GreenSlime ), AnimDataOf( AnimType_EnemyIdling ) ) )
  , mPlayerLife( new PlayerLife(1) )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
  , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) ) )
@@ -75,6 +77,7 @@ void StateBattle::Update()
         }
         break;
 	case Step_Battle:
+	    m_enemy_texture->Update();
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
 	        gSaveData.m_player_hp -= 10;
 	        if(gSaveData.m_player_hp <= 0){
@@ -130,7 +133,13 @@ void StateBattle::Draw() const
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
     case Step_Battle:
-        DrawFormatString( 250 , 200 , ColorOf() , "戦闘中!");
+        {
+            DrawFormatString( 250 , 200 , ColorOf() , "戦闘中!");
+            Vector2 pos(400,300);
+            m_enemy_texture->Set(pos);
+            Vector2 const dummy;
+            m_enemy_texture->Draw(dummy);
+        }
         break;
     case Step_OpenGate:
         DrawFormatString( 250 , 200 , ColorOf() , "扉発見!");
@@ -276,9 +285,12 @@ void StateBattle::DrawDebug() const
     	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
     }
 
+/*
+    //アイテム所持数描画.
     for( int i = 0 ; i < ItemType_Num ; i++ ){
         DrawFormatString( i*50 , 50 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
     }
+*/
 
 }
 
