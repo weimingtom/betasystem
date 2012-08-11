@@ -210,6 +210,12 @@ void StateBattle::StepDash()
         if( rand_num == 0 ){
             //êÌì¨
             SetStep(Step_Battle);
+            
+            //êÌì¨ê›íË.
+            int const rand_num = GetRandToMax( Enemy::Type_Num );
+            m_enemy_texture.reset( new AnimTexture(
+                        ImageHandleOf( (ImageType)(ImageType_GreenSlime + rand_num) ), AnimDataOf( AnimType_EnemyIdling ) ) );
+
         }else if( rand_num==1 ){
             //î‡
             SetStep(Step_OpenGate);
@@ -253,29 +259,6 @@ void StateBattle::DrawDebug() const
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
-
-/*
-    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "m_player_mana_type[%s]", NameOf( static_cast<ManaType>(gSaveData.m_player_mana_type)) );
-    width = 20;
-	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
-	    GetColor(
-	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0,
-	        gSaveData.m_player_mana_type == ManaType_Green ? 255 : 0,
-	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0 ),
-            TRUE );
-	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
-	    GetColor(
-	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0,
-	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0,
-	        gSaveData.m_player_mana_type == ManaType_Green ? 255 : 0 ),
-            TRUE );
-	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height,
-	    GetColor(
-	        gSaveData.m_player_mana_type == ManaType_Green ? 255 : 0,
-	        gSaveData.m_player_mana_type == ManaType_Blue ? 255 : 0,
-	        gSaveData.m_player_mana_type == ManaType_Red ? 255 : 0 ),
-            TRUE );
-*/
 
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "êiçsìx");
     {
