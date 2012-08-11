@@ -4,7 +4,7 @@ StageInfo gStageInfo[StageType_Num] =
 {
     {
         "ステージ１",
-        300,
+        3000,
         Enemy::Type_GreenSlime,
         Enemy::Type_RedSlime,
         Enemy::Type_SteelSlime,
@@ -19,7 +19,7 @@ StageInfo gStageInfo[StageType_Num] =
     },
     {
         "ステージ２",
-        300,
+        3000,
         Enemy::Type_GreenSlime,
         Enemy::Type_RedSlime,
         Enemy::Type_SteelSlime,
@@ -34,7 +34,7 @@ StageInfo gStageInfo[StageType_Num] =
     },
     {
         "ステージ３",
-        300,
+        3000,
         Enemy::Type_RedSlime,
         Enemy::Type_GreenSlime,
         Enemy::Type_SteelSlime,
@@ -49,7 +49,7 @@ StageInfo gStageInfo[StageType_Num] =
     },
     {
         "ステージ４",
-        300,
+        3000,
         Enemy::Type_RedSlime,
         Enemy::Type_GreenSlime,
         Enemy::Type_SteelSlime,
@@ -64,7 +64,7 @@ StageInfo gStageInfo[StageType_Num] =
     },
     {
         "ステージ５",
-        300,
+        3000,
         Enemy::Type_RedSlime,
         Enemy::Type_GreenSlime,
         Enemy::Type_SteelSlime,
@@ -79,7 +79,7 @@ StageInfo gStageInfo[StageType_Num] =
     },
     {
         "ステージ６",
-        300,
+        3000,
         Enemy::Type_RedSlime,
         Enemy::Type_GreenSlime,
         Enemy::Type_SteelSlime,

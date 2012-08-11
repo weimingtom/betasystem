@@ -35,6 +35,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_msg_printer( new MsgPrinter() )
  , m_log_printer( new_LogPrinter(50,70) )
 {
+    m_player_pos.x = 0;
     m_player_pos.y = 300;
 //    InitEnemy();
     InitPreTalk();
@@ -87,11 +88,11 @@ void StateBattle::Update()
         break;
     case Step_OpenGate:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-            gSaveData.m_selected_stage = GetRandToMax( StageType_Num );
-    	    m_manager.ChangeState( ProjectState_Battle );
+	        SetStep(Step_Dash);
 	    }
 	    else if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
-	        SetStep(Step_Dash);
+            gSaveData.m_selected_stage = GetRandToMax( StageType_Num );
+            m_manager.ChangeState( ProjectState_Battle );
 	    }
         break;
     case Step_TreasureBox:
@@ -194,13 +195,25 @@ void StateBattle::StepDash()
         m_player_pos.x += 5.0f;
         
         //エンカウント判定.
-        int const rand_num = GetRandToMax(200);
+        int const rand_num = GetRandToMax(1000);
         if( rand_num == 0 ){
+            //戦闘
             SetStep(Step_Battle);
         }else if( rand_num==1 ){
+            //扉
             SetStep(Step_OpenGate);
         }else if( rand_num == 2 ){
+            //宝箱
             SetStep(Step_TreasureBox);
+        }else{
+            //最終地点到達.
+            StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
+            if( m_player_pos.x > info.total_enemy ){
+                //仮で飛ばす.
+                //本当はボス戦とかあるんじゃないかな
+				gSaveData.m_selected_stage = GetRandToMax( StageType_Num );
+				m_manager.ChangeState( ProjectState_Battle );
+            }
         }
     }
     
@@ -213,7 +226,7 @@ void StateBattle::DrawDebug() const
 {
     //hp
     int const x = 0;
-    int y = 240;
+    int y = 200;
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp);
 	y+=20;
 	int width = gSaveData.m_player_max_hp;
@@ -221,6 +234,7 @@ void StateBattle::DrawDebug() const
 	DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
 	DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
 
+    DrawFormatString( x , y+=20,    ColorOf() , "m_player_x[%f]", m_player_pos.x);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
