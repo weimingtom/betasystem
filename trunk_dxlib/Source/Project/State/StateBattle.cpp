@@ -36,7 +36,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_log_printer( new_LogPrinter(50,70) )
 {
     m_player_pos.y = 300;
-    InitEnemy();
+//    InitEnemy();
     InitPreTalk();
 //    SetStep( Step_Dash );
 }
@@ -83,12 +83,13 @@ void StateBattle::Draw() const
     m_background->Draw( m_camera->Position() );
     m_player_texture->Draw( m_camera->Position() );
 	//敵の描画.
+/*
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         if( m_enemy[i]->IsVisible() ){
             m_enemy[i]->Draw( m_camera->Position() );
         }
     }
-
+*/
     switch( m_step )
     {
     case Step_DecideMeter:
@@ -154,17 +155,18 @@ int DamageOf(ManaType player_mana_type,Enemy* enemy)
 
 void StateBattle::StepDash()
 {
-    UseItem();
+//    UseItem();
 
     if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F11 ) ) ){
         m_manager.ChangeState( ProjectState_SelectStage );
     }
 
     //クリックしたら進む
-//    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
-        m_player_pos.x += 20.0f;
-//    }
-
+    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
+        m_player_pos.x += 5.0f;
+    }
+    
+/*
     //属性切り替え.
     if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right ) ){
         SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
@@ -177,10 +179,11 @@ void StateBattle::StepDash()
     if( gSaveData.m_player_mana_type < 0 ){
         gSaveData.m_player_mana_type = ManaType_Num - 1;
     } 
-
+*/
     /**
         プレイヤーと敵がぶつかったら、敵をふっとばす.
     */
+/*
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         if( m_enemy[i]->IsAlive() ){
             if( m_enemy[i]->Position().x < m_player_pos.x ){
@@ -195,16 +198,15 @@ void StateBattle::StepDash()
             }
         }
     }
-    
+*/
+
+/*
     //ゲームオーバー判定.
 	if( gSaveData.m_player_hp <= 0 ){
 		m_player_texture->Set( AnimDataOf( AnimType_PlayerDeath ) );
 		SetStep( Step_Result );
 	}
-	//クリア判定.
-    if( RemainEnemy() == 0 ){
-        SetStep( Step_Clear );
-    }
+*/
 }
 
 /**
@@ -267,11 +269,13 @@ void StateBattle::UpdateCommon()
     m_player_texture->Update();
     m_player_texture->Set( m_player_pos );
     //敵更新
+/*
     for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
         if( m_enemy[i]->IsVisible() ){
             m_enemy[i]->Update();
         }
     }
+*/
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	//背景スクロール
