@@ -69,7 +69,6 @@ private:
 	void StepDecideMeter();
     void UseItem();
     void UseItem( ItemType type );
-    int RemainEnemy() const;
     void GetItem();
     void DrawItem() const;
     void UpdateHiScore();

@@ -179,18 +179,6 @@ void StateBattle::StepWaitDash()
     }
 }
 
-/**
-    ダメージ計算.
-*/
-int DamageOf(ManaType player_mana_type,Enemy* enemy)
-{
-    int result = enemy->GetHP();
-    if( player_mana_type == enemy->GetManaType() ){
-        result = 1;
-    }
-    return result;
-}
-
 void StateBattle::StepDash()
 {
 //    UseItem();
@@ -378,17 +366,6 @@ void StateBattle::UseItem( ItemType type )
     gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp,gSaveData.m_player_max_hp);
     
     SingletonSoundLoader::Get()->Play( NameOf( SoundType_Item ) );
-}
-
-int StateBattle::RemainEnemy() const
-{
-    int remain_enemy = 0;
-    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        if( m_enemy[i]->IsAlive() ){
-            remain_enemy++;
-        }
-    }
-    return remain_enemy;
 }
 
 void StateBattle::GetItem()

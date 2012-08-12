@@ -44,18 +44,6 @@ public:
     */
     Vector2 Position() const { return m_pos; }
     /**
-    	速度の設定.
-    */
-    void SetSpeed( Vector2 speed ){ m_speed = speed; }
-    /**
-    	生死の設定.
-    */
-    void SetAlive( bool is_alive ){ m_is_alive = is_alive; }
-    /**
-        生死の取得.
-    */
-    bool IsAlive() const { return m_is_alive; }
-    /**
         HP の取得.
     */
     int GetHP() const{ return m_hp; }
@@ -63,25 +51,15 @@ public:
         経験値の取得.
     */
     int GetExp() const{ return m_exp; }
-    /**
-        表示するかどうか.
-    */
-    bool IsVisible() const { return m_is_visible; }
-    /**
-        属性.
-    */
-	ManaType GetManaType() const{ return m_mana_type; }
 	
 private:
     int m_hp;
     int m_exp;
+    int m_attack;
+    int m_speed;
+    int m_level;
 	Vector2 m_pos;
-	Vector2 m_speed;
-	bool m_is_alive;
 	std::auto_ptr<AnimTexture> m_anim_tex;
-	bool m_is_visible;
-	int m_frame;
-	ManaType m_mana_type;
 };
 
 #endif
