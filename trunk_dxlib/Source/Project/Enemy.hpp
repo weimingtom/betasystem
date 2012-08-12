@@ -24,7 +24,7 @@ public:
         コンストラクタ.
         @param type 生成する敵の種類.
     */
-    Enemy( Type type );
+    Enemy( Type type, int level );
 	~Enemy(){}
 public:
 	/**
@@ -56,6 +56,9 @@ public:
     */
     int GetExp() const{ return m_exp; }
     int GetAttack() const{ return m_attack; }
+    int GetLevel() const{ return m_level; }
+private:
+    void LevelUp();
 private:
     int m_hp;
     int m_exp;

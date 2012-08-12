@@ -54,11 +54,11 @@ void LogPrinter::Impl::Draw()
 	for( std::string::size_type i = 0 ; i < m_log_list.size() ; i++ )
     {
         DrawFormatString(
-            m_x + 1 , m_y + i * font_size + 1 ,
+            m_x + 1 , m_y + i * -font_size + 1 ,
             ColorOf() ,
             "%s" , m_log_list[i].c_str() );
         DrawFormatString(
-            m_x , m_y + i * font_size ,
+            m_x , m_y + i * -font_size ,
             m_color_list[i] ,
             "%s" , m_log_list[i].c_str() );
     }

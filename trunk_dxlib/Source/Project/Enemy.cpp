@@ -5,8 +5,9 @@
 #include "DxLibWrapper/AnimTexture.hpp"
 #include "System/Range.hpp"
 
-Enemy::Enemy( Type type )
+Enemy::Enemy( Type type, int level )
  : m_pos( Vector2(0,0) )
+ , m_level(level)
 {
     ImageType image_type;
     switch( type ){
@@ -28,10 +29,21 @@ Enemy::Enemy( Type type )
     }
 	m_speed = 1;
 	m_attack = 10;
-
+    
+    for( int i = 1; i < level ; i++ ){
+        
+    }
     
     m_anim_tex.reset( new AnimTexture(
         ImageHandleOf( image_type ), AnimDataOf( AnimType_EnemyIdling ) ) );
+}
+
+void Enemy::LevelUp()
+{
+    m_hp *= 2;
+    m_exp *= 2;
+    m_speed *= 2;
+    m_attack *= 2;
 }
 
 void Enemy::Update()

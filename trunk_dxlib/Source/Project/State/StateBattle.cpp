@@ -33,7 +33,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) ) )
  , m_is_debug_draw( false )
  , m_msg_printer( new MsgPrinter() )
- , m_log_printer( new_LogPrinter(250,70) )
+ , m_log_printer( new_LogPrinter(250,150) )
  , m_kyuukei_frame(1)
 {
     m_player_pos.x = 0;
@@ -49,9 +49,13 @@ void StateBattle::StepBattlePlayer()
 {
     //UŒ‚.
     if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
-        m_log_printer->Print("UŒ‚‚µ‚½B");
-        //•’Ê‚ÉUŒ‚.
-        m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack );
+        if( GetRandToMax(100) < 95 ){ 
+            //•’Ê‚ÉUŒ‚.
+            m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack );
+            m_log_printer->Print("“G‚ğUŒ‚‚µ‚½B");
+        }else{
+            m_log_printer->Print("UŒ‚‚ğ‚Í‚¸‚µ‚½B");
+        }
         SetStep(Step_Battle_Enemy);
     }
     //–‚–@.
@@ -69,7 +73,7 @@ void StateBattle::StepBattlePlayer()
     //‰ñ•œ.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_3 ) ) ){
         if( gSaveData.m_player_mp >= 3 ){
-            m_log_printer->Print("‰ñ•œ–‚–@‚ğg‚Á‚½B");
+            m_log_printer->Print("‰ñ•œ–‚–@‚ğg‚Á‚½Bmp-3,hp+30.");
             gSaveData.m_player_mp -= 3;
             gSaveData.m_player_hp += 30;
             gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp, gSaveData.m_player_max_hp);
@@ -79,7 +83,7 @@ void StateBattle::StepBattlePlayer()
     //•ßŠl.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_4 ) ) ){
         if( GetRandToMax(3) == 0 ){
-            m_log_printer->Print("•ßŠl¬Œ÷ MP‰ñ•œ.");
+            m_log_printer->Print("•ßŠl¬Œ÷. MPŠ®‘S‰ñ•œ.");
             gSaveData.m_player_mp = gSaveData.m_player_max_mp;
 	        SetStep(Step_Dash);
         }else{
@@ -198,7 +202,8 @@ void StateBattle::Draw() const
         {
             DrawFormatString( 0 , 0 , ColorOf() , "1:UŒ‚,2:–‚–@,3:‰ñ•œ,4:•ßŠl,5:“¦‚°‚é");
             DrawFormatString( 250 , 200 , ColorOf() , "í“¬’†!");
-            DrawFormatString( 250 , 220 , ColorOf() , "EnemyHp[%d]",m_enemy->GetHP());
+            DrawFormatString( 250 , 220 , ColorOf() , "EnemyLevel[%d]",m_enemy->GetLevel());
+            DrawFormatString( 250 , 240 , ColorOf() , "EnemyHp[%d]",m_enemy->GetHP());
             if( m_enemy.get() ){
                 Vector2 const dummy;
                 m_enemy->Draw(dummy);
@@ -263,14 +268,14 @@ void StateBattle::StepDash()
             
             //¡‚Íƒ‰ƒ“ƒ_ƒ€‚Å“G‚ğŒˆ’è.
             int const rand_num = GetRandToMax( Enemy::Type_Num );
-            m_enemy.reset( new Enemy( static_cast<Enemy::Type>(rand_num) ) );
+            m_enemy.reset( new Enemy( static_cast<Enemy::Type>(rand_num), 1 ) );
             Vector2 pos(400,350);
             m_enemy->SetPosition(pos);
 
         }else{
             //ÅI’n“_“’B.
             StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
-            if( m_player_pos.x > info.total_enemy ){
+            if( m_player_pos.x > info.length ){
                 //‰¼‚Å”ò‚Î‚·.
                 //–{“–‚Íƒ{ƒXí‚Æ‚©‚ ‚é‚ñ‚¶‚á‚È‚¢‚©‚È
 				gSaveData.m_selected_stage = GetRandToMax( StageType_Num );
@@ -315,7 +320,7 @@ void StateBattle::DrawDebug() const
         float width = 200.0f;
     	int height = 20;
     	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
-    	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
+    	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/info.length) , y+height, GetColor( 255,0,0 ), TRUE );
     }
 }
 
