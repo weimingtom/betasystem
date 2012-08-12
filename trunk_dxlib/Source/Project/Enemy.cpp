@@ -48,4 +48,5 @@ void Enemy::Draw( Vector2 camera_pos ) const
 void Enemy::SetPosition( Vector2 pos )
 {
 	m_pos = pos;
+	m_anim_tex->Set(m_pos);
 }

@@ -94,6 +94,7 @@ private:
     bool m_is_debug_draw;
     std::auto_ptr<MsgPrinter> m_msg_printer;
     std::auto_ptr<LogPrinter> m_log_printer;
+    int m_kyuukei_frame;
 };
 
 #endif

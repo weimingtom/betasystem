@@ -34,12 +34,11 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_is_debug_draw( false )
  , m_msg_printer( new MsgPrinter() )
  , m_log_printer( new_LogPrinter(50,70) )
+ , m_kyuukei_frame(1)
 {
     m_player_pos.x = 0;
     m_player_pos.y = 300;
-//    InitEnemy();
     InitPreTalk();
-//    SetStep( Step_Dash );
 }
 
 StateBattle::~StateBattle()
@@ -48,10 +47,6 @@ StateBattle::~StateBattle()
 
 void StateBattle::StepBattlePlayer()
 {
-    if( m_enemy.get() ){
-	    m_enemy->Update();
-    }
-    
     //攻撃.
     if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
         //普通に攻撃.
@@ -136,7 +131,7 @@ void StateBattle::Update()
         gSaveData.m_player_hp -= m_enemy->GetAttack();
         //プレイヤー死亡判定.
         if(gSaveData.m_player_hp <= 0){
-    	    m_manager.ChangeState( ProjectState_Title );
+            SetStep(Step_Result);
 	    }else{
             //プレイヤーターンに戻す.
             SetStep(Step_Battle_Player);
@@ -173,6 +168,7 @@ void StateBattle::Draw() const
         DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
     case Step_Dash:
+        DrawFormatString( 0 , 0 , ColorOf() , "左クリック:進む,右クリック:休憩" );
         break;
 	case Step_WaitDash:
         break;
@@ -192,8 +188,6 @@ void StateBattle::Draw() const
             DrawFormatString( 250 , 200 , ColorOf() , "戦闘中!");
             DrawFormatString( 250 , 220 , ColorOf() , "EnemyHp[%d]",m_enemy->GetHP());
             if( m_enemy.get() ){
-                Vector2 pos(400,300);
-                m_enemy->SetPosition(pos);
                 Vector2 const dummy;
                 m_enemy->Draw(dummy);
             }
@@ -239,20 +233,15 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::StepDash()
 {
-//    UseItem();
-
-    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F11 ) ) ){
-        m_manager.ChangeState( ProjectState_SelectStage );
-    }
-    //クリックしたら進む
-    else if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
+    //進む
+    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
         m_player_pos.x += 5.0f;
         if( KeyInput()->IsHold( static_cast<InputKey::Type>( InputKey::Type_LeftControl ) ) ){
             m_player_pos.x += 10.0f;
         }
         
         //エンカウント判定.
-        int const rand_num = GetRandToMax(300);
+        int const rand_num = GetRandToMax(200);
         if( rand_num == 0 ){
             //戦闘準備して、戦闘遷移へ
             SetStep(Step_Battle_Player);
@@ -260,13 +249,9 @@ void StateBattle::StepDash()
             //今はランダムで敵を決定.
             int const rand_num = GetRandToMax( Enemy::Type_Num );
             m_enemy.reset( new Enemy( static_cast<Enemy::Type>(rand_num) ) );
-            
-        }else if( rand_num==1 ){
-            //扉
-            SetStep(Step_OpenGate);
-        }else if( rand_num == 2 ){
-            //宝箱
-            SetStep(Step_TreasureBox);
+            Vector2 pos(400,300);
+            m_enemy->SetPosition(pos);
+
         }else{
             //最終地点到達.
             StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
@@ -278,9 +263,13 @@ void StateBattle::StepDash()
             }
         }
     }
+    //休憩.
     else if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Right ) ){
-        //休憩.
-        gSaveData.m_player_hp = gSaveData.m_player_max_hp;
+        m_kyuukei_frame++;
+        if( m_kyuukei_frame % 15 == 0 ){
+            gSaveData.m_player_hp++;
+            gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp,gSaveData.m_player_max_hp);
+        }
     }
 }
 
@@ -319,14 +308,11 @@ void StateBattle::UpdateCommon()
 {
     m_player_texture->Update();
     m_player_texture->Set( m_player_pos );
-    //敵更新
-/*
-    for( int i = 0 ; i < m_stage_info.total_enemy ; i++ ){
-        if( m_enemy[i]->IsVisible() ){
-            m_enemy[i]->Update();
-        }
+
+    if( m_enemy.get() ){
+	    m_enemy->Update();
     }
-*/
+
     //カメラはプレイヤー追尾.
 	m_camera->SetPosition( m_player_pos - Vector2( 640/2 - 200, 480/2 + 50 ) );
 	//背景スクロール
