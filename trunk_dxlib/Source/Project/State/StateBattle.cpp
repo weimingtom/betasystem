@@ -33,7 +33,7 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) ) )
  , m_is_debug_draw( false )
  , m_msg_printer( new MsgPrinter() )
- , m_log_printer( new_LogPrinter(50,70) )
+ , m_log_printer( new_LogPrinter(250,70) )
  , m_kyuukei_frame(1)
 {
     m_player_pos.x = 0;
@@ -49,6 +49,7 @@ void StateBattle::StepBattlePlayer()
 {
     //攻撃.
     if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
+        m_log_printer->Print("攻撃した。");
         //普通に攻撃.
         m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack );
         SetStep(Step_Battle_Enemy);
@@ -57,15 +58,18 @@ void StateBattle::StepBattlePlayer()
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_2 ) ) ){
         //MP足りてるなら大ダメージ.
         if( gSaveData.m_player_mp >= 3 ){
+            m_log_printer->Print("攻撃魔法を使った。");
             gSaveData.m_player_mp -= 3;
             m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack*2 );
             SetStep( Step_Battle_Enemy );
+        }else{
+            m_log_printer->Print("くっ、MPが足りない…");
         }
     }
     //回復.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_3 ) ) ){
-        //アイテム持ってるなら回復.
         if( gSaveData.m_player_mp >= 3 ){
+            m_log_printer->Print("回復魔法を使った。");
             gSaveData.m_player_mp -= 3;
             gSaveData.m_player_hp += 30;
             gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp, gSaveData.m_player_max_hp);
@@ -75,23 +79,29 @@ void StateBattle::StepBattlePlayer()
     //捕獲.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_4 ) ) ){
         if( GetRandToMax(3) == 0 ){
+            m_log_printer->Print("捕獲成功 MP回復.");
+            gSaveData.m_player_mp = gSaveData.m_player_max_mp;
 	        SetStep(Step_Dash);
         }else{
+            m_log_printer->Print("捕獲失敗.");
             SetStep(Step_Battle_Enemy);
         }
     }
     //逃げる.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_5 ) ) ){
         if( GetRandToMax(3) == 0 ){
-	        SetStep(Step_Dash);
-        }else{
+            m_log_printer->Print("しかし回り込まれた.");
             SetStep(Step_Battle_Enemy);
+        }else{
+            m_log_printer->Print("一目散に逃げ出した.");
+	        SetStep(Step_Dash);
         }
     }
     
     //敵の死亡判定.
     if( m_enemy->GetHP() <= 0 ){
         SetStep(Step_Dash);
+        m_log_printer->Print("敵を倒した.");
     }
 }
 
@@ -129,9 +139,11 @@ void StateBattle::Update()
     case Step_Battle_Enemy:
         //敵の攻撃
         gSaveData.m_player_hp -= m_enemy->GetAttack();
+        m_log_printer->Print("敵から攻撃を受けた.");
         //プレイヤー死亡判定.
         if(gSaveData.m_player_hp <= 0){
             SetStep(Step_Result);
+            m_log_printer->Print("やられてしまった…");
 	    }else{
             //プレイヤーターンに戻す.
             SetStep(Step_Battle_Player);
@@ -243,13 +255,16 @@ void StateBattle::StepDash()
         //エンカウント判定.
         int const rand_num = GetRandToMax(200);
         if( rand_num == 0 ){
+            
+            m_log_printer->Print("魔物が現れた。");
+        
             //戦闘準備して、戦闘遷移へ
             SetStep(Step_Battle_Player);
             
             //今はランダムで敵を決定.
             int const rand_num = GetRandToMax( Enemy::Type_Num );
             m_enemy.reset( new Enemy( static_cast<Enemy::Type>(rand_num) ) );
-            Vector2 pos(400,300);
+            Vector2 pos(400,350);
             m_enemy->SetPosition(pos);
 
         }else{
@@ -282,12 +297,12 @@ void StateBattle::DrawDebug() const
     int const x = 0;
     int y = 100;
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp);
-    DrawFormatString( x , y+=20,    ColorOf() , "mp[%d/%d]", gSaveData.m_player_mp, gSaveData.m_player_max_mp);
 	y+=20;
 	int width = gSaveData.m_player_max_hp;
 	int height = 20;
 	DrawBox( x, y, x+width , y+height, GetColor( 0,0,0 ), TRUE );
 	DrawBox( x, y, x+gSaveData.m_player_hp , y+height, GetColor( 0,255,0 ), TRUE );
+    DrawFormatString( x , y+=20,    ColorOf() , "mp[%d/%d]", gSaveData.m_player_mp, gSaveData.m_player_max_mp);
 
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_x[%f]", m_player_pos.x);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
