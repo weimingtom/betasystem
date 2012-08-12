@@ -54,9 +54,12 @@ void SaveData::Reset()
     m_max_break = 0;
     m_player_max_hp = 100;
     m_player_hp = m_player_max_hp;
+    m_player_max_mp = 10;
+    m_player_mp = m_player_max_mp;
     m_player_exp = 0;
     m_player_level = 1;
     m_selected_stage = StageType_ScoreAttack;
     m_player_mana_type = ManaType_Red;
+    m_player_attack = 3;
 }
 

@@ -43,7 +43,8 @@ private:
 		Step_Dash,
 		Step_DashEnd, //!< ダッシュ終了.
 		Step_Result,
-		Step_Battle,
+		Step_Battle_Player,
+		Step_Battle_Enemy,
 		Step_OpenGate,
 		Step_TreasureBox,
 		Step_Clear,
@@ -58,6 +59,7 @@ private:
 	void InitStepSpecial();
 	void StepSpecial();
 	void StepDash();
+	void StepBattlePlayer();
 	void DrawDebug() const;
 	void DrawDashGauge() const;
 	void DrawStepSpecial() const;
@@ -72,7 +74,6 @@ private:
     void GetItem();
     void DrawItem() const;
     void UpdateHiScore();
-	void InitEnemy();
 	void UpdateDebug();
     void DrawGauge( int x, int y) const;
     bool LotteryAddSpecialGauge() const;
@@ -84,10 +85,9 @@ private:
     std::auto_ptr<ScrollBackground> m_background;
     int m_frame;
     std::auto_ptr<Camera> m_camera;
-    std::vector<boost::shared_ptr<Enemy>> m_enemy;
     int m_player_power;
     std::auto_ptr<AnimTexture> m_player_texture;
-    std::auto_ptr<AnimTexture> m_enemy_texture;
+    std::auto_ptr<Enemy> m_enemy;
     std::auto_ptr<PlayerLife> mPlayerLife;
     std::auto_ptr<BreakEnemyCounter> mBreakEnemyCounter;
     StageInfo const m_stage_info;

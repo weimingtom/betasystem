@@ -48,10 +48,14 @@ public:
     */
     int GetHP() const{ return m_hp; }
     /**
+        HP‚Ìİ’è.
+    */
+    void SetHP( int hp){ m_hp = hp; }
+    /**
         ŒoŒ±’l‚Ìæ“¾.
     */
     int GetExp() const{ return m_exp; }
-	
+    int GetAttack() const{ return m_attack; }
 private:
     int m_hp;
     int m_exp;

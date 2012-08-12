@@ -28,8 +28,6 @@ StateBattle::StateBattle( StateManagerBase& manager )
  , m_camera( new Camera() )
  , m_player_texture( new AnimTexture(
     ImageHandleOf( ImageType_Player ), AnimDataOf( AnimType_PlayerIdling ) ) )
- , m_enemy_texture( new AnimTexture(
-    ImageHandleOf( ImageType_GreenSlime ), AnimDataOf( AnimType_EnemyIdling ) ) )
  , mPlayerLife( new PlayerLife(1) )
  , mBreakEnemyCounter( new BreakEnemyCounter() )
  , m_stage_info( StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) ) )
@@ -46,6 +44,60 @@ StateBattle::StateBattle( StateManagerBase& manager )
 
 StateBattle::~StateBattle()
 {
+}
+
+void StateBattle::StepBattlePlayer()
+{
+    if( m_enemy.get() ){
+	    m_enemy->Update();
+    }
+    
+    //攻撃.
+    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
+        //普通に攻撃.
+        m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack );
+        SetStep(Step_Battle_Enemy);
+    }
+    //魔法.
+    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_2 ) ) ){
+        //MP足りてるなら大ダメージ.
+        if( gSaveData.m_player_mp >= 3 ){
+            gSaveData.m_player_mp -= 3;
+            m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack*2 );
+            SetStep( Step_Battle_Enemy );
+        }
+    }
+    //回復.
+    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_3 ) ) ){
+        //アイテム持ってるなら回復.
+        if( gSaveData.m_player_mp >= 3 ){
+            gSaveData.m_player_mp -= 3;
+            gSaveData.m_player_hp += 30;
+            gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp, gSaveData.m_player_max_hp);
+            SetStep( Step_Battle_Enemy );
+        }
+    }
+    //捕獲.
+    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_4 ) ) ){
+        if( GetRandToMax(3) == 0 ){
+	        SetStep(Step_Dash);
+        }else{
+            SetStep(Step_Battle_Enemy);
+        }
+    }
+    //逃げる.
+    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_5 ) ) ){
+        if( GetRandToMax(3) == 0 ){
+	        SetStep(Step_Dash);
+        }else{
+            SetStep(Step_Battle_Enemy);
+        }
+    }
+    
+    //敵の死亡判定.
+    if( m_enemy->GetHP() <= 0 ){
+        SetStep(Step_Dash);
+    }
 }
 
 void StateBattle::Update()
@@ -76,18 +128,19 @@ void StateBattle::Update()
     	    m_manager.ChangeState( ProjectState_SelectStage );
         }
         break;
-	case Step_Battle:
-	    m_enemy_texture->Update();
-	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-	        gSaveData.m_player_hp -= 10;
-	        if(gSaveData.m_player_hp <= 0){
-                //ゲームオーバー.
-        	    m_manager.ChangeState( ProjectState_Title );
-	        }else{
-	            //勝利.
-    	        SetStep(Step_Dash);
-	        }
-	    }
+	case Step_Battle_Player:
+	    StepBattlePlayer();
+        break;
+    case Step_Battle_Enemy:
+        //敵の攻撃
+        gSaveData.m_player_hp -= m_enemy->GetAttack();
+        //プレイヤー死亡判定.
+        if(gSaveData.m_player_hp <= 0){
+    	    m_manager.ChangeState( ProjectState_Title );
+	    }else{
+            //プレイヤーターンに戻す.
+            SetStep(Step_Battle_Player);
+        }
         break;
     case Step_OpenGate:
 	    if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
@@ -132,13 +185,18 @@ void StateBattle::Draw() const
     case Step_Clear:
         DrawFormatString( 250 , 200 , ColorOf() , "ステージクリア！");
         break;
-    case Step_Battle:
+    case Step_Battle_Player:
+    case Step_Battle_Enemy:
         {
+            DrawFormatString( 0 , 0 , ColorOf() , "1:攻撃,2:魔法,3:回復,4:捕獲,5:逃げる");
             DrawFormatString( 250 , 200 , ColorOf() , "戦闘中!");
-            Vector2 pos(400,300);
-            m_enemy_texture->Set(pos);
-            Vector2 const dummy;
-            m_enemy_texture->Draw(dummy);
+            DrawFormatString( 250 , 220 , ColorOf() , "EnemyHp[%d]",m_enemy->GetHP());
+            if( m_enemy.get() ){
+                Vector2 pos(400,300);
+                m_enemy->SetPosition(pos);
+                Vector2 const dummy;
+                m_enemy->Draw(dummy);
+            }
         }
         break;
     case Step_OpenGate:
@@ -196,14 +254,13 @@ void StateBattle::StepDash()
         //エンカウント判定.
         int const rand_num = GetRandToMax(300);
         if( rand_num == 0 ){
-            //戦闘
-            SetStep(Step_Battle);
+            //戦闘準備して、戦闘遷移へ
+            SetStep(Step_Battle_Player);
             
-            //戦闘設定.
+            //今はランダムで敵を決定.
             int const rand_num = GetRandToMax( Enemy::Type_Num );
-            m_enemy_texture.reset( new AnimTexture(
-                        ImageHandleOf( (ImageType)(ImageType_GreenSlime + rand_num) ), AnimDataOf( AnimType_EnemyIdling ) ) );
-
+            m_enemy.reset( new Enemy( static_cast<Enemy::Type>(rand_num) ) );
+            
         }else if( rand_num==1 ){
             //扉
             SetStep(Step_OpenGate);
@@ -236,6 +293,7 @@ void StateBattle::DrawDebug() const
     int const x = 0;
     int y = 100;
     DrawFormatString( x , y+=20,    ColorOf() , "hp[%d/%d]", gSaveData.m_player_hp, gSaveData.m_player_max_hp);
+    DrawFormatString( x , y+=20,    ColorOf() , "mp[%d/%d]", gSaveData.m_player_mp, gSaveData.m_player_max_mp);
 	y+=20;
 	int width = gSaveData.m_player_max_hp;
 	int height = 20;
@@ -255,14 +313,6 @@ void StateBattle::DrawDebug() const
     	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
     	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/info.total_enemy) , y+height, GetColor( 255,0,0 ), TRUE );
     }
-
-/*
-    //アイテム所持数描画.
-    for( int i = 0 ; i < ItemType_Num ; i++ ){
-        DrawFormatString( i*50 , 50 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
-    }
-*/
-
 }
 
 void StateBattle::UpdateCommon()
@@ -399,18 +449,6 @@ void StateBattle::UpdateHiScore()
 {
     if( gSaveData.m_max_break < mBreakEnemyCounter->Num() ){
         gSaveData.m_max_break = mBreakEnemyCounter->Num();
-    }
-}
-
-void StateBattle::InitEnemy()
-{
-    Enemy::Type enemy_type = Enemy::Type_GreenSlime;
-	for( int i = 0 ; i < m_stage_info.total_enemy; i++ ){
-	    if( i%20 == 0 ){
-	        enemy_type = static_cast<Enemy::Type>(GetRandToMax(Enemy::Type_Num));
-	    }
-		m_enemy.push_back( boost::shared_ptr<Enemy>( new Enemy( enemy_type ) ) );
-        m_enemy[i]->SetPosition( Vector2( i * 100 + 300 , 350 ) );
     }
 }
 
