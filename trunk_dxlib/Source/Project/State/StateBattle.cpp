@@ -45,6 +45,22 @@ StateBattle::~StateBattle()
 {
 }
 
+/**
+    回復魔法.
+*/
+bool StateBattle::RecoverMagic()
+{
+    if( gSaveData.m_player_mp >= 3 ){
+        gSaveData.m_player_mp -= 3;
+        gSaveData.m_player_hp += 30;
+        gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp, gSaveData.m_player_max_hp);
+        m_log_printer->Print("回復魔法を使った.");
+        return true;
+    }
+    m_log_printer->Print("MPが足りない.");
+    return false;
+}
+
 void StateBattle::StepBattlePlayer()
 {
     //攻撃.
@@ -72,19 +88,21 @@ void StateBattle::StepBattlePlayer()
     }
     //回復.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_3 ) ) ){
-        if( gSaveData.m_player_mp >= 3 ){
-            m_log_printer->Print("回復魔法を使った。mp-3,hp+30.");
-            gSaveData.m_player_mp -= 3;
-            gSaveData.m_player_hp += 30;
-            gSaveData.m_player_hp = Clamp(0,gSaveData.m_player_hp, gSaveData.m_player_max_hp);
+        if( RecoverMagic() ){
             SetStep( Step_Battle_Enemy );
         }
     }
     //捕獲.
     else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_4 ) ) ){
         if( GetRandToMax(3) == 0 ){
-            m_log_printer->Print("捕獲成功. MP完全回復.");
-            gSaveData.m_player_mp = gSaveData.m_player_max_mp;
+            m_log_printer->Print("捕獲成功.");
+            if( GetRandToMax(100) < 80 ){
+                gSaveData.m_item[ItemType_Meet]++;
+                m_log_printer->Print("肉ゲット.");
+            }else{
+                gSaveData.m_item[ItemType_Maseki]++;
+                m_log_printer->Print("魔石ゲット");
+            }
 	        SetStep(Step_Dash);
         }else{
             m_log_printer->Print("捕獲失敗.");
@@ -142,8 +160,12 @@ void StateBattle::Update()
         break;
     case Step_Battle_Enemy:
         //敵の攻撃
-        gSaveData.m_player_hp -= m_enemy->GetAttack();
-        m_log_printer->Print("敵から攻撃を受けた.");
+        if( 95 > GetRandToMax(100) ){
+            m_log_printer->Print("敵から攻撃を受けた.");
+            gSaveData.m_player_hp -= m_enemy->GetAttack();
+        }else{
+            m_log_printer->Print("敵は攻撃をミスした.");
+        }
         //プレイヤー死亡判定.
         if(gSaveData.m_player_hp <= 0){
             SetStep(Step_Result);
@@ -184,7 +206,8 @@ void StateBattle::Draw() const
         DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
     case Step_Dash:
-        DrawFormatString( 0 , 0 , ColorOf() , "左クリック:進む,右クリック:休憩" );
+        DrawFormatString( 0 , 60 , ColorOf() , "左クリック:進む,右クリック:休憩" );
+        DrawFormatString( 0 , 80 , ColorOf() , "1:回復魔法" );
         break;
 	case Step_WaitDash:
         break;
@@ -200,7 +223,7 @@ void StateBattle::Draw() const
     case Step_Battle_Player:
     case Step_Battle_Enemy:
         {
-            DrawFormatString( 0 , 0 , ColorOf() , "1:攻撃,2:魔法,3:回復,4:捕獲,5:逃げる");
+            DrawFormatString( 0 , 60 , ColorOf() , "1:攻撃,2:魔法,3:回復,4:捕獲,5:逃げる");
             DrawFormatString( 250 , 200 , ColorOf() , "戦闘中!");
             DrawFormatString( 250 , 220 , ColorOf() , "EnemyLevel[%d]",m_enemy->GetLevel());
             DrawFormatString( 250 , 240 , ColorOf() , "EnemyHp[%d]",m_enemy->GetHP());
@@ -217,12 +240,10 @@ void StateBattle::Draw() const
         DrawFormatString( 250 , 200 , ColorOf() , "宝箱発見!");
         break;
     }
-    //mBreakEnemyCounter->Draw();
-    //DrawItem();
-    //mPlayerLife->Draw();
 	m_msg_printer->Draw();
-
     m_log_printer->Draw();
+
+    DrawItem();
 
     DrawDebug();
 }
@@ -250,25 +271,24 @@ void StateBattle::StepWaitDash()
 
 void StateBattle::StepDash()
 {
+    UseItem();
+
+    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
+        RecoverMagic();
+    }
     //進む
-    if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
-        m_player_pos.x += 5.0f;
-        if( KeyInput()->IsHold( static_cast<InputKey::Type>( InputKey::Type_LeftControl ) ) ){
-            m_player_pos.x += 10.0f;
-        }
+    else if( SingletonInputMouse::Get()->IsHold( InputMouse::Type_Left ) ){
+        m_player_pos.x += 3.0f;
         
         //エンカウント判定.
         int const rand_num = GetRandToMax(200);
         if( rand_num == 0 ){
-            
+
             m_log_printer->Print("魔物が現れた。");
-        
             //戦闘準備して、戦闘遷移へ
             SetStep(Step_Battle_Player);
-            
-            //今はランダムで敵を決定.
-            int const rand_num = GetRandToMax( Enemy::Type_Num );
-            m_enemy.reset( new Enemy( static_cast<Enemy::Type>(rand_num), 1 ) );
+            int const enemy_level = gSaveData.m_selected_stage+1;
+            m_enemy.reset( new Enemy( Enemy::Type_GreenSlime, enemy_level ) );
             Vector2 pos(400,350);
             m_enemy->SetPosition(pos);
 
@@ -276,9 +296,8 @@ void StateBattle::StepDash()
             //最終地点到達.
             StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
             if( m_player_pos.x > info.length ){
-                //仮で飛ばす.
-                //本当はボス戦とかあるんじゃないかな
-				gSaveData.m_selected_stage = GetRandToMax( StageType_Num );
+                //ひとまず次のステージへ.
+				gSaveData.m_selected_stage++;
 				m_manager.ChangeState( ProjectState_Battle );
             }
         }
@@ -315,7 +334,7 @@ void StateBattle::DrawDebug() const
     StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
     DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
 
-    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "進行度");
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "ステージ進行度");
     {
         float width = 200.0f;
     	int height = 20;
@@ -339,6 +358,8 @@ void StateBattle::UpdateCommon()
     m_background->SetScroll( m_camera->Position() );
 
     m_msg_printer->Update();
+    
+    m_log_printer->Update();
 }
 
 void StateBattle::InitResult()
@@ -350,15 +371,8 @@ void StateBattle::InitResult()
 void StateBattle::InitPreTalk()
 {
     m_step = Step_PreTalk;
-    
-    int const msg_num = 3;
-    int const rand_num = GetRandToMax(msg_num); 
-    char const* pre_message[msg_num] = {
-        "[image,]【フリル】\nぉお、大量におるな。[click]頑張るとするかね。[click][clear]",
-        "[image,]【フリル】\nおいしそうなスライムが一杯だ。[click]やる気出てきた。[click][clear]",
-        "[image,]【フリル】\nうぁ、眠い。[click]適当に頑張る。[click][clear]",
-    };
-    m_msg_printer->SetMsg(pre_message[rand_num]);
+    std::string msg("[image,]【フリル】\n新しい世界に着いたぞ。[click][clear]");
+    m_msg_printer->SetMsg(msg.c_str());
 }
 
 /**
@@ -412,8 +426,8 @@ void StateBattle::UseItem( ItemType type )
     case ItemType_Meet:
         gSaveData.m_player_hp += 50;
         break;
-    case ItemType_GoodMeet:
-        gSaveData.m_player_hp += 20;
+    case ItemType_Maseki:
+        gSaveData.m_player_mp += 10;
         break;
     case ItemType_LifeWater:
         gSaveData.m_player_max_hp += 10;
@@ -449,6 +463,9 @@ void StateBattle::DrawItem() const
 {
     DrawTexture( Vector2(0,0), ImageType_ItemList );
     DrawTexture( Vector2(0,0), ImageType_ItemFrame );
+    for( int i = 0 ; i < ItemType_Num ; i++ ){
+        DrawFormatString( i*50 , 40 , ColorOf(0,0,0) , "[%d]" , gSaveData.m_item[i] );
+    }
 }
 
 void StateBattle::UpdateHiScore()

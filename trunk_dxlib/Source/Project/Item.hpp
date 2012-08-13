@@ -8,7 +8,7 @@ enum ItemType
 {
     ItemType_None,
     ItemType_Meet,
-    ItemType_GoodMeet,
+    ItemType_Maseki,
     ItemType_LifeWater,
     
     ItemType_Num,

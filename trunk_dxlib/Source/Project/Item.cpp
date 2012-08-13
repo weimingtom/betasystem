@@ -5,8 +5,8 @@ char const* NameOf( ItemType type )
     static char const* item[ItemType_Num] =
     {
         "なし",
-        "スライムの肉",
-        "スライムの上質な肉",
+        "肉",
+        "魔石",
         "生命の雫",
     };
 	return item[type];
@@ -18,7 +18,7 @@ int DropPamiriado( ItemType type )
     {
         0,
         50,
-        0,
+        10,
         10,
     };
     return list[type];

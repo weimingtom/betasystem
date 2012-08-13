@@ -31,7 +31,7 @@ Enemy::Enemy( Type type, int level )
 	m_attack = 10;
     
     for( int i = 1; i < level ; i++ ){
-        
+        LevelUp();
     }
     
     m_anim_tex.reset( new AnimTexture(

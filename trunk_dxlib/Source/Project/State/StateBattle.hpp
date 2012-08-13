@@ -77,7 +77,8 @@ private:
 	void UpdateDebug();
     void DrawGauge( int x, int y) const;
     bool LotteryAddSpecialGauge() const;
-
+private:
+    bool RecoverMagic();
 private:
     StateManagerBase& m_manager;
     Step m_step;
