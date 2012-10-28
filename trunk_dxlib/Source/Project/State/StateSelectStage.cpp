@@ -24,10 +24,10 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
     int const button_height = 50;
     int const button_margin = button_height+10;
     int button_top = 100;
+/*
     ButtonPtr button( new Button( ImageType_SelectStage1,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Battle" ) );
     m_button_list.push_back( button );
-/*
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select2" ) );
     m_button_list.push_back( button );
@@ -41,11 +41,11 @@ StateSelectStage::StateSelectStage( StateManagerBase* manager )
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "Select5" ) );
     m_button_list.push_back( button );
 */
+/*
     button_top = 200;
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "level_up" ) );
     m_button_list.push_back( button );
-/*
     button.reset( new Button( ImageType_SelectStage2,
         Vector2(button_left,button_top+=button_margin), Vector2(button_width,button_height), "reset_hp" ) );
     m_button_list.push_back( button );
@@ -90,7 +90,7 @@ void StateSelectStage::LevelUp()
 
 void StateSelectStage::Draw() const
 {
-    DrawTexture( Vector2(0,0), ImageType_SelectStage );
+//    DrawTexture( Vector2(0,0), ImageType_SelectStage );
 
     DrawFormatString( 0 , 0 , ColorOf(0,0,0) , "ステージ選択画面");
     

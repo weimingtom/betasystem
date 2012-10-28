@@ -69,7 +69,7 @@ private:
 	void InitStepDecideMeter();
 	void CancelDecideMeter();
 	void StepDecideMeter();
-    void UseItem();
+    bool UseItem();
     void UseItem( ItemType type );
     void GetItem();
     void DrawItem() const;
@@ -79,6 +79,7 @@ private:
     bool LotteryAddSpecialGauge() const;
 private:
     bool RecoverMagic();
+    void LevelUp();
 private:
     StateManagerBase& m_manager;
     Step m_step;

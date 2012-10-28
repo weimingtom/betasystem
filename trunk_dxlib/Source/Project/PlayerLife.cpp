@@ -13,7 +13,8 @@ PlayerLife::~PlayerLife()
 
 void PlayerLife::Draw() const
 {
-    int x = 0;
+/*
+	int x = 0;
     int y = 50;
     int width = 70;
     DrawTexture( Vector2(x,y) , ImageType_FaceFrame );
@@ -21,5 +22,6 @@ void PlayerLife::Draw() const
     for( int i = 0 ; i < mLifeNum; i++ ){
         DrawTexture( Vector2(x+i*width,y) , ImageType_Face );
     }
+*/
 }
 

@@ -14,13 +14,14 @@ BreakEnemyCounter::~BreakEnemyCounter()
 
 void BreakEnemyCounter::Draw() const
 {
+/*
     int const width = 50;
     int const height = 100;
     int max_digit = 5;
-    /*
-        上の桁の有無によって、表示非表示を決定する.
-        その桁が０で、且つ上位桁が全て０ならば表示しない.
-    */
+    
+    //上の桁の有無によって、表示非表示を決定する.
+    //その桁が０で、且つ上位桁が全て０ならば表示しない.
+    
     for(int i = 1 ; i < max_digit ; i++ ){
         if( DigitOf(mBreakNum,i) == 0 ){
             int total = 0;
@@ -35,6 +36,7 @@ void BreakEnemyCounter::Draw() const
             width, height,
             ImageHandleOf(ImageType_Number), TRUE, FALSE );
     }
+*/
 }
 
 /**

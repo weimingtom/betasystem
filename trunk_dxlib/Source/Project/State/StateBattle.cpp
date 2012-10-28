@@ -63,67 +63,28 @@ bool StateBattle::RecoverMagic()
 
 void StateBattle::StepBattlePlayer()
 {
+    if( UseItem() ){
+    
+    }
     //攻撃.
-    if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
+    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_1 ) ) ){
         if( GetRandToMax(100) < 95 ){ 
             //普通に攻撃.
             m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack );
             m_log_printer->Print("敵を攻撃した。");
+            SingletonSoundLoader::Get()->Play( NameOf( SoundType_OK ) );
         }else{
             m_log_printer->Print("攻撃をはずした。");
         }
         SetStep(Step_Battle_Enemy);
-    }
-    //魔法.
-    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_2 ) ) ){
-        //MP足りてるなら大ダメージ.
-        if( gSaveData.m_player_mp >= 3 ){
-            m_log_printer->Print("攻撃魔法を使った。");
-            gSaveData.m_player_mp -= 3;
-            m_enemy->SetHP( m_enemy->GetHP() - gSaveData.m_player_attack*2 );
-            SetStep( Step_Battle_Enemy );
-        }else{
-            m_log_printer->Print("くっ、MPが足りない…");
-        }
-    }
-    //回復.
-    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_3 ) ) ){
-        if( RecoverMagic() ){
-            SetStep( Step_Battle_Enemy );
-        }
-    }
-    //捕獲.
-    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_4 ) ) ){
-        if( GetRandToMax(3) == 0 ){
-            m_log_printer->Print("捕獲成功.");
-            if( GetRandToMax(100) < 80 ){
-                gSaveData.m_item[ItemType_Meet]++;
-                m_log_printer->Print("肉ゲット.");
-            }else{
-                gSaveData.m_item[ItemType_Maseki]++;
-                m_log_printer->Print("魔石ゲット");
-            }
-	        SetStep(Step_Dash);
-        }else{
-            m_log_printer->Print("捕獲失敗.");
-            SetStep(Step_Battle_Enemy);
-        }
-    }
-    //逃げる.
-    else if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_5 ) ) ){
-        if( GetRandToMax(3) == 0 ){
-            m_log_printer->Print("しかし回り込まれた.");
-            SetStep(Step_Battle_Enemy);
-        }else{
-            m_log_printer->Print("一目散に逃げ出した.");
-	        SetStep(Step_Dash);
-        }
     }
     
     //敵の死亡判定.
     if( m_enemy->GetHP() <= 0 ){
         SetStep(Step_Dash);
         m_log_printer->Print("敵を倒した.");
+        gSaveData.m_player_exp += m_enemy->GetExp();
+        LevelUp();
     }
 }
 
@@ -202,8 +163,6 @@ void StateBattle::Draw() const
     switch( m_step )
     {
     case Step_DecideMeter:
-		//説明
-        DrawTexture( Vector2(120,100), ImageType_Explain );
         break;
     case Step_Dash:
         DrawFormatString( 0 , 60 , ColorOf() , "左クリック:進む,右クリック:休憩" );
@@ -231,6 +190,7 @@ void StateBattle::Draw() const
                 Vector2 const dummy;
                 m_enemy->Draw(dummy);
             }
+            DrawTexture( Vector2(0,0), ImageType_BattleFrame );
         }
         break;
     case Step_OpenGate:
@@ -269,6 +229,24 @@ void StateBattle::StepWaitDash()
     }
 }
 
+void StateBattle::LevelUp()
+{
+    //レベルアップ判定.
+    if( gSaveData.m_player_exp >= gSaveData.m_player_exp_max ){
+        gSaveData.m_player_exp_max *= 2;
+        gSaveData.m_player_level++;
+        gSaveData.m_player_max_hp += 5 * gSaveData.m_player_level;
+        SingletonSoundLoader::Get()->Play( NameOf( SoundType_Just ) );
+
+        std::string log = "レベルが";
+        log += StringOf(gSaveData.m_player_level);
+        log += "に上がった。";
+        m_log_printer->Print(log,ColorOf(255,0,0));
+    }
+}
+
+
+
 void StateBattle::StepDash()
 {
     UseItem();
@@ -281,7 +259,7 @@ void StateBattle::StepDash()
         m_player_pos.x += 3.0f;
         
         //エンカウント判定.
-        int const rand_num = GetRandToMax(200);
+        int const rand_num = GetRandToMax(2000);
         if( rand_num == 0 ){
 
             m_log_printer->Print("魔物が現れた。");
@@ -329,17 +307,17 @@ void StateBattle::DrawDebug() const
     DrawFormatString( x , y+=20,    ColorOf() , "mp[%d/%d]", gSaveData.m_player_mp, gSaveData.m_player_max_mp);
 
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_x[%f]", m_player_pos.x);
-    DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d]", gSaveData.m_player_exp);
+    DrawFormatString( x , y+=20,    ColorOf() , "m_player_exp[%d/%d]", gSaveData.m_player_exp, gSaveData.m_player_exp_max);
     DrawFormatString( x , y+=20,    ColorOf() , "m_player_level[%d]", gSaveData.m_player_level);
-    StageInfo const info = StageInfoOf( static_cast<StageType>(gSaveData.m_selected_stage) );
-    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", info.name);
+    DrawFormatString( x , y+=20,    ColorOf() , "m_player_attack[%d]", gSaveData.m_player_attack);
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "stage_name[%s]", m_stage_info.name);
 
-    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "ステージ進行度");
+    DrawFormatString( x , y+=20 , ColorOf(0,0,0) , "ステージ進行度[%d,%d]",(int)m_player_pos.x, (int)m_stage_info.length);
     {
         float width = 200.0f;
     	int height = 20;
     	DrawBox( x , y+=20, static_cast<int>(x+width) , y+height, GetColor( 0,255,0 ), TRUE );
-    	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/info.length) , y+height, GetColor( 255,0,0 ), TRUE );
+    	DrawBox( x , y, static_cast<int>(x+width*(float)m_player_pos.x/m_stage_info.length) , y+height, GetColor( 255,0,0 ), TRUE );
     }
 }
 
@@ -403,7 +381,7 @@ void StateBattle::StepDecideMeter()
 /**
     アイテムの使用.
 */
-void StateBattle::UseItem()
+bool StateBattle::UseItem()
 {
     for( int i = 0 ; i < ItemType_Num ; i++ ){
         if( KeyInput()->IsTrig( static_cast<InputKey::Type>( InputKey::Type_F1 + i ) ) )
@@ -415,9 +393,11 @@ void StateBattle::UseItem()
                 log += "を使った。";
                 m_log_printer->Print(log);
                 UseItem( static_cast<ItemType>( i ) );
+                return true;
             }
         }
     }
+    return false;
 }
 
 void StateBattle::UseItem( ItemType type )
@@ -461,6 +441,8 @@ void StateBattle::GetItem()
 
 void StateBattle::DrawItem() const
 {
+//    DrawTexture( Vector2(400,350), ImageType_Box );
+
     DrawTexture( Vector2(0,0), ImageType_ItemList );
     DrawTexture( Vector2(0,0), ImageType_ItemFrame );
     for( int i = 0 ; i < ItemType_Num ; i++ ){

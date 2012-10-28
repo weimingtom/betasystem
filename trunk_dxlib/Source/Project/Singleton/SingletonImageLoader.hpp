@@ -15,23 +15,14 @@ enum ImageType
     ImageType_SteelSlime,
     ImageType_GameEnd,
     ImageType_Title,
-    ImageType_Explain,
-    ImageType_Result,
-    ImageType_Cutin,
-    ImageType_Number,
     ImageType_ItemFrame,
     ImageType_ItemList,
-    ImageType_Face,
-    ImageType_FaceFrame,
-    ImageType_SwordFrame,
-    ImageType_SwordPower,
     ImageType_StandFuriru,
     ImageType_StandSlime,
-    ImageType_SelectStage,
-    ImageType_SelectStage1,
-    ImageType_SelectStage2,
+    ImageType_Box,
+    ImageType_BattleFrame,
     ImageType_Dummy,
-
+    
     ImageType_Num,
 };
 
