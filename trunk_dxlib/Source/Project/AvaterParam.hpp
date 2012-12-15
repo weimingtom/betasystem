@@ -1,5 +1,5 @@
-#ifndef avaterparam_hpp
-#define avaterparam_hpp
+#ifndef _avaterparam_hpp_
+#define _avaterparam_hpp_
 
 //オプション
 enum TypeOption
@@ -40,6 +40,7 @@ enum TypeHairColor
 	HairColor_Red,
 	HairColor_Green,
 	HairColor_Blue,
+	HairColor_Yellow,
 	
 	HairColor_Num,
 };
@@ -55,19 +56,27 @@ enum TypeHair
 	Hair_Num,
 };
 
+char const* NameOf(TypeOption);
+char const* NameOf(TypeCloth);
+char const* NameOf(TypeFace);
+char const* NameOf(TypeHairColor);
+char const* NameOf(TypeHair);
+
 //容姿まとめ
 struct AvaterParam
 {
 	TypeCloth cloth;
 	TypeFace face;
 	TypeHair hair;
-	TypeHairColor haircolor;
+	TypeHairColor hair_color;
+	TypeOption option;
 	AvaterParam()
 	{
 		cloth = Cloth_Sailer;
 		face = Face_Tare;
 		hair = Hair_Long;
-		haircolor = HairColor_Black;
+		hair_color = HairColor_Black;
+		option = Option_None;
 	}
 };
 

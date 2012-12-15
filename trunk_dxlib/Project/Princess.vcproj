@@ -262,6 +262,14 @@
 				Name="Project"
 				>
 				<File
+					RelativePath="..\Source\Project\AvaterParam.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\AvaterParam.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Source\Project\Draw.cpp"
 					>
 				</File>

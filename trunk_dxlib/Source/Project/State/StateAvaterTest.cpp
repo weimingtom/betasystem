@@ -1,5 +1,6 @@
 #include "StateAvaterTest.hpp"
 
+#include <assert.h>
 #include "Project/Draw.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
@@ -25,6 +26,46 @@ char const* NameOf(AvaterType type)
 	return name[type];
 }
 
+int MaxOf(AvaterType type)
+{
+	switch(type)
+	{
+	case AvaterType_Cloth:
+		return Cloth_Num;
+	case AvaterType_Face:
+		return Face_Num;
+	case AvaterType_Hair:
+		return Hair_Num;
+	case AvaterType_HairColor:
+		return HairColor_Num;
+	case AvaterType_Option:
+		return Option_Num;
+	default:
+		assert(false);
+		return 0;
+	}
+}
+
+char const* NameOf( AvaterType type, int index_x)
+{
+	switch(type)
+	{
+	case AvaterType_Cloth:
+		return NameOf( static_cast<TypeCloth>(index_x) );
+	case AvaterType_Face:
+		return NameOf( static_cast<TypeFace>(index_x) );
+	case AvaterType_Hair:
+		return NameOf( static_cast<TypeHair>(index_x) );
+	case AvaterType_HairColor:
+		return NameOf( static_cast<TypeHairColor>(index_x) );
+	case AvaterType_Option:
+		return NameOf( static_cast<TypeOption>(index_x) );
+	default:
+		assert(false);
+		return "";
+	}
+}
+
 //アバターの描画
 void Draw(int x,int y,AvaterParam const& param)
 {
@@ -34,11 +75,13 @@ void Draw(int x,int y,AvaterParam const& param)
 	//頭
 	DrawPartOfTexture( ImageType_Avater, Vector2(x,y), Vector2(0,3*200), Vector2(width,height) );
 	//髪
-	DrawPartOfTexture( ImageType_Avater, Vector2(x,y), Vector2( width * param.hair , 1*200), Vector2(width,height) );
+	DrawPartOfTexture( ImageType_Avater, Vector2(x,y), Vector2( width * param.hair_color , 800 + param.hair * 200), Vector2(width,height) );
 	//顔
 	DrawPartOfTexture( ImageType_Avater, Vector2(x,y), Vector2( width * param.face , 0*200), Vector2(width,height) );
 	//服
 	DrawPartOfTexture( ImageType_Avater, Vector2(x,y), Vector2( width * param.cloth , 2*200), Vector2(width,height) );
+	//オプション
+	DrawPartOfTexture( ImageType_Avater, Vector2(x,y), Vector2( width * param.option ,200), Vector2(width,height) );
 }
 
 StateAvaterTest::StateAvaterTest( StateManagerBase* manager )
@@ -67,24 +110,26 @@ void StateAvaterTest::Update()
 	
 	m_select_y = Clamp(0,m_select_y,AvaterType_Num-1);
 	for( int i = 0 ; i < AvaterType_Num ; i ++ ){
-		m_select_x[i] = Clamp( 0 , m_select_x[i] , 5 );
+		m_select_x[i] = Clamp( 0 , m_select_x[i] , MaxOf( static_cast<AvaterType>(i) ) - 1 );
 	}
 
 	m_avater.cloth = static_cast<TypeCloth>( m_select_x[AvaterType_Cloth] );
 	m_avater.face = static_cast<TypeFace>( m_select_x[AvaterType_Face] );
 	m_avater.hair = static_cast<TypeHair>( m_select_x[AvaterType_Hair] );
+	m_avater.hair_color = static_cast<TypeHairColor>( m_select_x[AvaterType_HairColor] );
+	m_avater.option = static_cast<TypeOption>( m_select_x[AvaterType_Option] );
 
 }
 
 void StateAvaterTest::Draw() const
 {
-	DrawBox(0,0,640,480,ColorOf(0,128,0),TRUE);
+	DrawBox(0,0,640,480,ColorOf(255,255,255),TRUE);
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アバター描画テスト");
-
 	
     DrawFormatString( 0 , 20 + m_select_y*14 , ColorOf(0,255,0) , "→");
 	for(int i = 0 ; i < AvaterType_Num ; i++ ){
-	    DrawFormatString( 20 , 20 + i*14 , ColorOf(0,255,0) , "[%d][%s]", m_select_x[i],NameOf( static_cast<AvaterType>(i) ) );
+	    DrawFormatString( 20 , 20 + i*14 , ColorOf(0,255,0) , "%s:%s",
+	    	NameOf( static_cast<AvaterType>(i) ), NameOf( static_cast<AvaterType>(i), m_select_x[i] ) );
 	}
 
 	//アバターの描画.
