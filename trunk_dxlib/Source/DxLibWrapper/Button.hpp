@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+//#include <boost/shared_ptr.hpp>
 #include "System/CollisionObject.hpp"
 
 class Button : public CollisionObject
@@ -25,8 +25,8 @@ private:
 
 };
 
-typedef boost::shared_ptr< Button > ButtonPtr;
-typedef std::vector< ButtonPtr > ButtonPtrList;
+//typedef boost::shared_ptr< Button > ButtonPtr;
+//typedef std::vector< ButtonPtr > ButtonPtrList;
 
 #endif
 

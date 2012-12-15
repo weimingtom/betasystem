@@ -53,15 +53,14 @@ int InitApplication()
 	//フォントサイズ設定.
 	int const font_size = 14;
     SetFontSize( font_size );
+	
 
     SingletonInputMouse::Init();
     SingletonImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
-	
-//    gSaveData.Load();
-    
-    g_state_manager.reset( new_ProjectStateManager() );
+
+	g_state_manager.reset( new_ProjectStateManager() );
     
 	//初期化成功.
     return ApplicationSuccess;

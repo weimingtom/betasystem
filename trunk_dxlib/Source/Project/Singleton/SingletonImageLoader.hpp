@@ -21,6 +21,7 @@ enum ImageType
     ImageType_StandSlime,
     ImageType_Box,
     ImageType_BattleFrame,
+    ImageType_Avater,
     ImageType_Dummy,
     
     ImageType_Num,

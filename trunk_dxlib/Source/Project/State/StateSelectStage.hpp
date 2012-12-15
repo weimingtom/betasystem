@@ -22,7 +22,7 @@ private:
 private:
     StateManagerBase* m_manager;
     int m_frame;
-    ButtonPtrList m_button_list;
+//    ButtonPtrList m_button_list;
 };
 
 #endif

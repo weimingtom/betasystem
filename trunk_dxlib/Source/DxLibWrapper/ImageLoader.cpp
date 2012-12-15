@@ -32,7 +32,7 @@ private:
 ImageLoader::Impl::Impl( char const* const name_list[] , int list_size )
  : m_image_name_list( ImageNameListOf( name_list , list_size ) )
 {
-    SetTransColor(255,0,255);
+    SetTransColor(0,255,0);
 }
 
 ImageLoader::Impl::~Impl()

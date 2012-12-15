@@ -206,14 +206,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Source\DxLibWrapper\Button.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\DxLibWrapper\Button.hpp"
-					>
-				</File>
-				<File
 					RelativePath="..\Source\DxLibWrapper\Color.hpp"
 					>
 				</File>
@@ -270,46 +262,6 @@
 				Name="Project"
 				>
 				<File
-					RelativePath="..\Source\Project\AnimData.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\AnimData.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\BreakEnemyCounter.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\BreakEnemyCounter.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\CharacterStatus.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\CharacterStatus.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\CharacterStatusFactory.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\CharacterStatusFactory.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\DamagePrinter.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\DamagePrinter.hpp"
-					>
-				</File>
-				<File
 					RelativePath="..\Source\Project\Draw.cpp"
 					>
 				</File>
@@ -318,35 +270,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Enemy.cpp"
+					RelativePath="..\Source\Project\State\ProjectStateManager.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Enemy.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\Item.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\Item.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\ManaType.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\ManaType.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\PlayerLife.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\PlayerLife.hpp"
+					RelativePath="..\Source\Project\State\ProjectStateManager.hpp"
 					>
 				</File>
 				<File
@@ -357,90 +285,6 @@
 					RelativePath="..\Source\Project\SaveData.hpp"
 					>
 				</File>
-				<File
-					RelativePath="..\Source\Project\ScrollBackground.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\ScrollBackground.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\SpecialGauge.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\SpecialGauge.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\Stage.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\Stage.hpp"
-					>
-				</File>
-				<Filter
-					Name="State"
-					>
-					<File
-						RelativePath="..\Source\Project\State\Gauge.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\Gauge.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\ProjectStateManager.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\ProjectStateManager.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateBattle.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateBattle.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateGameOver.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateGameOver.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateSelectStage.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateSelectStage.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateTestMsg.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateTestMsg.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateTitle.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateTitle.hpp"
-						>
-					</File>
-				</Filter>
 				<Filter
 					Name="Singleton"
 					>
@@ -478,26 +322,22 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="Msg"
+					Name="State"
 					>
 					<File
-						RelativePath="..\Source\Project\Msg\MsgPrinter.cpp"
+						RelativePath="..\Source\Project\State\StateAvaterTest.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\Msg\MsgPrinter.hpp"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="CharacterDrawer"
-					>
-					<File
-						RelativePath="..\Source\Project\CharacterDrawer\CharacterDrawer.cpp"
+						RelativePath="..\Source\Project\State\StateAvaterTest.hpp"
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\CharacterDrawer\CharacterDrawer.hpp"
+						RelativePath="..\Source\Project\State\StateTitle.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateTitle.hpp"
 						>
 					</File>
 				</Filter>

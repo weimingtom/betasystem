@@ -24,13 +24,8 @@ void StateTitle::Update()
     case Step_Title:
         if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
         {
-            m_manager->ChangeState( ProjectState_Battle );
+            m_manager->ChangeState( ProjectState_AvaterTest );
         }
-/*
-        else if( SingletonInputMouse::Get()->IsTrig(InputMouse::Type_Right) ){
-            m_manager->ChangeState( ProjectState_TestMsg );
-        }
-*/
         break;
     }
 }
@@ -40,9 +35,7 @@ void StateTitle::Draw() const
     switch( m_step )
     {
     case Step_Title:
-        DrawTexture( Vector2(0,0), ImageType_Title );
-//        DrawFormatString( 0 , 0 , ColorOf() , "総討伐数[%d]", gSaveData.m_total_break );
-//        DrawFormatString( 0 , 20 , ColorOf() , "ハイスコア[%d]", gSaveData.m_max_break );
+        DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "タイトル画面");
         break;
     }
 }

@@ -9,10 +9,7 @@ class StateManagerBase;
 enum ProjectState
 {
     ProjectState_Title,
-    ProjectState_SelectStage,
-    ProjectState_Battle,
-    ProjectState_GameOver,
-    ProjectState_TestMsg,
+    ProjectState_AvaterTest,
     
     ProjectState_DebugTop,
     ProjectState_Num,

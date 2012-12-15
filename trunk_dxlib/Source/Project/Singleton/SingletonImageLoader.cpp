@@ -20,6 +20,7 @@ char const* const image_name[ ImageType_Num ] =
     "Resource/stand_slime.png",
     "Resource/box.png",
     "Resource/BattleFrame.png",
+    "Resource/avater.png",
     "Resource/dummy.png",
 };
 
