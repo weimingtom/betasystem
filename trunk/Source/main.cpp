@@ -4,7 +4,7 @@
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
 #include "System/StateManagerBase.hpp"
-#include "Project/State/ProjectStateManager.hpp"
+#include "Project/Singleton/SingletonProjectStateManager.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
@@ -15,9 +15,6 @@
 int InitApplication();
 void LoopApplication();
 int EndApplication();
-
-// アプリケーションの一番上になる StateManager.
-std::auto_ptr< StateManagerBase > g_state_manager;
 
 /**
 	メイン関数.
@@ -54,13 +51,12 @@ int InitApplication()
 	int const font_size = 14;
     SetFontSize( font_size );
 	
-
+    //シングルトンの初期化.
     SingletonInputMouse::Init();
     SingletonImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
-
-	g_state_manager.reset( new_ProjectStateManager() );
+	SingletonProjectStateManager::GetInstance();
     
 	//初期化成功.
     return ApplicationSuccess;
@@ -71,18 +67,17 @@ void LoopApplication()
     while( ProcessMessage() == 0 && CheckHitKey( KEY_INPUT_ESCAPE ) == 0 )
     {
     	SingletonInputMouse::Update();
-        g_state_manager->Update();
 		Singleton::UpdateKeyInput();
+    	SingletonProjectStateManager::GetInstance()->Update();
         
         ClearDrawScreen() ;    // 画面を初期化する
-        g_state_manager->Draw();
+    	SingletonProjectStateManager::GetInstance()->Draw();
         ScreenFlip() ;    // 裏画面の内容を表画面に反映させる
     }
 }
 
 int EndApplication()
 {
-    g_state_manager.reset(0);
     /*
         DxLib_Endより後ろだと、メモリ上のデータの開放に失敗するので、手前で開放.
     */
