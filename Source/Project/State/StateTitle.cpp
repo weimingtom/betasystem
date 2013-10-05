@@ -9,9 +9,8 @@
 #include "Project/State/ProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
 
-StateTitle::StateTitle( StateManagerBase* manager )
- : m_manager( manager )
- , m_step( Step_Title )
+StateTitle::StateTitle()
+ : m_step( Step_Title )
  , m_frame(0)
 {
     gSaveData.Save();
@@ -19,15 +18,6 @@ StateTitle::StateTitle( StateManagerBase* manager )
 
 void StateTitle::Update()
 {
-    switch( m_step )
-    {
-    case Step_Title:
-        if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
-        {
-            m_manager->ChangeState( ProjectState_AvaterTest );
-        }
-        break;
-    }
 }
 
 void StateTitle::Draw() const

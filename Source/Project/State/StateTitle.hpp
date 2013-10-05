@@ -1,7 +1,6 @@
 #ifndef state_title_hpp
 #define state_title_hpp
 
-class StateManagerBase;
 #include "System/StateBase.hpp"
 
 /**
@@ -10,7 +9,7 @@ class StateManagerBase;
 class StateTitle : public StateBase
 {
 public:
-    StateTitle( StateManagerBase* manager );
+    StateTitle();
     ~StateTitle(){}
 public:
 	void Update();
@@ -21,7 +20,6 @@ private:
         Step_Title,
     };
 private:
-    StateManagerBase* m_manager;
     Step m_step;
     int m_frame;
 };

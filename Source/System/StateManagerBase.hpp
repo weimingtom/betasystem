@@ -20,11 +20,12 @@ public:
     
 public:
     /**
-        遷移切り替え.
+        遷移切り替え.インスタンスの管理はこのクラスがやる.
+        @param next_state 切り替えるStateのポインタ.
     */
-    void ChangeState( int state_index )
+    void ChangeState( StateBase* next_state )
     {
-        m_next_state.reset( new_State( state_index ) );
+        m_next_state.reset( next_state );
     }
     /**
         更新.
@@ -44,13 +45,6 @@ public:
     {
         m_current_state->Draw();
     }
-    
-protected:
-    /**
-        渡されたインデックスに対応したステートを生成する関数.
-        継承したクラスは、この中身を実装する必要がある.
-    */
-    virtual StateBase* new_State( int select_index ) = 0;
     
 private:
     std::auto_ptr< StateBase > m_current_state;
