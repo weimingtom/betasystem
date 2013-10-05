@@ -335,11 +335,11 @@
 					Name="State"
 					>
 					<File
-						RelativePath="..\Source\Project\State\StateAvaterTest.cpp"
+						RelativePath="..\Source\Project\State\StateDebugTop.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\State\StateAvaterTest.hpp"
+						RelativePath="..\Source\Project\State\StateDebugTop.hpp"
 						>
 					</File>
 					<File
