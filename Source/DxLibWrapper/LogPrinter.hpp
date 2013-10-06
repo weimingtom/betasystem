@@ -12,7 +12,6 @@ public:
     friend LogPrinter* new_LogPrinter( int x , int y );
     virtual ~LogPrinter(){}
 public:
-    virtual void Update() = 0;
     virtual void Print( std::string log , int color = INT_MAX ) = 0;
     virtual void Draw() = 0;
     
