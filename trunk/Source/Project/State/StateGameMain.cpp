@@ -10,6 +10,7 @@
 #include "Project/KoyakuType.h"
 #include "Project/Singleton/SingletonInputKey.hpp"
 #include "Project/Singleton/SingletonProjectStateManager.hpp"
+#include "Project/Singleton/SingletonImageLoader.hpp"
 
 StateGameMain::StateGameMain()
  : mLogPrinter( new_LogPrinter(100,300) )
@@ -36,6 +37,7 @@ void StateGameMain::Update()
 
 void StateGameMain::Draw() const
 {
+    DrawGraph( 0, 0, ProjectImageLoader::ImageHandleOf(ProjectImageLoader::ImageType_Forest), TRUE );
     DrawFormatString( 0 , 0 , GetColor(0,255,0) , "ゲームメイン");
     mLogPrinter->Draw();
 }
