@@ -343,6 +343,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\Source\Project\State\StateGameMain.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateGameMain.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\StateTitle.cpp"
 						>
 					</File>
