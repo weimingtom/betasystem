@@ -3,8 +3,9 @@
 #include <memory>
 #include <assert.h>
 #include "System/StateManagerBase.hpp"
-#include "Project/State/StateTitle.hpp"
 #include "Project/State/StateDebugTop.hpp"
+#include "Project/State/StateTitle.hpp"
+#include "Project/State/StateGameMain.hpp"
 
 namespace {
 
@@ -38,8 +39,10 @@ StateBase* ProjectStateManager::new_State( State select_index )
         return new StateDebugTop();
     case State_Title:
         return new StateTitle();
+    case State_GameMain:
+        return new StateGameMain();
     default:
-        assert( false );
+        assert( !"invalid state");
         return 0;
     }
 }
@@ -51,6 +54,7 @@ std::string ProjectStateManager::NameOf(State state)
     {
         "デバッグトップ",
         "タイトル画面",
+        "ゲームメイン",
     };
     return name_list[state];
 }

@@ -264,19 +264,31 @@
 				Name="Project"
 				>
 				<File
-					RelativePath="..\Source\Project\AvaterParam.cpp"
+					RelativePath="..\Source\Project\DrawingKoyaku.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\AvaterParam.hpp"
+					RelativePath="..\Source\Project\DrawingKoyaku.h"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Draw.cpp"
+					RelativePath="..\Source\Project\DrawingStatus.h"
 					>
 				</File>
 				<File
-					RelativePath="..\Source\Project\Draw.hpp"
+					RelativePath="..\Source\Project\KoyakuParameter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\KoyakuType.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\KoyakuType.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Source\Project\PlayerStatus.h"
 					>
 				</File>
 				<File

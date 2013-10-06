@@ -14,6 +14,7 @@ public:
     enum State{
         State_DebugTop,
         State_Title,
+        State_GameMain,
         State_Num,
     };
 public:
