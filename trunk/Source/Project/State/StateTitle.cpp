@@ -6,7 +6,7 @@
 #include "DxLibWrapper/Color.hpp"
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
-#include "Project/State/ProjectStateManager.hpp"
+#include "Project/Singleton/SingletonProjectStateManager.hpp"
 #include "Project/SaveData.hpp"
 
 StateTitle::StateTitle()
