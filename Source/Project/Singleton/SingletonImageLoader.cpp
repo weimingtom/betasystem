@@ -1,38 +1,27 @@
 #include "SingletonImageLoader.hpp"
 
 #include <memory>
+#include "DxLibWrapper/ImageLoader.hpp"
 
-/**
-	使用する画像名.
-*/
-char const* const image_name[ ImageType_Num ] =
-{
-    "Resource/BG_Forest.png",
-    "Resource/Player.png",
-    "Resource/Enemy.png",
-    "Resource/Enemy2.png",
-    "Resource/Enemy3.png",
-    "Resource/GameEnd.png",
-    "Resource/Title.png",
-    "Resource/ItemFrame.png",
-    "Resource/ItemList.png",
-    "Resource/stand.png",
-    "Resource/stand_slime.png",
-    "Resource/box.png",
-    "Resource/BattleFrame.png",
-    "Resource/avater.png",
-    "Resource/dummy.png",
-};
 
-char const* NameOf( ImageType type )
-{
-	return image_name[type];
-}
+namespace ProjectImageLoader{
 
-std::auto_ptr<ImageLoader> gImageLoader;
+    //! シングルトンインスタンス.
+    std::auto_ptr<ImageLoader> gImageLoader;
 
-namespace SingletonImageLoader
-{
+    /**
+    	使用する画像名.
+    */
+    char const* const image_name[ ImageType_Num ] =
+    {
+        "Resource/BG_Forest.png",
+        "Resource/dummy.png",
+    };
+
+    char const* NameOf( ImageType type )
+    {
+    	return image_name[type];
+    }
 
 	void Init()
 	{
@@ -49,10 +38,11 @@ namespace SingletonImageLoader
 	{
 	    gImageLoader.reset(0);
 	}
-}
 
-int ImageHandleOf( ImageType type )
-{
-    return gImageLoader->ImageHandleOf( NameOf(type) );
-}
+    int ImageHandleOf( ImageType type )
+    {
+        return gImageLoader->ImageHandleOf( NameOf(type) );
+    }
+
+} // namespace ProjectImageLoader
 

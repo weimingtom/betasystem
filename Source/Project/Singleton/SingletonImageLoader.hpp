@@ -3,54 +3,43 @@
 
 #include "DxLibWrapper/ImageLoader.hpp"
 
-/**
-	使用する画像.
-*/
-enum ImageType
-{
-    ImageType_Forest,
-    ImageType_Player,
-    ImageType_GreenSlime,
-    ImageType_RedSlime,
-    ImageType_SteelSlime,
-    ImageType_GameEnd,
-    ImageType_Title,
-    ImageType_ItemFrame,
-    ImageType_ItemList,
-    ImageType_StandFuriru,
-    ImageType_StandSlime,
-    ImageType_Box,
-    ImageType_BattleFrame,
-    ImageType_Avater,
-    ImageType_Dummy,
-    
-    ImageType_Num,
-};
 
-/**
-	ファイル名の取得.
-*/
-char const* NameOf( ImageType type );
+namespace ProjectImageLoader{
 
-/**
-    プロジェクト唯一の ImageLoader.
-*/
-namespace SingletonImageLoader
-{
+    /**
+    	使用する画像.
+    */
+    enum ImageType
+    {
+        ImageType_Forest,
+        ImageType_Dummy,
+        ImageType_Num,
+    };
+    /**
+    	ファイル名の取得.
+    */
+    char const* NameOf( ImageType type );
+
 	/**
 		初期化.
 	*/
 	void Init();
+	/**
+	    インスタンスの取得.
+	*/
+	ImageLoader* GetInstance();
     /**
         開放処理.
+        Dxlibの開放処理タイミングの都合で作成.
     */
     void Release();
-}
+    /**
+        イメージハンドル取得.
+    */
+    int ImageHandleOf( ImageType type );
 
-/**
-    イメージハンドル取得.
-*/
-int ImageHandleOf( ImageType type );
+} // namespace ProjectImageLoader
+
 
 #endif //include_7aee0d29_36ae_42db_814b_3702121f9903
 
