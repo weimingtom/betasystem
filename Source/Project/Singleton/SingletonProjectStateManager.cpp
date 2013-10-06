@@ -9,28 +9,28 @@
 namespace {
 
 //! シングルトンインスタンス.
-std::auto_ptr<SingletonProjectStateManager> sInstance;
+std::auto_ptr<ProjectStateManager> sInstance;
 
 } // namespace unnamed
 
-SingletonProjectStateManager::SingletonProjectStateManager()
+ProjectStateManager::ProjectStateManager()
 {
 	ChangeState( new_State(State_DebugTop) );
 }
 
-SingletonProjectStateManager::~SingletonProjectStateManager()
+ProjectStateManager::~ProjectStateManager()
 {
 }
 
-SingletonProjectStateManager* SingletonProjectStateManager::GetInstance()
+ProjectStateManager* ProjectStateManager::GetInstance()
 {
     if( !sInstance.get() ){
-        sInstance.reset( new SingletonProjectStateManager() );
+        sInstance.reset( new ProjectStateManager() );
     }
     return sInstance.get();
 }
 
-StateBase* SingletonProjectStateManager::new_State( State select_index )
+StateBase* ProjectStateManager::new_State( State select_index )
 {
     switch( select_index )
     {
@@ -45,7 +45,7 @@ StateBase* SingletonProjectStateManager::new_State( State select_index )
 }
 
 
-std::string SingletonProjectStateManager::NameOf(State state)
+std::string ProjectStateManager::NameOf(State state)
 {
     static char const* name_list[State_Num] =
     {
