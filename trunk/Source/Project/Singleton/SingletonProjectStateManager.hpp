@@ -7,7 +7,7 @@
 /**
     プロジェクトの一番上に位置するStateManager.
 */
-class SingletonProjectStateManager : public StateManagerBase
+class ProjectStateManager : public StateManagerBase
 {
 public:
     //! ステート.
@@ -18,10 +18,10 @@ public:
     };
 public:
     //! デストラクタ.
-    ~SingletonProjectStateManager();
+    ~ProjectStateManager();
 public:
     //! ステートマネージャのポインタ取得.
-    static SingletonProjectStateManager* GetInstance();
+    static ProjectStateManager* GetInstance();
     //! ステートインスタンスの生成.
     //! @param state 生成したいステートの種類.
     static StateBase* new_State(State state);
@@ -29,7 +29,7 @@ public:
     static std::string NameOf(State state);
 private:
     //! コンストラクタ.
-    SingletonProjectStateManager();
+    ProjectStateManager();
 };
 
 #endif

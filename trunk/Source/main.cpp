@@ -56,7 +56,7 @@ int InitApplication()
     SingletonImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
-	SingletonProjectStateManager::GetInstance();
+	ProjectStateManager::GetInstance();
     
 	//‰Šú‰»¬Œ÷.
     return ApplicationSuccess;
@@ -68,10 +68,10 @@ void LoopApplication()
     {
     	SingletonInputMouse::Update();
 		Singleton::UpdateKeyInput();
-    	SingletonProjectStateManager::GetInstance()->Update();
+    	ProjectStateManager::GetInstance()->Update();
         
         ClearDrawScreen() ;    // ‰æ–Ê‚ð‰Šú‰»‚·‚é
-    	SingletonProjectStateManager::GetInstance()->Draw();
+    	ProjectStateManager::GetInstance()->Draw();
         ScreenFlip() ;    // — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f‚³‚¹‚é
     }
 }
