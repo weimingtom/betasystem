@@ -53,7 +53,7 @@ int InitApplication()
 	
     //シングルトンの初期化.
     SingletonInputMouse::Init();
-    SingletonImageLoader::Init();
+    ProjectImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
 	ProjectStateManager::GetInstance();
@@ -82,7 +82,7 @@ int EndApplication()
         DxLib_Endより後ろだと、メモリ上のデータの開放に失敗するので、手前で開放.
     */
     SingletonSoundLoader::Release();
-    SingletonImageLoader::Release();
+    ProjectImageLoader::Release();
     DxLib_End();
     return ApplicationSuccess;
 }
