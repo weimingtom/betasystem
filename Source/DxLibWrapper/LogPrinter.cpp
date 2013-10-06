@@ -12,20 +12,17 @@ public:
 public:
     void Print( std::string log , int color );
     void Draw();
-    
 private:
     std::vector< std::string > m_log_list;
     std::vector< int > m_color_list;
     int m_x;
     int m_y;
-    static int const m_list_max = 6;
-    int m_frame;
+    static int const m_list_max = 20;
 };
 
 LogPrinter::Impl::Impl( int x , int y )
  : m_x(x)
  , m_y(y)
- , m_frame(0)
 {
 }
 
@@ -35,19 +32,11 @@ LogPrinter::Impl::~Impl()
 
 void LogPrinter::Impl::Print( std::string log, int color )
 {
-    m_frame = 0;
-    std::vector<std::string>::iterator it = m_log_list.begin();
-    m_log_list.insert( it , log );
-    
+    m_log_list.insert( m_log_list.begin() , log );
     if( m_log_list.size() > m_list_max ){ m_log_list.pop_back(); }
 
-    //ƒRƒsƒy.
-    {
-        std::vector<int>::iterator it2 = m_color_list.begin();
-        m_color_list.insert( it2 , color );
-        
-        if( m_color_list.size() > m_list_max ){ m_color_list.pop_back(); }
-    }
+    m_color_list.insert( m_color_list.begin() , color );
+    if( m_color_list.size() > m_list_max ){ m_color_list.pop_back(); }
 }
 
 void LogPrinter::Impl::Draw()
