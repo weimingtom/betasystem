@@ -12,7 +12,7 @@
 #include "Project/Singleton/SingletonProjectStateManager.hpp"
 
 StateGameMain::StateGameMain()
- : mLogPrinter( new_LogPrinter(100,100) )
+ : mLogPrinter( new_LogPrinter(100,300) )
 {
 	srand( static_cast<unsigned int>( time(NULL) ) );
 }
@@ -28,13 +28,14 @@ void StateGameMain::Update()
 		mPlayerStatus.coin += CoinOf(drawing_result.koyaku_type);
 		
 		std::stringstream ss;
-		ss << "抽選結果:" << NameOf(drawing_result.koyaku_type) << ":" << drawing_result.is_art << "\n" 
-		    << "プレイヤー情報:" << mPlayerStatus.coin << ":" << mPlayerStatus.drawing_status << "\n";
+		ss << "抽選結果:" << NameOf(drawing_result.koyaku_type) << ":" << drawing_result.is_art 
+		    << "プレイヤー情報:" << mPlayerStatus.coin << ":" << mPlayerStatus.drawing_status ;
 		mLogPrinter->Print(ss.str());
 	}
 }
 
 void StateGameMain::Draw() const
 {
+    DrawFormatString( 0 , 0 , GetColor(0,255,0) , "ゲームメイン");
     mLogPrinter->Draw();
 }
