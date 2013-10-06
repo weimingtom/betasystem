@@ -10,7 +10,6 @@ public:
     ~Impl();
     
 public:
-    void Update();
     void Print( std::string log , int color );
     void Draw();
     
@@ -32,15 +31,6 @@ LogPrinter::Impl::Impl( int x , int y )
 
 LogPrinter::Impl::~Impl()
 {
-}
-
-void LogPrinter::Impl::Update()
-{
-    m_frame++;
-    if( m_frame > 30 ){
-        Print("",0);
-        m_frame = 0;
-    }
 }
 
 void LogPrinter::Impl::Print( std::string log, int color )
