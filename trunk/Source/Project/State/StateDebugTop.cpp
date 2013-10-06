@@ -28,11 +28,12 @@ void StateDebugTop::Update()
 
 void StateDebugTop::Draw() const
 {
-    DrawFormatString( 0 , mIndex*10 , ColorOf(0,255,0) , "→");
+    int const kMarginY = 20;
+    DrawFormatString( 0 , mIndex*kMarginY, ColorOf(0,255,0) , "→");
     
     for( int i = 0 ; i < ProjectStateManager::State_Num ; i++ )
     {
-        DrawFormatString( 20 , i*10 , ColorOf(0,255,0) , ProjectStateManager::NameOf( static_cast<ProjectStateManager::State>(i) ).c_str() );
+        DrawFormatString( 20 , i*kMarginY, ColorOf(0,255,0) , ProjectStateManager::NameOf( static_cast<ProjectStateManager::State>(i) ).c_str() );
     }
 }
 
