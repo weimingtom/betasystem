@@ -1,6 +1,5 @@
 #include "StateTitle.hpp"
 
-#include "Project/Draw.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/Color.hpp"

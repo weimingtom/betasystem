@@ -1,7 +1,6 @@
 #ifndef save_data_hpp
 #define save_data_hpp
 
-#include "Item.hpp"
 
 /**
     セーブデータの型.
@@ -15,7 +14,6 @@ public:
     void Reset();
 
 public:
-    int m_item[ItemType_Num];
     int m_total_break;
     int m_max_break;
     int m_player_max_hp;
