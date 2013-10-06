@@ -1,6 +1,7 @@
 #ifndef include_4043f656_29d2_4fa5_b7b8_641d2d447994
 #define include_4043f656_29d2_4fa5_b7b8_641d2d447994
 
+#include <string>
 #include "../../System/StateManagerBase.hpp"
 
 /**
@@ -24,6 +25,8 @@ public:
     //! ステートインスタンスの生成.
     //! @param state 生成したいステートの種類.
     static StateBase* new_State(State state);
+    //! 名前の取得.
+    static std::string NameOf(State state);
 private:
     //! コンストラクタ.
     SingletonProjectStateManager();
