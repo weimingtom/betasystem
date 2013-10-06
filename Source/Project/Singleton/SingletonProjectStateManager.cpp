@@ -13,6 +13,15 @@ std::auto_ptr<SingletonProjectStateManager> sInstance;
 
 } // namespace unnamed
 
+SingletonProjectStateManager::SingletonProjectStateManager()
+{
+	ChangeState( new_State(State_DebugTop) );
+}
+
+SingletonProjectStateManager::~SingletonProjectStateManager()
+{
+}
+
 SingletonProjectStateManager* SingletonProjectStateManager::GetInstance()
 {
     if( !sInstance.get() ){
@@ -35,12 +44,14 @@ StateBase* SingletonProjectStateManager::new_State( State select_index )
     }
 }
 
-SingletonProjectStateManager::SingletonProjectStateManager()
-{
-	ChangeState( new_State(State_DebugTop) );
-}
 
-SingletonProjectStateManager::~SingletonProjectStateManager()
+std::string SingletonProjectStateManager::NameOf(State state)
 {
+    static char const* name_list[State_Num] =
+    {
+        "デバッグトップ",
+        "タイトル画面",
+    };
+    return name_list[state];
 }
 
