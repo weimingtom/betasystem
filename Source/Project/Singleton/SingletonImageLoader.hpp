@@ -12,7 +12,7 @@ namespace ProjectImageLoader{
     enum ImageType
     {
         ImageType_Forest,
-        ImageType_Dummy,
+        ImageType_Koyaku,
         ImageType_Num,
     };
     /**

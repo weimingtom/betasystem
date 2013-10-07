@@ -5,7 +5,6 @@
 #include <string>
 #include <sstream>
 #include <time.h>
-#include "Project/DrawingKoyaku.h"
 #include "Project/PlayerStatus.h"
 #include "Project/KoyakuType.h"
 #include "Project/Singleton/SingletonInputKey.hpp"
@@ -27,17 +26,33 @@ void StateGameMain::Update()
 		mPlayerStatus.coin -= kOnePlayCoin;
 		DrawingResult const drawing_result = GetDrawingResult( mPlayerStatus.drawing_status );
 		mPlayerStatus.coin += CoinOf(drawing_result.koyaku_type);
-		
 		std::stringstream ss;
 		ss << "抽選結果:" << NameOf(drawing_result.koyaku_type) << ":" << drawing_result.is_art 
 		    << "プレイヤー情報:" << mPlayerStatus.coin << ":" << mPlayerStatus.drawing_status ;
 		mLogPrinter->Print(ss.str());
+		
+		mKoyakuList.insert( mKoyakuList.begin() , drawing_result.koyaku_type );
+		if( mKoyakuList.size() > kKoyakuListMax ){
+		    mKoyakuList.pop_back();
+		}
 	}
 }
 
 void StateGameMain::Draw() const
 {
-    DrawGraph( 0, 0, ProjectImageLoader::ImageHandleOf(ProjectImageLoader::ImageType_Forest), TRUE );
-    DrawFormatString( 0 , 0 , GetColor(0,255,0) , "ゲームメイン");
-    mLogPrinter->Draw();
+    int const kIconWidth = 32;
+    int const kIconHeight = 32;
+    int const kDrawX = 400;
+    int const kDrawY = 300;
+    
+	for( std::string::size_type i = 0 ; i < kKoyakuListMax && i < mKoyakuList.size() ; i++ ){
+        DrawRectGraph(
+            kDrawX, kDrawY - i * kIconHeight,
+            0, mKoyakuList.at(i)*kIconHeight,
+            kIconWidth, kIconHeight,
+            ProjectImageLoader::ImageHandleOf(ProjectImageLoader::ImageType_Koyaku),
+            TRUE , FALSE );
+        DrawFormatString( 0 , 0 , GetColor(0,255,0) , "ゲームメイン");
+        mLogPrinter->Draw();
+    }
 }

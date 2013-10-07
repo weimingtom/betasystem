@@ -15,7 +15,7 @@ namespace ProjectImageLoader{
     char const* const image_name[ ImageType_Num ] =
     {
         "Resource/BG_Forest.png",
-        "Resource/dummy.png",
+        "Resource/Koyaku.png",
     };
 
     char const* NameOf( ImageType type )
