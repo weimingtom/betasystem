@@ -11,6 +11,7 @@ char const* NameOf(KoyakuType koyaku_type)
 		"スイカ",
 		"弱チャンス目",
 		"強チェリー",
+		"強チャンス目",
 		"中段チェリー",
 	};
 	return name_table[koyaku_type];
