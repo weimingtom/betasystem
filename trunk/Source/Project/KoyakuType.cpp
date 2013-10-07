@@ -15,5 +15,6 @@ char const* NameOf(KoyakuType koyaku_type)
 		"中段チェリー",
 	};
 	return name_table[koyaku_type];
+	//@todo static_assert仕込まねば…
 }
 
