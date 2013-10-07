@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "System/StateManagerBase.hpp"
 #include "Project/State/StateDebugTop.hpp"
-#include "Project/State/StateTitle.hpp"
+#include "Project/State/StateAvaterTest.hpp"
 #include "Project/State/StateGameMain.hpp"
 
 namespace {
@@ -37,8 +37,8 @@ StateBase* ProjectStateManager::new_State( State select_index )
     {
     case State_DebugTop:
         return new StateDebugTop();
-    case State_Title:
-        return new StateTitle();
+    case State_AvaterTest:
+        return new StateAvaterTest();
     case State_GameMain:
         return new StateGameMain();
     default:
@@ -53,7 +53,7 @@ std::string ProjectStateManager::NameOf(State state)
     static char const* name_list[State_Num] =
     {
         "デバッグトップ",
-        "タイトル画面",
+        "アバターテスト",
         "ゲームメイン",
     };
     return name_list[state];
