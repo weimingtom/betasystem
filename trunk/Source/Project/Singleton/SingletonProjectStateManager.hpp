@@ -13,7 +13,7 @@ public:
     //! ステート.
     enum State{
         State_DebugTop,
-        State_Title,
+        State_AvaterTest,
         State_GameMain,
         State_Num,
     };

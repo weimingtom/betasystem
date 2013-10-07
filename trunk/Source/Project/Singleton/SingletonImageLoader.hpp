@@ -13,6 +13,7 @@ namespace ProjectImageLoader{
     {
         ImageType_Forest,
         ImageType_Koyaku,
+        ImageType_Avater,
         ImageType_Num,
     };
     /**
