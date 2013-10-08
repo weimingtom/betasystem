@@ -6,6 +6,7 @@
 #include "Project/State/StateDebugTop.hpp"
 #include "Project/State/StateAvaterTest.hpp"
 #include "Project/State/StateGameMain.hpp"
+#include "Project/State/StatePaletteTest.hpp"
 
 namespace {
 
@@ -41,6 +42,8 @@ StateBase* ProjectStateManager::new_State( State select_index )
         return new StateAvaterTest();
     case State_GameMain:
         return new StateGameMain();
+    case State_PaletteTest:
+        return new StatePaletteTest();
     default:
         assert( !"invalid state");
         return 0;
@@ -55,6 +58,7 @@ std::string ProjectStateManager::NameOf(State state)
         "デバッグトップ",
         "アバターテスト",
         "ゲームメイン",
+        "パレットテスト",
     };
     return name_list[state];
 }
