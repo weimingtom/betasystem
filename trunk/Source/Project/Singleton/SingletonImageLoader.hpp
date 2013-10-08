@@ -38,6 +38,10 @@ namespace ProjectImageLoader{
         イメージハンドル取得.
     */
     int ImageHandleOf( ImageType type );
+    /**
+        ソフトイメージハンドルの取得.
+    */
+    int SoftImageHandleOf( ImageType type );
 
 } // namespace ProjectImageLoader
 

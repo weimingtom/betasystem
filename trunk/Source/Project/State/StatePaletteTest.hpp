@@ -11,6 +11,9 @@ public:
 public:
 	void Update();
 	void Draw() const;
+private:
+    int const mSoftImageHandle;
+    int mChangedColorImageHandle;
 };
 
 #endif // STATE_PALETTE_TEST_HPP__

@@ -45,5 +45,10 @@ namespace ProjectImageLoader{
         return gImageLoader->ImageHandleOf( NameOf(type) );
     }
 
+    int SoftImageHandleOf( ImageType type )
+    {
+        return gImageLoader->SoftImageHandleOf( NameOf(type) );
+    }
+
 } // namespace ProjectImageLoader
 
