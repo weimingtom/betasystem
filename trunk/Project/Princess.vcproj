@@ -371,6 +371,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\Source\Project\State\StatePaletteTest.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StatePaletteTest.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\StateTitle.cpp"
 						>
 					</File>
