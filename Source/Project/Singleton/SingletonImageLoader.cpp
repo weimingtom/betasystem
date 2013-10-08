@@ -16,7 +16,7 @@ namespace ProjectImageLoader{
     {
         "Resource/BG_Forest.png",
         "Resource/Koyaku.png",
-        "Resource/Avater.png",
+        "Resource/Avater.bmp",
     };
 
     char const* NameOf( ImageType type )
