@@ -1,6 +1,12 @@
 #ifndef save_data_hpp
 #define save_data_hpp
 
+#include "Project/Item/ItemInfo.hpp"
+
+struct Player
+{
+    ItemInfo item_list[100];
+};
 
 /**
     セーブデータの型.
@@ -9,23 +15,12 @@ struct SaveData
 {
 public:
     SaveData();
+    ~SaveData();
     void Save();
     void Load();
-    void Reset();
 
 public:
-    int m_total_break;
-    int m_max_break;
-    int m_player_max_hp;
-    int m_player_hp;
-    int m_player_max_mp;
-    int m_player_mp;
-    int m_player_exp;
-    int m_player_exp_max;
-    int m_player_level;
-    int m_selected_stage;
-    int m_player_mana_type;
-    int m_player_attack;
+    Player mPlayer;
 };
 
 /**
