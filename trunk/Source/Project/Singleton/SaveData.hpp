@@ -5,7 +5,8 @@
 
 struct Player
 {
-    ItemInfo item_list[100];
+    static int const ItemMax = 100;
+    ItemInfo item_list[ItemMax];
 };
 
 /**
