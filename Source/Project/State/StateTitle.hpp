@@ -1,10 +1,10 @@
-#ifndef state_title_hpp
+ï»¿#ifndef state_title_hpp
 #define state_title_hpp
 
 #include "System/StateBase.hpp"
 
 /**
-    ƒ^ƒCƒgƒ‹‰æ–Ê‚Ì‘JˆÚ
+    ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã®é·ç§»
 */
 class StateTitle : public StateBase
 {

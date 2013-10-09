@@ -1,4 +1,4 @@
-#include "StateTitle.hpp"
+ï»¿#include "StateTitle.hpp"
 
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
@@ -22,7 +22,7 @@ void StateTitle::Draw() const
     switch( m_step )
     {
     case Step_Title:
-        DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "ƒ^ƒCƒgƒ‹‰æ–Ê");
+        DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢");
         break;
     }
 }

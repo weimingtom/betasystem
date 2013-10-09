@@ -1,21 +1,6 @@
 
-
-○アイテム持たせる
-
-//プレイヤー情報
-struct Player
-{
-	//! 装備.
-	Equip mEquip[Equip_Num];
-	
-	//! 所持アイテム.
-	
-};
-
-
-
 ○装備テストステートを作る
-
+	EquipTestState
 
 
 
@@ -197,3 +182,18 @@ Player::GetInstance()->GetmAvater()->Draw();
 ○アイテムの基礎をつくる
 	23:55:34
 	0:09:22
+
+
+
+
+○アイテム持たせる
+
+//プレイヤー情報
+struct Player
+{
+	//! 装備.
+	Equip mEquip[Equip_Num];
+	
+	//! 所持アイテム.
+	
+};
