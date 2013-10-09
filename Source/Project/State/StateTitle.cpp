@@ -6,13 +6,11 @@
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/Singleton/SingletonProjectStateManager.hpp"
-#include "Project/SaveData.hpp"
 
 StateTitle::StateTitle()
  : m_step( Step_Title )
  , m_frame(0)
 {
-    gSaveData.Save();
 }
 
 void StateTitle::Update()
