@@ -25,7 +25,7 @@ enum EquipPosition
 //! アイテム詳細情報
 struct ItemInfo
 {
-	char const* name;
+    ItemType item_type;
 	int color;
 	int level;
 	EquipPosition equip_pos;
@@ -34,5 +34,7 @@ struct ItemInfo
 //! アイテム情報の取得.
 ItemInfo ItemInfoOf(ItemType);
 
+//! アイテム名の取得.
+char const* NameOf(ItemType);
 
 #endif // ITEM_INFO_HPP__

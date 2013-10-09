@@ -263,17 +263,17 @@
 			<Filter
 				Name="Project"
 				>
-				<File
-					RelativePath="..\Source\Project\SaveData.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\Project\SaveData.hpp"
-					>
-				</File>
 				<Filter
 					Name="Singleton"
 					>
+					<File
+						RelativePath="..\Source\Project\Singleton\SaveData.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SaveData.hpp"
+						>
+					</File>
 					<File
 						RelativePath="..\Source\Project\Singleton\SingletonImageLoader.cpp"
 						>
@@ -362,14 +362,6 @@
 				<Filter
 					Name="Avater"
 					>
-					<File
-						RelativePath="..\Source\Project\Avater\AvaterParam.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Avater\AvaterParam.hpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Item"
