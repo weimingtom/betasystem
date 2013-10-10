@@ -25,6 +25,8 @@ public:
 public:
     //! ステートマネージャのポインタ取得.
     static ProjectStateManager* GetInstance();
+    //! インスタンスの削除.
+    static void DeleteInstance();
     //! ステートインスタンスの生成.
     //! @param state 生成したいステートの種類.
     static StateBase* new_State(State state);
