@@ -1,6 +1,6 @@
 
-○装備テストステートを作る
-	EquipTestState
+○アイテム持たせる
+
 
 
 
@@ -197,3 +197,6 @@ struct Player
 	//! 所持アイテム.
 	
 };
+
+○装備テストステートを作る
+	EquipTestState
