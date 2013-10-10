@@ -29,6 +29,14 @@ struct ItemInfo
 	int color;
 	int level;
 	EquipPosition equip_pos;
+	//! 初期化.
+	void Reset()
+	{
+	    item_type = Item_None;
+	    color = 0;
+	    level = 0;
+	    equip_pos = Equip_None;
+	}
 };
 
 //! アイテム情報の取得.

@@ -6,7 +6,13 @@
 struct Player
 {
     static int const ItemMax = 100;
-    ItemInfo item_list[ItemMax];
+    ItemInfo mItemList[ItemMax];
+    Player()
+    {
+        for( int i = 0 ; i < ItemMax ; i ++ ){
+            mItemList[i].Reset();
+        }
+    }
 };
 
 /**
