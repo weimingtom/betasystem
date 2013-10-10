@@ -28,7 +28,7 @@ void StateDebugTop::Update()
 
 void StateDebugTop::Draw() const
 {
-    int const kMarginY = 20;
+    int const kMarginY = 15;
     DrawFormatString( 0 , mIndex*kMarginY, ColorOf(0,255,0) , "→");
     
     for( int i = 0 ; i < ProjectStateManager::State_Num ; i++ )

@@ -11,6 +11,8 @@ public:
 public:
 	void Update();
 	void Draw() const;
+private:
+    int mIndex;
 };
 
 #endif // STATE_EQUIP_TEST_HPP__
