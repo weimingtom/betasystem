@@ -1,22 +1,6 @@
 #ifndef save_data_hpp
 #define save_data_hpp
 
-#include "Project/Item/ItemInfo.hpp"
-
-struct Player
-{
-    static int const ItemMax = 10;
-    ItemInfo mItemList[ItemMax];
-    ItemInfo mEquipList[EquipPos_Num];
-    
-    Player()
-    {
-        for( int i = 0 ; i < ItemMax ; i ++ ){
-            mItemList[i].Reset();
-        }
-    }
-};
-
 /**
     セーブデータの型.
 */
@@ -27,9 +11,6 @@ public:
     ~SaveData();
     void Save();
     void Load();
-
-public:
-    Player mPlayer;
 };
 
 /**
