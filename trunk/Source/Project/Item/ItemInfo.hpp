@@ -7,8 +7,11 @@ enum ItemType
 	Item_None,
 	Item_Hair0,
 	Item_Hair1,
+	Item_Hair2,
+	Item_Hair3,
 	Item_Cloth0,
 	Item_Cloth1,
+	ItemType_Num,
 };
 
 //! 装備箇所
@@ -24,6 +27,7 @@ enum EquipPos
 struct ItemInfo
 {
     ItemType item_type;
+    int id;
 	int color;
 	int level;
 	EquipPos equip_pos;
@@ -31,6 +35,7 @@ struct ItemInfo
 	void Reset()
 	{
 	    item_type = Item_None;
+	    id = 0;
 	    color = 0;
 	    level = 0;
 	    equip_pos = EquipPos_None;

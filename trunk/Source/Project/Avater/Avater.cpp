@@ -3,6 +3,9 @@
 
 Avater::Avater( ItemInfo equip_list[EquipPos_Num] )
 {
+    for( int i = 0 ; i < EquipPos_Num ; i++ ){
+        mEquipList[i] = equip_list[i];
+    }
 }
 
 Avater::~Avater()
@@ -24,7 +27,7 @@ void Avater::Draw(int x,int y) const
 	//”¯
 	DrawRectGraph(
 		x,y,
-		0, 800,
+		0, 800 + mEquipList[EquipPos_Hair].id * height,
 		width,height,
 		ProjectImageLoader::ImageHandleOf(ProjectImageLoader::ImageType_Avater),
 		TRUE, FALSE);

@@ -12,6 +12,8 @@ public:
 	~Avater();
 public:
 	void Draw(int x,int y) const;
+private:
+    ItemInfo mEquipList[EquipPos_Num];
 };
 
 
