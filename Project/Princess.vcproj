@@ -378,6 +378,14 @@
 				<Filter
 					Name="Avater"
 					>
+					<File
+						RelativePath="..\Source\Project\Avater\Avater.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Avater\Avater.hpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Item"
