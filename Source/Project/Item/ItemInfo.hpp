@@ -12,14 +12,14 @@ enum ItemType
 };
 
 //! 装備箇所
-enum EquipPosition
+enum EquipPos
 {
-	Equip_None, //!< 装備する場所が無い.
-	Equip_Head,
-	Equip_Hair,
-	Equip_Body,
-	Equip_Option,
-	Equip_Num,
+	EquipPos_None, //!< 装備する場所が無い.
+	EquipPos_Head,
+	EquipPos_Hair,
+	EquipPos_Body,
+	EquipPos_Option,
+	EquipPos_Num,
 };
 
 //! アイテム詳細情報
@@ -28,15 +28,17 @@ struct ItemInfo
     ItemType item_type;
 	int color;
 	int level;
-	EquipPosition equip_pos;
+	EquipPos equip_pos;
 	//! 初期化.
 	void Reset()
 	{
 	    item_type = Item_None;
 	    color = 0;
 	    level = 0;
-	    equip_pos = Equip_None;
+	    equip_pos = EquipPos_None;
 	}
+	//! 装備かどうか.
+	bool IsEquip() const{ return ( equip_pos != EquipPos_None ); }
 };
 
 //! アイテム情報の取得.

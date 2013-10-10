@@ -5,8 +5,10 @@
 
 struct Player
 {
-    static int const ItemMax = 100;
+    static int const ItemMax = 10;
     ItemInfo mItemList[ItemMax];
+    ItemInfo mEquipList[EquipPos_Num];
+    
     Player()
     {
         for( int i = 0 ; i < ItemMax ; i ++ ){
