@@ -38,11 +38,10 @@ void Avater::Draw(int x,int y) const
 		width,height,
 		ProjectImageLoader::ImageHandleOf(ProjectImageLoader::ImageType_Avater),
 		TRUE, FALSE);
-
 	//•ž
 	DrawRectGraph(
 		x,y,
-		0, 400,
+		mEquipList[EquipPos_Body].id * width, 400,
 		width,height,
 		ProjectImageLoader::ImageHandleOf(ProjectImageLoader::ImageType_Avater),
 		TRUE, FALSE);
