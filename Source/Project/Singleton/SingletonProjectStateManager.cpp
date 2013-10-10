@@ -33,6 +33,11 @@ ProjectStateManager* ProjectStateManager::GetInstance()
     return sInstance.get();
 }
 
+void ProjectStateManager::DeleteInstance()
+{
+    sInstance.reset(0);
+}
+
 StateBase* ProjectStateManager::new_State( State select_index )
 {
     switch( select_index )

@@ -82,6 +82,7 @@ int EndApplication()
     */
     SingletonSoundLoader::Release();
     ProjectImageLoader::Release();
+    ProjectStateManager::DeleteInstance();
     DxLib_End();
     return ApplicationSuccess;
 }
