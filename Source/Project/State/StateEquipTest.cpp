@@ -13,6 +13,7 @@ StateEquipTest::StateEquipTest()
     //プレイヤーにいくつかアイテム持たせる。
     for( int i = 0 ; i < ItemType_Num ; i++ ){
         gPlayerParam.mItemList[i] = ItemInfoOf(static_cast<ItemType>(i));
+        gPlayerParam.mItemList[i].color = GetRand(INT_MAX);
     }
 }
 
