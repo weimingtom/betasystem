@@ -267,6 +267,14 @@
 					Name="Singleton"
 					>
 					<File
+						RelativePath="..\Source\Project\Singleton\PlayerParam.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\PlayerParam.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\Singleton\SaveData.cpp"
 						>
 					</File>
