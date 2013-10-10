@@ -5,11 +5,11 @@ namespace {
 //! アイテム情報.
 ItemInfo item_info_list[] =
 {
-    {Item_None,     0,0,Equip_Head},
-    {Item_Hair0,    0,0,Equip_Head},
-    {Item_Hair1,    0,0,Equip_Head},
-    {Item_Cloth0,   0,0,Equip_Body},
-    {Item_Cloth1,   0,0,Equip_Body},
+    {Item_None,     0,0,EquipPos_Head},
+    {Item_Hair0,    0,0,EquipPos_Head},
+    {Item_Hair1,    0,0,EquipPos_Head},
+    {Item_Cloth0,   0,0,EquipPos_Body},
+    {Item_Cloth1,   0,0,EquipPos_Body},
 };
 
 //! アイテム名.
