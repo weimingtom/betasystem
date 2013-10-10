@@ -15,10 +15,8 @@ enum ItemType
 enum EquipPos
 {
 	EquipPos_None, //!< 装備する場所が無い.
-	EquipPos_Head,
 	EquipPos_Hair,
 	EquipPos_Body,
-	EquipPos_Option,
 	EquipPos_Num,
 };
 

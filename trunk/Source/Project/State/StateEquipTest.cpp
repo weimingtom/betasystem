@@ -8,6 +8,7 @@
 
 StateEquipTest::StateEquipTest()
  : mIndex(0)
+ , mAvater( new Avater( gPlayerParam.mEquipList ) )
 {
     //プレイヤーにいくつかアイテム持たせる。
     gPlayerParam.mItemList[0] = ItemInfoOf(Item_Hair0);
@@ -42,6 +43,7 @@ void StateEquipTest::Update()
             gPlayerParam.mEquipList[current_item.equip_pos] = current_item;
             gPlayerParam.mItemList[mIndex] = swap_temp;
         }
+        
     }
 }
 
@@ -58,5 +60,6 @@ void StateEquipTest::Draw() const
     for( int i = 0 ; i < ARRAY_SIZE( gPlayerParam.mEquipList ) ; i++ ){
         DrawFormatString( 150 , 50 + i*15 , GetColor(0,255,0) , NameOf( gPlayerParam.mEquipList[i].item_type ) );
     }
+    mAvater->Draw(300,100);
 }
 
