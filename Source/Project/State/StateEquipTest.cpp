@@ -11,10 +11,9 @@ StateEquipTest::StateEquipTest()
  , mAvater( new Avater( gPlayerParam.mEquipList ) )
 {
     //プレイヤーにいくつかアイテム持たせる。
-    gPlayerParam.mItemList[0] = ItemInfoOf(Item_Hair0);
-    gPlayerParam.mItemList[1] = ItemInfoOf(Item_Hair1);
-    gPlayerParam.mItemList[2] = ItemInfoOf(Item_Cloth0);
-    gPlayerParam.mItemList[3] = ItemInfoOf(Item_Cloth1);
+    for( int i = 0 ; i < ItemType_Num ; i++ ){
+        gPlayerParam.mItemList[i] = ItemInfoOf(static_cast<ItemType>(i));
+    }
 }
 
 StateEquipTest::~StateEquipTest()
@@ -42,6 +41,7 @@ void StateEquipTest::Update()
             ItemInfo const swap_temp = gPlayerParam.mEquipList[current_item.equip_pos];
             gPlayerParam.mEquipList[current_item.equip_pos] = current_item;
             gPlayerParam.mItemList[mIndex] = swap_temp;
+            mAvater.reset( new Avater(gPlayerParam.mEquipList) );
         }
         
     }
