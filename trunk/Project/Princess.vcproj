@@ -335,6 +335,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\Source\Project\State\StateBattle.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateBattle.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\StateDebugTop.cpp"
 						>
 					</File>
