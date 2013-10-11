@@ -17,6 +17,7 @@ public:
         State_GameMain,
         State_PaletteTest,
         State_EquipTest,
+        State_Battle,
         State_Num,
     };
 public:

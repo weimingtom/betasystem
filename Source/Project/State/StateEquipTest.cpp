@@ -55,11 +55,13 @@ void StateEquipTest::Draw() const
     DrawFormatString( 0 , 50+mIndex*15 , GetColor(0,255,0) , "→");
     //所持アイテムの表示.
     for(int i = 0 ; i < PlayerParam::ItemMax ; i++ ){
-        DrawFormatString( 50 , 50 + i*15 , GetColor(0,255,0) , NameOf( gPlayerParam.mItemList[i].item_type ) );
+        int r,g,b;
+        GetColor2( gPlayerParam.mItemList[i].color, &r,&g,&b);
+        DrawFormatString( 10 , 50 + i*15 , GetColor(0,255,0) , "%s,color[%d,%d,%d]",NameOf( gPlayerParam.mItemList[i].item_type ),r,g,b );
     }
     //装備の表示
     for( int i = 0 ; i < ARRAY_SIZE( gPlayerParam.mEquipList ) ; i++ ){
-        DrawFormatString( 150 , 50 + i*15 , GetColor(0,255,0) , NameOf( gPlayerParam.mEquipList[i].item_type ) );
+        DrawFormatString( 10 , 250 + i*15 , GetColor(0,255,0) , NameOf( gPlayerParam.mEquipList[i].item_type ) );
     }
     mAvater->Draw(300,100);
 }

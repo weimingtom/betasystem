@@ -8,6 +8,7 @@
 #include "Project/State/StateGameMain.hpp"
 #include "Project/State/StatePaletteTest.hpp"
 #include "Project/State/StateEquipTest.hpp"
+#include "Project/State/StateBattle.hpp"
 
 namespace {
 
@@ -52,6 +53,8 @@ StateBase* ProjectStateManager::new_State( State select_index )
         return new StatePaletteTest();
     case State_EquipTest:
         return new StateEquipTest();
+    case State_Battle:
+        return new StateBattle();
     default:
         assert( !"invalid state");
         return 0;
@@ -68,6 +71,7 @@ std::string ProjectStateManager::NameOf(State state)
         "ゲームメイン",
         "パレットテスト",
         "装備テスト",
+        "戦闘画面",
     };
     return name_list[state];
 }

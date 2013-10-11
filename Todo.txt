@@ -1,11 +1,83 @@
 
+
+○コマンド表示
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+○敵実装
+	→param作る
+	→paramをstateに持たせる.
+	→avaterをstateに持たせる
+
+○コマンド処理実装
+
+○ドロップ抽選
+
+enum Action
+{
+	Action_Attack,
+	Action_Pray,
+	Action_RunAway,
+};
+
+//! 敵パラメータ.
+struct EnemyParam
+{
+	int hp;								//!< HP.
+	int atk;							//!< 攻撃力.
+	ItemInfo mEquipList[EquipPos_Num];	//!< 装備（見た目）
+
+	//落とすアイテムと確率
+};
+
+//! 敵の種類.
+enum EnemyID
+{
+	EnemyID_1;
+	EnemyID_2;
+};
+
+//! 敵パラメータリスト.
+EnemyParam sEnemyParamList[] =
+{
+	{10,4,{}},
+	{10,4,{}},
+};
+
+//! 敵パラメータ取得.
+EnemyParam EnemyParamOf(EnemyID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ○作業タスクを見積もる。
-	○バトルを作る
-		・殴る
-		・祈る
-		・逃げる
-		・敵パラメータ
-		・ドロップ抽選
 
 	○フィールド画面を作る。
 		・進む
@@ -208,3 +280,12 @@ struct Player
 
 ○装備に準じたアバターの表示を行う.
 	→髪の毛の色をランダムでつける。	2:01:47
+
+
+○バトルステート作る
+	1:22:36
+
+○プレイヤー表示
+	いらない。
+
+
