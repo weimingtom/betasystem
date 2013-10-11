@@ -12,6 +12,13 @@ public:
 	void Update();
 	void Draw() const;
 private:
+    enum BattleAction{
+        BattleAction_Attack,
+        BattleAction_Pray,
+        BattleAction_Away,
+        BattleAction_Num,
+    };
+private:
     int mIndex;
 };
 

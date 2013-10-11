@@ -17,13 +17,6 @@ StateBattle::~StateBattle()
 
 void StateBattle::Update()
 {
-    enum BattleAction{
-        BattleAction_Attack,
-        BattleAction_Pray,
-        BattleAction_Away,
-        BattleAction_Num,
-    };
-    
     if( KeyInput()->IsTrig( InputKey::Type_Up ) ){
         --mIndex;
     }
@@ -42,5 +35,15 @@ void StateBattle::Draw() const
     DrawFormatString( 0 , 0 , GetColor(0,255,0) , "戦闘画面");
     
     DrawFormatString( 0 , 50+mIndex*15 , GetColor(0,255,0) , "→");
+
+    char const* action_name[] =
+    {
+        "攻撃",
+        "祈る",
+        "逃げる",
+    };
+    for( int i = 0; i < BattleAction_Num ; i++ ){
+        DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
+    }
 }
 
