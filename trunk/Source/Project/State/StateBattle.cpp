@@ -5,10 +5,12 @@
 #include "System/Range.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
+#include "Project/Singleton/EnemyParam.hpp"
 
 StateBattle::StateBattle()
  : mIndex(0)
 {
+    gEnemyParam = EnemyParamOf(EnemyID_0);
 }
 
 StateBattle::~StateBattle()
@@ -45,5 +47,7 @@ void StateBattle::Draw() const
     for( int i = 0; i < BattleAction_Num ; i++ ){
         DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
     }
+
+    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d],",gEnemyParam);
 }
 

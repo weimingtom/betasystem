@@ -1,14 +1,12 @@
 
-
-○コマンド表示
-
+○敵パラメータの表示
 
 
 
 
 
 
-
+○avaterをstateに持たせる
 
 
 
@@ -16,20 +14,11 @@
 
 
 
-○敵実装
-	→param作る
-	→paramをstateに持たせる.
-	→avaterをstateに持たせる
 
 ○コマンド処理実装
 
 ○ドロップ抽選
 
-enum Action
-{
-	Action_Attack,
-	Action_Pray,
-	Action_RunAway,
 };
 
 //! 敵パラメータ.
@@ -287,5 +276,12 @@ struct Player
 
 ○プレイヤー表示
 	いらない。
+
+
+○コマンド表示
+	1:55:21
+
+○敵実装
+	→param作る
 
 

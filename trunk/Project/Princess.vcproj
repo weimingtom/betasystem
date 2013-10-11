@@ -267,6 +267,14 @@
 					Name="Singleton"
 					>
 					<File
+						RelativePath="..\Source\Project\Singleton\EnemyParam.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\EnemyParam.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\Singleton\PlayerParam.cpp"
 						>
 					</File>
