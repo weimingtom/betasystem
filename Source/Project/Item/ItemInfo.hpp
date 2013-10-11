@@ -17,10 +17,10 @@ enum ItemType
 //! 装備箇所
 enum EquipPos
 {
-	EquipPos_None, //!< 装備する場所が無い.
 	EquipPos_Hair,
 	EquipPos_Body,
 	EquipPos_Num,
+	EquipPos_None, //!< 装備する場所が無い.
 };
 
 //! アイテム詳細情報
