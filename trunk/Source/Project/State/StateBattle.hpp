@@ -1,7 +1,9 @@
 ﻿#ifndef STATE_BATTLE_HPP__
 #define STATE_BATTLE_HPP__
 
+#include <memory>
 #include "System/StateBase.hpp"
+#include "Project/Avater/Avater.hpp"
 
 class StateBattle : public StateBase
 {
@@ -20,6 +22,7 @@ private:
     };
 private:
     int mIndex;
+    std::auto_ptr<Avater> mEnemyAvater;
 };
 
 #endif // STATE_BATTLE_HPP__
