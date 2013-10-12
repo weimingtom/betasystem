@@ -11,6 +11,7 @@ StateBattle::StateBattle()
  : mIndex(0)
 {
     gEnemyParam = EnemyParamOf(EnemyID_0);
+    mEnemyAvater.reset( new Avater(gEnemyParam.mEquipList) );
 }
 
 StateBattle::~StateBattle()
@@ -48,6 +49,8 @@ void StateBattle::Draw() const
         DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
     }
 
-    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d],",gEnemyParam);
+    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d]",gEnemyParam.mHp,gEnemyParam.mAttack);
+    
+    mEnemyAvater->Draw(200,200);
 }
 
