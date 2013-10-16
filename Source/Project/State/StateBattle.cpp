@@ -8,7 +8,8 @@
 #include "Project/Singleton/EnemyParam.hpp"
 
 StateBattle::StateBattle()
- : mIndex(0)
+ : mStep( Step_SelectAction )
+ , mIndex(0)
 {
     gEnemyParam = EnemyParamOf(EnemyID_0);
     mEnemyAvater.reset( new Avater(gEnemyParam.mEquipList) );
@@ -20,6 +21,25 @@ StateBattle::~StateBattle()
 
 void StateBattle::Update()
 {
+    switch( mStep )
+    {
+    case Step_SelectAction:
+        UpdateSelectAction();
+        break;
+    case Step_ProcAction:
+        UpdateProcAction();
+        break;
+    case Step_DrawAction:
+        UpdateDrawAction();
+        break;
+    case Step_TurnEnd:
+        UpdateTurnEnd();
+        break;
+    }
+}
+
+void StateBattle::UpdateSelectAction()
+{
     if( KeyInput()->IsTrig( InputKey::Type_Up ) ){
         --mIndex;
     }
@@ -30,7 +50,20 @@ void StateBattle::Update()
     
     if( KeyInput()->IsTrig( InputKey::Type_Enter ) ) 
     {
+        //選択した時の処理
     }
+}
+
+void StateBattle::UpdateProcAction()
+{
+}
+
+void StateBattle::UpdateDrawAction()
+{
+}
+
+void StateBattle::UpdateTurnEnd()
+{
 }
 
 void StateBattle::Draw() const
