@@ -15,11 +15,11 @@ public:
 	void Draw() const;
 private:
     //! 戦闘コマンド.
-    enum BattleAction{
-        BattleAction_Attack,
-        BattleAction_Pray,
-        BattleAction_Away,
-        BattleAction_Num,
+    enum BattleCommand{
+        BattleCommand_Attack,
+        BattleCommand_Pray,
+        BattleCommand_Away,
+        BattleCommand_Num,
     };
     //! 遷移状態.
     enum Step{
@@ -33,9 +33,19 @@ private:
     void UpdateProcAction();
     void UpdateDrawAction();
     void UpdateTurnEnd();
+    //! 戦闘コマンド実行.
+    void Action( BattleCommand command );
+    //! コマンド「攻撃」の処理.
+    void Attack();
+    //! コマンド「祈る」の処理.
+    void Pray();
+    //! コマンド「逃げる」の処理.
+    void Escape();
+    //! ミス判定.
+    bool JudgeAttackMiss();
 private:
     Step mStep;
-    int mIndex;
+    int mBattleCommand;
     std::auto_ptr<Avater> mEnemyAvater;
 };
 

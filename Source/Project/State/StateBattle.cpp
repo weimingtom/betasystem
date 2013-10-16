@@ -9,7 +9,7 @@
 
 StateBattle::StateBattle()
  : mStep( Step_SelectAction )
- , mIndex(0)
+ , mBattleCommand( BattleCommand_Attack )
 {
     gEnemyParam = EnemyParamOf(EnemyID_0);
     mEnemyAvater.reset( new Avater(gEnemyParam.mEquipList) );
@@ -41,16 +41,17 @@ void StateBattle::Update()
 void StateBattle::UpdateSelectAction()
 {
     if( KeyInput()->IsTrig( InputKey::Type_Up ) ){
-        --mIndex;
+        --mBattleCommand;
     }
     else if( KeyInput()->IsTrig( InputKey::Type_Down ) ){
-        ++mIndex;
+        ++mBattleCommand;
     }
-    mIndex = Clamp( 0, mIndex, BattleAction_Num - 1 );
+    mBattleCommand = Clamp( 0, mBattleCommand, BattleCommand_Num - 1 );
     
     if( KeyInput()->IsTrig( InputKey::Type_Enter ) ) 
     {
         //選択した時の処理
+        Action( static_cast<BattleCommand>(mBattleCommand) );
     }
 }
 
@@ -66,19 +67,44 @@ void StateBattle::UpdateTurnEnd()
 {
 }
 
+void StateBattle::Action( BattleCommand command )
+{
+    switch( command )
+    {
+    case BattleCommand_Attack:
+        break;
+    case BattleCommand_Pray:
+        break;
+    case BattleCommand_Away:
+        break;
+    }
+}
+
+void StateBattle::Attack()
+{
+}
+
+void StateBattle::Pray()
+{
+}
+
+void StateBattle::Escape()
+{
+}
+
 void StateBattle::Draw() const
 {
     DrawFormatString( 0 , 0 , GetColor(0,255,0) , "戦闘画面");
     
-    DrawFormatString( 0 , 50+mIndex*15 , GetColor(0,255,0) , "→");
+    DrawFormatString( 0 , 50+mBattleCommand*15 , GetColor(0,255,0) , "→");
 
-    char const* action_name[] =
+    char const* action_name[BattleCommand_Num] =
     {
         "攻撃",
         "祈る",
         "逃げる",
     };
-    for( int i = 0; i < BattleAction_Num ; i++ ){
+    for( int i = 0; i < BattleCommand_Num ; i++ ){
         DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
     }
 
