@@ -18,19 +18,23 @@ private:
     enum BattleCommand{
         BattleCommand_Attack,
         BattleCommand_Pray,
-        BattleCommand_Away,
+        BattleCommand_Escape,
         BattleCommand_Num,
     };
     //! 遷移状態.
     enum Step{
     	Step_SelectAction,	//!< 行動選択.
-    	Step_ProcAction,	//!< 行動計算.
-    	Step_DrawAction,	//!< 行動の表示（見た目を再生）.
-    	Step_TurnEnd,		//!< ターン終了.
+    	Step_End,
+    };
+    //! 状態.
+    enum Status{
+        Status_Continue,     //!< 続行.
+        Status_Win,         //!< 勝利.
+        Status_Lose,        //!< 敗北.
+        Status_Escape,      //!< 逃げ.
     };
 private:
     void UpdateSelectAction();
-    void UpdateProcAction();
     void UpdateDrawAction();
     void UpdateTurnEnd();
     //! 戦闘コマンド実行.
@@ -43,6 +47,12 @@ private:
     void Escape();
     //! ミス判定.
     bool JudgeAttackMiss();
+    //! 戦闘終了判定.
+    Status JudgeBattleEnd();
+    void ProcContinue();
+    void ProcWin();
+    void ProcLose();
+    void ProcEscape();
 private:
     Step mStep;
     int mBattleCommand;

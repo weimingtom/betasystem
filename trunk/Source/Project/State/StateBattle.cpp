@@ -26,37 +26,20 @@ void StateBattle::Update()
     case Step_SelectAction:
         UpdateSelectAction();
         break;
-    case Step_ProcAction:
-        UpdateProcAction();
-        break;
-    case Step_DrawAction:
-        UpdateDrawAction();
-        break;
-    case Step_TurnEnd:
-        UpdateTurnEnd();
-        break;
+	case Step_End:
+		break;
     }
 }
 
 void StateBattle::UpdateSelectAction()
 {
-    if( KeyInput()->IsTrig( InputKey::Type_Up ) ){
-        --mBattleCommand;
-    }
-    else if( KeyInput()->IsTrig( InputKey::Type_Down ) ){
-        ++mBattleCommand;
-    }
+    if( KeyInput()->IsTrig( InputKey::Type_Up ) ){ --mBattleCommand; }
+    else if( KeyInput()->IsTrig( InputKey::Type_Down ) ){ ++mBattleCommand; }
     mBattleCommand = Clamp( 0, mBattleCommand, BattleCommand_Num - 1 );
     
-    if( KeyInput()->IsTrig( InputKey::Type_Enter ) ) 
-    {
-        //選択した時の処理
+    if( KeyInput()->IsTrig( InputKey::Type_Enter ) ){
         Action( static_cast<BattleCommand>(mBattleCommand) );
     }
-}
-
-void StateBattle::UpdateProcAction()
-{
 }
 
 void StateBattle::UpdateDrawAction()
@@ -72,23 +55,89 @@ void StateBattle::Action( BattleCommand command )
     switch( command )
     {
     case BattleCommand_Attack:
+        Attack();
         break;
     case BattleCommand_Pray:
+        Pray();
         break;
-    case BattleCommand_Away:
+    case BattleCommand_Escape:
+        Escape();
+        break;
+    }
+
+    if( JudgeBattleEnd() == Status_Continue ){
+        Attack();//敵の攻撃
+    }
+    
+    switch( JudgeBattleEnd() )
+    {
+    case Status_Continue:
+        ProcContinue();
+        break;
+    case Status_Win:
+        ProcWin();
+        break;
+    case Status_Lose:
+        ProcLose();
+        break;
+    case Status_Escape:
+        ProcEscape();
         break;
     }
 }
 
 void StateBattle::Attack()
 {
+    if( JudgeAttackMiss() ){
+        //ミスした。
+        return;
+    }
+    
+    // charaparamからcharaparamへダメージを与える.
 }
 
 void StateBattle::Pray()
 {
+    //敵のドロップ率を上げる.
 }
 
 void StateBattle::Escape()
+{
+    // 成功抽選をする
+    
+    // 逃げに成功する.
+}
+
+bool StateBattle::JudgeAttackMiss()
+{
+    return false;
+}
+
+StateBattle::Status StateBattle::JudgeBattleEnd()
+{
+    //逃げが成功している.
+
+    //プレイヤーが死んでる.
+    
+    //敵が死んでる.
+    
+    //続行.
+    return Status_Continue;
+}
+
+void StateBattle::ProcContinue()
+{
+}
+
+void StateBattle::ProcWin()
+{
+}
+
+void StateBattle::ProcLose()
+{
+}
+
+void StateBattle::ProcEscape()
 {
 }
 
