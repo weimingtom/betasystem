@@ -10,6 +10,7 @@
 StateBattle::StateBattle()
  : mStep( Step_SelectAction )
  , mBattleCommand( BattleCommand_Attack )
+ , mLogPrinter( new_LogPrinter(400,300) )
 {
     gEnemyParam = EnemyParamOf(EnemyID_0);
     mEnemyAvater.reset( new Avater(gEnemyParam.mEquipList) );
@@ -26,7 +27,7 @@ void StateBattle::Update()
     case Step_SelectAction:
         UpdateSelectAction();
         break;
-	case Step_End:
+	case Step_Escape:
 		break;
     }
 }
@@ -61,27 +62,14 @@ void StateBattle::Action( BattleCommand command )
         Pray();
         break;
     case BattleCommand_Escape:
-        Escape();
-        break;
-    }
-
-    if( JudgeBattleEnd() == Status_Continue ){
-        Attack();//敵の攻撃
-    }
-    
-    switch( JudgeBattleEnd() )
-    {
-    case Status_Continue:
-        ProcContinue();
-        break;
-    case Status_Win:
-        ProcWin();
-        break;
-    case Status_Lose:
-        ProcLose();
-        break;
-    case Status_Escape:
-        ProcEscape();
+        mLogPrinter->Print("逃げるを選択した。");
+        if( JudgeEscape() ){
+            mLogPrinter->Print("逃げ出した。");
+            mStep = Step_Escape;
+            return;
+        }else{
+            mLogPrinter->Print("しかし回りこまれてしまった。");
+        }
         break;
     }
 }
@@ -101,16 +89,16 @@ void StateBattle::Pray()
     //敵のドロップ率を上げる.
 }
 
-void StateBattle::Escape()
+bool StateBattle::JudgeEscape() const
 {
-    // 成功抽選をする
-    
-    // 逃げに成功する.
+    int const rand_num = GetRand(100);
+    return ( rand_num < 30 );
 }
 
-bool StateBattle::JudgeAttackMiss()
+bool StateBattle::JudgeAttackMiss() const
 {
-    return false;
+    int const rand_num = GetRand(100);
+    return ( rand_num > 95 );
 }
 
 StateBattle::Status StateBattle::JudgeBattleEnd()
@@ -145,7 +133,6 @@ void StateBattle::Draw() const
 {
     DrawFormatString( 0 , 0 , GetColor(0,255,0) , "戦闘画面");
     
-    DrawFormatString( 0 , 50+mBattleCommand*15 , GetColor(0,255,0) , "→");
 
     char const* action_name[BattleCommand_Num] =
     {
@@ -153,6 +140,7 @@ void StateBattle::Draw() const
         "祈る",
         "逃げる",
     };
+    DrawFormatString( 0 , 50+mBattleCommand*15 , GetColor(0,255,0) , "→");
     for( int i = 0; i < BattleCommand_Num ; i++ ){
         DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
     }
@@ -160,5 +148,7 @@ void StateBattle::Draw() const
     DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d]",gEnemyParam.mHp,gEnemyParam.mAttack);
     
     mEnemyAvater->Draw(200,200);
+
+    mLogPrinter->Draw();
 }
 
