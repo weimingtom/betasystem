@@ -4,6 +4,7 @@
 #include <memory>
 #include "System/StateBase.hpp"
 #include "Project/Avater/Avater.hpp"
+#include "DxLibWrapper/LogPrinter.hpp"
 
 class StateBattle : public StateBase
 {
@@ -24,7 +25,7 @@ private:
     //! 遷移状態.
     enum Step{
     	Step_SelectAction,	//!< 行動選択.
-    	Step_End,
+    	Step_Escape,
     };
     //! 状態.
     enum Status{
@@ -45,8 +46,10 @@ private:
     void Pray();
     //! コマンド「逃げる」の処理.
     void Escape();
+    //! 逃げ判定.
+    bool JudgeEscape() const;
     //! ミス判定.
-    bool JudgeAttackMiss();
+    bool JudgeAttackMiss() const;
     //! 戦闘終了判定.
     Status JudgeBattleEnd();
     void ProcContinue();
@@ -57,6 +60,7 @@ private:
     Step mStep;
     int mBattleCommand;
     std::auto_ptr<Avater> mEnemyAvater;
+    std::auto_ptr<LogPrinter> mLogPrinter;
 };
 
 #endif // STATE_BATTLE_HPP__
