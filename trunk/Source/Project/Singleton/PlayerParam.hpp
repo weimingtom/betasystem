@@ -7,14 +7,14 @@
 struct PlayerParam
 {
     static int const ItemMax = 10;
-    int mHp;
+    int mHP;
     int mAttack;
     ItemInfo mItemList[ItemMax];
     ItemInfo mEquipList[EquipPos_Num];
     //! コンストラクタ.
     PlayerParam()
     {
-        mHp = 15;
+        mHP = 15;
         mAttack = 3;
         for( int i = 0 ; i < ItemMax ; i ++ ){
             mItemList[i].Reset();

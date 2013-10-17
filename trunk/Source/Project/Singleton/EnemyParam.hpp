@@ -5,7 +5,7 @@
 
 struct EnemyParam
 {
-    int mHp;
+    int mHP;
     int mAttack;
     ItemInfo mEquipList[EquipPos_Num];
     int mDropPercent;

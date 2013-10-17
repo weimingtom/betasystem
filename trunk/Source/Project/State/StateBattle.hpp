@@ -32,12 +32,13 @@ private:
         Status_Continue,     //!< 続行.
         Status_Win,         //!< 勝利.
         Status_Lose,        //!< 敗北.
-        Status_Escape,      //!< 逃げ.
     };
 private:
     void UpdateSelectAction();
     void UpdateDrawAction();
     void UpdateTurnEnd();
+    //! 敵の攻撃
+    void EnemyAttack();
     //! 戦闘コマンド実行.
     void Action( BattleCommand command );
     //! コマンド「攻撃」の処理.
@@ -50,12 +51,8 @@ private:
     bool JudgeEscape() const;
     //! ミス判定.
     bool JudgeAttackMiss() const;
-    //! 戦闘終了判定.
-    Status JudgeBattleEnd();
-    void ProcContinue();
-    void ProcWin();
-    void ProcLose();
-    void ProcEscape();
+    //! 状態判定.
+    Status JudgeBattleStatus();
 private:
     Step mStep;
     int mBattleCommand;
