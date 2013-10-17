@@ -8,8 +8,7 @@ struct EnemyParam
     int mHp;
     int mAttack;
     ItemInfo mEquipList[EquipPos_Num];
-
-    //@todo ドロップアイテムとドロップ率.
+    int mDropPercent;
 };
 
 //! 敵ID.

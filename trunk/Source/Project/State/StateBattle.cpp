@@ -92,7 +92,9 @@ void StateBattle::Attack()
 
 void StateBattle::Pray()
 {
-    //敵のドロップ率を上げる.
+    mLogPrinter->Print("祈った。");
+    mLogPrinter->Print("ドロップ率が上昇した。");
+    gEnemyParam.mDropPercent *= 2;
 }
 
 bool StateBattle::JudgeEscape() const
@@ -104,7 +106,7 @@ bool StateBattle::JudgeEscape() const
 bool StateBattle::JudgeAttackMiss() const
 {
     int const rand_num = GetRand(100);
-    return ( rand_num > 95 );
+    return ( rand_num > 90 );
 }
 
 StateBattle::Status StateBattle::JudgeBattleEnd()
