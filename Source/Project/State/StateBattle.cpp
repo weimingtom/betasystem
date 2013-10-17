@@ -1,5 +1,6 @@
 ﻿#include "StateBattle.hpp"
 
+#include <sstream>
 #include "Project/Singleton/SaveData.hpp"
 #include "Project/Singleton/PlayerParam.hpp"
 #include "System/Range.hpp"
@@ -76,12 +77,17 @@ void StateBattle::Action( BattleCommand command )
 
 void StateBattle::Attack()
 {
+    mLogPrinter->Print("攻撃を選択した。");
     if( JudgeAttackMiss() ){
-        //ミスした。
+        mLogPrinter->Print("ミスした。");
         return;
     }
     
-    // charaparamからcharaparamへダメージを与える.
+    int const damage = gPlayerParam.mAttack;
+	std::stringstream ss;
+    ss << damage << "のダメージ";
+    mLogPrinter->Print( ss.str() );
+    gEnemyParam.mHp -= damage;
 }
 
 void StateBattle::Pray()
