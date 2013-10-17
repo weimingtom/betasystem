@@ -13,6 +13,7 @@ EnemyParam EnemyParamOf(EnemyID enemy_id)
                 {Item_Hair0,    1,0x0011FF11,0,EquipPos_Hair},
                 {Item_Cloth1,   1,0,0,EquipPos_Body},
             },
+            2,
         },
         //hp,attack,equip
         {
@@ -21,6 +22,7 @@ EnemyParam EnemyParamOf(EnemyID enemy_id)
                 {Item_Hair0,    0,0,0,EquipPos_Hair},
                 {Item_Cloth1,    0,0,0,EquipPos_Body},
             },
+            2,
         },
         //hp,attack,equip
         {
@@ -29,6 +31,7 @@ EnemyParam EnemyParamOf(EnemyID enemy_id)
                 {Item_Hair0,    0,0,0,EquipPos_Hair},
                 {Item_Cloth1,    0,0,0,EquipPos_Body},
             },
+            2,
         },
     };
 
