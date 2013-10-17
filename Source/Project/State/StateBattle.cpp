@@ -73,6 +73,25 @@ void StateBattle::Action( BattleCommand command )
         }
         break;
     }
+    
+    //敵の攻撃
+    if( JudgeBattleStatus() == Status_Continue ){
+        EnemyAttack();
+    }
+}
+
+void StateBattle::EnemyAttack()
+{
+    mLogPrinter->Print("敵の攻撃。");
+    if( JudgeAttackMiss() ){
+        mLogPrinter->Print("ミスした。");
+        return;
+    }
+    int const damage = gEnemyParam.mAttack;
+	std::stringstream ss;
+    ss << damage << "のダメージ";
+    mLogPrinter->Print( ss.str() );
+    gPlayerParam.mHP -= damage;
 }
 
 void StateBattle::Attack()
@@ -82,12 +101,11 @@ void StateBattle::Attack()
         mLogPrinter->Print("ミスした。");
         return;
     }
-    
     int const damage = gPlayerParam.mAttack;
 	std::stringstream ss;
     ss << damage << "のダメージ";
     mLogPrinter->Print( ss.str() );
-    gEnemyParam.mHp -= damage;
+    gEnemyParam.mHP -= damage;
 }
 
 void StateBattle::Pray()
@@ -109,32 +127,18 @@ bool StateBattle::JudgeAttackMiss() const
     return ( rand_num > 90 );
 }
 
-StateBattle::Status StateBattle::JudgeBattleEnd()
+StateBattle::Status StateBattle::JudgeBattleStatus()
 {
-    //逃げが成功している.
-
     //プレイヤーが死んでる.
-    
+    if( gPlayerParam.mHP <= 0 ){
+        return Status_Lose;
+    }
     //敵が死んでる.
-    
+    if( gEnemyParam.mHP <= 0 ){
+        return Status_Win;
+    }
     //続行.
     return Status_Continue;
-}
-
-void StateBattle::ProcContinue()
-{
-}
-
-void StateBattle::ProcWin()
-{
-}
-
-void StateBattle::ProcLose()
-{
-}
-
-void StateBattle::ProcEscape()
-{
 }
 
 void StateBattle::Draw() const
@@ -153,7 +157,7 @@ void StateBattle::Draw() const
         DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
     }
 
-    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d]",gEnemyParam.mHp,gEnemyParam.mAttack);
+    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d]",gEnemyParam.mHP,gEnemyParam.mAttack);
     
     mEnemyAvater->Draw(200,200);
 
