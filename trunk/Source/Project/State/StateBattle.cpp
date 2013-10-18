@@ -28,6 +28,10 @@ void StateBattle::Update()
     case Step_SelectAction:
         UpdateSelectAction();
         break;
+	case Step_Win:
+        break;
+	case Step_Lose:
+        break;
 	case Step_Escape:
 		break;
     }
@@ -40,16 +44,16 @@ void StateBattle::UpdateSelectAction()
     mBattleCommand = Clamp( 0, mBattleCommand, BattleCommand_Num - 1 );
     
     if( KeyInput()->IsTrig( InputKey::Type_Enter ) ){
-        Action( static_cast<BattleCommand>(mBattleCommand) );
+        PlayTurn();
     }
 }
 
-void StateBattle::UpdateDrawAction()
+void StateBattle::PlayTurn()
 {
-}
-
-void StateBattle::UpdateTurnEnd()
-{
+	Action( static_cast<BattleCommand>(mBattleCommand) );
+    if( !IsEndBattle() ){
+        EnemyAttack();
+    }
 }
 
 void StateBattle::Action( BattleCommand command )
@@ -63,20 +67,20 @@ void StateBattle::Action( BattleCommand command )
         Pray();
         break;
     case BattleCommand_Escape:
-        mLogPrinter->Print("逃げるを選択した。");
-        if( JudgeEscape() ){
-            mLogPrinter->Print("逃げ出した。");
-            mStep = Step_Escape;
-            return;
-        }else{
-            mLogPrinter->Print("しかし回りこまれてしまった。");
-        }
+        Escape();
         break;
     }
-    
-    //敵の攻撃
-    if( JudgeBattleStatus() == Status_Continue ){
-        EnemyAttack();
+}
+
+void StateBattle::Escape()
+{
+    mLogPrinter->Print("逃げるを選択した。");
+    if( JudgeEscape() ){
+        mLogPrinter->Print("逃げ出した。");
+        mStep = Step_Escape;
+        return;
+    }else{
+        mLogPrinter->Print("しかし回りこまれてしまった。");
     }
 }
 
@@ -92,6 +96,10 @@ void StateBattle::EnemyAttack()
     ss << damage << "のダメージ";
     mLogPrinter->Print( ss.str() );
     gPlayerParam.mHP -= damage;
+
+    if( gPlayerParam.mHP <= 0 ){
+        mStep = Step_Lose;
+    }
 }
 
 void StateBattle::Attack()
@@ -106,6 +114,12 @@ void StateBattle::Attack()
     ss << damage << "のダメージ";
     mLogPrinter->Print( ss.str() );
     gEnemyParam.mHP -= damage;
+
+    if( gEnemyParam.mHP <= 0 ){
+        mLogPrinter->Print("敵を倒した");
+        mStep = Step_Win;
+        return;
+    }
 }
 
 void StateBattle::Pray()
@@ -127,18 +141,9 @@ bool StateBattle::JudgeAttackMiss() const
     return ( rand_num > 90 );
 }
 
-StateBattle::Status StateBattle::JudgeBattleStatus()
+bool StateBattle::IsEndBattle() const
 {
-    //プレイヤーが死んでる.
-    if( gPlayerParam.mHP <= 0 ){
-        return Status_Lose;
-    }
-    //敵が死んでる.
-    if( gEnemyParam.mHP <= 0 ){
-        return Status_Win;
-    }
-    //続行.
-    return Status_Continue;
+    return( mStep != Step_SelectAction );
 }
 
 void StateBattle::Draw() const
