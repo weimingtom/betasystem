@@ -28,12 +28,7 @@ private:
         Step_Win,
         Step_Lose,
         Step_Escape,
-    };
-    //! 状態.
-    enum Status{
-        Status_Continue,    //!< 続行.
-        Status_Win,         //!< 勝利.
-        Status_Lose,        //!< 敗北.
+        Step_End,
     };
 private:
     void UpdateSelectAction();
@@ -61,6 +56,7 @@ private:
     Step mStep;
     int mBattleCommand;
     std::auto_ptr<Avater> mEnemyAvater;
+    std::auto_ptr<Avater> mPlayerAvater;
     std::auto_ptr<LogPrinter> mLogPrinter;
 };
 
