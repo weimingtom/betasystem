@@ -1,4 +1,7 @@
 
+○終了判定（敵全滅、味方全滅）
+
+
 
 
 
@@ -7,18 +10,8 @@
 
 ●次やる
 
-○Pray(enemy);
-
-○JudgeAttackMiss(player,enemy);
-
-○Attack(player,enemy);
-
-
-
-
 ●後でやる。
 
-○終了判定（敵全滅、味方全滅）
 
 ○シーケンスをスタックするシステムは、適切じゃないんじゃね？例えば戦闘が終わってゲームオーバーに行くとき面倒だわ。
 	→ポーズするだけにするか。
@@ -229,3 +222,12 @@ struct Player
 
 ○Escape();
 	21:54:43
+
+
+○Pray(enemy);
+
+○JudgeAttackMiss(player,enemy);
+
+○Attack(player,enemy);
+	23:34:29
+

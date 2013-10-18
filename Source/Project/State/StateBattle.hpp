@@ -24,12 +24,14 @@ private:
     };
     //! 遷移状態.
     enum Step{
-    	Step_SelectAction,	//!< 行動選択.
-    	Step_Escape,
+        Step_SelectAction,	//!< 行動選択.
+        Step_Win,
+        Step_Lose,
+        Step_Escape,
     };
     //! 状態.
     enum Status{
-        Status_Continue,     //!< 続行.
+        Status_Continue,    //!< 続行.
         Status_Win,         //!< 勝利.
         Status_Lose,        //!< 敗北.
     };
@@ -39,6 +41,8 @@ private:
     void UpdateTurnEnd();
     //! 敵の攻撃
     void EnemyAttack();
+    //! ターンの実行.
+    void PlayTurn();
     //! 戦闘コマンド実行.
     void Action( BattleCommand command );
     //! コマンド「攻撃」の処理.
@@ -52,7 +56,7 @@ private:
     //! ミス判定.
     bool JudgeAttackMiss() const;
     //! 状態判定.
-    Status JudgeBattleStatus();
+    bool IsEndBattle() const;
 private:
     Step mStep;
     int mBattleCommand;
