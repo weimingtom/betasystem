@@ -15,6 +15,7 @@ StateBattle::StateBattle()
 {
     gEnemyParam = EnemyParamOf(EnemyID_0);
     mEnemyAvater.reset( new Avater(gEnemyParam.mEquipList) );
+    mPlayerAvater.reset( new Avater( gPlayerParam.mEquipList ) );
 }
 
 StateBattle::~StateBattle()
@@ -29,11 +30,18 @@ void StateBattle::Update()
         UpdateSelectAction();
         break;
 	case Step_Win:
+        mLogPrinter->Print("戦闘に勝利した。");
+        mStep = Step_End;
         break;
 	case Step_Lose:
+        mLogPrinter->Print("敗北した。");
+        mStep = Step_End;
         break;
 	case Step_Escape:
+        mStep = Step_End;
 		break;
+	case Step_End:
+	    break;
     }
 }
 
@@ -150,21 +158,25 @@ void StateBattle::Draw() const
 {
     DrawFormatString( 0 , 0 , GetColor(0,255,0) , "戦闘画面");
     
-
     char const* action_name[BattleCommand_Num] =
     {
         "攻撃",
         "祈る",
         "逃げる",
     };
-    DrawFormatString( 0 , 50+mBattleCommand*15 , GetColor(0,255,0) , "→");
+    
+    int const kBaseX = 150;
+    int const kLineHeight = 15;
+    DrawFormatString( 0 , kBaseX+mBattleCommand*kLineHeight , GetColor(0,255,0) , "→");
     for( int i = 0; i < BattleCommand_Num ; i++ ){
-        DrawFormatString( 20 , 50+i*15 , GetColor(0,255,0) , action_name[i]);
+        DrawFormatString( 20 , kBaseX+i*kLineHeight , GetColor(0,255,0) , action_name[i]);
     }
 
-    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d]",gEnemyParam.mHP,gEnemyParam.mAttack);
+    mPlayerAvater->Draw(0,200);
+    DrawFormatString( 200 , 350 ,    GetColor(0,255,0) , "Player:hp[%d],attack[%d]",gPlayerParam.mHP,gPlayerParam.mAttack);
     
-    mEnemyAvater->Draw(200,200);
+    mEnemyAvater->Draw(200,100);
+    DrawFormatString( 120 , 50 ,    GetColor(0,255,0) , "Enemy:hp[%d],attack[%d]",gEnemyParam.mHP,gEnemyParam.mAttack);
 
     mLogPrinter->Draw();
 }
