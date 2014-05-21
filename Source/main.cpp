@@ -11,36 +11,28 @@
 #include "Project/Singleton/SingletonInputKey.hpp"
 #include "../Resource/resource.h"
 
-int InitApplication();
-void LoopApplication();
-int EndApplication();
-
-/**
-	メイン関数.
-*/
-int WINAPI WinMain(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine,
-	int nCmdShow )
+//! シングルトンの初期化.
+void InitSingleton()
 {
-    SetMainWindowText("PrincessCrave!");
-	//アプリケーションを初期化.
-	if( InitApplication() == ApplicationFailure ){
-		return ApplicationFailure;
-	}
-	//アプリケーションのループ.
-	LoopApplication();
-	//アプリケーションの終了処理.
-	return EndApplication();
+    SingletonInputMouse::Init();
+    ProjectImageLoader::Init();
+    SingletonSoundLoader::Init();
+    Singleton::InitKeyInput();
+	ProjectStateManager::GetInstance();
 }
 
-int InitApplication()
+//! DxLib関係の設定.
+//! @return 失敗したらApplicationFailureを返す.
+int SetConfigDxLib()
 {
-    SetWindowIconID( IDI_ICON1 ); //!< DxLib_Init より前である必要がある.
+    SetMainWindowText("PrincessCrave!");
+
+    SetWindowIconID( IDI_ICON1 ); // DxLib_Init より前である必要がある.
 
     SetGraphMode( 640 , 480 , 16 ) ;
+
     ChangeWindowMode( TRUE ) ;
+
     if( DxLib_Init() == ApplicationFailure ){
 		return ApplicationFailure;
 	}
@@ -49,19 +41,24 @@ int InitApplication()
 	//フォントサイズ設定.
 	int const font_size = 14;
     SetFontSize( font_size );
-	
-    //シングルトンの初期化.
-    SingletonInputMouse::Init();
-    ProjectImageLoader::Init();
-    SingletonSoundLoader::Init();
-    Singleton::InitKeyInput();
-	ProjectStateManager::GetInstance();
-    
-	//初期化成功.
+
     return ApplicationSuccess;
 }
 
-void LoopApplication()
+//! アプリケーションの初期化.
+int InitApplication()
+{
+    int const result = SetConfigDxLib();
+	if( result == ApplicationFailure ){
+	    return ApplicationFailure;
+	}
+	
+    InitSingleton();
+    
+    return ApplicationSuccess;
+}
+
+void MainLoopOfApplication()
 {
     while( ProcessMessage() == 0 && CheckHitKey( KEY_INPUT_ESCAPE ) == 0 )
     {
@@ -75,14 +72,41 @@ void LoopApplication()
     }
 }
 
-int EndApplication()
+void ReleaseSingleton()
 {
-    /*
-        DxLib_Endより後ろだと、メモリ上のデータの開放に失敗するので、手前で開放.
-    */
     SingletonSoundLoader::Release();
     ProjectImageLoader::Release();
     ProjectStateManager::DeleteInstance();
+
+}
+
+int ExitApplication()
+{
+    // Dxlibのハンドルを扱うシングルトンがあるので、DxLib_Endより先にやらないと
+    // Dxlib_Endのハンドル自動開放と競合してしまう.
+    ReleaseSingleton();
+
     DxLib_End();
+
     return ApplicationSuccess;
+}
+
+/**
+	メイン関数.
+*/
+int WINAPI WinMain(
+	HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR lpCmdLine,
+	int nCmdShow )
+{
+    int const result = InitApplication();
+
+	if( result == ApplicationFailure ){
+		return ApplicationFailure;
+	}
+
+	MainLoopOfApplication();
+
+	return ExitApplication();
 }
