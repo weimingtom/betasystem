@@ -38,10 +38,6 @@ int SetConfigDxLib()
 	}
 	SetDrawScreen( DX_SCREEN_BACK );
 
-	//フォントサイズ設定.
-	int const font_size = 14;
-    SetFontSize( font_size );
-
     return ApplicationSuccess;
 }
 
