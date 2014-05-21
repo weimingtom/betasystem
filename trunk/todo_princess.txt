@@ -1,0 +1,35 @@
+
+○State=シーケンス
+
+○タスクマネージャの作成
+	→タスクをID一緒になげて
+
+
+
+
+
+
+
+○プログラム改善案
+	namespace Singleton
+	{
+	    /**
+	        キー入力初期化.
+	    */
+	    void InitKeyInput();
+	    /**
+	        キー入力更新.
+	    */
+	    void UpdateKeyInput();
+	}// namespace
+
+	/**
+	    インスタンスの取得.
+	*/
+	InputKey* KeyInput();
+	カオス
+
+○iteminfoのidはitem_typeから算出できるような…
+
+○SingletonProjectStateManager::
+	なげぇ
