@@ -45,7 +45,7 @@ ImageLoader::Impl::~Impl()
 		{
 			if( DeleteGraph( (*it).second ) == FunctionFailure ){
 				assert( false );
-				exit( ApplicationFailure );
+				exit( DxLib_Failure );
 			}
 			it++;
 		}
@@ -57,7 +57,7 @@ ImageLoader::Impl::~Impl()
 		{
 			if( DeleteSoftImage( (*it).second ) == FunctionFailure ){
 				assert( false );
-				exit( ApplicationFailure );
+				exit( DxLib_Failure );
 			}
 			it++;
 		}

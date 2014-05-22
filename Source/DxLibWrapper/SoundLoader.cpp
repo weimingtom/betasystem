@@ -38,7 +38,7 @@ SoundLoader::Impl::~Impl()
         if( DeleteSoundMem( (*it).second ) == FunctionFailure )
         {
             assert( false );
-            exit( ApplicationFailure );
+            exit( DxLib_Failure );
         }
         it++;
     }

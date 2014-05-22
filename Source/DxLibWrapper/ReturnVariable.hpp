@@ -3,8 +3,8 @@
 /**
 	–ß‚è’l‚Ì’è‹`.
 */
-int const ApplicationSuccess = 0;
-int const ApplicationFailure = -1;
+int const DxLib_Success = 0;
+int const DxLib_Failure = -1;
 int const FunctionFailure = -1;
 
 #endif

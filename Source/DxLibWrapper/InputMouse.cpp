@@ -37,7 +37,7 @@ InputMouse::Impl::Impl( int is_visible_cursor )
 {
 	if( SetMouseDispFlag( is_visible_cursor ) == FunctionFailure )
 	{
-		exit( ApplicationFailure );
+		exit( DxLib_Failure );
 	}
 }
 
@@ -55,7 +55,7 @@ void InputMouse::Impl::UpdatePosition()
 {
 	if( GetMousePoint( &m_x , &m_y ) == FunctionFailure )
 	{
-		exit( ApplicationFailure );
+		exit( DxLib_Failure );
 	}
 }
 
@@ -93,7 +93,7 @@ void InputMouse::Impl::SetPos( int x , int y ) const
 {
 	if( SetMousePoint( x , y ) == FunctionFailure )
 	{
-		exit( ApplicationFailure );
+		exit( DxLib_Failure );
 	}
 }
 
