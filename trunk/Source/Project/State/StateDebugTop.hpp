@@ -3,6 +3,8 @@
 
 #include "System/StateBase.hpp"
 
+namespace Princess{
+
 class StateDebugTop : public StateBase
 {
 public:
@@ -14,5 +16,7 @@ public:
 private:
     int mIndex;
 };
+
+} // namespace Princess
 
 #endif

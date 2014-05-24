@@ -18,7 +18,7 @@ void InitSingleton()
     ProjectImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
-	ProjectStateManager::GetInstance();
+	Princess::ProjectStateManager::GetInstance();
 }
 
 //! DxLibŠÖŒW‚ÌÝ’è.
@@ -63,11 +63,11 @@ void MainLoopOfApplication()
         //Update
     	SingletonInputMouse::Update();
 		Singleton::UpdateKeyInput();
-    	ProjectStateManager::GetInstance()->Update();
+		Princess::ProjectStateManager::GetInstance()->Update();
         
         //Draw
         ClearDrawScreen() ;    // ‰æ–ÊƒNƒŠƒA.
-    	ProjectStateManager::GetInstance()->Draw();
+		Princess::ProjectStateManager::GetInstance()->Draw();
         ScreenFlip() ;    // — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f‚³‚¹‚é
     }
 }
@@ -76,7 +76,7 @@ void ReleaseSingleton()
 {
     SingletonSoundLoader::Release();
     ProjectImageLoader::Release();
-    ProjectStateManager::DeleteInstance();
+	Princess::ProjectStateManager::DeleteInstance();
 
 }
 

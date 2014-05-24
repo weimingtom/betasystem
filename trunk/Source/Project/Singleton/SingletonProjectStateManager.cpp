@@ -4,18 +4,13 @@
 #include <assert.h>
 #include "System/StateManagerBase.hpp"
 #include "Project/State/StateDebugTop.hpp"
-#include "Project/State/StateAvaterTest.hpp"
-#include "Project/State/StateGameMain.hpp"
-#include "Project/State/StatePaletteTest.hpp"
-#include "Project/State/StateEquipTest.hpp"
-#include "Project/State/StateBattle.hpp"
+#include "Project/State/StateLuaTest.hpp"
 
-namespace {
+namespace Princess{
 
 //! シングルトンインスタンス.
 std::auto_ptr<ProjectStateManager> sInstance;
 
-} // namespace unnamed
 
 ProjectStateManager::ProjectStateManager()
 {
@@ -45,16 +40,8 @@ StateBase* ProjectStateManager::new_State( State select_index )
     {
     case State_DebugTop:
         return new StateDebugTop();
-    case State_AvaterTest:
-        return new StateAvaterTest();
-    case State_GameMain:
-        return new StateGameMain();
-    case State_PaletteTest:
-        return new StatePaletteTest();
-    case State_EquipTest:
-        return new StateEquipTest();
-    case State_Battle:
-        return new StateBattle();
+    case State_LuaTest:
+        return new StateLuaTest();
     default:
         assert( !"invalid state");
         return 0;
@@ -67,12 +54,10 @@ std::string ProjectStateManager::NameOf(State state)
     static char const* name_list[State_Num] =
     {
         "デバッグトップ",
-        "アバターテスト",
-        "ゲームメイン",
-        "パレットテスト",
-        "装備テスト",
-        "戦闘画面",
+        "Luaテスト",
     };
     return name_list[state];
 }
+
+} // namespace Princess
 
