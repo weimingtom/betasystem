@@ -1,11 +1,14 @@
 ﻿#include "StateLuaTest.hpp"
 
+#include <lua.hpp>
 #include "DxLibWrapper/Color.hpp"
 
 namespace Princess {
 
 StateLuaTest::StateLuaTest()
 {
+    lua_State *L = luaL_newstate();
+    lua_close(L);
 }
 
 void StateLuaTest::Update()
