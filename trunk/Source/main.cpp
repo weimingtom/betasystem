@@ -60,6 +60,12 @@ void MainLoopOfApplication()
 {
     while( ProcessMessage() == 0 && CheckHitKey( KEY_INPUT_ESCAPE ) == 0 )
     {
+        if( CheckHitKey( KEY_INPUT_F1 ) != 0 ){
+			Princess::ProjectStateManager::GetInstance()->ChangeState(
+				Princess::ProjectStateManager::new_State( Princess::ProjectStateManager::State_DebugTop )
+			);
+        }
+    
         //Update
     	SingletonInputMouse::Update();
 		Singleton::UpdateKeyInput();
@@ -77,7 +83,6 @@ void ReleaseSingleton()
     SingletonSoundLoader::Release();
     ProjectImageLoader::Release();
 	Princess::ProjectStateManager::DeleteInstance();
-
 }
 
 int ExitApplication()
