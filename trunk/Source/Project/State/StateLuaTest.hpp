@@ -3,6 +3,8 @@
 
 #include "System/StateBase.hpp"
 
+struct lua_State;
+
 namespace Princess{
 
 /**
@@ -12,10 +14,12 @@ class StateLuaTest : public StateBase
 {
 public:
     StateLuaTest();
-    ~StateLuaTest(){}
+    ~StateLuaTest();
 public:
 	void Update();
-	void Draw() const;
+	void Draw();
+private:
+    lua_State* mLuaState;
 };
 
 } // namespace Princess

@@ -28,7 +28,7 @@ void StateDebugTop::Update()
     }
 }
 
-void StateDebugTop::Draw() const
+void StateDebugTop::Draw()
 {
     int const kMarginY = 15;
     DrawFormatString( 0 , mIndex*kMarginY, ColorOf(0,255,0) , "→");
