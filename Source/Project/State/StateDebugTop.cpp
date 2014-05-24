@@ -5,6 +5,8 @@
 #include "DxLibWrapper/Color.hpp"
 #include "System/Range.hpp"
 
+namespace Princess{
+
 StateDebugTop::StateDebugTop()
  : mIndex(0)
 {
@@ -37,3 +39,4 @@ void StateDebugTop::Draw() const
     }
 }
 
+} // namespace Princess

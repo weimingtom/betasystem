@@ -4,7 +4,9 @@
 #include <string>
 #include "../../System/StateManagerBase.hpp"
 
-/**
+namespace Princess{
+
+	/**
     プロジェクトの一番上に位置するStateManager.
 */
 class ProjectStateManager : public StateManagerBase
@@ -12,12 +14,8 @@ class ProjectStateManager : public StateManagerBase
 public:
     //! ステート.
     enum State{
-        State_DebugTop,
-        State_AvaterTest,
-        State_GameMain,
-        State_PaletteTest,
-        State_EquipTest,
-        State_Battle,
+        State_DebugTop,     //!< デバッグトップ
+        State_LuaTest,      //!< 
         State_Num,
     };
 public:
@@ -37,6 +35,8 @@ private:
     //! コンストラクタ.
     ProjectStateManager();
 };
+
+}
 
 #endif
 
