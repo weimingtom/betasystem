@@ -12,7 +12,7 @@ public:
     ~StateDebugTop(){}
 public:
     void Update();
-    void Draw() const;
+    void Draw();
 private:
     int mIndex;
 };

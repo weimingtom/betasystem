@@ -65,6 +65,8 @@ void MainLoopOfApplication()
 				Princess::ProjectStateManager::new_State( Princess::ProjectStateManager::State_DebugTop )
 			);
         }
+
+        ClearDrawScreen() ;    // 画面クリア.
     
         //Update
     	SingletonInputMouse::Update();
@@ -72,7 +74,6 @@ void MainLoopOfApplication()
 		Princess::ProjectStateManager::GetInstance()->Update();
         
         //Draw
-        ClearDrawScreen() ;    // 画面クリア.
 		Princess::ProjectStateManager::GetInstance()->Draw();
         ScreenFlip() ;    // 裏画面の内容を表画面に反映させる
     }
