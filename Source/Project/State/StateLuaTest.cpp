@@ -25,14 +25,15 @@ void StateLuaTest::Update()
     // グローバル変数を読む
     lua_getglobal( mLuaState, "Name" );
     if( lua_isstring( mLuaState, -1 ) ){
-        DrawFormatString( 0 , 20 , ColorOf(0,255,0) , "変数Name=[%s] \n", lua_tostring(mLuaState, -1) );
+        DrawFormatString( 50 , 100 , ColorOf(0,255,0) , "変数Name=[%s] \n", lua_tostring(mLuaState, -1) );
     }
     lua_pop(mLuaState,1);
 }
 
 void StateLuaTest::Draw()
 {
-    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "lua検証画面");
+	DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "[%s]", __FUNCTION__ );
+    DrawFormatString( 0 , 15 , ColorOf(0,255,0) , "Luaファイルから値を取得するテストシーケンスです");
 }
 
 
