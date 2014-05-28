@@ -6,7 +6,7 @@
 
 namespace Princess{
 
-	/**
+/**
     プロジェクトの一番上に位置するStateManager.
 */
 class ProjectStateManager : public StateManagerBase
@@ -14,8 +14,9 @@ class ProjectStateManager : public StateManagerBase
 public:
     //! ステート.
     enum State{
-        State_DebugTop,     //!< デバッグトップ
-        State_LuaTest,      //!< 
+        State_DebugTop,     //!< デバッグトップ.
+        State_LuaTest,      //!< luaテスト.
+        State_DrawTexture,  //!< 画像描画テスト.
         State_Num,
     };
 public:
@@ -36,7 +37,7 @@ private:
     ProjectStateManager();
 };
 
-}
+} // end of namespace Princess
 
 #endif
 
