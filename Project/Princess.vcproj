@@ -336,22 +336,6 @@
 					Name="State"
 					>
 					<File
-						RelativePath="..\Source\Project\State\StateAvaterTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateAvaterTest.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateBattle.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateBattle.hpp"
-						>
-					</File>
-					<File
 						RelativePath="..\Source\Project\State\StateDebugTop.cpp"
 						>
 					</File>
@@ -360,19 +344,11 @@
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\State\StateEquipTest.cpp"
+						RelativePath="..\Source\Project\State\StateDrawTexture.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\State\StateEquipTest.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateGameMain.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateGameMain.hpp"
+						RelativePath="..\Source\Project\State\StateDrawTexture.hpp"
 						>
 					</File>
 					<File
@@ -381,22 +357,6 @@
 					</File>
 					<File
 						RelativePath="..\Source\Project\State\StateLuaTest.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StatePaletteTest.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StatePaletteTest.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateTitle.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateTitle.hpp"
 						>
 					</File>
 				</Filter>
