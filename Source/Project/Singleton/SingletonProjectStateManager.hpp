@@ -17,6 +17,7 @@ public:
         State_DebugTop,     //!< デバッグトップ.
         State_LuaTest,      //!< luaテスト.
         State_DrawTexture,  //!< 画像描画テスト.
+        State_Battle,       //!< .
         State_Num,
     };
 public:
