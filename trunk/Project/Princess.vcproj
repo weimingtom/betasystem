@@ -336,6 +336,14 @@
 					Name="State"
 					>
 					<File
+						RelativePath="..\Source\Project\State\StateCharacterGenerate.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateCharacterGenerate.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\StateDebugTop.cpp"
 						>
 					</File>
