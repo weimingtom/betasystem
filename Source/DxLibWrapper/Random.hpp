@@ -14,5 +14,12 @@ inline int GetRand()
     return GetRand( INT_MAX );
 }
 
+//! ”ÍˆÍw’è.
+inline int GetRand( int min, int max )
+{
+    int const diff = max - min;
+    return ( min + GetRand(diff) );
+}
+
 #endif
 
