@@ -15,9 +15,10 @@ public:
     //! ステート.
     enum State{
         State_DebugTop,     //!< デバッグトップ.
+        State_Action,      	//!< アクションテスト.
         State_LuaTest,      //!< luaテスト.
         State_DrawTexture,  //!< 画像描画テスト.
-        State_Battle,       //!< .
+        State_CreateChara,       //!< キャラ生成.
         State_Num,
     };
 public:
