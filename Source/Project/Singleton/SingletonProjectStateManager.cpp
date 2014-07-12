@@ -7,6 +7,7 @@
 #include "Project/State/StateLuaTest.hpp"
 #include "Project/State/StateDrawTexture.hpp"
 #include "Project/State/StateCharacterGenerate.hpp"
+#include "Project/State/StateActionGame.hpp"
 
 namespace Princess{
 
@@ -42,11 +43,13 @@ StateBase* ProjectStateManager::new_State( State select_index )
     {
     case State_DebugTop:
         return new StateDebugTop();
+    case State_Action:
+		return new StateActionGame();
     case State_LuaTest:
         return new StateLuaTest();
     case State_DrawTexture:
         return new StateDrawTexture();
-    case State_Battle:
+    case State_CreateChara:
         return new StateCharacterGenerate();
     default:
         assert( !"invalid state");
@@ -60,6 +63,7 @@ std::string ProjectStateManager::NameOf(State state)
     static char const* name_list[State_Num] =
     {
         "デバッグトップ",
+        "アクションテスト",
         "Luaテスト",
         "画像描画テスト",
         "キャラ生成テスト",

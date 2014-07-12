@@ -336,6 +336,14 @@
 					Name="State"
 					>
 					<File
+						RelativePath="..\Source\Project\State\StateActionGame.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateActionGame.hpp"
+						>
+					</File>
+					<File
 						RelativePath="..\Source\Project\State\StateCharacterGenerate.cpp"
 						>
 					</File>
