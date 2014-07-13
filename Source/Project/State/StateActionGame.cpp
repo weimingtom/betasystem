@@ -19,26 +19,19 @@ void StateActionGame::Update()
     
     // 影
 	DrawFormatString(
-		static_cast<int>(mPlayerStatus.GetPos().x),
-		static_cast<int>(mPlayerStatus.GetPos().y +4.0f),
+		static_cast<int>(mPlayer.GetPos().x),
+		static_cast<int>(mPlayer.GetPos().y +4.0f),
 		ColorOf(155,155,155), "●" );
     // プレイヤー
 	DrawFormatString(
-		static_cast<int>(mPlayerStatus.GetPos().x),
-		static_cast<int>(mPlayerStatus.GetPos().y),
+		static_cast<int>(mPlayer.GetPos().x),
+		static_cast<int>(mPlayer.GetPos().y - mPlayer.GetHeight() ),
 		ColorOf(255,255,255), "●" );
-	if( mPlayerStatus.IsAttack() ){
-	    // 攻撃判定
-		DrawFormatString(
-			static_cast<int>( mPlayerStatus.GetPos().x + mPlayerStatus.GetDir().x * 3 ),
-			static_cast<int>( mPlayerStatus.GetPos().y + mPlayerStatus.GetDir().y * 3 ),
-			ColorOf(255,55,55), "●" );
-		DrawFormatString(
-			static_cast<int>( mPlayerStatus.GetPos().x + mPlayerStatus.GetDir().x * 6 ),
-			static_cast<int>( mPlayerStatus.GetPos().y + mPlayerStatus.GetDir().y * 6 ),
-			ColorOf(255,55,55), "●" );
-	}
-   
+	DrawFormatString(
+		static_cast<int>( mPlayer.GetPos().x + mPlayer.GetDir().x * 2 ),
+		static_cast<int>( mPlayer.GetPos().y - mPlayer.GetHeight() + mPlayer.GetDir().y * 2 ),
+		ColorOf(255,255,255), "●" );
+
 	Vector2 move;
    
     if( KeyInput()->IsHold( InputKey::Type_A ) ){
@@ -55,19 +48,18 @@ void StateActionGame::Update()
     }
     
     if( KeyInput()->IsTrig( InputKey::Type_J ) ){
-    	mPlayerStatus.BeginDash( move );
+    	mPlayer.BeginDash( move );
     }
 
     if( KeyInput()->IsTrig( InputKey::Type_K ) ){
-    	// アタック
-    	mPlayerStatus.BeginAttack();
+    	mPlayer.BeginJump();
     }
 
     move.Normalize();
-    mPlayerStatus.AddPos( move * 3 );
+    mPlayer.AddPos( move * 3 );
     
-    DrawFormatString( 0 , 20 , ColorOf(0,255,0) , "length %f, dir_x %f, dir_y %f", move.Length(), mPlayerStatus.GetDir().x, mPlayerStatus.GetDir().y );
-    mPlayerStatus.Update();
+    DrawFormatString( 0 , 20 , ColorOf(0,255,0) , "length %f, dir_x %f, dir_y %f", move.Length(), mPlayer.GetDir().x, mPlayer.GetDir().y );
+    mPlayer.Update();
 }
 
 void StateActionGame::Draw()
