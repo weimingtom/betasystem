@@ -4,6 +4,7 @@
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
 #include "DxLibWrapper/Random.hpp"
+#include "Project/Singleton/SingletonSoundLoader.hpp"
 
 
 //! プレイヤー.
@@ -41,11 +42,13 @@ public:
 	void BeginDash( Vector2 dash_vec ){
 		mDashFlag = true;
 		mDashVec = dash_vec * 18.0f;
+		SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
 	}
 	//! ジャンプする
 	void BeginJump(){
 		if( mHeight <= 0.0f ){
 			mGravity = 8.0f;
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Decide) );
 		}
 	}
 	//! ジャンプ高さ
@@ -55,7 +58,7 @@ public:
 	void AddPos( Vector2 add_pos ){
 		mPos+= add_pos;
 		if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
-    		mDir = add_pos;
+    		mDir = add_pos.Normalize();
     	}
 	}
 	Vector2 GetPos() const { return mPos; }

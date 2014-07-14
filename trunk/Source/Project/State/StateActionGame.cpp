@@ -28,8 +28,8 @@ void StateActionGame::Update()
 		static_cast<int>(mPlayer.GetPos().y - mPlayer.GetHeight() ),
 		ColorOf(255,255,255), "●" );
 	DrawFormatString(
-		static_cast<int>( mPlayer.GetPos().x + mPlayer.GetDir().x * 2 ),
-		static_cast<int>( mPlayer.GetPos().y - mPlayer.GetHeight() + mPlayer.GetDir().y * 2 ),
+		static_cast<int>( mPlayer.GetPos().x + mPlayer.GetDir().x * 1.5f ),
+		static_cast<int>( mPlayer.GetPos().y - mPlayer.GetHeight() + mPlayer.GetDir().y * 1.5f ),
 		ColorOf(255,255,255), "●" );
 
 	Vector2 move;
@@ -46,17 +46,23 @@ void StateActionGame::Update()
     if( KeyInput()->IsHold( InputKey::Type_S ) ){
     	move.y += 1;
     }
+    move.Normalize();
+    mPlayer.AddPos( move * 5 );
     
-    if( KeyInput()->IsTrig( InputKey::Type_J ) ){
-    	mPlayer.BeginDash( move );
+    if(
+    	KeyInput()->IsTrig( InputKey::Type_J )
+    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
+    ){
+    	mPlayer.BeginDash( mPlayer.GetDir() );
     }
 
-    if( KeyInput()->IsTrig( InputKey::Type_K ) ){
+    if(
+		KeyInput()->IsTrig( InputKey::Type_K )
+    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
+	){
     	mPlayer.BeginJump();
     }
 
-    move.Normalize();
-    mPlayer.AddPos( move * 3 );
     
     DrawFormatString( 0 , 20 , ColorOf(0,255,0) , "length %f, dir_x %f, dir_y %f", move.Length(), mPlayer.GetDir().x, mPlayer.GetDir().y );
     mPlayer.Update();
