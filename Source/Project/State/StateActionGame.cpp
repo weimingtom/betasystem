@@ -9,6 +9,8 @@
 #include "Project/Singleton/SingletonProjectStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 
+UnitPlayer gUnitPlayer;
+
 StateActionGame::StateActionGame()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
@@ -28,9 +30,16 @@ void StateActionGame::Update()
 	    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,50,50) );
 	}
 
-    SetFontSize(10);
+	int const kFontSize = 14;
+    SetFontSize(kFontSize);
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
-    DrawFormatString( 0 , 20 , ColorOf(0,255,0) , " dir_x %f, dir_y %f", mPlayer.GetDir().x, mPlayer.GetDir().y );
+    DrawFormatString( 0 , kFontSize   , ColorOf(0,255,0) , " dir_x %f, dir_y %f", gUnitPlayer.GetDir().x, gUnitPlayer.GetDir().y );
+    
+    int hit_unit = -1;
+    for( int i = 0; i < kEnemyMax ; i ++ ){
+    	
+    }
+//    DrawFormatString( 0 , kFontSize*2 , ColorOf(0,255,0) , "衝突したユニット[%d]", );
 
     SetFontSize(24);
 
@@ -49,14 +58,14 @@ void StateActionGame::Update()
     	move.y += 1;
     }
     move.Normalize();
-    mPlayer.AddPos( move * 5 );
+    gUnitPlayer.AddPos( move * 5 );
     
     //ダッシュ
     if(
     	KeyInput()->IsTrig( InputKey::Type_J )
     	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
     ){
-    	mPlayer.BeginDash( mPlayer.GetDir() );
+    	gUnitPlayer.BeginDash( gUnitPlayer.GetDir() );
     }
 
 	// ジャンプ
@@ -64,11 +73,11 @@ void StateActionGame::Update()
 		KeyInput()->IsTrig( InputKey::Type_K )
     	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
 	){
-    	mPlayer.BeginJump();
+    	gUnitPlayer.BeginJump();
     }
     
-    mPlayer.Update();
-    mPlayer.Draw();
+    gUnitPlayer.Update();
+    gUnitPlayer.Draw();
     
     for( int i = 0 ; i < kEnemyMax ; i++ ){
     	mEnemy[i].Update();
