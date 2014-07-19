@@ -4,16 +4,59 @@
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
 #include "DxLibWrapper/Random.hpp"
+#include "DxLibWrapper/Color.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 
+//! ユニットの基底クラス.
+class UnitBase
+{
+public:
+	UnitBase()
+	 : mHeight(0.0f)
 
-//! プレイヤー.
-class PlayerStatus
+	{}
+	virtual ~UnitBase(){}
+public:
+	Vector2 GetPos() const { return mPos; }
+
+	virtual void Draw(){
+	    // 影
+		DrawFormatString(
+			static_cast<int>( GetPos().x ),
+			static_cast<int>( GetPos().y + 4.0f ),
+			ColorOf(155,155,155), "●" );
+	    // プレイヤー
+		DrawFormatString(
+			static_cast<int>( GetPos().x),
+			static_cast<int>( GetPos().y - GetHeight() ),
+			ColorOf(255,255,0), "●" );
+	}
+	//! ジャンプ高さ
+	float GetHeight() const {
+		return mHeight;
+	}
+
+protected:
+	Vector2 mPos;
+	float mHeight;
+};
+
+//! 敵ユニット.
+class UnitEnemy : public UnitBase
+{
+public:
+	UnitEnemy();
+	~UnitEnemy();
+public:
+	
+};
+
+//! プレイヤーユニット.
+class PlayerStatus : public UnitBase
 {
 public:
 	PlayerStatus()
 	 : mDashFlag(false)
-	 , mHeight(0.0f)
 	 , mGravity(0.0f)
 	{
 		mPos = Vector2(300.0f,300.0f);
@@ -51,24 +94,19 @@ public:
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Decide) );
 		}
 	}
-	//! ジャンプ高さ
-	float GetHeight() const {
-		return mHeight;
-	}
 	void AddPos( Vector2 add_pos ){
 		mPos+= add_pos;
 		if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
     		mDir = add_pos.Normalize();
     	}
 	}
-	Vector2 GetPos() const { return mPos; }
-	Vector2 GetDir() const { return mDir; }
+	Vector2 GetDir() const {
+		return mDir;
+	}
 private:
-	Vector2 mPos;
 	bool mDashFlag;
 	Vector2 mDashVec;
 	Vector2 mDir;		//!< 向き.
-	float mHeight;
 	float mGravity;		//!< 重力
 };
 
