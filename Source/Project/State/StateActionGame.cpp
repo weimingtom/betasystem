@@ -6,6 +6,7 @@
 #include "DxLibWrapper/Color.hpp"
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
+#include "System/CheckHit.hpp"
 #include "Project/Singleton/SingletonProjectStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 
@@ -21,13 +22,15 @@ StateActionGame::StateActionGame()
 void StateActionGame::Update()
 {
     // グリッド.
-    int const kLineNum = 20;
-    int const kMargin = 40;
-	for( int y = 0; y < kLineNum ; y++ ){
-	    DrawLine( 0, y*kMargin, 1000, y*kMargin, ColorOf(50,50,50) );
-    }
-    for( int x = 0; x < kLineNum ; x++ ){
-	    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,50,50) );
+    {
+	    int const kLineNum = 20;
+	    int const kMargin = 40;
+		for( int y = 0; y < kLineNum ; y++ ){
+		    DrawLine( 0, y*kMargin, 1000, y*kMargin, ColorOf(50,50,50) );
+	    }
+	    for( int x = 0; x < kLineNum ; x++ ){
+		    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,50,50) );
+		}
 	}
 
 	int const kFontSize = 14;
@@ -35,11 +38,15 @@ void StateActionGame::Update()
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
     DrawFormatString( 0 , kFontSize   , ColorOf(0,255,0) , " dir_x %f, dir_y %f", gUnitPlayer.GetDir().x, gUnitPlayer.GetDir().y );
     
-    int hit_unit = -1;
+    int hit_index = -1;
     for( int i = 0; i < kEnemyMax ; i ++ ){
-    	
+    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y );
+    	if ( CheckHitRect( gUnitPlayer.GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
+    		hit_index = i;
+    		break;
+    	}
     }
-//    DrawFormatString( 0 , kFontSize*2 , ColorOf(0,255,0) , "衝突したユニット[%d]", );
+    DrawFormatString( 0 , kFontSize*2 , ColorOf(0,255,0) , "衝突したユニット[%d]", hit_index );
 
     SetFontSize(24);
 
