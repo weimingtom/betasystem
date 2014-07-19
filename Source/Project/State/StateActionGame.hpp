@@ -8,22 +8,42 @@
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 
+extern bool gIsVisibleCollision;
+
+
 //! ユニットの基底クラス.
 class UnitBase
 {
 public:
 	UnitBase()
 	 : mHeight(0.0f)
-	 , mSize( Vector2(64,64) )
+	 , mSize( Vector2(48,48) )
+	 , mHP(20)
+	 , mIsDead(false)
+	 , mDamageFrame(0)
 	{}
 	virtual ~UnitBase(){}
 public:
 	virtual void Update(){
    		mPos += mSpeed;
 		mSpeed *= 0.8f;
+		
+		if( mDamageFrame ){
+			mDamageFrame--;
+		}
 	}
 	//! 描画.
-	virtual void Draw(){
+	virtual void Draw()
+	{
+		if( this->IsDead() ){
+			return;
+		}
+		
+		if( this->IsDamaged() ){
+			if( mDamageFrame % 5 == 0 ){
+				return;
+			}
+		}
 		
 		Vector2 const kImageSize(64,64);
 		
@@ -42,16 +62,19 @@ public:
 	    	static_cast<int>( GetPos().y - GetHeight() - kImageSize.y ),
 			ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Enemy ), TRUE );
 		
+		
+		if( !gIsVisibleCollision ){
+			return;
+		}
 		// コリジョン
 		DrawBox(
 			static_cast<int>( GetPos().x - GetSize().x / 2 ),
-			static_cast<int>( GetPos().y - GetSize().y ),
+			static_cast<int>( GetPos().y - GetSize().y / 2 ),
 			static_cast<int>( GetPos().x + GetSize().x / 2 ),
-			static_cast<int>( GetPos().y  ),
+			static_cast<int>( GetPos().y + GetSize().y / 2 ),
 			ColorOf(255,0,0),
 			FALSE
 		);
-		
 	}
 	//! ジャンプ高さ
 	float GetHeight() const {
@@ -73,11 +96,31 @@ public:
 	void SetSpeed( Vector2 speed ){
 		mSpeed = speed;
 	}
+	
+	void Damage( int damage ){
+		mDamageFrame = 45;
+		mHP -= damage;
+		if( mHP < 0 ){
+			mIsDead = true;
+		}
+	}
+	
+	bool IsDead() const{
+		return mIsDead;
+	}
+	
+	bool IsDamaged() const{
+		return ( mDamageFrame != 0 );
+	}
+	
 protected:
 	Vector2 mPos;
 	Vector2 mSize;
 	float mHeight;
 	Vector2 mSpeed;
+	int mHP;
+	bool mIsDead;
+	int mDamageFrame;
 };
 
 //! プレイヤーユニット.
@@ -150,8 +193,9 @@ public:
 	virtual void Update() override
 	{
 		UnitBase::Update();
-		// 追尾
+
 		/*
+		//追尾
 		Vector2 move_vec = gUnitPlayer.GetPos() - mPos ;
 		move_vec.Normalize();
 		mPos += move_vec;
