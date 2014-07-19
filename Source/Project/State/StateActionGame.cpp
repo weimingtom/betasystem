@@ -16,7 +16,7 @@ static bool gIsVisibleCollision = false;
 StateActionGame::StateActionGame()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
-		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(480) ) );
+		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480) ) );
 	}
 }
 
@@ -27,10 +27,10 @@ void StateActionGame::Update()
 	    int const kLineNum = 20;
 	    int const kMargin = 40;
 		for( int y = 0; y < kLineNum ; y++ ){
-		    DrawLine( 0, y*kMargin, 1000, y*kMargin, ColorOf(50,50,50) );
+		    DrawLine( 0, y*kMargin, 1000, y*kMargin, ColorOf(50,250,50) );
 	    }
 	    for( int x = 0; x < kLineNum ; x++ ){
-		    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,50,50) );
+		    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,250,50) );
 		}
 	}
 
@@ -39,9 +39,12 @@ void StateActionGame::Update()
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
     DrawFormatString( 0 , kFontSize   , ColorOf(0,255,0) , " dir_x %f, dir_y %f", gUnitPlayer.GetDir().x, gUnitPlayer.GetDir().y );
     
-    for( int i = 0; i < kEnemyMax ; i ++ ){
+    // 衝突判定.
+    for( int i = 0; i < kEnemyMax ; i ++ )
+    {
     	if( mEnemy[i].IsDead() ){ continue; }
     	if( mEnemy[i].IsDamaged() ){ continue; }
+    	if( gUnitPlayer.IsDead() ){ continue; } 
     	if( gUnitPlayer.IsJump() ){ continue; } 
     	if( gUnitPlayer.IsDamaged() ){ continue; } 
     
