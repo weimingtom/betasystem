@@ -42,13 +42,24 @@ void StateActionGame::Update()
     for( int i = 0; i < kEnemyMax ; i ++ ){
     	if( mEnemy[i].IsDead() ){ continue; }
     	if( mEnemy[i].IsDamaged() ){ continue; }
+    	if( gUnitPlayer.IsJump() ){ continue; } 
+    	if( gUnitPlayer.IsDamaged() ){ continue; } 
     
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
+    	
     	if ( CheckHitRect( gUnitPlayer.GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer.GetPos();
-    		mEnemy[i].SetSpeed( speed.Normalize() * 30 );
-    		mEnemy[i].Damage(10);
-    	}
+	    	
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
+	    	if( gUnitPlayer.IsDash() ){
+	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer.GetPos();
+	    		mEnemy[i].SetSpeed( speed.Normalize() * 30 );
+	    		mEnemy[i].Damage(10);
+	    	}else{
+	    		Vector2 speed = gUnitPlayer.GetPos() - mEnemy[i].GetPos();
+	    		gUnitPlayer.SetSpeed( speed.Normalize() * 30 );
+	    	    gUnitPlayer.Damage(10);
+			}
+	    }
     }
 
     SetFontSize(24);

@@ -38,6 +38,13 @@ public:
         result.y = this->y * mul;
 		return result;
     }
+    Vector2 operator /( double devide )
+    {
+        Vector2 result;
+        result.x = this->x / devide;
+        result.y = this->y / devide;
+		return result;
+    }
     Vector2 operator +=( Vector2 const& vec2 )
     {
         this->x += vec2.x;
@@ -49,6 +56,13 @@ public:
         Vector2 result;
         this->x *= mul;
         this->y *= mul;
+		return *this;
+    }
+    Vector2 operator /=( double devide )
+    {
+        Vector2 result;
+        this->x /= devide;
+        this->y /= devide;
 		return *this;
     }
     
