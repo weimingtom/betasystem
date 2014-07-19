@@ -38,15 +38,13 @@ void StateActionGame::Update()
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
     DrawFormatString( 0 , kFontSize   , ColorOf(0,255,0) , " dir_x %f, dir_y %f", gUnitPlayer.GetDir().x, gUnitPlayer.GetDir().y );
     
-    int hit_index = -1;
     for( int i = 0; i < kEnemyMax ; i ++ ){
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y );
     	if ( CheckHitRect( gUnitPlayer.GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-    		hit_index = i;
-    		break;
+    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer.GetPos();
+    		mEnemy[i].SetSpeed( speed.Normalize() );
     	}
     }
-    DrawFormatString( 0 , kFontSize*2 , ColorOf(0,255,0) , "衝突したユニット[%d]", hit_index );
 
     SetFontSize(24);
 
