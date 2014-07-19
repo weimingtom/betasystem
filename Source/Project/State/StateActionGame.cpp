@@ -15,25 +15,24 @@ StateActionGame::StateActionGame()
 
 void StateActionGame::Update()
 {
-    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
-    
-    // 影
-	DrawFormatString(
-		static_cast<int>(mPlayer.GetPos().x),
-		static_cast<int>(mPlayer.GetPos().y +4.0f),
-		ColorOf(155,155,155), "●" );
-    // プレイヤー
-	DrawFormatString(
-		static_cast<int>(mPlayer.GetPos().x),
-		static_cast<int>(mPlayer.GetPos().y - mPlayer.GetHeight() ),
-		ColorOf(255,255,255), "●" );
-	DrawFormatString(
-		static_cast<int>( mPlayer.GetPos().x + mPlayer.GetDir().x * 1.5f ),
-		static_cast<int>( mPlayer.GetPos().y - mPlayer.GetHeight() + mPlayer.GetDir().y * 1.5f ),
-		ColorOf(255,255,255), "●" );
+    // グリッド.
+    int const kLineNum = 20;
+    int const kMargin = 40;
+	for( int y = 0; y < kLineNum ; y++ ){
+	    DrawLine( 0, y*kMargin, 1000, y*kMargin, ColorOf(50,50,50) );
+    }
+    for( int x = 0; x < kLineNum ; x++ ){
+	    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,50,50) );
+	}
 
+    SetFontSize(10);
+    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
+    DrawFormatString( 0 , 20 , ColorOf(0,255,0) , " dir_x %f, dir_y %f", mPlayer.GetDir().x, mPlayer.GetDir().y );
+
+    SetFontSize(24);
+
+	//移動.
 	Vector2 move;
-   
     if( KeyInput()->IsHold( InputKey::Type_A ) ){
     	move.x -= 1;
     }
@@ -49,6 +48,7 @@ void StateActionGame::Update()
     move.Normalize();
     mPlayer.AddPos( move * 5 );
     
+    //ダッシュ
     if(
     	KeyInput()->IsTrig( InputKey::Type_J )
     	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
@@ -56,16 +56,17 @@ void StateActionGame::Update()
     	mPlayer.BeginDash( mPlayer.GetDir() );
     }
 
+	// ジャンプ
     if(
 		KeyInput()->IsTrig( InputKey::Type_K )
     	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
 	){
     	mPlayer.BeginJump();
     }
-
     
-    DrawFormatString( 0 , 20 , ColorOf(0,255,0) , "length %f, dir_x %f, dir_y %f", move.Length(), mPlayer.GetDir().x, mPlayer.GetDir().y );
     mPlayer.Update();
+    mPlayer.Draw();
+    
 }
 
 void StateActionGame::Draw()
