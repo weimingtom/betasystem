@@ -15,6 +15,7 @@ namespace ProjectImageLoader{
         ImageType_Koyaku,
         ImageType_Avater,
         ImageType_DebugTop,
+        ImageType_Enemy,
         ImageType_Num,
     };
     /**
