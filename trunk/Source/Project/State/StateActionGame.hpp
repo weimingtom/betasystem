@@ -6,6 +6,7 @@
 #include "DxLibWrapper/Random.hpp"
 #include "DxLibWrapper/Color.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
+#include "Project/Singleton/SingletonImageLoader.hpp"
 
 //! ユニットの基底クラス.
 class UnitBase
@@ -20,14 +21,18 @@ public:
 	virtual void Draw(){
 	    // 影
 		DrawFormatString(
-			static_cast<int>( GetPos().x ),
-			static_cast<int>( GetPos().y + 4.0f ),
+			static_cast<int>( GetPos().x + 16 ),
+			static_cast<int>( GetPos().y + 32 ),
 			ColorOf(155,155,155), "●" );
-	    // プレイヤー
+
+/*
 		DrawFormatString(
 			static_cast<int>( GetPos().x),
 			static_cast<int>( GetPos().y - GetHeight() ),
 			ColorOf(255,255,0), "●" );
+*/
+	    DrawGraph( static_cast<int>( GetPos().x ), static_cast<int>( GetPos().y - GetHeight() ),
+			ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Enemy ), TRUE );
 	}
 	//! ジャンプ高さ
 	float GetHeight() const {
