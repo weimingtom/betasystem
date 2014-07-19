@@ -10,7 +10,8 @@
 #include "Project/Singleton/SingletonProjectStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 
-UnitPlayer gUnitPlayer;
+static UnitPlayer gUnitPlayer;
+static bool gIsVisibleCollision = false;
 
 StateActionGame::StateActionGame()
 {
@@ -39,10 +40,14 @@ void StateActionGame::Update()
     DrawFormatString( 0 , kFontSize   , ColorOf(0,255,0) , " dir_x %f, dir_y %f", gUnitPlayer.GetDir().x, gUnitPlayer.GetDir().y );
     
     for( int i = 0; i < kEnemyMax ; i ++ ){
-    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y );
+    	if( mEnemy[i].IsDead() ){ continue; }
+    	if( mEnemy[i].IsDamaged() ){ continue; }
+    
+    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	if ( CheckHitRect( gUnitPlayer.GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
     		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer.GetPos();
-    		mEnemy[i].SetSpeed( speed.Normalize() );
+    		mEnemy[i].SetSpeed( speed.Normalize() * 10 );
+    		mEnemy[i].Damage(5);
     	}
     }
 
@@ -79,6 +84,12 @@ void StateActionGame::Update()
     	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
 	){
     	gUnitPlayer.BeginJump();
+    }
+
+    if(
+		KeyInput()->IsTrig( InputKey::Type_L )
+	){
+		gIsVisibleCollision = !gIsVisibleCollision;
     }
     
     gUnitPlayer.Update();
