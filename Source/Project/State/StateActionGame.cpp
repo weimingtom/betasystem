@@ -46,8 +46,8 @@ void StateActionGame::Update()
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	if ( CheckHitRect( gUnitPlayer.GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
     		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer.GetPos();
-    		mEnemy[i].SetSpeed( speed.Normalize() * 10 );
-    		mEnemy[i].Damage(5);
+    		mEnemy[i].SetSpeed( speed.Normalize() * 30 );
+    		mEnemy[i].Damage(10);
     	}
     }
 

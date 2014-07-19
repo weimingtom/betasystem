@@ -18,7 +18,7 @@ public:
 	UnitBase()
 	 : mHeight(0.0f)
 	 , mSize( Vector2(48,48) )
-	 , mHP(20)
+	 , mHP(21)
 	 , mIsDead(false)
 	 , mDamageFrame(0)
 	 , mImageType( ProjectImageLoader::ImageType_Enemy )
@@ -101,7 +101,7 @@ public:
 	void Damage( int damage ){
 		mDamageFrame = 45;
 		mHP -= damage;
-		if( mHP < 0 ){
+		if( mHP <= 0 ){
 			mIsDead = true;
 		}
 	}
