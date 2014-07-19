@@ -14,25 +14,27 @@ class UnitBase
 public:
 	UnitBase()
 	 : mHeight(0.0f)
-	 , mSize( Vector2(64,64) )
+	 , mSize( Vector2(24,24) )
 	{}
 	virtual ~UnitBase(){}
 public:
 	//! 描画.
 	virtual void Draw(){
-
+		
+		Vector2 kImageSize(64,64);
 	    // 影
-		DrawCircle(
+		DrawOval(
 			static_cast<int>( GetPos().x ),
 			static_cast<int>( GetPos().y ),
-			static_cast<int>( (100 - GetHeight()) / 6 ),
+			static_cast<int>( (100 - GetHeight()) / 5 ),
+			static_cast<int>( (100 - GetHeight()) / 12 ),
 			ColorOf(155,155,155),
 			TRUE );
 
 		// キャラ
 	    DrawGraph( 
-	    	static_cast<int>( GetPos().x - GetSize().x / 2 ),
-	    	static_cast<int>( GetPos().y - GetHeight() - GetSize().y ),
+	    	static_cast<int>( GetPos().x - kImageSize.x / 2 ),
+	    	static_cast<int>( GetPos().y - GetHeight() - kImageSize.y ),
 			ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Enemy ), TRUE );
 		
 		// コリジョン
