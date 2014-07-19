@@ -21,6 +21,7 @@ public:
 	 , mHP(20)
 	 , mIsDead(false)
 	 , mDamageFrame(0)
+	 , mImageType( ProjectImageLoader::ImageType_Enemy )
 	{}
 	virtual ~UnitBase(){}
 public:
@@ -60,7 +61,7 @@ public:
 	    DrawGraph( 
 	    	static_cast<int>( GetPos().x - kImageSize.x / 2 ),
 	    	static_cast<int>( GetPos().y - GetHeight() - kImageSize.y ),
-			ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Enemy ), TRUE );
+			ProjectImageLoader::ImageHandleOf(mImageType), TRUE );
 		
 		
 		if( !gIsVisibleCollision ){
@@ -121,6 +122,7 @@ protected:
 	int mHP;
 	bool mIsDead;
 	int mDamageFrame;
+	ProjectImageLoader::ImageType mImageType;
 };
 
 //! プレイヤーユニット.
@@ -131,6 +133,7 @@ public:
 	 : mDashFlag(false)
 	 , mGravity(0.0f)
 	{
+		mImageType = ProjectImageLoader::ImageType_DebugTop;
 		mPos = Vector2(300.0f,300.0f);
 	}
 public:
