@@ -13,12 +13,10 @@ class UnitBase
 public:
 	UnitBase()
 	 : mHeight(0.0f)
-
 	{}
 	virtual ~UnitBase(){}
 public:
-	Vector2 GetPos() const { return mPos; }
-
+	//! 描画.
 	virtual void Draw(){
 	    // 影
 		DrawFormatString(
@@ -35,6 +33,14 @@ public:
 	float GetHeight() const {
 		return mHeight;
 	}
+	//! 座標設定.
+	void SetPos( Vector2 pos ){
+		mPos = pos;
+	}
+	//! 座標取得.
+	Vector2 GetPos() const {
+		return mPos;
+	}
 
 protected:
 	Vector2 mPos;
@@ -45,17 +51,18 @@ protected:
 class UnitEnemy : public UnitBase
 {
 public:
-	UnitEnemy();
-	~UnitEnemy();
+	UnitEnemy(){}
+	~UnitEnemy(){}
+
 public:
-	
+	void Update(){}
 };
 
 //! プレイヤーユニット.
-class PlayerStatus : public UnitBase
+class UnitPlayer : public UnitBase
 {
 public:
-	PlayerStatus()
+	UnitPlayer()
 	 : mDashFlag(false)
 	 , mGravity(0.0f)
 	{
@@ -120,11 +127,11 @@ public:
 public:
 	void Update();
 	void Draw();
-
 private:
-
+	static int const kEnemyMax = 32;
 private:
-    PlayerStatus mPlayer;
+    UnitPlayer mPlayer;
+    UnitEnemy mEnemy[kEnemyMax];
 };
 
 #endif

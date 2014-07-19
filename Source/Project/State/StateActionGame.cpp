@@ -11,6 +11,9 @@
 
 StateActionGame::StateActionGame()
 {
+	for( int i = 0 ; i < kEnemyMax ; i++ ){
+		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(480) ) );
+	}
 }
 
 void StateActionGame::Update()
@@ -66,6 +69,11 @@ void StateActionGame::Update()
     
     mPlayer.Update();
     mPlayer.Draw();
+    
+    for( int i = 0 ; i < kEnemyMax ; i++ ){
+    	mEnemy[i].Update();
+    	mEnemy[i].Draw();
+    }
     
 }
 
