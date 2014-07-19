@@ -32,6 +32,12 @@ public:
 		if( mDamageFrame ){
 			mDamageFrame--;
 		}
+
+		if( !IsDamaged() ){
+			if( mHP <= 0 ){
+				mIsDead = true;
+			}
+		}
 	}
 	//! 描画.
 	virtual void Draw()
@@ -101,9 +107,6 @@ public:
 	void Damage( int damage ){
 		mDamageFrame = 45;
 		mHP -= damage;
-		if( mHP <= 0 ){
-			mIsDead = true;
-		}
 	}
 	
 	bool IsDead() const{
@@ -167,8 +170,14 @@ public:
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Decide) );
 		}
 	}
+	bool IsDash() const{
+		return mDashFlag;
+	}
+	bool IsJump() const{
+		return ( mHeight != 0.0f );
+	}
 	void AddPos( Vector2 add_pos ){
-		mPos+= add_pos;
+		mPos += add_pos;
 		if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
     		mDir = add_pos.Normalize();
     	}
@@ -197,12 +206,10 @@ public:
 	{
 		UnitBase::Update();
 
-		/*
 		//追尾
 		Vector2 move_vec = gUnitPlayer.GetPos() - mPos ;
 		move_vec.Normalize();
-		mPos += move_vec;
-		*/
+		mPos += move_vec / 2;
 	}
 };
 
