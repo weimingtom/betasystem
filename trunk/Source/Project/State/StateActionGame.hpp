@@ -14,25 +14,37 @@ class UnitBase
 public:
 	UnitBase()
 	 : mHeight(0.0f)
+	 , mSize( Vector2(64,64) )
 	{}
 	virtual ~UnitBase(){}
 public:
 	//! 描画.
 	virtual void Draw(){
-	    // 影
-		DrawFormatString(
-			static_cast<int>( GetPos().x + 16 ),
-			static_cast<int>( GetPos().y + 32 ),
-			ColorOf(155,155,155), "●" );
 
-/*
-		DrawFormatString(
-			static_cast<int>( GetPos().x),
-			static_cast<int>( GetPos().y - GetHeight() ),
-			ColorOf(255,255,0), "●" );
-*/
-	    DrawGraph( static_cast<int>( GetPos().x ), static_cast<int>( GetPos().y - GetHeight() ),
+	    // 影
+		DrawCircle(
+			static_cast<int>( GetPos().x ),
+			static_cast<int>( GetPos().y ),
+			static_cast<int>( (100 - GetHeight()) / 6 ),
+			ColorOf(155,155,155),
+			TRUE );
+
+		// キャラ
+	    DrawGraph( 
+	    	static_cast<int>( GetPos().x - GetSize().x / 2 ),
+	    	static_cast<int>( GetPos().y - GetHeight() - GetSize().y ),
 			ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Enemy ), TRUE );
+		
+		// コリジョン
+		DrawBox(
+			static_cast<int>( GetPos().x - GetSize().x / 2 ),
+			static_cast<int>( GetPos().y - GetSize().y ),
+			static_cast<int>( GetPos().x + GetSize().x / 2 ),
+			static_cast<int>( GetPos().y  ),
+			ColorOf(255,0,0),
+			FALSE
+		);
+		
 	}
 	//! ジャンプ高さ
 	float GetHeight() const {
@@ -46,21 +58,15 @@ public:
 	Vector2 GetPos() const {
 		return mPos;
 	}
+	//! サイズ取得
+	Vector2 GetSize() const{
+		return mSize;
+	}
 
 protected:
 	Vector2 mPos;
+	Vector2 mSize;
 	float mHeight;
-};
-
-//! 敵ユニット.
-class UnitEnemy : public UnitBase
-{
-public:
-	UnitEnemy(){}
-	~UnitEnemy(){}
-
-public:
-	void Update(){}
 };
 
 //! プレイヤーユニット.
@@ -122,6 +128,27 @@ private:
 	float mGravity;		//!< 重力
 };
 
+extern UnitPlayer gUnitPlayer;
+
+
+//! 敵ユニット.
+class UnitEnemy : public UnitBase
+{
+public:
+	UnitEnemy(){}
+	~UnitEnemy(){}
+
+public:
+	void Update()
+	{
+		// 追尾
+		/*
+		Vector2 move_vec = gUnitPlayer.GetPos() - mPos ;
+		move_vec.Normalize();
+		mPos += move_vec;
+		*/
+	}
+};
 
 //! アクションゲームシーン.
 class StateActionGame : public StateBase
@@ -135,7 +162,6 @@ public:
 private:
 	static int const kEnemyMax = 32;
 private:
-    UnitPlayer mPlayer;
     UnitEnemy mEnemy[kEnemyMax];
 };
 
