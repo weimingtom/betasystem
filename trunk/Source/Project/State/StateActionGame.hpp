@@ -14,14 +14,19 @@ class UnitBase
 public:
 	UnitBase()
 	 : mHeight(0.0f)
-	 , mSize( Vector2(24,24) )
+	 , mSize( Vector2(64,64) )
 	{}
 	virtual ~UnitBase(){}
 public:
+	virtual void Update(){
+   		mPos += mSpeed;
+		mSpeed *= 0.8f;
+	}
 	//! 描画.
 	virtual void Draw(){
 		
-		Vector2 kImageSize(64,64);
+		Vector2 const kImageSize(64,64);
+		
 	    // 影
 		DrawOval(
 			static_cast<int>( GetPos().x ),
@@ -64,11 +69,15 @@ public:
 	Vector2 GetSize() const{
 		return mSize;
 	}
-
+	//! スピード設定.
+	void SetSpeed( Vector2 speed ){
+		mSpeed = speed;
+	}
 protected:
 	Vector2 mPos;
 	Vector2 mSize;
 	float mHeight;
+	Vector2 mSpeed;
 };
 
 //! プレイヤーユニット.
@@ -82,15 +91,13 @@ public:
 		mPos = Vector2(300.0f,300.0f);
 	}
 public:
-	void Update()
+	virtual void Update() override
 	{
 		// ダッシュ
-		if( mDashFlag ){
-    		mPos += mDashVec;
-    		mDashVec *= 0.8f;
-    		if( fabs(mDashVec.x) < 0.01f && fabs(mDashVec.y) < 0.01f ){
-    			mDashFlag = false;
-    		}
+		UnitBase::Update();
+
+		if( fabs(mSpeed.x) < 0.01f && fabs(mSpeed.y) < 0.01f ){
+			mDashFlag = false;
 		}
 		
 		// ジャンプ.
@@ -104,7 +111,7 @@ public:
 	//! ダッシュする
 	void BeginDash( Vector2 dash_vec ){
 		mDashFlag = true;
-		mDashVec = dash_vec * 18.0f;
+		mSpeed = dash_vec * 18.0f;
 		SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
 	}
 	//! ジャンプする
@@ -125,7 +132,6 @@ public:
 	}
 private:
 	bool mDashFlag;
-	Vector2 mDashVec;
 	Vector2 mDir;		//!< 向き.
 	float mGravity;		//!< 重力
 };
@@ -141,8 +147,9 @@ public:
 	~UnitEnemy(){}
 
 public:
-	void Update()
+	virtual void Update() override
 	{
+		UnitBase::Update();
 		// 追尾
 		/*
 		Vector2 move_vec = gUnitPlayer.GetPos() - mPos ;
