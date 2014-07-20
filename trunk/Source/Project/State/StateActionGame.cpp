@@ -31,21 +31,7 @@ void StateActionGame::Update()
 		}	
 	}
 
-    // グリッド.
-    {
-    	/*
-	    int const kLineNum = 20;
-	    int const kMargin = 40;
-		for( int y = 0; y < kLineNum ; y++ ){
-		    DrawLine( 0, y*kMargin, 1000, y*kMargin, ColorOf(50,250,50) );
-	    }
-	    for( int x = 0; x < kLineNum ; x++ ){
-		    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,250,50) );
-		}
-		*/
-	}
-
-	int const kFontSize = 14;
+ 	int const kFontSize = 14;
     SetFontSize(kFontSize);
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
     DrawFormatString( 0 , kFontSize , ColorOf(0,255,0) , " player hp %d", gUnitPlayer.GetHP() );
