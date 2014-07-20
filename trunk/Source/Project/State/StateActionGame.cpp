@@ -14,6 +14,7 @@ static UnitPlayer gUnitPlayer;
 static bool gIsVisibleCollision = false;
 
 StateActionGame::StateActionGame()
+: mStageFrame(0)
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480) ) );
@@ -22,6 +23,8 @@ StateActionGame::StateActionGame()
 
 void StateActionGame::Update()
 {
+	mStageFrame++;
+
 	//背景描画.
 	for( int x = 0; x < 20; x++ ){
 		for( int y = 0 ; y < 20 ; y++ ){
@@ -110,12 +113,16 @@ void StateActionGame::Update()
 	    	mEnemy[i].Update();
 	    }
 	}
-    gUnitPlayer.Draw();
+
+    for( int i = 0 ; i < kEnemyMax ; i++ ){
+    	mEnemy[i].PreDraw();
+    }
+    gUnitPlayer.PreDraw();
+
     for( int i = 0 ; i < kEnemyMax ; i++ ){
     	mEnemy[i].Draw();
     }
-
-    
+    gUnitPlayer.Draw();
 }
 
 void StateActionGame::Draw()
