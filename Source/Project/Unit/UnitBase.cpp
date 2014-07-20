@@ -43,12 +43,10 @@ void UnitBase::PreDraw()
 		}
 	}
     // 影
-	DrawOval(
-		static_cast<int>( GetPos().x ),
-		static_cast<int>( GetPos().y ),
-		static_cast<int>( (100 - GetHeight()) / 5 ),
-		static_cast<int>( (100 - GetHeight()) / 12 ),
-		ColorOf(155,155,155),
+	DrawGraphInCamera(
+		static_cast<int>( GetPos().x -32 ),
+		static_cast<int>( GetPos().y -16 ),
+		ProjectImageLoader::ImageType_Shadow,
 		TRUE );
 }
 
@@ -66,18 +64,13 @@ void UnitBase::Draw()
 	}
 	
 	// キャラ
-	if( mDir.x < 0.0f ){
-	    DrawGraph( 
-	    	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
-	    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
-			ProjectImageLoader::ImageHandleOf(mImageType), TRUE );
-	}else{
-	    DrawTurnGraph( 
-	    	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
-	    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
-			ProjectImageLoader::ImageHandleOf(mImageType), TRUE );
-	}
-	
+    DrawGraphInCamera( 
+    	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
+    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
+		mImageType,
+		TRUE,
+		( mDir.x < 0.0f ));
+
 	if( !IsVisibleCollision() ){
 		return;
 	}

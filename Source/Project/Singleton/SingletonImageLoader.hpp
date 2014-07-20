@@ -12,7 +12,7 @@ namespace ProjectImageLoader{
     enum ImageType
     {
         ImageType_Map,
-        ImageType_Koyaku,
+        ImageType_Shadow,
         ImageType_Avater,
         ImageType_DebugTop,
         ImageType_Enemy,

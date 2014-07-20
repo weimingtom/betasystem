@@ -15,6 +15,7 @@
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 
+#include "Project/Camera2D/Camera2D.hpp"
 
 StateActionGame::StateActionGame()
 : mStageFrame(0)
@@ -35,13 +36,15 @@ void StateActionGame::InitEnemy()
 void StateActionGame::Update()
 {
 	mStageFrame++;
+	
+	gCamera2D().Update();
 
 	//背景描画.
 	for( int x = 0; x < 20; x++ ){
 		for( int y = 0 ; y < 20 ; y++ ){
-			DrawGraph(
-				x * 64, y*64,
-				ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Map ), FALSE );
+			DrawGraphInCamera(
+				x*64, y*64,
+				ProjectImageLoader::ImageType_Map, FALSE );
 		}	
 	}
 

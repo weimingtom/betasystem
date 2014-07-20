@@ -437,6 +437,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Camera2D"
+					>
+					<File
+						RelativePath="..\Source\Project\Camera2D\Camera2D.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Camera2D\Camera2D.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="System"
