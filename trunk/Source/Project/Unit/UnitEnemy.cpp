@@ -8,7 +8,7 @@ void UnitEnemy::Update()
 	//追尾
 	Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
 	move_vec.Normalize();
-	mPos += move_vec / 2;
+	mPos += move_vec * 2;
 	
 	mDir = move_vec;
 }
