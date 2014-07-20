@@ -3,6 +3,7 @@
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "DxLibWrapper/Color.hpp"
 #include "Project/Unit/Global.hpp"
+#include "Project/Camera2D/Camera2D.hpp"
 
 UnitBase::UnitBase()
  : mHeight(0.0f)
@@ -74,12 +75,13 @@ void UnitBase::Draw()
 	if( !IsVisibleCollision() ){
 		return;
 	}
+
 	// コリジョン
 	DrawBox(
-		static_cast<int>( GetPos().x - GetSize().x / 2 ),
-		static_cast<int>( GetPos().y - GetSize().y / 2 ),
-		static_cast<int>( GetPos().x + GetSize().x / 2 ),
-		static_cast<int>( GetPos().y + GetSize().y / 2 ),
+		static_cast<int>( GetPos().x - GetSize().x / 2 + gCamera2D().GetDrawOffset().x ),
+		static_cast<int>( GetPos().y - GetSize().y / 2 + gCamera2D().GetDrawOffset().y ),
+		static_cast<int>( GetPos().x + GetSize().x / 2 + gCamera2D().GetDrawOffset().x ),
+		static_cast<int>( GetPos().y + GetSize().y / 2 + gCamera2D().GetDrawOffset().y ),
 		ColorOf(255,0,0),
 		FALSE
 	);

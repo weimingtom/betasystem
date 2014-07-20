@@ -29,7 +29,7 @@ void StateActionGame::InitEnemy()
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		UnitEnemy enemy;
 		mEnemy[i] = enemy;
-		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480) ) );
+		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480 * 3) ) );
 	}
 }
 
