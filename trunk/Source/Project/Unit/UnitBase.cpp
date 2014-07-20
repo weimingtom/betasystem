@@ -7,7 +7,7 @@
 UnitBase::UnitBase()
  : mHeight(0.0f)
  , mSize( Vector2(48,48) )
- , mHP(21)
+ , mHP(3)
  , mIsDead(false)
  , mDamageFrame(0)
  , mImageType( ProjectImageLoader::ImageType_Enemy )

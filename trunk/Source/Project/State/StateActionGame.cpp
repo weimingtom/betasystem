@@ -19,7 +19,15 @@
 StateActionGame::StateActionGame()
 : mStageFrame(0)
 {
+	InitEnemy();
+	gUnitPlayer().Revive();
+}
+
+void StateActionGame::InitEnemy()
+{
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
+		UnitEnemy enemy;
+		mEnemy[i] = enemy;
 		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480) ) );
 	}
 }
@@ -38,9 +46,12 @@ void StateActionGame::Update()
 	}
 
  	int const kFontSize = 14;
+ 	int y = 0;
     SetFontSize(kFontSize);
-    DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
-    DrawFormatString( 0 , kFontSize , ColorOf(0,255,0) , " player hp %d", gUnitPlayer().GetHP() );
+    DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , "アクションゲームテスト:");
+    DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " player hp %d", gUnitPlayer().GetHP() );
+    DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵復活 - R" );
+    DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵+自分復活 - T" );
     
     // 衝突判定.
     for( int i = 0; i < kEnemyMax ; i ++ )
@@ -59,11 +70,11 @@ void StateActionGame::Update()
 	    	if( gUnitPlayer().IsDash() ){
 	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
 	    		mEnemy[i].SetSpeed( speed.Normalize() * 30 );
-	    		mEnemy[i].Damage(10);
+	    		mEnemy[i].Damage(1);
 	    	}else{
 	    		Vector2 speed = gUnitPlayer().GetPos() - mEnemy[i].GetPos();
 	    		gUnitPlayer().SetSpeed( speed.Normalize() * 30 );
-	    	    gUnitPlayer().Damage(10);
+	    	    gUnitPlayer().Damage(1);
 			}
 	    }
     }
@@ -110,12 +121,28 @@ void StateActionGame::Update()
 		){
 			SetVisibleCollision( !IsVisibleCollision() );
 	    }
+
 		
 	    gUnitPlayer().Update();
 	    for( int i = 0 ; i < kEnemyMax ; i++ ){
 	    	mEnemy[i].Update();
 	    }
 	}
+
+	// デバッグ処理.
+    if(
+		KeyInput()->IsTrig( InputKey::Type_R )
+	){
+		InitEnemy();
+    }
+
+    if(
+		KeyInput()->IsTrig( InputKey::Type_T )
+	){
+		InitEnemy();
+		gUnitPlayer().Revive();
+    }
+
 
     for( int i = 0 ; i < kEnemyMax ; i++ ){
     	mEnemy[i].PreDraw();
