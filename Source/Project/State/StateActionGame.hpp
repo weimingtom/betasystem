@@ -26,7 +26,8 @@ public:
 	{}
 	virtual ~UnitBase(){}
 public:
-	virtual void Update(){
+	virtual void Update()
+	{
    		mPos += mSpeed;
 		mSpeed *= 0.8f;
 		
@@ -155,7 +156,7 @@ public:
 		// ダッシュ
 		UnitBase::Update();
 
-		if( fabs(mSpeed.x) < 0.01f && fabs(mSpeed.y) < 0.01f ){
+		if( fabs(mSpeed.x) < 0.2f && fabs(mSpeed.y) < 0.2f ){
 			mDashFlag = false;
 		}
 		
