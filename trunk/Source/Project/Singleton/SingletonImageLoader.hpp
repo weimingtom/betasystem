@@ -11,7 +11,7 @@ namespace ProjectImageLoader{
     */
     enum ImageType
     {
-        ImageType_Forest,
+        ImageType_Map,
         ImageType_Koyaku,
         ImageType_Avater,
         ImageType_DebugTop,

@@ -22,6 +22,7 @@ public:
 	 , mIsDead(false)
 	 , mDamageFrame(0)
 	 , mImageType( ProjectImageLoader::ImageType_Enemy )
+	 , mImageSize( Vector2(64,64) )
 	{}
 	virtual ~UnitBase(){}
 public:
@@ -52,8 +53,6 @@ public:
 			}
 		}
 		
-		Vector2 const kImageSize(64,64);
-		
 	    // 影
 		DrawOval(
 			static_cast<int>( GetPos().x ),
@@ -64,11 +63,17 @@ public:
 			TRUE );
 
 		// キャラ
-	    DrawGraph( 
-	    	static_cast<int>( GetPos().x - kImageSize.x / 2 ),
-	    	static_cast<int>( GetPos().y - GetHeight() - kImageSize.y ),
-			ProjectImageLoader::ImageHandleOf(mImageType), TRUE );
-		
+		if( mDir.x < 0.0f ){
+		    DrawGraph( 
+		    	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
+		    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
+				ProjectImageLoader::ImageHandleOf(mImageType), TRUE );
+		}else{
+		    DrawTurnGraph( 
+		    	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
+		    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
+				ProjectImageLoader::ImageHandleOf(mImageType), TRUE );
+		}
 		
 		if( !gIsVisibleCollision ){
 			return;
@@ -117,6 +122,8 @@ public:
 		return ( mDamageFrame != 0 );
 	}
 	
+	int GetHP() const{ return mHP; }
+	
 protected:
 	Vector2 mPos;
 	Vector2 mSize;
@@ -126,6 +133,8 @@ protected:
 	bool mIsDead;
 	int mDamageFrame;
 	ProjectImageLoader::ImageType mImageType;
+	Vector2 mImageSize;
+	Vector2 mDir;		//!< 向き.
 };
 
 //! プレイヤーユニット.
@@ -136,6 +145,7 @@ public:
 	 : mDashFlag(false)
 	 , mGravity(0.0f)
 	{
+		mImageSize = Vector2(64,90);
 		mImageType = ProjectImageLoader::ImageType_DebugTop;
 		mPos = Vector2(300.0f,300.0f);
 	}
@@ -187,7 +197,6 @@ public:
 	}
 private:
 	bool mDashFlag;
-	Vector2 mDir;		//!< 向き.
 	float mGravity;		//!< 重力
 };
 
@@ -210,6 +219,8 @@ public:
 		Vector2 move_vec = gUnitPlayer.GetPos() - mPos ;
 		move_vec.Normalize();
 		mPos += move_vec / 2;
+		
+		mDir = move_vec;
 	}
 };
 

@@ -120,7 +120,7 @@
 				AdditionalOptions="/MP8"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Source\&quot;;C:\Users\shion\Desktop\AKProject\Library\DxLib_VC\プロジェクトに追加すべきファイル_VC用"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Source\&quot;;&quot;$(SolutionDir)\Library\DxLib_VC\プロジェクトに追加すべきファイル_VC用&quot;;&quot;$(SolutionDir)\Library\Lua\lua-5.2.3_Win32_dll8_lib\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -140,8 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="lua52.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="C:\Users\shion\Desktop\AKProject\Library\DxLib_VC\プロジェクトに追加すべきファイル_VC用"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Library\DxLib_VC\プロジェクトに追加すべきファイル_VC用&quot;;&quot;$(SolutionDir)\Library\Lua\lua-5.2.3_Win32_dll8_lib\&quot;"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
