@@ -22,8 +22,18 @@ StateActionGame::StateActionGame()
 
 void StateActionGame::Update()
 {
+	//背景描画.
+	for( int x = 0; x < 20; x++ ){
+		for( int y = 0 ; y < 20 ; y++ ){
+			DrawGraph(
+				x * 64, y*64,
+				ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_Map ), FALSE );
+		}	
+	}
+
     // グリッド.
     {
+    	/*
 	    int const kLineNum = 20;
 	    int const kMargin = 40;
 		for( int y = 0; y < kLineNum ; y++ ){
@@ -32,12 +42,13 @@ void StateActionGame::Update()
 	    for( int x = 0; x < kLineNum ; x++ ){
 		    DrawLine( x*kMargin, 0, x*kMargin, 1000, ColorOf(50,250,50) );
 		}
+		*/
 	}
 
 	int const kFontSize = 14;
     SetFontSize(kFontSize);
     DrawFormatString( 0 , 0 , ColorOf(0,255,0) , "アクションゲームテスト:");
-    DrawFormatString( 0 , kFontSize   , ColorOf(0,255,0) , " dir_x %f, dir_y %f", gUnitPlayer.GetDir().x, gUnitPlayer.GetDir().y );
+    DrawFormatString( 0 , kFontSize , ColorOf(0,255,0) , " player hp %d", gUnitPlayer.GetHP() );
     
     // 衝突判定.
     for( int i = 0; i < kEnemyMax ; i ++ )
@@ -67,52 +78,57 @@ void StateActionGame::Update()
 
     SetFontSize(24);
 
-	//移動.
-	Vector2 move;
-    if( KeyInput()->IsHold( InputKey::Type_A ) ){
-    	move.x -= 1;
-    }
-    if( KeyInput()->IsHold( InputKey::Type_D ) ){
-    	move.x += 1;
-    }
-    if( KeyInput()->IsHold( InputKey::Type_W ) ){
-    	move.y -= 1;
-    }
-    if( KeyInput()->IsHold( InputKey::Type_S ) ){
-    	move.y += 1;
-    }
-    move.Normalize();
-    gUnitPlayer.AddPos( move * 5 );
-    
-    //ダッシュ
-    if(
-    	KeyInput()->IsTrig( InputKey::Type_J )
-    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
-    ){
-    	gUnitPlayer.BeginDash( gUnitPlayer.GetDir() );
-    }
+	if( !gUnitPlayer.IsDead() ){
 
-	// ジャンプ
-    if(
-		KeyInput()->IsTrig( InputKey::Type_K )
-    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
-	){
-    	gUnitPlayer.BeginJump();
-    }
+		//移動.
+		Vector2 move;
+	    if( KeyInput()->IsHold( InputKey::Type_A ) ){
+	    	move.x -= 1;
+	    }
+	    if( KeyInput()->IsHold( InputKey::Type_D ) ){
+	    	move.x += 1;
+	    }
+	    if( KeyInput()->IsHold( InputKey::Type_W ) ){
+	    	move.y -= 1;
+	    }
+	    if( KeyInput()->IsHold( InputKey::Type_S ) ){
+	    	move.y += 1;
+	    }
+	    move.Normalize();
+	    gUnitPlayer.AddPos( move * 5 );
+	    
+	    //ダッシュ
+	    if(
+	    	KeyInput()->IsTrig( InputKey::Type_J )
+	    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
+	    ){
+	    	gUnitPlayer.BeginDash( gUnitPlayer.GetDir() );
+	    }
 
-    if(
-		KeyInput()->IsTrig( InputKey::Type_L )
-	){
-		gIsVisibleCollision = !gIsVisibleCollision;
-    }
-    
-    gUnitPlayer.Update();
+		// ジャンプ
+	    if(
+			KeyInput()->IsTrig( InputKey::Type_K )
+	    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
+		){
+	    	gUnitPlayer.BeginJump();
+	    }
+
+	    if(
+			KeyInput()->IsTrig( InputKey::Type_L )
+		){
+			gIsVisibleCollision = !gIsVisibleCollision;
+	    }
+		
+	    gUnitPlayer.Update();
+	    for( int i = 0 ; i < kEnemyMax ; i++ ){
+	    	mEnemy[i].Update();
+	    }
+	}
     gUnitPlayer.Draw();
-    
     for( int i = 0 ; i < kEnemyMax ; i++ ){
-    	mEnemy[i].Update();
     	mEnemy[i].Draw();
     }
+
     
 }
 
