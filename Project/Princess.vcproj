@@ -401,6 +401,42 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Unit"
+					>
+					<File
+						RelativePath="..\Source\Project\Unit\Global.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\Global.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\UnitBase.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\UnitBase.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\UnitEnemy.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\UnitEnemy.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\UnitPlayer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Unit\UnitPlayer.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="System"
