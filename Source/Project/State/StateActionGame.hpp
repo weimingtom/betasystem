@@ -41,6 +41,28 @@ public:
 			}
 		}
 	}
+	
+	virtual void PreDraw()
+	{
+		if( this->IsDead() ){
+			return;
+		}
+		
+		if( this->IsDamaged() ){
+			if( mDamageFrame % 5 == 0 ){
+				return;
+			}
+		}
+	    // 影
+		DrawOval(
+			static_cast<int>( GetPos().x ),
+			static_cast<int>( GetPos().y ),
+			static_cast<int>( (100 - GetHeight()) / 5 ),
+			static_cast<int>( (100 - GetHeight()) / 12 ),
+			ColorOf(155,155,155),
+			TRUE );
+	}
+	
 	//! 描画.
 	virtual void Draw()
 	{
@@ -54,15 +76,6 @@ public:
 			}
 		}
 		
-	    // 影
-		DrawOval(
-			static_cast<int>( GetPos().x ),
-			static_cast<int>( GetPos().y ),
-			static_cast<int>( (100 - GetHeight()) / 5 ),
-			static_cast<int>( (100 - GetHeight()) / 12 ),
-			ColorOf(155,155,155),
-			TRUE );
-
 		// キャラ
 		if( mDir.x < 0.0f ){
 		    DrawGraph( 
@@ -156,7 +169,7 @@ public:
 		// ダッシュ
 		UnitBase::Update();
 
-		if( fabs(mSpeed.x) < 0.2f && fabs(mSpeed.y) < 0.2f ){
+		if( fabs(mSpeed.x) < 0.5f && fabs(mSpeed.y) < 0.5f ){
 			mDashFlag = false;
 		}
 		
@@ -238,6 +251,7 @@ private:
 	static int const kEnemyMax = 32;
 private:
     UnitEnemy mEnemy[kEnemyMax];
+    int mStageFrame;
 };
 
 #endif
