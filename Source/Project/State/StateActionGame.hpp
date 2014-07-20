@@ -17,6 +17,8 @@ public:
 private:
 	static int const kEnemyMax = 32;
 private:
+	void InitEnemy();
+private:
     UnitEnemy mEnemy[kEnemyMax];
     int mStageFrame;
 };

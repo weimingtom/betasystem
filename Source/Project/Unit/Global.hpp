@@ -4,7 +4,5 @@
 bool IsVisibleCollision();
 void SetVisibleCollision( bool is_visible );
 
-class UnitPlayer;
-UnitPlayer& gUnitPlayer();
 
 #endif // IncludeGuard_Global_hpp_

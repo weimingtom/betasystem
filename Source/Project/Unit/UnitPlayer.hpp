@@ -18,10 +18,13 @@ public:
 	bool IsJump() const;
 	void AddPos( Vector2 add_pos );
 	Vector2 GetDir() const;
+	//! 生き返る.
+	void Revive();
 private:
 	bool mDashFlag;
 	float mGravity;		//!< 重力
 };
 
+UnitPlayer& gUnitPlayer();
 
 #endif // IncludeGuard_UnitPlayer_

@@ -62,4 +62,17 @@ Vector2 UnitPlayer::GetDir() const {
 	return mDir;
 }
 
+void UnitPlayer::Revive()
+{
+	mHP = 3;
+	mIsDead = false;
+}
+
+
+static UnitPlayer sUnitPlayer;
+
+UnitPlayer& gUnitPlayer()
+{
+	return sUnitPlayer;
+}
 
