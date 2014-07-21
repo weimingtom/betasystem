@@ -6,7 +6,7 @@
 bool IsVisibleCollision();
 void SetVisibleCollision( bool is_visible );
 
-void DrawGraphInCamera( int x, int y, ProjectImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE);
+void DrawGraphInCamera( int x, int y, PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE);
 
 
 #endif // IncludeGuard_Global_hpp_

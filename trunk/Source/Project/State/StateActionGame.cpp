@@ -47,7 +47,7 @@ void StateActionGame::Update()
 		for( int y = 0 ; y < 100 ; y++ ){
 			DrawGraphInCamera(
 				-320 + x*64, -y*64,
-				ProjectImageLoader::ImageType_Map, FALSE );
+				PrincessImageLoader::ImageType_Map, FALSE );
 		}	
 	}
 

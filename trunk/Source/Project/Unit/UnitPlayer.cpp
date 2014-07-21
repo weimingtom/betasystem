@@ -8,7 +8,7 @@ UnitPlayer::UnitPlayer()
  , mGravity(0.0f)
 {
 	mImageSize = Vector2(64,90);
-	mImageType = ProjectImageLoader::ImageType_DebugTop;
+	mImageType = PrincessImageLoader::ImageType_DebugTop;
 	mPos = Vector2(0.0f,0.0f);
 }
 

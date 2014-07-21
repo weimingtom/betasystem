@@ -11,7 +11,7 @@ UnitBase::UnitBase()
  , mHP(3)
  , mIsDead(false)
  , mDamageFrame(0)
- , mImageType( ProjectImageLoader::ImageType_Enemy )
+ , mImageType( PrincessImageLoader::ImageType_Enemy )
  , mImageSize( Vector2(64,64) )
  , mWeight(1)
 {
@@ -48,7 +48,7 @@ void UnitBase::PreDraw()
 	DrawGraphInCamera(
 		static_cast<int>( GetPos().x -32 ),
 		static_cast<int>( GetPos().y -16 ),
-		ProjectImageLoader::ImageType_Shadow,
+		PrincessImageLoader::ImageType_Shadow,
 		TRUE );
 }
 

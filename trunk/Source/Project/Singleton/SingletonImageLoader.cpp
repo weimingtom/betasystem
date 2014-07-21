@@ -4,10 +4,10 @@
 #include "DxLibWrapper/ImageLoader.hpp"
 
 
-namespace ProjectImageLoader{
+namespace PrincessImageLoader{
 
     //! シングルトンインスタンス.
-    std::auto_ptr<ImageLoader> gImageLoader;
+    std::auto_ptr<ImageLoader> sImageLoader;
 
     /**
     	使用する画像名.
@@ -28,29 +28,30 @@ namespace ProjectImageLoader{
 
 	void Init()
 	{
-		gImageLoader.reset( new_ImageLoader( image_name , ImageType_Num ) );
-		gImageLoader->Load();
+		sImageLoader.reset( new_ImageLoader( image_name , ImageType_Num ) );
+		sImageLoader->Load();
 	}
 	
 	ImageLoader* Get()
 	{
-		return gImageLoader.get();
+		return sImageLoader.get();
 	}
 	
 	void Release()
 	{
-	    gImageLoader.reset(0);
+	    sImageLoader.reset(0);
 	}
 
     int ImageHandleOf( ImageType type )
     {
-        return gImageLoader->ImageHandleOf( NameOf(type) );
+        return sImageLoader->ImageHandleOf( NameOf(type) );
     }
 
     int SoftImageHandleOf( ImageType type )
     {
-        return gImageLoader->SoftImageHandleOf( NameOf(type) );
+        return sImageLoader->SoftImageHandleOf( NameOf(type) );
     }
 
-} // namespace ProjectImageLoader
+} // namespace PrincessImageLoader
+
 
