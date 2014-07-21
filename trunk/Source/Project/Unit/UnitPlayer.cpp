@@ -9,7 +9,7 @@ UnitPlayer::UnitPlayer()
 {
 	mImageSize = Vector2(64,90);
 	mImageType = ProjectImageLoader::ImageType_DebugTop;
-	mPos = Vector2(300.0f,300.0f);
+	mPos = Vector2(0.0f,0.0f);
 }
 
 void UnitPlayer::Update()
