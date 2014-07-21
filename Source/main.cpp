@@ -15,7 +15,7 @@
 void InitSingleton()
 {
     SingletonInputMouse::Init();
-    ProjectImageLoader::Init();
+    PrincessImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
 	Princess::ProjectStateManager::GetInstance();
@@ -87,7 +87,7 @@ void MainLoopOfApplication()
 void ReleaseSingleton()
 {
     SingletonSoundLoader::Release();
-    ProjectImageLoader::Release();
+    PrincessImageLoader::Release();
 	Princess::ProjectStateManager::DeleteInstance();
 }
 

@@ -3,11 +3,10 @@
 
 #include "DxLibWrapper/ImageLoader.hpp"
 
-
-namespace ProjectImageLoader{
-
+namespace PrincessImageLoader
+{
     /**
-    	使用する画像.
+    	画像の種類.
     */
     enum ImageType
     {
@@ -18,19 +17,14 @@ namespace ProjectImageLoader{
         ImageType_Enemy,
         ImageType_Num,
     };
-    /**
-    	ファイル名の取得.
-    */
-    char const* NameOf( ImageType type );
-
-	/**
-		初期化.
-	*/
-	void Init();
 	/**
 	    インスタンスの取得.
 	*/
 	ImageLoader* GetInstance();
+	/**
+		初期化.
+	*/
+	void Init();
     /**
         開放処理.
         Dxlibの開放処理タイミングの都合で作成.
@@ -45,7 +39,15 @@ namespace ProjectImageLoader{
     */
     int SoftImageHandleOf( ImageType type );
 
-} // namespace ProjectImageLoader
+	//=====================
+	//デバッグ用.
+	//=====================
+    /**
+    	ファイル名の取得.
+    */
+    char const* NameOf( ImageType type );
+
+} // namespace PrincessImageLoader
 
 
 #endif //include_7aee0d29_36ae_42db_814b_3702121f9903

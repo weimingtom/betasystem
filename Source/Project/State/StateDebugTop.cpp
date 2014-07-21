@@ -44,7 +44,7 @@ void StateDebugTop::Draw()
         DrawFormatString( 20 , kBaseY + i*kMarginY, ColorOf(0,255,0) , "%d.%s",i,ProjectStateManager::NameOf( static_cast<ProjectStateManager::State>(i) ).c_str() );
     }
     
-    DrawGraph(300,200, ProjectImageLoader::ImageHandleOf( ProjectImageLoader::ImageType_DebugTop ) , FALSE );
+    DrawGraph(300,200, PrincessImageLoader::ImageHandleOf( PrincessImageLoader::ImageType_DebugTop ) , FALSE );
 }
 
 } // namespace Princess
