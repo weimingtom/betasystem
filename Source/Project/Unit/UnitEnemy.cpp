@@ -24,9 +24,10 @@ EnemyStatus const sEnemyStatusList[] =
 
 void UnitEnemy::Initialize( EnemyID enemy_id )
 {
-	mEnemyID = enemy_id;
 	assert( ARRAY_SIZE(sEnemyStatusList) == EnemyID_Num );
-	assert( mEnemyID < EnemyID_Num );
+	assert( enemy_id < EnemyID_Num );
+
+	mEnemyID = enemy_id;
 	EnemyStatus const status = sEnemyStatusList[enemy_id];
 	
 	this->mMoveSpeed = status.mMoveSpeed;

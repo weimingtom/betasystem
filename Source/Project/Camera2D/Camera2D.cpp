@@ -4,7 +4,7 @@
 
 void Camera2D::Update()
 {
-	SetLookAt( gUnitPlayer().GetPos() );
+//	SetLookAt( gUnitPlayer().GetPos() );
 }
 
 Camera2D& gCamera2D()

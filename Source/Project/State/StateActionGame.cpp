@@ -27,22 +27,26 @@ StateActionGame::StateActionGame()
 void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
+//		mEnemy[i].Initialize( EnemyID_Normal );
 		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(EnemyID_Num-1) ) );
-		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480 * 3) ) );
+		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480 * 100) ) );
 	}
 }
 
 void StateActionGame::Update()
 {
-	mStageFrame++;
+	if( mStageFrame < 3000 ){
+		mStageFrame++;
+	}
+	gCamera2D().SetLookAt( Vector2(0, -mStageFrame ) );
 	
 	gCamera2D().Update();
 
 	//背景描画.
-	for( int x = 0; x < 20; x++ ){
-		for( int y = 0 ; y < 20 ; y++ ){
+	for( int x = 0; x < 10; x++ ){
+		for( int y = 0 ; y < 100 ; y++ ){
 			DrawGraphInCamera(
-				x*64, y*64,
+				-320 + x*64, -y*64,
 				ProjectImageLoader::ImageType_Map, FALSE );
 		}	
 	}
