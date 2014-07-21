@@ -13,12 +13,13 @@ UnitBase::UnitBase()
  , mDamageFrame(0)
  , mImageType( ProjectImageLoader::ImageType_Enemy )
  , mImageSize( Vector2(64,64) )
+ , mWeight(1)
 {
 }
 
 void UnitBase::Update()
 {
-		mPos += mSpeed;
+	mPos += mSpeed;
 	mSpeed *= 0.8f;
 	
 	if( mDamageFrame ){
@@ -105,7 +106,7 @@ Vector2 UnitBase::GetSize() const{
 }
 //! スピード設定.
 void UnitBase::SetSpeed( Vector2 speed ){
-	mSpeed = speed;
+	mSpeed = speed * 30 / mWeight;
 }
 
 void UnitBase::Damage( int damage ){

@@ -35,6 +35,7 @@ protected:
 	Vector2 mSize;
 	float mHeight;
 	Vector2 mSpeed;
+	int mWeight;
 	int mHP;
 	bool mIsDead;
 	int mDamageFrame;

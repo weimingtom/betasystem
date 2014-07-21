@@ -25,7 +25,12 @@ void InitSingleton()
 //! @return Ž¸”s‚µ‚½‚çApplicationFailure‚ð•Ô‚·.
 int SetConfigDxLib()
 {
-    SetMainWindowText("PrincessCrave!");
+	
+    SetMainWindowText("PrincessCrave");
+
+	#ifdef _DEBUG
+    	SetMainWindowText("PrincessCrave:DebugBuild");
+    #endif
 
     SetWindowIconID( IDI_ICON1 ); // DxLib_Init ‚æ‚è‘O‚Å‚ ‚é•K—v‚ª‚ ‚é.
 

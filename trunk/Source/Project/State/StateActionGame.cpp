@@ -27,8 +27,7 @@ StateActionGame::StateActionGame()
 void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
-		UnitEnemy enemy;
-		mEnemy[i] = enemy;
+		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(EnemyID_Num-1) ) );
 		mEnemy[i].SetPos( Vector2( GetRand(640), GetRand(-480 * 3) ) );
 	}
 }
@@ -72,11 +71,11 @@ void StateActionGame::Update()
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
 	    	if( gUnitPlayer().IsDash() ){
 	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
-	    		mEnemy[i].SetSpeed( speed.Normalize() * 30 );
+	    		mEnemy[i].SetSpeed( speed.Normalize() );
 	    		mEnemy[i].Damage(1);
 	    	}else{
 	    		Vector2 speed = gUnitPlayer().GetPos() - mEnemy[i].GetPos();
-	    		gUnitPlayer().SetSpeed( speed.Normalize() * 30 );
+	    		gUnitPlayer().SetSpeed( speed.Normalize() );
 	    	    gUnitPlayer().Damage(1);
 			}
 	    }
