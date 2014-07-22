@@ -9,6 +9,7 @@ UnitBase::UnitBase()
  : mHeight(0.0f)
  , mSize( Vector2(48,48) )
  , mHP(3)
+ , mHPMax(3)
  , mIsDead(false)
  , mDamageFrame(0)
  , mImageType( PrincessImageLoader::ImageType_Enemy )
@@ -73,19 +74,32 @@ void UnitBase::Draw()
 		TRUE,
 		( mDir.x < 0.0f ));
 
-	if( !IsVisibleCollision() ){
-		return;
+	//HP
+    DrawBox(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + 25 ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
+    	GetColor(255,0,0) , TRUE);
+    DrawBox(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25 + (50 * mHP / mHPMax) ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
+    	GetColor(0,255,0) , TRUE);
+
+	if( IsVisibleCollision() ){
+		// コリジョン
+		DrawBox(
+			static_cast<int>( GetPos().x - GetSize().x / 2 + gCamera2D().GetDrawOffset().x ),
+			static_cast<int>( GetPos().y - GetSize().y / 2 + gCamera2D().GetDrawOffset().y ),
+			static_cast<int>( GetPos().x + GetSize().x / 2 + gCamera2D().GetDrawOffset().x ),
+			static_cast<int>( GetPos().y + GetSize().y / 2 + gCamera2D().GetDrawOffset().y ),
+			ColorOf(255,0,0),
+			FALSE
+		);
 	}
 
-	// コリジョン
-	DrawBox(
-		static_cast<int>( GetPos().x - GetSize().x / 2 + gCamera2D().GetDrawOffset().x ),
-		static_cast<int>( GetPos().y - GetSize().y / 2 + gCamera2D().GetDrawOffset().y ),
-		static_cast<int>( GetPos().x + GetSize().x / 2 + gCamera2D().GetDrawOffset().x ),
-		static_cast<int>( GetPos().y + GetSize().y / 2 + gCamera2D().GetDrawOffset().y ),
-		ColorOf(255,0,0),
-		FALSE
-	);
 }
 
 //! ジャンプ高さ
