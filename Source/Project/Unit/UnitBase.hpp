@@ -37,6 +37,7 @@ protected:
 	Vector2 mSpeed;
 	int mWeight;
 	int mHP;
+	int mHPMax;
 	bool mIsDead;
 	int mDamageFrame;
 	PrincessImageLoader::ImageType mImageType;
