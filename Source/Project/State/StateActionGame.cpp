@@ -73,10 +73,12 @@ void StateActionGame::Update()
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
 	    	
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
+
 	    	if( gUnitPlayer().IsDash() ){
 	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
 	    		mEnemy[i].SetSpeed( speed.Normalize() );
 	    		mEnemy[i].Damage(1);
+	    		gUnitPlayer().FreeLock();
 	    	}else{
 	    		Vector2 speed = gUnitPlayer().GetPos() - mEnemy[i].GetPos();
 	    		gUnitPlayer().SetSpeed( speed.Normalize() );

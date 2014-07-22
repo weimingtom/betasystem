@@ -1,11 +1,13 @@
 ﻿#include "UnitPlayer.hpp"
 
 #include "Project/Singleton/SingletonSoundLoader.hpp"
+#include "Project/Camera2D/Camera2D.hpp"
 
 
 UnitPlayer::UnitPlayer()
- : mDashFlag(false)
+ : mDashFrame(0)
  , mGravity(0.0f)
+ , mDashLockFrame(0)
 {
 	mImageSize = Vector2(64,90);
 	mImageType = PrincessImageLoader::ImageType_DebugTop;
@@ -14,12 +16,11 @@ UnitPlayer::UnitPlayer()
 
 void UnitPlayer::Update()
 {
-	// ダッシュ
 	UnitBase::Update();
 
-	if( fabs(mSpeed.x) < 0.5f && fabs(mSpeed.y) < 0.5f ){
-		mDashFlag = false;
-	}
+	// ダッシュ.
+	if( mDashFrame ){ mDashFrame--; }
+	if( mDashLockFrame ){ mDashLockFrame--; }
 	
 	// ジャンプ.
 	mHeight += mGravity; // 重力.
@@ -30,8 +31,23 @@ void UnitPlayer::Update()
 	}
 }
 
-void UnitPlayer::BeginDash( Vector2 dash_vec ){
-	mDashFlag = true;
+void UnitPlayer::Draw()
+{
+	UnitBase::Draw();
+	
+	if( IsDash() ){
+    DrawFormatString(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+    	GetColor(0,255,0) , "dash!" );
+    }
+}
+
+void UnitPlayer::BeginDash( Vector2 dash_vec )
+{
+	if( mDashLockFrame ){ return; }
+	mDashFrame = 20;
+	mDashLockFrame = 30;
 	mSpeed = dash_vec * 18.0f;
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
 }
@@ -44,7 +60,7 @@ void UnitPlayer::BeginJump(){
 }
 
 bool UnitPlayer::IsDash() const{
-	return mDashFlag;
+	return (mDashFrame != 0);
 }
 
 bool UnitPlayer::IsJump() const{
@@ -68,6 +84,10 @@ void UnitPlayer::Revive()
 	mIsDead = false;
 }
 
+void UnitPlayer::FreeLock()
+{
+	mDashLockFrame = 0;
+}
 
 static UnitPlayer sUnitPlayer;
 

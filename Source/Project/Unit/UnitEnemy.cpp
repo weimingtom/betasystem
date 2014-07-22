@@ -62,17 +62,5 @@ void UnitEnemy::Draw()
     	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
     	GetColor(0,255,0) , "ID:%d", mEnemyID );
 
-    DrawBox(
-    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + 25 ),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
-    	GetColor(255,0,0) , TRUE);
-    DrawBox(
-    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25 + (50 * mHP / mHPMax) ),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
-    	GetColor(0,255,0) , TRUE);
 
 }
