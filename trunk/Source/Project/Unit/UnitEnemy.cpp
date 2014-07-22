@@ -16,9 +16,9 @@ struct EnemyStatus
 
 EnemyStatus const sEnemyStatusList[] =
 {
-	{3,2,1,},
-	{2,4,1,},
-	{1,6,1,},
+	{3,1,1,},
+	{1,3,1,},
+	{1,3,1,},
 	{3,1,5,},
 };
 
@@ -32,6 +32,7 @@ void UnitEnemy::Initialize( EnemyID enemy_id )
 	
 	this->mMoveSpeed = status.mMoveSpeed;
 	this->mHP = status.mHP;
+	this->mHPMax = status.mHP;
 	this->mWeight = status.mWeight;
 	this->mIsDead = false;
 }
@@ -54,8 +55,24 @@ void UnitEnemy::Draw()
 	
 	if( IsDead() ){ return; }
 	
+	SetFontSize(12);
+	
     DrawFormatString(
     	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
     	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-    	GetColor(0,255,0) , "%d", mEnemyID );
+    	GetColor(0,255,0) , "ID:%d", mEnemyID );
+
+    DrawBox(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + 25 ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
+    	GetColor(255,0,0) , TRUE);
+    DrawBox(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25 + (50 * mHP / mHPMax) ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
+    	GetColor(0,255,0) , TRUE);
+
 }

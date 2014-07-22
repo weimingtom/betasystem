@@ -27,16 +27,16 @@ StateActionGame::StateActionGame()
 void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
-//		mEnemy[i].Initialize( EnemyID_Normal );
-		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(EnemyID_Num-1) ) );
-		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480 * 100) ) );
+		mEnemy[i].Initialize( EnemyID_Normal );
+//		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(EnemyID_Num-1) ) );
+		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480*10) ) );
 	}
 }
 
 void StateActionGame::Update()
 {
 	if( mStageFrame < 3000 ){
-		mStageFrame++;
+//		mStageFrame++;
 	}
 	gCamera2D().SetLookAt( Vector2(0, -mStageFrame ) );
 	
