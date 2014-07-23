@@ -47,7 +47,7 @@ void StateActionGame::Update()
 		for( int y = 0 ; y < 100 ; y++ ){
 			DrawGraphInCamera(
 				-320 + x*64, -y*64,
-				PrincessImageLoader::ImageType_Map, FALSE );
+					PrincessImageLoader::ImageType_Map, FALSE );
 		}	
 	}
 
@@ -69,14 +69,12 @@ void StateActionGame::Update()
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-	    	
-			SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
-
 	    	if(
 	    		gUnitPlayer().IsDash()
 	    		&& ( gUnitPlayer().GetAttackID() != mEnemy[i].GetDamagedID() )
 	    	)
 	    	{
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
 	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
 	    		mEnemy[i].SetSpeed( speed.Normalize() );
 	    		mEnemy[i].Damage(1);

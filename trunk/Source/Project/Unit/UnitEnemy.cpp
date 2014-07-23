@@ -22,6 +22,13 @@ EnemyStatus const sEnemyStatusList[] =
 	{3,1,5,},
 };
 
+UnitEnemy::UnitEnemy() :
+ mEnemyID(EnemyID_Normal),
+ mDamagedID(-1),
+ mState( State_Idle ),
+ mFrame(0)
+{}
+
 void UnitEnemy::Initialize( EnemyID enemy_id )
 {
 	assert( ARRAY_SIZE(sEnemyStatusList) == EnemyID_Num );
@@ -41,12 +48,33 @@ void UnitEnemy::Update()
 {
 	UnitBase::Update();
 
-	//追尾
-	Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
-	move_vec.Normalize();
-	mPos += move_vec * this->mMoveSpeed;
-	
-	mDir = move_vec;
+
+	switch( mState )
+	{
+	case State_Idle:
+		{
+			Vector2 const to_vec = gUnitPlayer().GetPos() - mPos;
+			if( to_vec.Length() < 200 ){
+				mState = State_Exclamation;
+				mFrame = 35;
+			}
+		}
+		break;
+	case State_Exclamation:
+		mFrame -- ;
+		if( mFrame == 0 ){
+			mState = State_Chase;
+		} 
+		break;
+	case State_Chase:
+		{
+			Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
+			move_vec.Normalize();
+			mPos += move_vec * this->mMoveSpeed;
+			mDir = move_vec;
+		}
+		break;
+	}
 }
 
 void UnitEnemy::Draw()
@@ -62,5 +90,12 @@ void UnitEnemy::Draw()
     	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
     	GetColor(0,255,0) , "ID:%d", mEnemyID );
 
+	if( mState == State_Exclamation ){
+		SetFontSize(64);
+	    DrawFormatString(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y - 64),
+	    	GetColor(0,255,0) , "！" );
+	}
 
 }

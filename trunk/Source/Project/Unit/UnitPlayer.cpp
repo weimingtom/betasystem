@@ -37,10 +37,11 @@ void UnitPlayer::Draw()
 	UnitBase::Draw();
 	
 	if( IsDash() ){
-    DrawFormatString(
-    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-    	GetColor(0,255,0) , "dash!" );
+		SetFontSize(12);
+	    DrawFormatString(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	GetColor(0,255,0) , "dash!" );
     }
 }
 
