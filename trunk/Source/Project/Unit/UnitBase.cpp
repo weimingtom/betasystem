@@ -7,7 +7,7 @@
 
 UnitBase::UnitBase()
  : mHeight(0.0f)
- , mSize( Vector2(48,48) )
+ , mSize( Vector2(64,64) )
  , mHP(3)
  , mHPMax(3)
  , mIsDead(false)
