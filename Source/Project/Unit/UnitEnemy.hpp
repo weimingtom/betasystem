@@ -17,10 +17,7 @@ enum EnemyID{
 class UnitEnemy : public UnitBase
 {
 public:
-	UnitEnemy() :
-	 mEnemyID(EnemyID_Normal),
-	 mDamagedID(-1)
-	{}
+	UnitEnemy();
 	~UnitEnemy(){}
 public:
 	virtual void Update() override;
@@ -30,9 +27,17 @@ public:
 	void SetDamagedID( int attack_id ){ mDamagedID = attack_id; }
 	int GetDamagedID() const { return mDamagedID; }
 private:
+	enum State{
+		State_Idle,			//!< 待機状態.
+		State_Exclamation,	//!< 気付き状態.
+		State_Chase,		//!< 追尾状態.
+	};
+private:
 	EnemyID mEnemyID;
 	int mMoveSpeed;
 	int mDamagedID;
+	State mState;
+	int mFrame;
 };
 
 #endif // IncludeGuard_UnitEnemy_
