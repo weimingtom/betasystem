@@ -54,7 +54,7 @@ void UnitEnemy::Update()
 	case State_Idle:
 		{
 			Vector2 const to_vec = gUnitPlayer().GetPos() - mPos;
-			if( to_vec.Length() < 200 ){
+			if( to_vec.Length() < 150 ){
 				mState = State_Exclamation;
 				mFrame = 35;
 			}

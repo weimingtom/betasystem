@@ -92,6 +92,7 @@ void UnitPlayer::Revive()
 void UnitPlayer::FreeLock()
 {
 	mDashLockFrame = 0;
+	mDashFrame = 0;
 }
 
 static UnitPlayer sUnitPlayer;

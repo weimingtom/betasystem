@@ -80,6 +80,7 @@ void StateActionGame::Update()
 	    		mEnemy[i].Damage(1);
 	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
 	    		gUnitPlayer().FreeLock();
+	    		gUnitPlayer().SetSpeed( speed * -0.2 );
 	    	}
 	    }
     }
