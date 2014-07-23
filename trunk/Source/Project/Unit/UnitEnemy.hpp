@@ -17,15 +17,22 @@ enum EnemyID{
 class UnitEnemy : public UnitBase
 {
 public:
-	UnitEnemy() : mEnemyID(EnemyID_Normal) {}
+	UnitEnemy() :
+	 mEnemyID(EnemyID_Normal),
+	 mDamagedID(-1)
+	{}
 	~UnitEnemy(){}
 public:
-	void Initialize( EnemyID enemy_id );
 	virtual void Update() override;
 	virtual void Draw() override;
+public:
+	void Initialize( EnemyID enemy_id );
+	void SetDamagedID( int attack_id ){ mDamagedID = attack_id; }
+	int GetDamagedID() const { return mDamagedID; }
 private:
 	EnemyID mEnemyID;
 	int mMoveSpeed;
+	int mDamagedID;
 };
 
 #endif // IncludeGuard_UnitEnemy_

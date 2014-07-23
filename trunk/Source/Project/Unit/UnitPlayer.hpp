@@ -24,10 +24,13 @@ public:
 	void Revive();
 	//! 硬直を消す.
 	void FreeLock();
+	//! ダッシュ回数.
+	int GetAttackID() const { return mDashCount; }
 private:
 	int mDashFrame;
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
+	int mDashCount;
 };
 
 UnitPlayer& gUnitPlayer();

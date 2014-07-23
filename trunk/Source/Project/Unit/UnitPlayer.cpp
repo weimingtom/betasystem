@@ -8,6 +8,7 @@ UnitPlayer::UnitPlayer()
  : mDashFrame(0)
  , mGravity(0.0f)
  , mDashLockFrame(0)
+ , mDashCount(0)
 {
 	mImageSize = Vector2(64,90);
 	mImageType = PrincessImageLoader::ImageType_DebugTop;
@@ -46,13 +47,16 @@ void UnitPlayer::Draw()
 void UnitPlayer::BeginDash( Vector2 dash_vec )
 {
 	if( mDashLockFrame ){ return; }
-	mDashFrame = 20;
-	mDashLockFrame = 30;
+	mDashCount++;
+	if( mDashCount > 10000 ){ mDashCount = 0; }
+	mDashFrame = 25;
+	mDashLockFrame = 40;
 	mSpeed = dash_vec * 18.0f;
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
 }
 
 void UnitPlayer::BeginJump(){
+	if( mDashLockFrame ){ return; }
 	if( mHeight <= 0.0f ){
 		mGravity = 8.0f;
 		SingletonSoundLoader::Get()->Play( NameOf(SoundType_Decide) );

@@ -124,7 +124,7 @@ void UnitBase::SetSpeed( Vector2 speed ){
 }
 
 void UnitBase::Damage( int damage ){
-	mDamageFrame = 45;
+	mDamageFrame = 55;
 	mHP -= damage;
 }
 
