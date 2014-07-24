@@ -7,10 +7,10 @@
 enum SoundType
 {
     SoundType_Decide,
-    SoundType_OK,
+    SoundType_Dash,
     SoundType_Just,
-    SoundType_Item,
-    SoundType_Special,
+    SoundType_Dead,
+    SoundType_Hit,
 
     SoundType_Num,
 };

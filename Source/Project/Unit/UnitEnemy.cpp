@@ -4,6 +4,7 @@
 #include "Global.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
 #include "System/ArraySize.hpp"
+#include "Project/Singleton/SingletonSoundLoader.hpp"
 
 //! 敵パラメータ.
 struct EnemyStatus
@@ -36,18 +37,25 @@ void UnitEnemy::Initialize( EnemyID enemy_id )
 
 	mEnemyID = enemy_id;
 	EnemyStatus const status = sEnemyStatusList[enemy_id];
-	
-	this->mMoveSpeed = status.mMoveSpeed;
-	this->mHP = status.mHP;
-	this->mHPMax = status.mHP;
-	this->mWeight = status.mWeight;
-	this->mIsDead = false;
+	mMoveSpeed = status.mMoveSpeed;
+	mHP = status.mHP;
+	mHPMax = status.mHP;
+	mWeight = status.mWeight;
+
+	mState=  State_Idle;
 }
 
 void UnitEnemy::Update()
 {
 	UnitBase::Update();
 
+	if( mState != State_DeadRequest && mState != State_Dead ){
+		if( mHP <= 0 ){
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dead) );
+			mState = State_DeadRequest;
+			mFrame = 50;
+		}
+	}
 
 	switch( mState )
 	{
@@ -74,15 +82,37 @@ void UnitEnemy::Update()
 			mDir = move_vec;
 		}
 		break;
+	case State_DeadRequest:
+		{
+			mFrame -- ;
+			if( mFrame == 0 ){
+				mState = State_Dead;
+			}
+		}
+		break;
+	case State_Dead:
+		break;
 	}
 }
 
 void UnitEnemy::Draw()
 {
-	UnitBase::Draw();
-	
 	if( IsDead() ){ return; }
+
+	if( this->IsDamaged() ){
+		if( mDamageFrame % 5 == 0 ){
+			return;
+		}
+	}
+
+	if( mState == State_DeadRequest ){
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA,mFrame*5);
+	}
+
+	DrawUnit();
 	
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
+
 	SetFontSize(12);
 	
     DrawFormatString(
@@ -98,4 +128,9 @@ void UnitEnemy::Draw()
 	    	GetColor(0,255,0) , "！" );
 	}
 
+}
+
+bool UnitEnemy::IsDead() const
+{
+	return ( mState == State_Dead );
 }

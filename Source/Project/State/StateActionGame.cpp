@@ -74,7 +74,7 @@ void StateActionGame::Update()
 	    		&& ( gUnitPlayer().GetAttackID() != mEnemy[i].GetDamagedID() )
 	    	)
 	    	{
-				SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
 	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
 	    		mEnemy[i].SetSpeed( speed.Normalize() );
 	    		mEnemy[i].Damage(1);
@@ -97,7 +97,7 @@ void StateActionGame::Update()
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-			SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
     		Vector2 speed = gUnitPlayer().GetPos() - mEnemy[i].GetPos();
     		gUnitPlayer().SetSpeed( speed.Normalize() );
     	    gUnitPlayer().Damage(1);
