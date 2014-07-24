@@ -15,6 +15,9 @@ public:
 	virtual void PreDraw();
 	//! 描画.
 	virtual void Draw();
+	virtual bool IsDead() const;
+public:
+	void DrawUnit();
 	//! ジャンプ高さ
 	float GetHeight() const;
 	//! 座標設定.
@@ -26,7 +29,6 @@ public:
 	//! スピード設定.
 	void SetSpeed( Vector2 speed );
 	void Damage( int damage );
-	bool IsDead() const;
 	bool IsDamaged() const;
 	int GetHP() const;
 	

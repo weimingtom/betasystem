@@ -1,6 +1,5 @@
 ﻿#include "UnitBase.hpp"
 
-#include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "DxLibWrapper/Color.hpp"
 #include "Project/Unit/Global.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
@@ -66,7 +65,11 @@ void UnitBase::Draw()
 		}
 	}
 	
-	// キャラ
+	DrawUnit();
+}
+
+void UnitBase::DrawUnit()
+{
     DrawGraphInCamera( 
     	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
     	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
@@ -99,7 +102,6 @@ void UnitBase::Draw()
 			FALSE
 		);
 	}
-
 }
 
 //! ジャンプ高さ
@@ -120,7 +122,7 @@ Vector2 UnitBase::GetSize() const{
 }
 //! スピード設定.
 void UnitBase::SetSpeed( Vector2 speed ){
-	mSpeed = speed * 30 / mWeight;
+	mSpeed = speed * 10 / mWeight;
 }
 
 void UnitBase::Damage( int damage ){

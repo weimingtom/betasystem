@@ -53,7 +53,7 @@ void UnitPlayer::BeginDash( Vector2 dash_vec )
 	mDashFrame = 25;
 	mDashLockFrame = 40;
 	mSpeed = dash_vec * 18.0f;
-	SingletonSoundLoader::Get()->Play( NameOf(SoundType_OK) );
+	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
 }
 
 void UnitPlayer::BeginJump(){

@@ -22,6 +22,7 @@ public:
 public:
 	virtual void Update() override;
 	virtual void Draw() override;
+	virtual bool IsDead() const override;
 public:
 	void Initialize( EnemyID enemy_id );
 	void SetDamagedID( int attack_id ){ mDamagedID = attack_id; }
@@ -31,6 +32,8 @@ private:
 		State_Idle,			//!< 待機状態.
 		State_Exclamation,	//!< 気付き状態.
 		State_Chase,		//!< 追尾状態.
+		State_DeadRequest,	//!< 死亡準備.
+		State_Dead,			//!< 死亡
 	};
 private:
 	EnemyID mEnemyID;
