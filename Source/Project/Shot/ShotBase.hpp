@@ -3,6 +3,7 @@
 
 #include "System/Vector2.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
+#include "Project/Unit/Global.hpp"
 
 // ショット
 class ShotBase
@@ -11,7 +12,7 @@ public:
 	ShotBase()
 		: mState( State_None )
 		, mLifeFrame(0)
-		, mSize( Vector2(6,6) )
+		, mSize( Vector2(32,32) )
 	{
 	}
 public:
@@ -34,13 +35,23 @@ public:
 	void Draw()
 	{
 		if( !IsLife() ){ return; }
-	    DrawOval(
+
+	    DrawCircle(
 	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-	    	static_cast<int>( mSize.x ),
-	    	static_cast<int>( mSize.y ),
+	    	static_cast<int>( 8 ),
 	    	GetColor(0,255,0) , TRUE
 		);
+
+		if( IsVisibleCollision() ){
+		    DrawBox(
+		    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - mSize.x ),
+		    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y - mSize.y ),
+		    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + mSize.x ),
+		    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + mSize.y ),
+		    	GetColor(0,255,0) , FALSE
+			);
+		}
 	}
 	/**
 		初期化.
@@ -48,7 +59,7 @@ public:
 	void Initialize( Vector2 pos, Vector2 speed )
 	{
 		mPos = pos;
-		mSpeed = speed * 4;
+		mSpeed = speed * 6;
 		mLifeFrame = 300;
 		mState = State_Shot;
 	}
@@ -67,6 +78,10 @@ public:
 		座標取得.
 	*/
 	Vector2 GetPos() const { return mPos; }
+	/**
+		サイズ取得.
+	*/
+	Vector2 GetSize() const { return mSize; }
 private:
 	enum State{
 		State_None,
@@ -101,15 +116,6 @@ public:
 		SetFontSize(12);
 		for( int i = 0 ; i < kShotNum ; i++ ){
 			mShotList[i].Draw();
-/*
-		    DrawFormatString(
-		    	0 , 150 + i * 10,
-		    	GetColor(0,255,0) ,
-		    	"ID:%d,[%f,%f]",
-		    	i,
-		    	mShotList[i].GetPos().x,
-		    	mShotList[i].GetPos().y );
-*/
 		}
 	}
 	/**
@@ -125,7 +131,10 @@ public:
 		}
 	}
 
-private:
+	ShotBase const& GetShot(int index){
+		return mShotList[index];
+	}
+public:
 	static int const kShotNum = 32;
 private:
 	ShotBase mShotList[kShotNum];
