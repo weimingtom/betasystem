@@ -86,7 +86,7 @@ void UnitEnemy::Update()
 			//たまにショット.
 			if( GetRand(100) == 0 ){
 				mState = State_ShotReady;
-				mFrame = 75;
+				mFrame = 55;
 			}
 		}
 		break;
