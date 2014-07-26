@@ -14,8 +14,8 @@
 #include "Project/Unit/Global.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
-
 #include "Project/Camera2D/Camera2D.hpp"
+#include "Project/Shot/ShotBase.hpp"
 
 StateActionGame::StateActionGame()
 : mStageFrame(0)
@@ -38,6 +38,7 @@ void StateActionGame::Update()
 	gCamera2D().SetLookAt( Vector2(0, -mStageFrame ) );
 	
 	gCamera2D().Update();
+	gShotManager().Update();
 
 	//背景描画.
 	for( int x = 0; x < 10; x++ ){
@@ -82,26 +83,6 @@ void StateActionGame::Update()
 	    }
     }
 
-/*
-    // 敵からの攻撃.
-    for( int i = 0; i < kEnemyMax ; i ++ )
-    {
-    	if( mEnemy[i].IsDead() ){ continue; }
-    	if( mEnemy[i].IsDamaged() ){ continue; } 
-    	if( gUnitPlayer().IsJump() ){ continue; } 
-    	if( gUnitPlayer().IsDamaged() ){ continue; } 
-    	if( gUnitPlayer().IsDash() ){ continue; } 
-    	
-    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
-    	
-    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
-    		Vector2 speed = gUnitPlayer().GetPos() - mEnemy[i].GetPos();
-    		gUnitPlayer().SetSpeed( speed.Normalize() );
-    	    gUnitPlayer().Damage(1);
-		}
-	}
-*/
     SetFontSize(24);
 
 	if( !gUnitPlayer().IsDead() ){
@@ -176,6 +157,8 @@ void StateActionGame::Update()
     	mEnemy[i].Draw();
     }
     gUnitPlayer().Draw();
+
+	gShotManager().Draw();
 }
 
 void StateActionGame::Draw()
