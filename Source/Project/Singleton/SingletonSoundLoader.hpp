@@ -6,11 +6,12 @@
 
 enum SoundType
 {
-    SoundType_Decide,
+    SoundType_Jump,
     SoundType_Dash,
-    SoundType_Just,
+    SoundType_Landing,
     SoundType_Dead,
     SoundType_Hit,
+    SoundType_Damaged,
 
     SoundType_Num,
 };

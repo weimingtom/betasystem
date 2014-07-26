@@ -25,10 +25,14 @@ void UnitPlayer::Update()
 	
 	// ジャンプ.
 	mHeight += mGravity; // 重力.
-	mGravity -= 0.5f;
+	
+	if( mHeight != 0.0f ){
+		mGravity -= 0.5f;
+	}
 	if( mHeight < 0.0f ){
 		mHeight = 0.0f;
 		mGravity = 0.0f;
+		SingletonSoundLoader::Get()->Play( NameOf(SoundType_Landing) );
 	}
 }
 
@@ -60,7 +64,7 @@ void UnitPlayer::BeginJump(){
 	if( mDashLockFrame ){ return; }
 	if( mHeight <= 0.0f ){
 		mGravity = 8.0f;
-		SingletonSoundLoader::Get()->Play( NameOf(SoundType_Decide) );
+		SingletonSoundLoader::Get()->Play( NameOf(SoundType_Jump) );
 	}
 }
 
