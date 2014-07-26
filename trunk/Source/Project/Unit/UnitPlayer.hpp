@@ -13,10 +13,11 @@ public:
 	virtual void Draw() override;
 public:
 	//! ダッシュする
-	void BeginDash( Vector2 dash_vec );
+	void BeginDash( Vector2 dash_vec, bool is_special = false );
 	//! ジャンプする
 	void BeginJump();
 	bool IsDash() const;
+	bool IsSpecialDash() const;
 	bool IsJump() const;
 	void AddPos( Vector2 add_pos );
 	Vector2 GetDir() const;
@@ -28,6 +29,7 @@ public:
 	int GetAttackID() const { return mDashCount; }
 private:
 	int mDashFrame;
+	int mSpecialDashFrame;
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
 	int mDashCount;

@@ -77,6 +77,8 @@ public:
     virtual void Update() = 0;
     virtual bool IsTrig( Type type ) const = 0;
     virtual bool IsHold( Type type ) const = 0;
+    virtual bool IsRelease( Type type ) const = 0;
+    virtual int GetHoldFrame( Type type ) const = 0;
 private:
     class Impl;
 };

@@ -12,6 +12,8 @@ public:
     void Update();
     bool IsTrig( InputKey::Type ) const;
     bool IsHold( InputKey::Type ) const;
+    bool IsRelease( InputKey::Type ) const;
+    int GetHoldFrame( Type type ) const;
     
 private:
     static int const m_key_flag[ InputKey::Type_Num ];
@@ -83,11 +85,18 @@ void InputKey::Impl::Update()
 {
     for( int i = 0 ; i < InputKey::Type_Num ; i++ )
     {
+    	if( m_press_frame[i] == -1 ){
+    		m_press_frame[i] = 0;
+    	}
+    }
+
+    for( int i = 0 ; i < InputKey::Type_Num ; i++ )
+    {
         if( CheckHitKey( m_key_flag[i] ) == 1 )
         {
             m_press_frame[i]++;
         }else{
-            m_press_frame[i] = 0;
+            m_press_frame[i] = -1;
         }
     }
 }
@@ -99,7 +108,17 @@ bool InputKey::Impl::IsTrig( InputKey::Type type ) const
 
 bool InputKey::Impl::IsHold( InputKey::Type type ) const
 {
-    return ( m_press_frame[type] != 0 );
+    return ( m_press_frame[type] > 0 );
+}
+
+bool InputKey::Impl::IsRelease( InputKey::Type type ) const
+{
+    return ( m_press_frame[type] == -1 );
+}
+
+int InputKey::Impl::GetHoldFrame( InputKey::Type type ) const
+{
+    return m_press_frame[type];
 }
 
 InputKey* new_InputKey()

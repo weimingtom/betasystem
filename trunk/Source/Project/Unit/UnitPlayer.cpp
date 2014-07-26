@@ -2,6 +2,7 @@
 
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
+#include "Project/Singleton/SingletonInputKey.hpp"
 
 
 UnitPlayer::UnitPlayer()
@@ -9,6 +10,7 @@ UnitPlayer::UnitPlayer()
  , mGravity(0.0f)
  , mDashLockFrame(0)
  , mDashCount(0)
+ , mSpecialDashFrame(0)
 {
 	mImageSize = Vector2(64,90);
 	mImageType = PrincessImageLoader::ImageType_DebugTop;
@@ -21,6 +23,7 @@ void UnitPlayer::Update()
 
 	// ダッシュ.
 	if( mDashFrame ){ mDashFrame--; }
+	if( mSpecialDashFrame ){ mSpecialDashFrame--; }
 	if( mDashLockFrame ){ mDashLockFrame--; }
 	
 	// ジャンプ.
@@ -47,16 +50,31 @@ void UnitPlayer::Draw()
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
 	    	GetColor(0,255,0) , "dash!" );
     }
+
+	int hold_frame = KeyInput()->GetHoldFrame( InputKey::Type_J );
+	if( hold_frame > 70 ){ hold_frame = 70; }
+	DrawCircle(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	hold_frame,
+	    	(hold_frame == 70) ? GetColor(255,0,0) : GetColor(0,255,0),
+			FALSE );
 }
 
-void UnitPlayer::BeginDash( Vector2 dash_vec )
+void UnitPlayer::BeginDash( Vector2 dash_vec, bool is_special )
 {
 	if( mDashLockFrame ){ return; }
 	mDashCount++;
 	if( mDashCount > 10000 ){ mDashCount = 0; }
 	mDashFrame = 25;
-	mDashLockFrame = 40;
+	mDashLockFrame = 35;
 	mSpeed = dash_vec * 18.0f;
+
+	if(is_special){
+		mSpecialDashFrame = 40;
+		mSpeed = dash_vec * 24.0f;
+	}
+
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
 }
 
@@ -69,7 +87,11 @@ void UnitPlayer::BeginJump(){
 }
 
 bool UnitPlayer::IsDash() const{
-	return (mDashFrame != 0);
+	return ( mDashFrame != 0 );
+}
+
+bool UnitPlayer::IsSpecialDash() const{
+	return ( mSpecialDashFrame != 0 );
 }
 
 bool UnitPlayer::IsJump() const{
