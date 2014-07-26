@@ -28,16 +28,13 @@ void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		mEnemy[i].Initialize( EnemyID_Normal );
-//		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(EnemyID_Num-1) ) );
+//		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(1) ) );
 		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480*10) ) );
 	}
 }
 
 void StateActionGame::Update()
 {
-	if( mStageFrame < 3000 ){
-//		mStageFrame++;
-	}
 	gCamera2D().SetLookAt( Vector2(0, -mStageFrame ) );
 	
 	gCamera2D().Update();
@@ -85,6 +82,7 @@ void StateActionGame::Update()
 	    }
     }
 
+/*
     // 敵からの攻撃.
     for( int i = 0; i < kEnemyMax ; i ++ )
     {
@@ -97,13 +95,13 @@ void StateActionGame::Update()
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
     		Vector2 speed = gUnitPlayer().GetPos() - mEnemy[i].GetPos();
     		gUnitPlayer().SetSpeed( speed.Normalize() );
     	    gUnitPlayer().Damage(1);
 		}
 	}
-
+*/
     SetFontSize(24);
 
 	if( !gUnitPlayer().IsDead() ){

@@ -17,8 +17,9 @@ struct EnemyStatus
 
 EnemyStatus const sEnemyStatusList[] =
 {
-	{3,1,1,},
-	{1,3,1,},
+	// ライフ、速度、重さ
+	{5,1,1,},
+	{3,3,1,},
 	{1,3,1,},
 	{3,1,5,},
 };
@@ -97,7 +98,7 @@ void UnitEnemy::Update()
 
 void UnitEnemy::Draw()
 {
-	if( IsDead() ){ return; }
+	if( mState == State_Dead ){ return; }
 
 	if( this->IsDamaged() ){
 		if( mDamageFrame % 5 == 0 ){
@@ -132,5 +133,5 @@ void UnitEnemy::Draw()
 
 bool UnitEnemy::IsDead() const
 {
-	return ( mState == State_Dead );
+	return ( mState == State_Dead || mState == State_DeadRequest );
 }
