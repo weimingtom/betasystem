@@ -19,6 +19,7 @@
 
 StateActionGame::StateActionGame()
 : mStageFrame(0)
+, mPreHoldFrame(0)
 {
 	InitEnemy();
 	gUnitPlayer().Revive();
@@ -74,11 +75,18 @@ void StateActionGame::Update()
 	    	{
 				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
 	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
-	    		mEnemy[i].SetSpeed( speed.Normalize() );
-	    		mEnemy[i].Damage(1);
+
 	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
-	    		gUnitPlayer().FreeLock();
-	    		gUnitPlayer().SetSpeed( speed * -0.2 );
+
+				if( gUnitPlayer().IsSpecialDash() ){
+		    		mEnemy[i].Damage(3);
+		    		mEnemy[i].SetSpeed( speed.Normalize() * 4 );
+		    	}else{
+		    		mEnemy[i].Damage(1);
+		    		mEnemy[i].SetSpeed( speed.Normalize() );
+		    		gUnitPlayer().SetSpeed( speed * -0.2 );
+		    		gUnitPlayer().FreeLock();
+		    	}
 	    	}
 	    }
     }
@@ -88,6 +96,7 @@ void StateActionGame::Update()
     {
     	if( gUnitPlayer().IsJump() ){ continue; } 
     	if( gUnitPlayer().IsDamaged() ){ continue; } 
+    	if( gUnitPlayer().IsSpecialDash() ){ continue; } 
     	if( !gShotManager().GetShot(i).IsLife() ){ continue; }
 
 		ShotBase const& crTargetShot = gShotManager().GetShot(i);
@@ -134,6 +143,15 @@ void StateActionGame::Update()
 	    ){
 	    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
 	    }
+	    
+	    // 特殊ダッシュ
+	    if(
+	    	mPreHoldFrame >= 70
+	    	&& KeyInput()->IsRelease( InputKey::Type_J )
+   	    ){
+	    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir(), true );
+   	    }
+		mPreHoldFrame = KeyInput()->GetHoldFrame( InputKey::Type_J );
 
 		// ジャンプ
 	    if(
@@ -144,7 +162,7 @@ void StateActionGame::Update()
 	    }
 
 	    if(
-			KeyInput()->IsTrig( InputKey::Type_L )
+			KeyInput()->IsTrig( InputKey::Type_H )
 		){
 			SetVisibleCollision( !IsVisibleCollision() );
 	    }

@@ -82,13 +82,13 @@ void UnitBase::DrawUnit()
     	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
     	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
     	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + 25 ),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 4 ),
     	GetColor(255,0,0) , TRUE);
     DrawBox(
     	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
     	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
     	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25 + (50 * mHP / mHPMax) ),
-    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 2 ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 4 ),
     	GetColor(0,255,0) , TRUE);
 
 	if( IsVisibleCollision() ){
@@ -128,6 +128,7 @@ void UnitBase::SetSpeed( Vector2 speed ){
 void UnitBase::Damage( int damage ){
 	mDamageFrame = 55;
 	mHP -= damage;
+	if( mHP < 0 ){ mHP = 0; }
 }
 
 bool UnitBase::IsDead() const{
