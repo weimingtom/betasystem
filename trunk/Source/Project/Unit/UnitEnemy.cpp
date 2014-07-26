@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "Global.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
+#include "Project/Shot/ShotBase.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 
@@ -81,6 +82,24 @@ void UnitEnemy::Update()
 			move_vec.Normalize();
 			mPos += move_vec * this->mMoveSpeed;
 			mDir = move_vec;
+			
+			//たまにショット.
+			if( GetRand(100) == 0 ){
+				mState = State_ShotReady;
+				mFrame = 75;
+			}
+		}
+		break;
+	case State_ShotReady:
+		mFrame --;
+		if( mFrame == 0 ){ mState = State_Shot; }
+		break;
+	case State_Shot:
+		{
+			Vector2 speed = gUnitPlayer().GetPos() - mPos;
+			speed.Normalize();
+			gShotManager().ShotRequest( mPos, speed );
+			mState = State_Chase;
 		}
 		break;
 	case State_DeadRequest:

@@ -18,14 +18,19 @@ public:
 	virtual bool IsDead() const;
 public:
 	void DrawUnit();
+
 	//! ジャンプ高さ
 	float GetHeight() const;
+
 	//! 座標設定.
 	void SetPos( Vector2 pos );
+
 	//! 座標取得.
 	Vector2 GetPos() const;
+
 	//! サイズ取得
 	Vector2 GetSize() const;
+
 	//! スピード設定.
 	void SetSpeed( Vector2 speed );
 	void Damage( int damage );

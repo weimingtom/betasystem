@@ -449,6 +449,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Shot"
+					>
+					<File
+						RelativePath="..\Source\Project\Shot\ShotBase.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Shot\ShotBase.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="System"
