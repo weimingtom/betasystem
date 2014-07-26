@@ -57,7 +57,7 @@ void StateActionGame::Update()
     DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵復活 - R" );
     DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵+自分復活 - T" );
     
-    // 衝突判定プレイヤーの攻撃.
+    // プレイヤーの攻撃.
     for( int i = 0; i < kEnemyMax ; i ++ )
     {
     	if( mEnemy[i].IsDead() ){ continue; }
@@ -82,6 +82,29 @@ void StateActionGame::Update()
 	    	}
 	    }
     }
+
+    // 弾の衝突検知.
+    for( int i = 0; i < ShotManager::kShotNum ; i ++ )
+    {
+    	if( gUnitPlayer().IsJump() ){ continue; } 
+    	if( gUnitPlayer().IsDamaged() ){ continue; } 
+    	if( !gShotManager().GetShot(i).IsLife() ){ continue; }
+
+		ShotBase const& crTargetShot = gShotManager().GetShot(i);
+
+    	Vector2 const kLeftTop = Vector2(
+    		crTargetShot.GetPos().x - crTargetShot.GetSize().x / 2 ,
+    		crTargetShot.GetPos().y - crTargetShot.GetSize().y / 2 );
+    	
+    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, crTargetShot.GetSize() ) )
+    	{
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
+    		Vector2 speed =  gUnitPlayer().GetPos() - crTargetShot.GetPos();
+    		gUnitPlayer().SetSpeed( speed.Normalize() );
+    		gUnitPlayer().Damage(1);
+	    }
+    }
+
 
     SetFontSize(24);
 

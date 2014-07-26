@@ -148,6 +148,15 @@ void UnitEnemy::Draw()
 	    	GetColor(0,255,0) , "！" );
 	}
 
+	if( mState == State_ShotReady ){
+		SetFontSize(12);
+	    DrawCircle(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	mFrame ,
+	    	GetColor(0,255,0) , 
+	    	FALSE );
+	}
 }
 
 bool UnitEnemy::IsDead() const
