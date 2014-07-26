@@ -30,6 +30,7 @@ UnitEnemy::UnitEnemy() :
  mDamagedID(-1),
  mState( State_Idle ),
  mFrame(0)
+ , mIsFollowShot( false )
 {}
 
 void UnitEnemy::Initialize( EnemyID enemy_id )
@@ -83,10 +84,16 @@ void UnitEnemy::Update()
 			mPos += move_vec * this->mMoveSpeed;
 			mDir = move_vec;
 			
-			//たまにショット.
-			if( GetRand(100) == 0 ){
-				mState = State_ShotReady;
-				mFrame = 55;
+			//近付いたらショット.
+			{
+				Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
+				if( move_vec.Length() < 150 ){
+					if( GetRand(40) == 0){
+						mState = State_ShotReady;
+						mFrame = 55;
+						mIsFollowShot = (GetRand(5) == 0);
+					}
+				}
 			}
 		}
 		break;
@@ -98,7 +105,7 @@ void UnitEnemy::Update()
 		{
 			Vector2 speed = gUnitPlayer().GetPos() - mPos;
 			speed.Normalize();
-			gShotManager().ShotRequest( mPos, speed );
+			gShotManager().ShotRequest( mPos, speed, mIsFollowShot );
 			mState = State_Chase;
 		}
 		break;
@@ -118,6 +125,29 @@ void UnitEnemy::Update()
 void UnitEnemy::Draw()
 {
 	if( mState == State_Dead ){ return; }
+
+	// 攻撃準備
+	if( mState == State_ShotReady ){
+		SetFontSize(12);
+	    DrawCircle(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	mFrame ,
+			mIsFollowShot ? GetColor(255,0,0) : GetColor(0,255,0) , 
+	    	FALSE );
+	    DrawCircle(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	mFrame - 3,
+			mIsFollowShot ? GetColor(255,0,0) : GetColor(0,255,0) , 
+	    	FALSE );
+	    DrawCircle(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	mFrame - 6,
+			mIsFollowShot ? GetColor(255,0,0) : GetColor(0,255,0) , 
+	    	FALSE );
+	}
 
 	if( this->IsDamaged() ){
 		if( mDamageFrame % 5 == 0 ){
@@ -148,15 +178,6 @@ void UnitEnemy::Draw()
 	    	GetColor(0,255,0) , "！" );
 	}
 
-	if( mState == State_ShotReady ){
-		SetFontSize(12);
-	    DrawCircle(
-	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-	    	mFrame ,
-	    	GetColor(0,255,0) , 
-	    	FALSE );
-	}
 }
 
 bool UnitEnemy::IsDead() const

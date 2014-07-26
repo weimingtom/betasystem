@@ -68,7 +68,7 @@ public:
 	/**
 		初期化.
 	*/
-	void Initialize( Vector2 pos, Vector2 dir )
+	void Initialize( Vector2 pos, Vector2 dir, bool follow )
 	{
 		mPos = pos;
 		mDir = dir;
@@ -76,7 +76,7 @@ public:
 		mLifeFrame = 100;
 		mState = State_Shot;
 		
-		mIsFollow = (GetRand(1) == 0);
+		mIsFollow = follow;
 	}
 	/**
 		外部から消す.
@@ -138,11 +138,11 @@ public:
 	/**
 		ショットリクエスト.
 	*/
-	void ShotRequest( Vector2 pos, Vector2 speed )
+	void ShotRequest( Vector2 pos, Vector2 speed, bool is_follow )
 	{
 		for( int i = 0 ; i < kShotNum ; i++ ){
 			if( !mShotList[i].IsLife() ){
-				mShotList[i].Initialize( pos, speed );
+				mShotList[i].Initialize( pos, speed, is_follow );
 				return;
 			}
 		}

@@ -43,6 +43,7 @@ private:
 	int mDamagedID;
 	State mState;
 	int mFrame;
+	bool mIsFollowShot;
 };
 
 #endif // IncludeGuard_UnitEnemy_

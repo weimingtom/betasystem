@@ -30,7 +30,7 @@ void StateActionGame::InitEnemy()
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		mEnemy[i].Initialize( EnemyID_Normal );
 //		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(1) ) );
-		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480*10) ) );
+		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480*3) ) );
 	}
 }
 
@@ -63,7 +63,6 @@ void StateActionGame::Update()
     {
     	if( mEnemy[i].IsDead() ){ continue; }
     	if( gUnitPlayer().IsJump() ){ continue; } 
-    	if( gUnitPlayer().IsDamaged() ){ continue; } 
     	
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	
