@@ -83,8 +83,10 @@ void StateActionGame::Update()
 		    		mEnemy[i].SetSpeed( speed.Normalize() * 4 );
 		    	}else{
 		    		mEnemy[i].Damage(1);
-		    		mEnemy[i].SetSpeed( speed.Normalize() );
-		    		gUnitPlayer().SetSpeed( speed * -0.2 );
+//		    		mEnemy[i].SetSpeed( speed.Normalize() );
+					speed.Normalize();
+		    		gUnitPlayer().SetSpeed( speed * -2.0 );
+//		    		gUnitPlayer().SetSpeed( speed * 0.0f);
 		    		gUnitPlayer().FreeLock();
 		    	}
 	    	}
@@ -181,7 +183,7 @@ void StateActionGame::Update()
 	    if( gUnitPlayer().IsJump() ){
 	    	mWalkFrame = 0;
 	    }
-	    if( mWalkFrame != 0 && mWalkFrame % 18 == 0 ){
+	    if( mWalkFrame != 0 && mWalkFrame % 16 == 0 ){
 	    	//SE鳴らす
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
 	    }
