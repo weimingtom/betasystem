@@ -23,6 +23,7 @@ private:
     UnitEnemy mEnemy[kEnemyMax];
     int mStageFrame;
     int mPreHoldFrame;
+    int mWalkFrame;
 };
 
 #endif

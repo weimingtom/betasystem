@@ -13,6 +13,7 @@ char const* const sound_list[ SoundType_Num ] =
     "Resource/decision12.wav",
     "Resource/kick-low1.wav",
     "Resource/punch-high1.wav",
+    "Resource/landing1 - ÉRÉsÅ[.wav",
 };
 
 namespace
