@@ -12,6 +12,7 @@ enum SoundType
     SoundType_Dead,
     SoundType_Hit,
     SoundType_Damaged,
+    SoundType_Walk,
 
     SoundType_Num,
 };

@@ -20,6 +20,7 @@
 StateActionGame::StateActionGame()
 : mStageFrame(0)
 , mPreHoldFrame(0)
+, mWalkFrame(0)
 {
 	InitEnemy();
 	gUnitPlayer().Revive();
@@ -78,7 +79,7 @@ void StateActionGame::Update()
 	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
 
 				if( gUnitPlayer().IsSpecialDash() ){
-		    		mEnemy[i].Damage(3);
+		    		mEnemy[i].Damage(2);
 		    		mEnemy[i].SetSpeed( speed.Normalize() * 4 );
 		    	}else{
 		    		mEnemy[i].Damage(1);
@@ -166,11 +167,25 @@ void StateActionGame::Update()
 			SetVisibleCollision( !IsVisibleCollision() );
 	    }
 
-		
 	    gUnitPlayer().Update();
 	    for( int i = 0 ; i < kEnemyMax ; i++ ){
 	    	mEnemy[i].Update();
 	    }
+
+	    // 歩き音用
+	    if( move.Length() == 0.0f ){
+	    	mWalkFrame = 0;
+	    }else{
+	    	mWalkFrame ++;
+	    }
+	    if( gUnitPlayer().IsJump() ){
+	    	mWalkFrame = 0;
+	    }
+	    if( mWalkFrame != 0 && mWalkFrame % 18 == 0 ){
+	    	//SE鳴らす
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
+	    }
+
 	}
 
 	// デバッグ処理.
