@@ -14,6 +14,7 @@ UnitBase::UnitBase()
  , mImageType( PrincessImageLoader::ImageType_Enemy )
  , mImageSize( Vector2(64,64) )
  , mWeight(1)
+ , mDamage(0)
 {
 }
 
@@ -102,6 +103,14 @@ void UnitBase::DrawUnit()
 			FALSE
 		);
 	}
+	
+	if( IsDamaged() ){
+		SetFontSize(32);
+	    DrawFormatString(
+	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + 32),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + ( - 150 + mDamageFrame  ) / 2 ),
+	    	GetColor(255,255,0) , "%d", mDamage );
+	}
 }
 
 //! ジャンプ高さ
@@ -126,6 +135,7 @@ void UnitBase::SetSpeed( Vector2 speed ){
 }
 
 void UnitBase::Damage( int damage ){
+	mDamage = damage;
 	mDamageFrame = 55;
 	mHP -= damage;
 	if( mHP < 0 ){ mHP = 0; }
