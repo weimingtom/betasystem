@@ -28,6 +28,8 @@ public:
 	//! ダッシュ回数.
 	int GetAttackID() const { return mDashCount; }
 private:
+	static int const kDefaultHP = 10;
+private:
 	int mDashFrame;
 	int mSpecialDashFrame;
 	float mGravity;		//!< 重力
