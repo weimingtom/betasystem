@@ -46,6 +46,7 @@ protected:
 	int mHP;
 	int mHPMax;
 	bool mIsDead;
+	int mDamage;
 	int mDamageFrame;
 	PrincessImageLoader::ImageType mImageType;
 	Vector2 mImageSize;
