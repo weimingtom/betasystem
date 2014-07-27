@@ -12,6 +12,8 @@ UnitPlayer::UnitPlayer()
  , mDashCount(0)
  , mSpecialDashFrame(0)
 {
+	mHP = kDefaultHP;
+	mHPMax = kDefaultHP;
 	mImageSize = Vector2(64,90);
 	mImageType = PrincessImageLoader::ImageType_DebugTop;
 	mPos = Vector2(0.0f,0.0f);
@@ -111,7 +113,7 @@ Vector2 UnitPlayer::GetDir() const {
 
 void UnitPlayer::Revive()
 {
-	mHP = 3;
+	mHP = kDefaultHP;
 	mIsDead = false;
 }
 

@@ -36,6 +36,7 @@ public:
 	void Damage( int damage );
 	bool IsDamaged() const;
 	int GetHP() const;
+	int GetMaxHP() const{ return mHPMax; }
 	
 protected:
 	Vector2 mPos;

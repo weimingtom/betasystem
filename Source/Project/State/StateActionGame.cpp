@@ -54,8 +54,8 @@ void StateActionGame::Update()
  	int const kFontSize = 14;
  	int y = 0;
     SetFontSize(kFontSize);
-    DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , "アクションゲームテスト:");
-    DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " player hp %d", gUnitPlayer().GetHP() );
+    DrawFormatString( 0 , y , ColorOf(0,255,0) , "アクションゲームテスト:");
+    DrawFormatString( 0 , y += kFontSize , ColorOf(255,255,0) , " player hp[%d/%d]", gUnitPlayer().GetHP(),gUnitPlayer().GetMaxHP() );
     DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵復活 - R" );
     DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵+自分復活 - T" );
     
@@ -74,7 +74,8 @@ void StateActionGame::Update()
 	    	)
 	    	{
 				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
-	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
+//	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
+	    		Vector2 speed = gUnitPlayer().GetDir();
 
 	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
 
