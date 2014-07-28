@@ -17,6 +17,7 @@ public:
 private:
 	static int const kEnemyMax = 32;
 	static int const kShotMax = 32;
+	static int const kMapChipMax = 32;
 private:
 	void InitEnemy();
 private:
@@ -24,6 +25,7 @@ private:
     int mStageFrame;
     int mPreHoldFrame;
     int mWalkFrame;
+    int mMapChip[kMapChipMax][kMapChipMax];
 };
 
 #endif

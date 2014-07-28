@@ -11,6 +11,7 @@ namespace PrincessImageLoader
     enum ImageType
     {
         ImageType_Map,
+        ImageType_Map2,
         ImageType_Shadow,
         ImageType_Avater,
         ImageType_DebugTop,

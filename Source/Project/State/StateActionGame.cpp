@@ -24,6 +24,13 @@ StateActionGame::StateActionGame()
 {
 	InitEnemy();
 	gUnitPlayer().Revive();
+	
+	
+	for( int x = 0; x < kMapChipMax; x++ ){
+		for( int y = 0 ; y < kMapChipMax ; y++ ){
+			mMapChip[y][x] = GetRand(1);
+		}
+	}
 }
 
 void StateActionGame::InitEnemy()
@@ -31,7 +38,7 @@ void StateActionGame::InitEnemy()
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		mEnemy[i].Initialize( EnemyID_Normal );
 //		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(1) ) );
-		mEnemy[i].SetPos( Vector2( -320 + GetRand(640), - 240 + GetRand(-480*3) ) );
+		mEnemy[i].SetPos( Vector2( GetRand(64*kMapChipMax), GetRand(64*kMapChipMax) ) );
 	}
 }
 
@@ -43,11 +50,11 @@ void StateActionGame::Update()
 	gShotManager().Update();
 
 	//背景描画.
-	for( int x = 0; x < 10; x++ ){
-		for( int y = 0 ; y < 100 ; y++ ){
+	for( int x = 0; x < kMapChipMax; x++ ){
+		for( int y = 0 ; y < kMapChipMax ; y++ ){
 			DrawGraphInCamera(
-				-320 + x*64, -y*64,
-					PrincessImageLoader::ImageType_Map, FALSE );
+				x*64, y*64,
+				mMapChip[y][x] == 0 ?  PrincessImageLoader::ImageType_Map : PrincessImageLoader::ImageType_Map2, FALSE );
 		}	
 	}
 
