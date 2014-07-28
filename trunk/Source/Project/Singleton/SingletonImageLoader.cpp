@@ -15,6 +15,7 @@ namespace PrincessImageLoader{
     char const* const image_name[ ImageType_Num ] =
     {
         "Resource/map.png",
+        "Resource/map2.png",
         "Resource/shadow.png",
         "Resource/Avater.bmp",
         "Resource/debug_logo.png",
