@@ -11,10 +11,11 @@ UnitPlayer::UnitPlayer()
  , mDashLockFrame(0)
  , mDashCount(0)
  , mSpecialDashFrame(0)
+ , mIsWalk( false )
 {
 	mHP = kDefaultHP;
 	mHPMax = kDefaultHP;
-	mImageSize = Vector2(64,90);
+	mImageSize = Vector2(48,69);
 	mImageType = PrincessImageLoader::ImageType_DebugTop;
 	mPos = Vector2(0.0f,0.0f);
 }
@@ -43,13 +44,13 @@ void UnitPlayer::Update()
 
 void UnitPlayer::Draw()
 {
-	UnitBase::Draw();
+	DrawUnit( mIsWalk );
 	
 	if( IsDash() ){
 		SetFontSize(12);
 	    DrawFormatString(
 	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
+	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
 	    	GetColor(0,255,0) , "dash!" );
     }
 
@@ -104,6 +105,9 @@ void UnitPlayer::AddPos( Vector2 add_pos ){
 	mPos += add_pos;
 	if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
 		mDir = add_pos.Normalize();
+		mIsWalk = true;
+	}else{
+		mIsWalk = false;
 	}
 }
 

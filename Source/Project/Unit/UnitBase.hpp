@@ -17,7 +17,7 @@ public:
 	virtual void Draw();
 	virtual bool IsDead() const;
 public:
-	void DrawUnit();
+	void DrawUnit( bool is_walk = false);
 
 	//! ジャンプ高さ
 	float GetHeight() const;
@@ -52,6 +52,7 @@ protected:
 	PrincessImageLoader::ImageType mImageType;
 	Vector2 mImageSize;
 	Vector2 mDir;		//!< 向き.
+	int mFrame;
 };
 
 #endif // IncludeGuard_UnitBase_
