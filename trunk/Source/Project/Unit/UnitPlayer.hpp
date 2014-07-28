@@ -35,6 +35,7 @@ private:
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
 	int mDashCount;
+	bool mIsWalk;
 };
 
 UnitPlayer& gUnitPlayer();

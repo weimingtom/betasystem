@@ -12,14 +12,17 @@ UnitBase::UnitBase()
  , mIsDead(false)
  , mDamageFrame(0)
  , mImageType( PrincessImageLoader::ImageType_Enemy )
- , mImageSize( Vector2(64,64) )
+ , mImageSize( Vector2(48,48) )
  , mWeight(1)
  , mDamage(0)
+ , mFrame(0)
 {
 }
 
 void UnitBase::Update()
 {
+	mFrame++;
+	if( mFrame > 15 ) mFrame = 0;
 	mPos += mSpeed;
 	mSpeed *= 0.8f;
 	
@@ -69,11 +72,11 @@ void UnitBase::Draw()
 	DrawUnit();
 }
 
-void UnitBase::DrawUnit()
+void UnitBase::DrawUnit( bool is_walk )
 {
     DrawGraphInCamera( 
     	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
-    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y ),
+    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y + ( is_walk ? mFrame/3 : 0 ) ) ,
 		mImageType,
 		TRUE,
 		( mDir.x < 0.0f ));
@@ -136,7 +139,7 @@ void UnitBase::SetSpeed( Vector2 speed ){
 
 void UnitBase::Damage( int damage ){
 	mDamage = damage;
-	mDamageFrame = 55;
+	mDamageFrame = 80;
 	mHP -= damage;
 	if( mHP < 0 ){ mHP = 0; }
 }

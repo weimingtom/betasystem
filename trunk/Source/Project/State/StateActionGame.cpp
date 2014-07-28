@@ -81,20 +81,19 @@ void StateActionGame::Update()
 	    	)
 	    	{
 				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
-//	    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos();
-	    		Vector2 speed = gUnitPlayer().GetDir();
 
 	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
 
 				if( gUnitPlayer().IsSpecialDash() ){
 		    		mEnemy[i].Damage(2);
-		    		mEnemy[i].SetSpeed( speed.Normalize() * 4 );
+		    		Vector2 speed = gUnitPlayer().GetDir() - mEnemy[i].GetPos();
+		    		speed.Normalize();
+		    		mEnemy[i].SetSpeed( speed * 4 );
 		    	}else{
+		    		Vector2 speed = gUnitPlayer().GetDir();
 		    		mEnemy[i].Damage(1);
-//		    		mEnemy[i].SetSpeed( speed.Normalize() );
-					speed.Normalize();
-		    		gUnitPlayer().SetSpeed( speed * -2.0 );
-//		    		gUnitPlayer().SetSpeed( speed * 0.0f);
+		    		mEnemy[i].SetSpeed( speed.Normalize() / 2);
+		    		gUnitPlayer().SetSpeed( speed * 0.0f );
 		    		gUnitPlayer().FreeLock();
 		    	}
 	    	}
@@ -144,7 +143,7 @@ void StateActionGame::Update()
 	    	move.y += 1;
 	    }
 	    move.Normalize();
-	    gUnitPlayer().AddPos( move * 5 );
+	    gUnitPlayer().AddPos( move * 3 );
 	    
 	    //ダッシュ
 	    if(

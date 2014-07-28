@@ -19,7 +19,7 @@ struct EnemyStatus
 EnemyStatus const sEnemyStatusList[] =
 {
 	// ライフ、速度、重さ
-	{5,1,1,},
+	{12,1,1,},
 	{3,3,1,},
 	{1,3,1,},
 	{3,1,5,},
@@ -159,7 +159,7 @@ void UnitEnemy::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA,mFrame*5);
 	}
 
-	DrawUnit();
+	DrawUnit( mState == State_Chase );
 	
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 
