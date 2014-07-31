@@ -110,13 +110,13 @@ void StateActionGame::Update()
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
     		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
     		speed.Normalize();
-    		speed *= 2;
+    		speed *= 4;
     		mEnemy[i].AddPos( speed );
     		gUnitPlayer().AddPos( speed * -1 );
 	    }
     }
 
-    // 弾の衝突検知.
+    // 弾ダメージ
     for( int i = 0; i < ShotManager::kShotNum ; i ++ )
     {
     	if( gUnitPlayer().IsJump() ){ continue; } 
@@ -135,7 +135,7 @@ void StateActionGame::Update()
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
     		Vector2 speed =  gUnitPlayer().GetPos() - crTargetShot.GetPos();
     		speed.Normalize();
-    		gUnitPlayer().SetSpeed( speed * 10 );
+    		gUnitPlayer().SetSpeed( speed * 15 );
     		gUnitPlayer().Damage(1);
 	    }
     }
@@ -147,18 +147,20 @@ void StateActionGame::Update()
 
 		//移動.
 		Vector2 move;
-	    if( KeyInput()->IsHold( InputKey::Type_A ) ){
-	    	move.x -= 1;
-	    }
-	    if( KeyInput()->IsHold( InputKey::Type_D ) ){
-	    	move.x += 1;
-	    }
-	    if( KeyInput()->IsHold( InputKey::Type_W ) ){
-	    	move.y -= 1;
-	    }
-	    if( KeyInput()->IsHold( InputKey::Type_S ) ){
-	    	move.y += 1;
-	    }
+		if( !gUnitPlayer().IsDash() ){
+		    if( KeyInput()->IsHold( InputKey::Type_A ) ){
+		    	move.x -= 1;
+		    }
+		    if( KeyInput()->IsHold( InputKey::Type_D ) ){
+		    	move.x += 1;
+		    }
+		    if( KeyInput()->IsHold( InputKey::Type_W ) ){
+		    	move.y -= 1;
+		    }
+		    if( KeyInput()->IsHold( InputKey::Type_S ) ){
+		    	move.y += 1;
+		    }
+		}
 	    move.Normalize();
 	    gUnitPlayer().Walk( move * 5 );
 	    

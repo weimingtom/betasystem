@@ -73,7 +73,7 @@ public:
 		mPos = pos;
 		mDir = dir;
 		mSpeed = 6.0f;
-		mLifeFrame = 100;
+		mLifeFrame = 20;
 		mState = State_Shot;
 		
 		mIsFollow = follow;
