@@ -37,6 +37,7 @@ public:
 	bool IsDamaged() const;
 	int GetHP() const;
 	int GetMaxHP() const{ return mHPMax; }
+	void AddPos( Vector2 add_pos );
 	
 protected:
 	Vector2 mPos;

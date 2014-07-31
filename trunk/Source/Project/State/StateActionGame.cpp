@@ -109,7 +109,7 @@ void StateActionGame::Update()
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
     		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
     		speed.Normalize();
-//    		mEnemy[i].AddPos( speed );
+    		mEnemy[i].AddPos( speed );
     		gUnitPlayer().AddPos( speed * -1 );
 	    }
     }
@@ -132,7 +132,8 @@ void StateActionGame::Update()
     	{
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
     		Vector2 speed =  gUnitPlayer().GetPos() - crTargetShot.GetPos();
-    		gUnitPlayer().SetSpeed( speed.Normalize() );
+    		speed.Normalize();
+    		gUnitPlayer().SetSpeed( speed * 10 );
     		gUnitPlayer().Damage(1);
 	    }
     }
