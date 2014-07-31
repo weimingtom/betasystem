@@ -133,11 +133,18 @@ Vector2 UnitBase::GetSize() const{
 	return mSize;
 }
 //! スピード設定.
-void UnitBase::SetSpeed( Vector2 speed ){
+void UnitBase::SetSpeed( Vector2 speed )
+{
 	mSpeed = speed / mWeight;
 }
 
-void UnitBase::Damage( int damage ){
+void UnitBase::AddPos( Vector2 add_pos )
+{
+	mPos += add_pos;
+}
+
+void UnitBase::Damage( int damage )
+{
 	mDamage = damage;
 	mDamageFrame = 80;
 	mHP -= damage;
