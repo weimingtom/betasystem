@@ -20,6 +20,7 @@ public:
 	bool IsSpecialDash() const;
 	bool IsJump() const;
 	void AddPos( Vector2 add_pos );
+	void Walk( Vector2 add_pos );
 	Vector2 GetDir() const;
 	//! 生き返る.
 	void Revive();

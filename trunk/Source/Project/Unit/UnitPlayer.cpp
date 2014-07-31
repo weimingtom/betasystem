@@ -103,6 +103,10 @@ bool UnitPlayer::IsJump() const{
 
 void UnitPlayer::AddPos( Vector2 add_pos ){
 	mPos += add_pos;
+}
+
+void UnitPlayer::Walk( Vector2 add_pos ){
+	mPos += add_pos;
 	if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
 		mDir = add_pos.Normalize();
 		mIsWalk = true;
