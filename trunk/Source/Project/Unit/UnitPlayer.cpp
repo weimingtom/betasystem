@@ -64,19 +64,23 @@ void UnitPlayer::Draw()
 			FALSE );
 }
 
-void UnitPlayer::BeginDash( Vector2 dash_vec, bool is_special )
+void UnitPlayer::BeginDash( Vector2 dash_vec )
+{
+	if( mDashLockFrame ){ return; }
+	mDashLockFrame = 35;
+	mSpeed = dash_vec * 18.0f;
+
+	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
+}
+
+void UnitPlayer::BeginAttack( Vector2 dash_vec )
 {
 	if( mDashLockFrame ){ return; }
 	mDashCount++;
 	if( mDashCount > 10000 ){ mDashCount = 0; }
 	mDashFrame = 25;
 	mDashLockFrame = 35;
-	mSpeed = dash_vec * 18.0f;
-
-	if(is_special){
-		mSpecialDashFrame = 40;
-		mSpeed = dash_vec * 24.0f;
-	}
+	mSpeed = dash_vec * 8.0f;
 
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
 }

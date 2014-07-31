@@ -21,6 +21,7 @@ StateActionGame::StateActionGame()
 : mStageFrame(0)
 , mPreHoldFrame(0)
 , mWalkFrame(0)
+, mFrame(0)
 {
 	InitEnemy();
 	gUnitPlayer().Revive();
@@ -44,6 +45,11 @@ void StateActionGame::InitEnemy()
 
 void StateActionGame::Update()
 {
+	mFrame++;
+	if( mFrame % 200 == 0 ){
+		gUnitPlayer().AddHP(1);
+	}
+
 	gCamera2D().SetLookAt( Vector2(0, -mStageFrame ) );
 	
 	gCamera2D().Update();
@@ -84,31 +90,27 @@ void StateActionGame::Update()
 
 	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
 
-				if( gUnitPlayer().IsSpecialDash() ){
-		    		mEnemy[i].Damage(2);
-		    		Vector2 speed = gUnitPlayer().GetDir() - mEnemy[i].GetPos();
-		    		speed.Normalize();
-		    		mEnemy[i].SetSpeed( speed * 4 );
-		    	}else{
-		    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
-		    		speed.Normalize();
-		    		speed *= 12;
-		    		mEnemy[i].Damage(1);
-		    		mEnemy[i].SetSpeed( speed );
-		    		gUnitPlayer().SetSpeed( speed * -0.1 );
-		    		gUnitPlayer().FreeLock();
-		    	}
+	    		Vector2 speed = gUnitPlayer().GetDir() ;
+	    		speed.Normalize();
+	    		speed *= 5;
+	    		mEnemy[i].Damage(1);
+	    		mEnemy[i].SetSpeed( speed );
+	    		gUnitPlayer().SetSpeed( speed * -0.1 );
+	    		gUnitPlayer().FreeLock();
 	    	}
 	    }
     }
 
+	// お互いに重ならないように
     for( int i = 0; i < kEnemyMax ; i ++ )
     {
+    	if( mEnemy[i].IsDead() ){ continue; }
     	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
     	
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
     		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
     		speed.Normalize();
+    		speed *= 2;
     		mEnemy[i].AddPos( speed );
     		gUnitPlayer().AddPos( speed * -1 );
 	    }
@@ -160,29 +162,20 @@ void StateActionGame::Update()
 	    move.Normalize();
 	    gUnitPlayer().Walk( move * 5 );
 	    
-	    //ダッシュ
-	    if(
+		//攻撃
+		if(
 	    	KeyInput()->IsTrig( InputKey::Type_J )
 	    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
 	    ){
-	    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
+	    	gUnitPlayer().BeginAttack( gUnitPlayer().GetDir());
 	    }
-	    
-	    // 特殊ダッシュ
-	    if(
-	    	mPreHoldFrame >= 70
-	    	&& KeyInput()->IsRelease( InputKey::Type_J )
-   	    ){
-	    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir(), true );
-   	    }
-		mPreHoldFrame = KeyInput()->GetHoldFrame( InputKey::Type_J );
 
-		// ジャンプ
+		//ダッシュ
 	    if(
 			KeyInput()->IsTrig( InputKey::Type_K )
 	    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
 		){
-	    	gUnitPlayer().BeginJump();
+	    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
 	    }
 
 	    if(

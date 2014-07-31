@@ -13,7 +13,8 @@ public:
 	virtual void Draw() override;
 public:
 	//! ダッシュする
-	void BeginDash( Vector2 dash_vec, bool is_special = false );
+	void BeginDash( Vector2 dash_vec );
+	void BeginAttack( Vector2 dash_vec );
 	//! ジャンプする
 	void BeginJump();
 	bool IsDash() const;

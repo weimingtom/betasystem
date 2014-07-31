@@ -38,6 +38,10 @@ public:
 	int GetHP() const;
 	int GetMaxHP() const{ return mHPMax; }
 	void AddPos( Vector2 add_pos );
+	void AddHP(int add){
+		mHP += add;
+		if( mHP > mHPMax ){ mHP = mHPMax; }
+	}
 	
 protected:
 	Vector2 mPos;
