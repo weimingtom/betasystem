@@ -50,8 +50,8 @@ void UnitBase::PreDraw()
 	}
     // 影
 	DrawGraphInCamera(
-		static_cast<int>( GetPos().x -32 ),
-		static_cast<int>( GetPos().y -16 ),
+		static_cast<int>( GetPos().x -24 ),
+		static_cast<int>( GetPos().y -12 ),
 		PrincessImageLoader::ImageType_Shadow,
 		TRUE );
 }
@@ -134,7 +134,7 @@ Vector2 UnitBase::GetSize() const{
 }
 //! スピード設定.
 void UnitBase::SetSpeed( Vector2 speed ){
-	mSpeed = speed * 10 / mWeight;
+	mSpeed = speed / mWeight;
 }
 
 void UnitBase::Damage( int damage ){

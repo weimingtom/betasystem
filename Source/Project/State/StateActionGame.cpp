@@ -38,7 +38,7 @@ void StateActionGame::InitEnemy()
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		mEnemy[i].Initialize( EnemyID_Normal );
 //		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(1) ) );
-		mEnemy[i].SetPos( Vector2( GetRand(64*kMapChipMax), GetRand(64*kMapChipMax) ) );
+		mEnemy[i].SetPos( Vector2( GetRand(48*kMapChipMax), GetRand(48*kMapChipMax) ) );
 	}
 }
 
@@ -53,7 +53,7 @@ void StateActionGame::Update()
 	for( int x = 0; x < kMapChipMax; x++ ){
 		for( int y = 0 ; y < kMapChipMax ; y++ ){
 			DrawGraphInCamera(
-				x*64, y*64,
+				x*48, y*48,
 				mMapChip[y][x] == 0 ?  PrincessImageLoader::ImageType_Map : PrincessImageLoader::ImageType_Map2, FALSE );
 		}	
 	}
@@ -90,13 +90,27 @@ void StateActionGame::Update()
 		    		speed.Normalize();
 		    		mEnemy[i].SetSpeed( speed * 4 );
 		    	}else{
-		    		Vector2 speed = gUnitPlayer().GetDir();
+		    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
+		    		speed.Normalize();
+		    		speed *= 12;
 		    		mEnemy[i].Damage(1);
-		    		mEnemy[i].SetSpeed( speed.Normalize() / 2);
-		    		gUnitPlayer().SetSpeed( speed * 0.0f );
+		    		mEnemy[i].SetSpeed( speed );
+		    		gUnitPlayer().SetSpeed( speed * -0.1 );
 		    		gUnitPlayer().FreeLock();
 		    	}
 	    	}
+	    }
+    }
+
+    for( int i = 0; i < kEnemyMax ; i ++ )
+    {
+    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
+    	
+    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
+    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
+    		speed.Normalize();
+//    		mEnemy[i].AddPos( speed );
+    		gUnitPlayer().AddPos( speed * -1 );
 	    }
     }
 
@@ -143,7 +157,7 @@ void StateActionGame::Update()
 	    	move.y += 1;
 	    }
 	    move.Normalize();
-	    gUnitPlayer().AddPos( move * 3 );
+	    gUnitPlayer().Walk( move * 5 );
 	    
 	    //ダッシュ
 	    if(
