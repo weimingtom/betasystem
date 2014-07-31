@@ -88,11 +88,9 @@ void UnitEnemy::Update()
 			{
 				Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
 				if( move_vec.Length() < 150 ){
-					if( GetRand(40) == 0){
-						mState = State_ShotReady;
-						mFrame = 55;
-						mIsFollowShot = (GetRand(5) == 0);
-					}
+					mState = State_ShotReady;
+					mFrame = 30;
+					mIsFollowShot = false;
 				}
 			}
 		}
