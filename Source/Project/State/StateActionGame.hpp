@@ -26,6 +26,7 @@ private:
     int mPreHoldFrame;
     int mWalkFrame;
     int mMapChip[kMapChipMax][kMapChipMax];
+    int mFrame;
 };
 
 #endif
