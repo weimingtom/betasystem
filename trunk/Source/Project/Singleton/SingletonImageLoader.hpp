@@ -16,6 +16,7 @@ namespace PrincessImageLoader
         ImageType_Avater,
         ImageType_DebugTop,
         ImageType_Enemy,
+        ImageType_Shot,
         ImageType_Num,
     };
 	/**

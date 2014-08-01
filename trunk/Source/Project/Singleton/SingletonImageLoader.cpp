@@ -18,8 +18,9 @@ namespace PrincessImageLoader{
         "Resource/map2.png",
         "Resource/shadow.png",
         "Resource/Avater.bmp",
-        "Resource/debug_logo.png",
+        "Resource/player.png",
         "Resource/enemy.png",
+        "Resource/shot.png",
     };
 
     char const* NameOf( ImageType type )
