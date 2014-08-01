@@ -15,7 +15,7 @@ public:
 	void Update();
 	void Draw();
 private:
-	static int const kEnemyMax = 32;
+	static int const kEnemyMax = 16;
 	static int const kShotMax = 32;
 	static int const kMapChipMax = 32;
 private:

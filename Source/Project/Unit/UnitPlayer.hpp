@@ -27,7 +27,7 @@ public:
 	//! 硬直を消す.
 	void FreeLock();
 	//! ダッシュ回数.
-	int GetAttackID() const { return mDashCount; }
+	int GetAttackID() const { return mDashIDCount; }
 private:
 	static int const kDefaultHP = 10;
 private:
@@ -35,7 +35,7 @@ private:
 	int mSpecialDashFrame;
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
-	int mDashCount;
+	int mDashIDCount;
 	bool mIsWalk;
 };
 
