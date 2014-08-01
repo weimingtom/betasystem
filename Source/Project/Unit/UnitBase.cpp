@@ -146,7 +146,7 @@ void UnitBase::AddPos( Vector2 add_pos )
 void UnitBase::Damage( int damage )
 {
 	mDamage = damage;
-	mDamageFrame = 80;
+	mDamageFrame = 20;
 	mHP -= damage;
 	if( mHP < 0 ){ mHP = 0; }
 }
