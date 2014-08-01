@@ -48,12 +48,13 @@ public:
 	{
 		if( !IsLife() ){ return; }
 
-	    DrawCircle(
-	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-	    	static_cast<int>( 8 ),
-	    	mIsFollow ? GetColor(255,0,0) : GetColor(0,255,0) , TRUE
-		);
+		SetDrawBlendMode( DX_BLENDMODE_ADD, 255 ) ;
+	    DrawGraphInCamera( 
+	    	static_cast<int>( GetPos().x - mSize.x / 2 ),
+	    	static_cast<int>( GetPos().y - mSize.y / 2 ) ,
+			PrincessImageLoader::ImageType_Shot,
+			TRUE );
+		SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
 		if( IsVisibleCollision() ){
 		    DrawBox(

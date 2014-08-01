@@ -135,7 +135,7 @@ void StateActionGame::Update()
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
     		Vector2 speed =  gUnitPlayer().GetPos() - crTargetShot.GetPos();
     		speed.Normalize();
-    		gUnitPlayer().SetSpeed( speed * 15 );
+    		gUnitPlayer().SetSpeed( speed * 10 );
     		gUnitPlayer().Damage(1);
 	    }
     }
