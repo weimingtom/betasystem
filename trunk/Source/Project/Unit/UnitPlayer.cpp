@@ -9,9 +9,11 @@ UnitPlayer::UnitPlayer()
  : mDashFrame(0)
  , mGravity(0.0f)
  , mDashLockFrame(0)
- , mDashIDCount(0)
  , mSpecialDashFrame(0)
  , mIsWalk( false )
+ , mAttackFrame(0)
+ , mAttackLockFrame(0)
+ , mAttackCanselCount(0)
 {
 	mHP = kDefaultHP;
 	mHPMax = kDefaultHP;
@@ -28,6 +30,10 @@ void UnitPlayer::Update()
 	if( mDashFrame ){ mDashFrame--; }
 	if( mSpecialDashFrame ){ mSpecialDashFrame--; }
 	if( mDashLockFrame ){ mDashLockFrame--; }
+	if( mAttackFrame ){ mAttackFrame--; }
+	if( mAttackLockFrame ){ mAttackLockFrame--; }
+	
+	if( mAttackLockFrame == 0 ){ mAttackCanselCount = 0; }
 	
 	// ジャンプ.
 	mHeight += mGravity; // 重力.
@@ -46,12 +52,12 @@ void UnitPlayer::Draw()
 {
 	DrawUnit( mIsWalk );
 	
-	if( IsDash() ){
+	if( IsAttack() ){
 		SetFontSize(12);
 	    DrawFormatString(
 	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
-	    	GetColor(0,255,0) , "attack" );
+	    	GetColor(0,255,0) , "attack[%d]", mAttackCanselCount );
     }
 
 	int hold_frame = KeyInput()->GetHoldFrame( InputKey::Type_J );
@@ -75,14 +81,29 @@ void UnitPlayer::BeginDash( Vector2 dash_vec )
 
 void UnitPlayer::BeginAttack( Vector2 dash_vec )
 {
-	mDashIDCount++;
-	if( mDashIDCount > 10000 ){ mDashIDCount = 0; }
+	if( !CanAttack() ){ return; }
 
-	mDashFrame = 25;
-	mDashLockFrame = 35;
-	mSpeed = dash_vec * 8.0f;
+	mAttackCanselCount ++;
+	mAttackFrame = 30;
+	mAttackLockFrame = 50; 
+	mSpeed = dash_vec * 10.0f;
 
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
+}
+
+bool UnitPlayer::CanAttack() const
+{
+	int const kAttackCanselFrame = 20; // AttackFrameがコレ以下の場合キャンセル出来る.
+
+	if(
+		mAttackFrame != 0
+		&& ( mAttackFrame < kAttackCanselFrame )
+		&& mAttackCanselCount < 3
+	){
+		return true;
+	}
+	
+	return ( mAttackLockFrame == 0 );
 }
 
 void UnitPlayer::BeginJump(){
@@ -95,10 +116,6 @@ void UnitPlayer::BeginJump(){
 
 bool UnitPlayer::IsDash() const{
 	return ( mDashFrame != 0 );
-}
-
-bool UnitPlayer::IsSpecialDash() const{
-	return ( mSpecialDashFrame != 0 );
 }
 
 bool UnitPlayer::IsJump() const{

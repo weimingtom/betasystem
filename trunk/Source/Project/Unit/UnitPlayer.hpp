@@ -14,20 +14,31 @@ public:
 public:
 	//! ダッシュする
 	void BeginDash( Vector2 dash_vec );
+	//! 攻撃
 	void BeginAttack( Vector2 dash_vec );
-	//! ジャンプする
-	void BeginJump();
-	bool IsDash() const;
-	bool IsSpecialDash() const;
-	bool IsJump() const;
+	//! 攻撃中かどうか
+	bool IsAttack() const{ return( mAttackFrame != 0 ); }
+	//! 歩き
 	void Walk( Vector2 add_pos );
+	//! 向き取得.
 	Vector2 GetDir() const;
 	//! 生き返る.
 	void Revive();
 	//! 硬直を消す.
 	void FreeLock();
-	//! ダッシュ回数.
-	int GetAttackID() const { return mDashIDCount; }
+	//! ジャンプしているかどうか.
+	bool IsJump() const;
+	//!
+	int GetAttackID() const { return mAttackCanselCount; }
+	//! 
+	bool IsDash() const;
+	//! 
+	int GetAttackCanselCount() const{ return mAttackCanselCount; }
+private:
+	//! ジャンプする
+	void BeginJump();
+	//! 
+	bool CanAttack() const;
 private:
 	static int const kDefaultHP = 10;
 private:
@@ -35,8 +46,10 @@ private:
 	int mSpecialDashFrame;
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
-	int mDashIDCount;
 	bool mIsWalk;
+	int mAttackFrame;
+	int mAttackLockFrame;
+	int mAttackCanselCount;
 };
 
 UnitPlayer& gUnitPlayer();

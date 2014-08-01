@@ -25,8 +25,6 @@ public:
 	virtual bool IsDead() const override;
 public:
 	void Initialize( EnemyID enemy_id );
-	void SetDamagedID( int attack_id ){ mDamagedID = attack_id; }
-	int GetDamagedID() const { return mDamagedID; }
 private:
 	enum State{
 		State_Idle,			//!< 待機状態.
@@ -40,7 +38,6 @@ private:
 private:
 	EnemyID mEnemyID;
 	int mMoveSpeed;
-	int mDamagedID;
 	State mState;
 	int mFrame;
 	bool mIsFollowShot;

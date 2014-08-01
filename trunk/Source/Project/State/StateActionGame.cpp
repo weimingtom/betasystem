@@ -26,7 +26,6 @@ StateActionGame::StateActionGame()
 	InitEnemy();
 	gUnitPlayer().Revive();
 	
-	
 	for( int x = 0; x < kMapChipMax; x++ ){
 		for( int y = 0 ; y < kMapChipMax ; y++ ){
 			mMapChip[y][x] = GetRand(1);
@@ -38,7 +37,6 @@ void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		mEnemy[i].Initialize( EnemyID_Normal );
-//		mEnemy[i].Initialize( static_cast<EnemyID>( GetRand(1) ) );
 		mEnemy[i].SetPos( Vector2( GetRand(48*kMapChipMax), GetRand(48*kMapChipMax) ) );
 	}
 }
@@ -82,21 +80,17 @@ void StateActionGame::Update()
     	
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
 	    	if(
-	    		gUnitPlayer().IsDash()
-	    		&& ( gUnitPlayer().GetAttackID() != mEnemy[i].GetDamagedID() )
+	    		gUnitPlayer().IsAttack()
 	    	)
 	    	{
-				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
-
-	    		mEnemy[i].SetDamagedID( gUnitPlayer().GetAttackID() );
-
 	    		Vector2 speed = gUnitPlayer().GetDir() ;
 	    		speed.Normalize();
 	    		speed *= 5;
-	    		mEnemy[i].Damage(1);
+	    		mEnemy[i].Damage( gUnitPlayer().GetAttackCanselCount() );
 	    		mEnemy[i].SetSpeed( speed );
 	    		gUnitPlayer().SetSpeed( speed * -0.1 );
-	    		gUnitPlayer().FreeLock();
+
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
 	    	}
 	    }
     }
@@ -110,8 +104,8 @@ void StateActionGame::Update()
     	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
     		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
     		speed.Normalize();
-    		speed *= 4;
-    		mEnemy[i].AddPos( speed );
+    		speed *= 8;
+//    		mEnemy[i].AddPos( speed );
     		gUnitPlayer().AddPos( speed * -1 );
 	    }
     }
@@ -121,7 +115,6 @@ void StateActionGame::Update()
     {
     	if( gUnitPlayer().IsJump() ){ continue; } 
     	if( gUnitPlayer().IsDamaged() ){ continue; } 
-    	if( gUnitPlayer().IsSpecialDash() ){ continue; } 
     	if( !gShotManager().GetShot(i).IsLife() ){ continue; }
 
 		ShotBase const& crTargetShot = gShotManager().GetShot(i);
@@ -135,7 +128,7 @@ void StateActionGame::Update()
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
     		Vector2 speed =  gUnitPlayer().GetPos() - crTargetShot.GetPos();
     		speed.Normalize();
-    		gUnitPlayer().SetSpeed( speed * 10 );
+//    		gUnitPlayer().SetSpeed( speed * 0 );
     		gUnitPlayer().Damage(1);
 	    }
     }

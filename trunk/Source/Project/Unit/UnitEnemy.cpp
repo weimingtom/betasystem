@@ -27,7 +27,6 @@ EnemyStatus const sEnemyStatusList[] =
 
 UnitEnemy::UnitEnemy() :
  mEnemyID(EnemyID_Normal),
- mDamagedID(-1),
  mState( State_Idle ),
  mFrame(0)
  , mIsFollowShot( false )
@@ -85,13 +84,11 @@ void UnitEnemy::Update()
 			mDir = move_vec;
 			
 			//近付いたらショット.
-			{
-				Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
-				if( move_vec.Length() < 150 ){
-					mState = State_ShotReady;
-					mFrame = 30;
-					mIsFollowShot = false;
-				}
+			Vector2 move_vec2 = gUnitPlayer().GetPos() - mPos ;
+			if( move_vec2.Length() < 150 ){
+				mState = State_ShotReady;
+				mFrame = 50;
+				mIsFollowShot = false;
 			}
 		}
 		break;
