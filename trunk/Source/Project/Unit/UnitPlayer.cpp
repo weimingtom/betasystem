@@ -9,7 +9,7 @@ UnitPlayer::UnitPlayer()
  : mDashFrame(0)
  , mGravity(0.0f)
  , mDashLockFrame(0)
- , mDashCount(0)
+ , mDashIDCount(0)
  , mSpecialDashFrame(0)
  , mIsWalk( false )
 {
@@ -51,7 +51,7 @@ void UnitPlayer::Draw()
 	    DrawFormatString(
 	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
-	    	GetColor(0,255,0) , "dash!" );
+	    	GetColor(0,255,0) , "attack" );
     }
 
 	int hold_frame = KeyInput()->GetHoldFrame( InputKey::Type_J );
@@ -75,9 +75,9 @@ void UnitPlayer::BeginDash( Vector2 dash_vec )
 
 void UnitPlayer::BeginAttack( Vector2 dash_vec )
 {
-	if( mDashLockFrame ){ return; }
-	mDashCount++;
-	if( mDashCount > 10000 ){ mDashCount = 0; }
+	mDashIDCount++;
+	if( mDashIDCount > 10000 ){ mDashIDCount = 0; }
+
 	mDashFrame = 25;
 	mDashLockFrame = 35;
 	mSpeed = dash_vec * 8.0f;
