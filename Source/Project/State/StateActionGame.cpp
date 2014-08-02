@@ -162,6 +162,20 @@ void StateActionGame::Update()
 			&& !gUnitPlayer().IsAttackLock() 
 		){
 		    gUnitPlayer().Walk( move * 5 );
+
+		    // 歩き音用
+		    if( move.Length() == 0.0f ){
+		    	mWalkFrame = 0;
+		    }else{
+		    	mWalkFrame ++;
+		    }
+		    if( gUnitPlayer().IsJump() ){
+		    	mWalkFrame = 0;
+		    }
+		    if( mWalkFrame != 0 && mWalkFrame % 16 == 0 ){
+		    	//SE鳴らす
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
+		    }
 		}
 	    
 		//攻撃
@@ -190,21 +204,6 @@ void StateActionGame::Update()
 	    for( int i = 0 ; i < kEnemyMax ; i++ ){
 	    	mEnemy[i].Update();
 	    }
-
-	    // 歩き音用
-	    if( move.Length() == 0.0f ){
-	    	mWalkFrame = 0;
-	    }else{
-	    	mWalkFrame ++;
-	    }
-	    if( gUnitPlayer().IsJump() ){
-	    	mWalkFrame = 0;
-	    }
-	    if( mWalkFrame != 0 && mWalkFrame % 16 == 0 ){
-	    	//SE鳴らす
-			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
-	    }
-
 	}
 
 	// デバッグ処理.
