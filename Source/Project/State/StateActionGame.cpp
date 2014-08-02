@@ -89,7 +89,8 @@ void StateActionGame::Update()
 	    		mEnemy[i].Damage( gUnitPlayer().GetAttackCanselCount() );
 	    		mEnemy[i].SetSpeed( speed );
 	    		gUnitPlayer().SetSpeed( speed * -0.1 );
-
+				gUnitPlayer().EndAttack();
+				
 				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
 	    	}
 	    }
@@ -140,7 +141,10 @@ void StateActionGame::Update()
 
 		//移動.
 		Vector2 move;
-		if( !gUnitPlayer().IsDash() ){
+		if(
+			!gUnitPlayer().IsDash()
+			&& !gUnitPlayer().IsAttack()
+		){
 		    if( KeyInput()->IsHold( InputKey::Type_A ) ){
 		    	move.x -= 1;
 		    }

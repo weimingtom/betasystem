@@ -16,6 +16,8 @@ public:
 	void BeginDash( Vector2 dash_vec );
 	//! 攻撃
 	void BeginAttack( Vector2 dash_vec );
+	//! 
+	void EndAttack(){ mAttackFrame = 0; }
 	//! 攻撃中かどうか
 	bool IsAttack() const{ return( mAttackFrame != 0 ); }
 	//! 歩き

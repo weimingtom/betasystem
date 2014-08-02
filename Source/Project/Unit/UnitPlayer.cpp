@@ -93,11 +93,12 @@ void UnitPlayer::BeginAttack( Vector2 dash_vec )
 
 bool UnitPlayer::CanAttack() const
 {
-	int const kAttackCanselFrame = 20; // AttackFrameがコレ以下の場合キャンセル出来る.
+	//この間キャンセル可能.
+	int const kCanselMin = 20;
+	int const kCanselMax= 40;
 
 	if(
-		mAttackFrame != 0
-		&& ( mAttackFrame < kAttackCanselFrame )
+		kCanselMin < mAttackLockFrame && mAttackLockFrame < kCanselMax
 		&& mAttackCanselCount < 3
 	){
 		return true;
