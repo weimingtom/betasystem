@@ -66,9 +66,10 @@ void UnitPlayer::BeginDash( Vector2 dash_vec )
 	if( mDashLockFrame ){ return; }
 
 	mDashLockFrame = 30;
-	mSpeed = dash_vec * 18.0f;
+	mSpeed = dash_vec * 10.0f;
 	
 	mAttackLockFrame = 0;
+	mAttackFrame = 0;
 	
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
 }
