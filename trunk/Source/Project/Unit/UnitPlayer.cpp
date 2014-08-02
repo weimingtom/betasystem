@@ -59,15 +59,6 @@ void UnitPlayer::Draw()
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
 	    	GetColor(0,255,0) , "attack[%d]", mAttackCanselCount );
     }
-
-	int hold_frame = KeyInput()->GetHoldFrame( InputKey::Type_J );
-	if( hold_frame > 70 ){ hold_frame = 70; }
-	DrawCircle(
-	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y ),
-	    	hold_frame,
-	    	(hold_frame == 70) ? GetColor(255,0,0) : GetColor(0,255,0),
-			FALSE );
 }
 
 void UnitPlayer::BeginDash( Vector2 dash_vec )
@@ -76,7 +67,9 @@ void UnitPlayer::BeginDash( Vector2 dash_vec )
 
 	mDashLockFrame = 30;
 	mSpeed = dash_vec * 18.0f;
-
+	
+	mAttackLockFrame = 0;
+	
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
 }
 
@@ -86,7 +79,7 @@ void UnitPlayer::BeginAttack( Vector2 dash_vec )
 
 	mAttackCanselCount ++;
 	mAttackFrame = 30;
-	mAttackLockFrame = 30; 
+	mAttackLockFrame = 35; 
 	mSpeed = dash_vec * 10.0f;
 
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
@@ -96,7 +89,7 @@ bool UnitPlayer::CanAttack() const
 {
 	//この間キャンセル可能.
 	int const kCanselMin = 10;
-	int const kCanselMax= 30;
+	int const kCanselMax= 25;
 
 	if(
 		kCanselMin < mAttackLockFrame && mAttackLockFrame < kCanselMax
