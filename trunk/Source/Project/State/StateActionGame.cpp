@@ -134,32 +134,35 @@ void StateActionGame::Update()
 	    }
     }
 
-
-    SetFontSize(24);
-
 	if( !gUnitPlayer().IsDead() ){
 
 		//移動.
 		Vector2 move;
+	    if( KeyInput()->IsHold( InputKey::Type_A ) ){
+	    	move.x -= 1;
+	    }
+	    if( KeyInput()->IsHold( InputKey::Type_D ) ){
+	    	move.x += 1;
+	    }
+	    if( KeyInput()->IsHold( InputKey::Type_W ) ){
+	    	move.y -= 1;
+	    }
+	    if( KeyInput()->IsHold( InputKey::Type_S ) ){
+	    	move.y += 1;
+	    }
+	    move.Normalize();
+	    
+	    if( move.Length() != 0.0f ){
+		    gUnitPlayer().SetDir(move);
+		}
+
 		if(
 			!gUnitPlayer().IsDash()
 			&& !gUnitPlayer().IsAttack()
+			&& !gUnitPlayer().IsAttackLock() 
 		){
-		    if( KeyInput()->IsHold( InputKey::Type_A ) ){
-		    	move.x -= 1;
-		    }
-		    if( KeyInput()->IsHold( InputKey::Type_D ) ){
-		    	move.x += 1;
-		    }
-		    if( KeyInput()->IsHold( InputKey::Type_W ) ){
-		    	move.y -= 1;
-		    }
-		    if( KeyInput()->IsHold( InputKey::Type_S ) ){
-		    	move.y += 1;
-		    }
+		    gUnitPlayer().Walk( move * 5 );
 		}
-	    move.Normalize();
-	    gUnitPlayer().Walk( move * 5 );
 	    
 		//攻撃
 		if(
@@ -218,6 +221,7 @@ void StateActionGame::Update()
 		gUnitPlayer().Revive();
     }
 
+    SetFontSize(24);
 
     for( int i = 0 ; i < kEnemyMax ; i++ ){
     	mEnemy[i].PreDraw();

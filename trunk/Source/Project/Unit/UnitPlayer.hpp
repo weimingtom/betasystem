@@ -20,6 +20,8 @@ public:
 	void EndAttack(){ mAttackFrame = 0; }
 	//! 攻撃中かどうか
 	bool IsAttack() const{ return( mAttackFrame != 0 ); }
+	//! 攻撃硬直中か.
+	bool IsAttackLock() const{ return ( mAttackLockFrame != 0); }
 	//! 歩き
 	void Walk( Vector2 add_pos );
 	//! 向き取得.
@@ -36,6 +38,8 @@ public:
 	bool IsDash() const;
 	//! 
 	int GetAttackCanselCount() const{ return mAttackCanselCount; }
+	//! 
+	void SetDir( Vector2 dir ){ mDir = dir; }
 private:
 	//! ジャンプする
 	void BeginJump();
