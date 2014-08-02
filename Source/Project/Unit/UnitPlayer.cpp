@@ -73,6 +73,7 @@ void UnitPlayer::Draw()
 void UnitPlayer::BeginDash( Vector2 dash_vec )
 {
 	if( mDashLockFrame ){ return; }
+
 	mDashLockFrame = 30;
 	mSpeed = dash_vec * 18.0f;
 
@@ -85,7 +86,7 @@ void UnitPlayer::BeginAttack( Vector2 dash_vec )
 
 	mAttackCanselCount ++;
 	mAttackFrame = 30;
-	mAttackLockFrame = 50; 
+	mAttackLockFrame = 30; 
 	mSpeed = dash_vec * 10.0f;
 
 	SingletonSoundLoader::Get()->Play( NameOf(SoundType_Dash) );
@@ -94,8 +95,8 @@ void UnitPlayer::BeginAttack( Vector2 dash_vec )
 bool UnitPlayer::CanAttack() const
 {
 	//この間キャンセル可能.
-	int const kCanselMin = 20;
-	int const kCanselMax= 40;
+	int const kCanselMin = 10;
+	int const kCanselMax= 30;
 
 	if(
 		kCanselMin < mAttackLockFrame && mAttackLockFrame < kCanselMax
@@ -126,7 +127,6 @@ bool UnitPlayer::IsJump() const{
 void UnitPlayer::Walk( Vector2 add_pos ){
 	mPos += add_pos;
 	if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
-		mDir = add_pos.Normalize();
 		mIsWalk = true;
 	}else{
 		mIsWalk = false;
