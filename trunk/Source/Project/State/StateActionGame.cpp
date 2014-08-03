@@ -16,6 +16,7 @@
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
 #include "Project/Shot/ShotBase.hpp"
+#include "Project/Particle/Particle.hpp"
 
 StateActionGame::StateActionGame()
 : mStageFrame(0)
@@ -31,6 +32,8 @@ StateActionGame::StateActionGame()
 			mMapChip[y][x] = GetRand(1);
 		}
 	}
+	
+	gParticle().Initialize( Vector2(50,50) );
 }
 
 void StateActionGame::InitEnemy()
@@ -52,6 +55,7 @@ void StateActionGame::Update()
 	
 	gCamera2D().Update();
 	gShotManager().Update();
+	gParticle().Update();
 
 	//背景描画.
 	for( int x = 0; x < kMapChipMax; x++ ){
@@ -237,5 +241,6 @@ void StateActionGame::Update()
 
 void StateActionGame::Draw()
 {
+	gParticle().Draw();
 }
 
