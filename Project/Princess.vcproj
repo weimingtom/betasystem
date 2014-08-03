@@ -461,6 +461,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Particle"
+					>
+					<File
+						RelativePath="..\Source\Project\Particle\Particle.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Particle\Particle.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="System"
