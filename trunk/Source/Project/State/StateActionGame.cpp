@@ -33,7 +33,7 @@ StateActionGame::StateActionGame()
 		}
 	}
 	
-	gParticle().Initialize( Vector2(50,50) );
+	gParticle().Initialize( Vector2(200,200) );
 }
 
 void StateActionGame::InitEnemy()
