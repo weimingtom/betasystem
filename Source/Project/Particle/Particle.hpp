@@ -25,18 +25,21 @@ public:
 		if( !IsLife() ){ return; }
 		if( mLifeFrame ){ mLifeFrame --; }
 		mPos += mDir;
+
+		mDir.y -= 0.02f;
+		mDir.x *= 0.98f;
 	}
 	void Draw()
 	{
 		if( !IsLife() ){ return; }
 
-		SetDrawBlendMode( DX_BLENDMODE_ADD, 255 ) ;
+		SetDrawBlendMode( DX_BLENDMODE_ADD , mLifeFrame*3 ) ;
 	    DrawGraphInCamera( 
 	    	static_cast<int>( mPos.x - mSize.x / 2 ),
 	    	static_cast<int>( mPos.y - mSize.y / 2 ) ,
-			PrincessImageLoader::ImageType_Shot,
+			PrincessImageLoader::ImageType_Particle,
 			TRUE );
-		SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
+		SetDrawBlendMode( DX_BLENDMODE_NOBLEND , 0) ;
 	}
 	bool IsLife() const
 	{
@@ -63,13 +66,13 @@ public:
 		for( int i = 0 ; i < kPartsNum ; i++ ){
 
 			if( mParticlePartsList[i].IsLife() ){ continue; }
-			if( GetRand(30) == 0 ){ 
+			if( GetRand(20) == 0 ){ 
 				Vector2 dir;
 				float x = static_cast<float>( GetRand(200) - 100 );
 				float y = static_cast<float>( GetRand(200) - 100 );
 				dir.x = x / 100 ;
 				dir.y = y / 100 ;
-				mParticlePartsList[i].Initialize(mPos,dir,60);
+				mParticlePartsList[i].Initialize( mPos , dir/2 ,60 + GetRand(30));
 			}
 		}
 
@@ -84,7 +87,7 @@ public:
 		}
 	}
 private:
-	static int const kPartsNum = 32;
+	static int const kPartsNum = 128;
 	ParticleParts mParticlePartsList[kPartsNum];
 	Vector2 mPos;
 };
