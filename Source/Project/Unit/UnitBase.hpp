@@ -58,6 +58,7 @@ protected:
 	Vector2 mImageSize;
 	Vector2 mDir;		//!< 向き.
 	int mFrame;
+	int mAnimIndex;
 };
 
 #endif // IncludeGuard_UnitBase_

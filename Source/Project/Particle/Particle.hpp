@@ -35,8 +35,9 @@ public:
 
 		SetDrawBlendMode( DX_BLENDMODE_ADD , mLifeFrame*3 ) ;
 	    DrawGraphInCamera( 
-	    	static_cast<int>( mPos.x - mSize.x / 2 ),
-	    	static_cast<int>( mPos.y - mSize.y / 2 ) ,
+	    	Vector2( ( mPos.x - mSize.x / 2 ), ( mPos.y - mSize.y / 2 ) ),
+			Vector2( 16,16 ),
+			0,
 			PrincessImageLoader::ImageType_Particle,
 			TRUE );
 		SetDrawBlendMode( DX_BLENDMODE_NOBLEND , 0) ;
