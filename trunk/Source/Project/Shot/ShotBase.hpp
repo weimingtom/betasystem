@@ -50,8 +50,9 @@ public:
 
 		SetDrawBlendMode( DX_BLENDMODE_ADD, 255 ) ;
 	    DrawGraphInCamera( 
-	    	static_cast<int>( GetPos().x - mSize.x / 2 ),
-	    	static_cast<int>( GetPos().y - mSize.y / 2 ) ,
+	    	Vector2( ( GetPos().x - mSize.x / 2 ), ( GetPos().y - mSize.y / 2 ) ),
+			Vector2( 32,32 ),
+			0,
 			PrincessImageLoader::ImageType_Shot,
 			TRUE );
 		SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;

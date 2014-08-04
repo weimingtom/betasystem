@@ -16,13 +16,20 @@ UnitBase::UnitBase()
  , mWeight(1)
  , mDamage(0)
  , mFrame(0)
+ , mAnimIndex(0)
 {
 }
 
 void UnitBase::Update()
 {
 	mFrame++;
-	if( mFrame > 15 ) mFrame = 0;
+	if( mFrame > 20 ){
+		mFrame = 0;
+		mAnimIndex ++;
+		if( mAnimIndex >= 2){
+			mAnimIndex = 0;
+		}
+	}
 	mPos += mSpeed;
 	mSpeed *= 0.8f;
 	
@@ -50,8 +57,9 @@ void UnitBase::PreDraw()
 	}
     // 影
 	DrawGraphInCamera(
-		static_cast<int>( GetPos().x -24 ),
-		static_cast<int>( GetPos().y -12 ),
+		Vector2( ( GetPos().x -24 ), ( GetPos().y -12 ) ),
+		Vector2( 24,12 ),
+		0,
 		PrincessImageLoader::ImageType_Shadow,
 		TRUE );
 }
@@ -75,11 +83,15 @@ void UnitBase::Draw()
 void UnitBase::DrawUnit( bool is_walk )
 {
     DrawGraphInCamera( 
-    	static_cast<int>( GetPos().x - mImageSize.x / 2 ),
-    	static_cast<int>( GetPos().y - GetHeight() - mImageSize.y + ( is_walk ? mFrame/3 : 0 ) ) ,
+    	Vector2(
+    		( GetPos().x - mImageSize.x / 2 ),
+			( GetPos().y - GetHeight() - mImageSize.y )
+		),
+		mImageSize,
+		mAnimIndex,
 		mImageType,
 		TRUE,
-		( mDir.x < 0.0f ));
+		( mDir.x < 0.0f ) );
 
 	//HP
     DrawBox(

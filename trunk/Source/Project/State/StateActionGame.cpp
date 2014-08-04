@@ -61,7 +61,9 @@ void StateActionGame::Update()
 	for( int x = 0; x < kMapChipMax; x++ ){
 		for( int y = 0 ; y < kMapChipMax ; y++ ){
 			DrawGraphInCamera(
-				x*48, y*48,
+				Vector2(x*48, y*48),
+				Vector2(48,48),
+				0,
 				mMapChip[y][x] == 0 ?  PrincessImageLoader::ImageType_Map : PrincessImageLoader::ImageType_Map2, FALSE );
 		}	
 	}
@@ -223,7 +225,21 @@ void StateActionGame::Update()
 		InitEnemy();
 		gUnitPlayer().Revive();
     }
+}
 
+void StateActionGame::Draw()
+{
+	for( int x = 0; x < 5; x++ ){
+		for( int y = 0 ; y < 5; y++ ){
+			DrawGraphInCamera(
+				Vector2(x*200, y*200),
+				Vector2(48,48),
+				0,
+				PrincessImageLoader::ImageType_MapObject,
+				TRUE );
+		}	
+	}
+	
     SetFontSize(24);
 
     for( int i = 0 ; i < kEnemyMax ; i++ ){
@@ -234,13 +250,9 @@ void StateActionGame::Update()
     for( int i = 0 ; i < kEnemyMax ; i++ ){
     	mEnemy[i].Draw();
     }
+
     gUnitPlayer().Draw();
-
 	gShotManager().Draw();
-}
-
-void StateActionGame::Draw()
-{
 	gParticle().Draw();
 }
 

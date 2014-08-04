@@ -14,23 +14,17 @@ void SetVisibleCollision( bool is_visible )
 	gIsVisibleCollision = is_visible;
 }
 
-void DrawGraphInCamera( int x, int y , PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE)
+void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index,PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE )
 {
-	if( hanten == FALSE ){
-	    DrawTurnGraph( 
-	    	static_cast<int>( x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( y + gCamera2D().GetDrawOffset().y ),
-			PrincessImageLoader::ImageHandleOf( handle ),
-			touka
-		);
-	}else{
-	    DrawGraph( 
-	    	static_cast<int>( x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( y + gCamera2D().GetDrawOffset().y ),
-			PrincessImageLoader::ImageHandleOf( handle ),
-			touka
-		);
-	}
+	DrawRectGraph(
+    	static_cast<int>( pos.x + gCamera2D().GetDrawOffset().x ),
+    	static_cast<int>( pos.y + gCamera2D().GetDrawOffset().y ),
+		anim_index*size.x,0,
+		size.x,size.y,
+		PrincessImageLoader::ImageHandleOf( handle ),
+		touka,
+		!hanten
+	);
 }
 
 
