@@ -40,6 +40,7 @@ public:
 	int GetAttackCanselCount() const{ return mAttackCanselCount; }
 	//! 
 	void SetDir( Vector2 dir ){ mDir = dir; }
+	
 private:
 	//! ジャンプする
 	void BeginJump();
@@ -52,7 +53,6 @@ private:
 	int mSpecialDashFrame;
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
-	bool mIsWalk;
 	int mAttackFrame;
 	int mAttackLockFrame;
 	int mAttackCanselCount;

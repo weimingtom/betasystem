@@ -17,12 +17,14 @@ UnitBase::UnitBase()
  , mDamage(0)
  , mFrame(0)
  , mAnimIndex(0)
+ , mIsWalk(false)
 {
 }
 
 void UnitBase::Update()
 {
 	mFrame++;
+	if( mIsWalk ){ mFrame+=2; }
 	if( mFrame > 20 ){
 		mFrame = 0;
 		mAnimIndex ++;
@@ -58,7 +60,7 @@ void UnitBase::PreDraw()
     // 影
 	DrawGraphInCamera(
 		Vector2( ( GetPos().x -24 ), ( GetPos().y -12 ) ),
-		Vector2( 24,12 ),
+		Vector2( 48,24 ),
 		0,
 		PrincessImageLoader::ImageType_Shadow,
 		TRUE );
@@ -88,7 +90,7 @@ void UnitBase::DrawUnit( bool is_walk )
 			( GetPos().y - GetHeight() - mImageSize.y )
 		),
 		mImageSize,
-		mAnimIndex,
+		mAnimIndex + (is_walk ? 2 : 0),
 		mImageType,
 		TRUE,
 		( mDir.x < 0.0f ) );

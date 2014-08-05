@@ -17,7 +17,7 @@ public:
 	virtual void Draw();
 	virtual bool IsDead() const;
 public:
-	void DrawUnit( bool is_walk = false);
+	void DrawUnit( bool is_walk = false );
 
 	//! ジャンプ高さ
 	float GetHeight() const;
@@ -59,6 +59,7 @@ protected:
 	Vector2 mDir;		//!< 向き.
 	int mFrame;
 	int mAnimIndex;
+	bool mIsWalk;
 };
 
 #endif // IncludeGuard_UnitBase_
