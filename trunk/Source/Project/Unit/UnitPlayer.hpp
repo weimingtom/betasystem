@@ -41,7 +41,9 @@ public:
 	//! 
 	void SetDir( Vector2 dir ){ mDir = dir; }
 	//! 移動先を決定.
-	void SetTargetPos( Vector2 target_pos ){ mTargetPos = target_pos; mIsTarget = true; }
+	void SetTargetPos( Vector2 target_pos ){ mTargetPos = target_pos; mIsTarget = true; mTargetEnemy = -1; }
+	//! 攻撃対象の設定.
+	void SetTargetEnemy( int enemy_index ){ mTargetEnemy = enemy_index; mIsTarget = true; }
 private:
 	//! ジャンプする
 	void BeginJump();
@@ -59,6 +61,7 @@ private:
 	int mAttackCanselCount;
 	Vector2 mTargetPos;
 	bool mIsTarget;
+	int mTargetEnemy;
 };
 
 UnitPlayer& gUnitPlayer();

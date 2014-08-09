@@ -179,3 +179,10 @@ bool UnitEnemy::IsDead() const
 {
 	return ( mState == State_Dead || mState == State_DeadRequest );
 }
+
+
+UnitEnemy& gUnitEnemy( int index )
+{
+    static UnitEnemy sUnitEnemy[kEnemyMax];
+    return sUnitEnemy[index];
+}
