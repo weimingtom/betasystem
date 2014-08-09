@@ -28,20 +28,11 @@ void UnitPlayer::Update()
 	mIsWalk = mIsTarget;
 
 	// ターゲットが居る
-	if( mIsTarget ){
-
+	if( mIsTarget )
+	{
 		//ターゲットが位置.
-		if( mTargetEnemy == -1 ){
-			Vector2 dir = mTargetPos - mPos;
-			if( dir.Length() > 1.0f ){
-				dir.Normalize();
-				mDir = dir;
-				mPos += dir*2;
-			}else{
-				mIsTarget = false;
-			}
-		}else{
-		//ターゲットが敵.
+		if( IsTargetEnemy() )
+		{
 			if( !gUnitEnemy(mTargetEnemy).IsDead() ){
 				Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
 				if( dir.Length() > 80.0f ){
@@ -52,6 +43,15 @@ void UnitPlayer::Update()
 					dir.Normalize();
 					BeginAttack(dir);
 				}
+			}else{
+				mIsTarget = false;
+			}
+		}else{
+			Vector2 dir = mTargetPos - mPos;
+			if( dir.Length() > 1.0f ){
+				dir.Normalize();
+				mDir = dir;
+				mPos += dir*2;
 			}else{
 				mIsTarget = false;
 			}
@@ -86,17 +86,27 @@ void UnitPlayer::Draw()
 {
 	DrawUnit( mIsWalk );
 	
+	SetFontSize(12);
+
 	if( IsAttack() ){
-		SetFontSize(12);
 	    DrawFormatString(
 	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
 	    	GetColor(0,255,0) , "attack[%d]", mAttackCanselCount );
     }
-    DrawFormatString(
-    	static_cast<int>( mTargetPos.x + gCamera2D().GetDrawOffset().x - 6 ),
-    	static_cast<int>( mTargetPos.y + gCamera2D().GetDrawOffset().y  ),
-    	GetColor(255,255,0) , "▼");
+    
+    if( !mIsTarget ){ return; }
+    if( IsTargetEnemy() ){
+	    DrawFormatString(
+	    	static_cast<int>( gUnitEnemy(mTargetEnemy).GetPos().x + gCamera2D().GetDrawOffset().x - 6 ),
+	    	static_cast<int>( gUnitEnemy(mTargetEnemy).GetPos().y + gCamera2D().GetDrawOffset().y - 48 ),
+	    	GetColor(255,255,0) , "▼");
+    }else{
+	    DrawFormatString(
+	    	static_cast<int>( mTargetPos.x + gCamera2D().GetDrawOffset().x - 6 ),
+	    	static_cast<int>( mTargetPos.y + gCamera2D().GetDrawOffset().y  ),
+	    	GetColor(255,255,0) , "▼");
+	}
 }
 
 void UnitPlayer::BeginDash( Vector2 dash_vec )
@@ -168,6 +178,7 @@ void UnitPlayer::Revive()
 {
 	mHP = kDefaultHP;
 	mIsDead = false;
+	mPos = Vector2(500,500);
 }
 
 void UnitPlayer::FreeLock()
