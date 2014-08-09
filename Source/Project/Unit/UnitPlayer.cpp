@@ -3,7 +3,7 @@
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
-
+#include "UnitEnemy.hpp"
 
 UnitPlayer::UnitPlayer()
  : mDashFrame(0)
@@ -13,6 +13,8 @@ UnitPlayer::UnitPlayer()
  , mAttackFrame(0)
  , mAttackLockFrame(0)
  , mAttackCanselCount(0)
+ , mTargetEnemy(-1)
+ , mIsTarget(false)
 {
 	mHP = kDefaultHP;
 	mHPMax = kDefaultHP;
@@ -24,12 +26,25 @@ UnitPlayer::UnitPlayer()
 void UnitPlayer::Update()
 {
 	if( mIsTarget ){
-		Vector2 dir = mTargetPos - mPos;
-		if( dir.Length() > 1.0f ){
-			dir.Normalize();
-			mPos += dir;
+		
+		//場所がターゲット.
+		if( mTargetEnemy == -1 ){
+			Vector2 dir = mTargetPos - mPos;
+			if( dir.Length() > 1.0f ){
+				dir.Normalize();
+				mPos += dir;
+			}else{
+				mIsTarget = false;
+			}
 		}else{
-			mIsTarget = false;
+		//敵がターゲット.
+			Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
+			if( dir.Length() > 1.0f ){
+				dir.Normalize();
+				mPos += dir;
+			}else{
+				mIsTarget = false;
+			}
 		}
 	}
 

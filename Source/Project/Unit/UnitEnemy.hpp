@@ -43,5 +43,11 @@ private:
 	bool mIsFollowShot;
 };
 
+//! 敵の最大数.
+static int const kEnemyMax = 16;
+
+//! 敵インスタンスの取得.
+UnitEnemy& gUnitEnemy(int index);
+
 #endif // IncludeGuard_UnitEnemy_
 

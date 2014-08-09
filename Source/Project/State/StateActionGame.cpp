@@ -39,8 +39,8 @@ StateActionGame::StateActionGame()
 void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
-		mEnemy[i].Initialize( EnemyID_Normal );
-		mEnemy[i].SetPos( Vector2( GetRand(48*kMapChipMax), GetRand(48*kMapChipMax) ) );
+		gUnitEnemy(i).Initialize( EnemyID_Normal );
+		gUnitEnemy(i).SetPos( Vector2( GetRand(48*kMapChipMax), GetRand(48*kMapChipMax) ) );
 	}
 }
 
@@ -79,21 +79,19 @@ void StateActionGame::Update()
     // プレイヤーの攻撃.
     for( int i = 0; i < kEnemyMax ; i ++ )
     {
-    	if( mEnemy[i].IsDead() ){ continue; }
+    	if( gUnitEnemy(i).IsDead() ){ continue; }
     	if( gUnitPlayer().IsJump() ){ continue; } 
     	
-    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
+    	Vector2 const kLeftTop = Vector2( gUnitEnemy(i).GetPos().x - gUnitEnemy(i).GetSize().x / 2 , gUnitEnemy(i).GetPos().y - gUnitEnemy(i).GetSize().y / 2 );
     	
-    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-	    	if(
-	    		gUnitPlayer().IsAttack()
-	    	)
+    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, gUnitEnemy(i).GetSize() ) ){
+	    	if( gUnitPlayer().IsAttack() )
 	    	{
 	    		Vector2 speed = gUnitPlayer().GetDir() ;
 	    		speed.Normalize();
 	    		speed *= 5;
-	    		mEnemy[i].Damage( gUnitPlayer().GetAttackCanselCount() );
-	    		mEnemy[i].SetSpeed( speed );
+	    		gUnitEnemy(i).Damage( gUnitPlayer().GetAttackCanselCount() );
+	    		gUnitEnemy(i).SetSpeed( speed );
 	    		gUnitPlayer().SetSpeed( speed * -0.1 );
 				gUnitPlayer().EndAttack();
 				
@@ -105,14 +103,14 @@ void StateActionGame::Update()
 	// お互いに重ならないように
     for( int i = 0; i < kEnemyMax ; i ++ )
     {
-    	if( mEnemy[i].IsDead() ){ continue; }
-    	Vector2 const kLeftTop = Vector2( mEnemy[i].GetPos().x - mEnemy[i].GetSize().x / 2 , mEnemy[i].GetPos().y - mEnemy[i].GetSize().y / 2 );
+    	if( gUnitEnemy(i).IsDead() ){ continue; }
+    	Vector2 const kLeftTop = Vector2( gUnitEnemy(i).GetPos().x - gUnitEnemy(i).GetSize().x / 2 , gUnitEnemy(i).GetPos().y - gUnitEnemy(i).GetSize().y / 2 );
     	
-    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, mEnemy[i].GetSize() ) ){
-    		Vector2 speed = mEnemy[i].GetPos() - gUnitPlayer().GetPos() ;
+    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, gUnitEnemy(i).GetSize() ) ){
+    		Vector2 speed = gUnitEnemy(i).GetPos() - gUnitPlayer().GetPos() ;
     		speed.Normalize();
     		speed *= 8;
-//    		mEnemy[i].AddPos( speed );
+//    		gUnitEnemy(i).AddPos( speed );
     		gUnitPlayer().AddPos( speed * -1 );
 	    }
     }
@@ -135,7 +133,6 @@ void StateActionGame::Update()
 			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
     		Vector2 speed =  gUnitPlayer().GetPos() - crTargetShot.GetPos();
     		speed.Normalize();
-//    		gUnitPlayer().SetSpeed( speed * 0 );
     		gUnitPlayer().Damage(1);
 	    }
     }
@@ -211,16 +208,32 @@ void StateActionGame::OperatePlayer()
     	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
     }
 
-
-
-	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
-		gUnitPlayer().SetTargetPos( SingletonInputMouse::Get()->Position() - gCamera2D().GetDrawOffset() );
+	// マウスによる移動処理.
+	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
+	{
+		bool is_target_enemy = false;
+		// 敵検索.
+	    for( int i = 0; i < kEnemyMax ; i ++ )
+	    {
+	    	if( gUnitEnemy(i).IsDead() ){ continue; }
+	    	Vector2 const kLeftTop = Vector2( gUnitEnemy(i).GetPos().x - gUnitEnemy(i).GetSize().x / 2 , gUnitEnemy(i).GetPos().y - gUnitEnemy(i).GetSize().y / 2 );
+	    	
+	    	if ( CheckHitRect( SingletonInputMouse::Get()->Position() - gCamera2D().GetDrawOffset(), kLeftTop, gUnitEnemy(i).GetSize() ) ){
+				gUnitPlayer().SetTargetEnemy(i);
+				is_target_enemy = true;
+				break;
+		    }
+	    }
+		
+		if( !is_target_enemy ){
+			gUnitPlayer().SetTargetPos( SingletonInputMouse::Get()->Position() - gCamera2D().GetDrawOffset() );
+		}
 	}
 
 
     gUnitPlayer().Update();
     for( int i = 0 ; i < kEnemyMax ; i++ ){
-    	mEnemy[i].Update();
+    	gUnitEnemy(i).Update();
     }
 
 
@@ -248,12 +261,12 @@ void StateActionGame::Draw()
     SetFontSize(24);
 
     for( int i = 0 ; i < kEnemyMax ; i++ ){
-    	mEnemy[i].PreDraw();
+    	gUnitEnemy(i).PreDraw();
     }
     gUnitPlayer().PreDraw();
 
     for( int i = 0 ; i < kEnemyMax ; i++ ){
-    	mEnemy[i].Draw();
+    	gUnitEnemy(i).Draw();
     }
 
     gUnitPlayer().Draw();
