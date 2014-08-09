@@ -25,28 +25,35 @@ UnitPlayer::UnitPlayer()
 
 void UnitPlayer::Update()
 {
+	mIsWalk = mIsTarget;
+
+	// ターゲットが居る
 	if( mIsTarget ){
-		
-		//場所がターゲット.
+
+		//ターゲットが位置.
 		if( mTargetEnemy == -1 ){
 			Vector2 dir = mTargetPos - mPos;
 			if( dir.Length() > 1.0f ){
 				dir.Normalize();
+				mDir = dir;
 				mPos += dir*2;
 			}else{
 				mIsTarget = false;
 			}
 		}else{
-		//敵がターゲット.
+		//ターゲットが敵.
 			if( !gUnitEnemy(mTargetEnemy).IsDead() ){
 				Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
 				if( dir.Length() > 80.0f ){
 					dir.Normalize();
+					mDir = dir;
 					mPos += dir*2;
 				}else{
 					dir.Normalize();
 					BeginAttack(dir);
 				}
+			}else{
+				mIsTarget = false;
 			}
 		}
 	}
@@ -86,6 +93,10 @@ void UnitPlayer::Draw()
 	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
 	    	GetColor(0,255,0) , "attack[%d]", mAttackCanselCount );
     }
+    DrawFormatString(
+    	static_cast<int>( mTargetPos.x + gCamera2D().GetDrawOffset().x - 6 ),
+    	static_cast<int>( mTargetPos.y + gCamera2D().GetDrawOffset().y  ),
+    	GetColor(255,255,0) , "▼");
 }
 
 void UnitPlayer::BeginDash( Vector2 dash_vec )
@@ -147,11 +158,6 @@ bool UnitPlayer::IsJump() const{
 
 void UnitPlayer::Walk( Vector2 add_pos ){
 	mPos += add_pos;
-	if( add_pos.x != 0.0f || add_pos.y != 0.0f ){
-		mIsWalk = true;
-	}else{
-		mIsWalk = false;
-	}
 }
 
 Vector2 UnitPlayer::GetDir() const {
