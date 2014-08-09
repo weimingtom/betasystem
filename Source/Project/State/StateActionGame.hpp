@@ -20,6 +20,7 @@ private:
 	static int const kMapChipMax = 32;
 private:
 	void InitEnemy();
+	void OperatePlayer();
 private:
     UnitEnemy mEnemy[kEnemyMax];
     int mStageFrame;

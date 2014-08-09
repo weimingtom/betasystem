@@ -29,7 +29,7 @@ StateActionGame::StateActionGame()
 	
 	for( int x = 0; x < kMapChipMax; x++ ){
 		for( int y = 0 ; y < kMapChipMax ; y++ ){
-			mMapChip[y][x] = GetRand(1);
+			mMapChip[y][x] = 1;
 		}
 	}
 	
@@ -140,77 +140,8 @@ void StateActionGame::Update()
 	    }
     }
 
-	if( !gUnitPlayer().IsDead() ){
-
-		//移動.
-		Vector2 move;
-	    if( KeyInput()->IsHold( InputKey::Type_A ) ){
-	    	move.x -= 1;
-	    }
-	    if( KeyInput()->IsHold( InputKey::Type_D ) ){
-	    	move.x += 1;
-	    }
-	    if( KeyInput()->IsHold( InputKey::Type_W ) ){
-	    	move.y -= 1;
-	    }
-	    if( KeyInput()->IsHold( InputKey::Type_S ) ){
-	    	move.y += 1;
-	    }
-	    move.Normalize();
-	    
-	    if( move.Length() != 0.0f ){
-		    gUnitPlayer().SetDir(move);
-		}
-
-		if(
-			!gUnitPlayer().IsDash()
-			&& !gUnitPlayer().IsAttack()
-			&& !gUnitPlayer().IsAttackLock() 
-		){
-		    gUnitPlayer().Walk( move * 5 );
-
-		    // 歩き音用
-		    if( move.Length() == 0.0f ){
-		    	mWalkFrame = 0;
-		    }else{
-		    	mWalkFrame ++;
-		    }
-		    if( gUnitPlayer().IsJump() ){
-		    	mWalkFrame = 0;
-		    }
-		    if( mWalkFrame != 0 && mWalkFrame % 16 == 0 ){
-		    	//SE鳴らす
-				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
-		    }
-		}
-	    
-		//攻撃
-		if(
-	    	KeyInput()->IsTrig( InputKey::Type_J )
-	    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left )
-	    ){
-	    	gUnitPlayer().BeginAttack( gUnitPlayer().GetDir());
-	    }
-
-		//ダッシュ
-	    if(
-			KeyInput()->IsTrig( InputKey::Type_K )
-	    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
-		){
-	    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
-	    }
-
-	    if(
-			KeyInput()->IsTrig( InputKey::Type_H )
-		){
-			SetVisibleCollision( !IsVisibleCollision() );
-	    }
-
-	    gUnitPlayer().Update();
-	    for( int i = 0 ; i < kEnemyMax ; i++ ){
-	    	mEnemy[i].Update();
-	    }
-	}
+	OperatePlayer();
+	
 
 	// デバッグ処理.
     if(
@@ -224,6 +155,80 @@ void StateActionGame::Update()
 	){
 		InitEnemy();
 		gUnitPlayer().Revive();
+    }
+}
+
+/**
+	プレイヤ－操作.
+*/
+void StateActionGame::OperatePlayer()
+{
+	if( gUnitPlayer().IsDead() ){ return;}
+
+	//移動.
+	Vector2 move;
+    if( KeyInput()->IsHold( InputKey::Type_A ) ){ move.x -= 1; }
+    if( KeyInput()->IsHold( InputKey::Type_D ) ){ move.x += 1; }
+    if( KeyInput()->IsHold( InputKey::Type_W ) ){ move.y -= 1; }
+    if( KeyInput()->IsHold( InputKey::Type_S ) ){ move.y += 1; }
+    move.Normalize();
+    if( move.Length() != 0.0f ){ gUnitPlayer().SetDir(move); }
+
+	if(
+		!gUnitPlayer().IsDash()
+		&& !gUnitPlayer().IsAttack()
+		&& !gUnitPlayer().IsAttackLock() 
+	){
+	    gUnitPlayer().Walk( move * 5 );
+
+	    // 歩き音用
+	    if( move.Length() == 0.0f ){
+	    	mWalkFrame = 0;
+	    }else{
+	    	mWalkFrame ++;
+	    }
+	    if( gUnitPlayer().IsJump() ){
+	    	mWalkFrame = 0;
+	    }
+	    if( mWalkFrame != 0 && mWalkFrame % 16 == 0 ){
+	    	//SE鳴らす
+			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
+	    }
+	}
+    
+	//攻撃
+	if(
+    	KeyInput()->IsTrig( InputKey::Type_J )
+    ){
+    	gUnitPlayer().BeginAttack( gUnitPlayer().GetDir());
+    }
+
+	//ダッシュ
+    if(
+		KeyInput()->IsTrig( InputKey::Type_K )
+    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
+	){
+    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
+    }
+
+
+
+	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) ){
+		gUnitPlayer().SetTargetPos( SingletonInputMouse::Get()->Position() - gCamera2D().GetDrawOffset() );
+	}
+
+
+    gUnitPlayer().Update();
+    for( int i = 0 ; i < kEnemyMax ; i++ ){
+    	mEnemy[i].Update();
+    }
+
+
+	//デバッグ
+    if(
+		KeyInput()->IsTrig( InputKey::Type_H )
+	){
+		SetVisibleCollision( !IsVisibleCollision() );
     }
 }
 
