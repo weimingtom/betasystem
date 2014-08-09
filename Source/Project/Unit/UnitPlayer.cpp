@@ -32,18 +32,21 @@ void UnitPlayer::Update()
 			Vector2 dir = mTargetPos - mPos;
 			if( dir.Length() > 1.0f ){
 				dir.Normalize();
-				mPos += dir;
+				mPos += dir*2;
 			}else{
 				mIsTarget = false;
 			}
 		}else{
 		//敵がターゲット.
-			Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
-			if( dir.Length() > 1.0f ){
-				dir.Normalize();
-				mPos += dir;
-			}else{
-				mIsTarget = false;
+			if( !gUnitEnemy(mTargetEnemy).IsDead() ){
+				Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
+				if( dir.Length() > 80.0f ){
+					dir.Normalize();
+					mPos += dir*2;
+				}else{
+					dir.Normalize();
+					BeginAttack(dir);
+				}
 			}
 		}
 	}
