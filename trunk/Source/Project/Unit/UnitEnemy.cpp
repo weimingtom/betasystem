@@ -154,7 +154,7 @@ void UnitEnemy::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA,mFrame*5);
 	}
 
-	DrawUnit( mState == State_Chase );
+	DrawUnit( false );
 	
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 

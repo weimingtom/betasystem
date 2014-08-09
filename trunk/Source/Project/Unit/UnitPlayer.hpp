@@ -40,7 +40,8 @@ public:
 	int GetAttackCanselCount() const{ return mAttackCanselCount; }
 	//! 
 	void SetDir( Vector2 dir ){ mDir = dir; }
-	
+	//! 移動先を決定.
+	void SetTargetPos( Vector2 target_pos ){ mTargetPos = target_pos; mIsTarget = true; }
 private:
 	//! ジャンプする
 	void BeginJump();
@@ -56,6 +57,8 @@ private:
 	int mAttackFrame;
 	int mAttackLockFrame;
 	int mAttackCanselCount;
+	Vector2 mTargetPos;
+	bool mIsTarget;
 };
 
 UnitPlayer& gUnitPlayer();

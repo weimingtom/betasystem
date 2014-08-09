@@ -23,6 +23,16 @@ UnitPlayer::UnitPlayer()
 
 void UnitPlayer::Update()
 {
+	if( mIsTarget ){
+		Vector2 dir = mTargetPos - mPos;
+		if( dir.Length() > 1.0f ){
+			dir.Normalize();
+			mPos += dir;
+		}else{
+			mIsTarget = false;
+		}
+	}
+
 	UnitBase::Update();
 
 	// ダッシュ.
