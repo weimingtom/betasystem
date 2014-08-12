@@ -27,59 +27,42 @@ void UnitPlayer::Update()
 {
 	mIsWalk = mIsTarget;
 
-	// ターゲットが居る
-	if( mIsTarget )
+	// 位置がターゲット.
+	if( mIsTarget && !IsTargetEnemy() )
 	{
-		//ターゲットが位置.
-		if( IsTargetEnemy() )
-		{
-			if( !gUnitEnemy(mTargetEnemy).IsDead() ){
-				Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
-				if( dir.Length() > 80.0f ){
-					dir.Normalize();
-					mDir = dir;
-					mPos += dir*2;
-				}else{
-					dir.Normalize();
-					BeginAttack(dir);
-				}
-			}else{
-				mIsTarget = false;
-			}
+		Vector2 dir = mTargetPos - mPos;
+		if( dir.Length() > 1.0f ){
+			dir.Normalize();
+			mDir = dir;
+			mPos += dir*2;
 		}else{
-			Vector2 dir = mTargetPos - mPos;
-			if( dir.Length() > 1.0f ){
+			mIsTarget = false;
+		}
+	}
+	
+	// 敵がターゲット.
+	if( mIsTarget && IsTargetEnemy() )
+	{
+		if( !gUnitEnemy(mTargetEnemy).IsDead() ){
+			Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
+			if( dir.Length() > 80.0f ){
 				dir.Normalize();
 				mDir = dir;
 				mPos += dir*2;
 			}else{
-				mIsTarget = false;
+				mAttackFrame++;
+				if( mAttackFrame > 30 ){
+					gUnitEnemy(mTargetEnemy).Damage(1);
+					mAttackFrame = 0;
+					SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
+				}
 			}
+		}else{
+			mIsTarget = false;
 		}
 	}
 
 	UnitBase::Update();
-
-	// ダッシュ.
-	if( mDashFrame ){ mDashFrame--; }
-	if( mSpecialDashFrame ){ mSpecialDashFrame--; }
-	if( mDashLockFrame ){ mDashLockFrame--; }
-	if( mAttackFrame ){ mAttackFrame--; }
-	if( mAttackLockFrame ){ mAttackLockFrame--; }
-	
-	if( mAttackLockFrame == 0 ){ mAttackCanselCount = 0; }
-	
-	// ジャンプ.
-	mHeight += mGravity; // 重力.
-	
-	if( mHeight != 0.0f ){
-		mGravity -= 0.5f;
-	}
-	if( mHeight < 0.0f ){
-		mHeight = 0.0f;
-		mGravity = 0.0f;
-		SingletonSoundLoader::Get()->Play( NameOf(SoundType_Landing) );
-	}
 }
 
 void UnitPlayer::Draw()
