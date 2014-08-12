@@ -24,7 +24,7 @@ UnitBase::UnitBase()
 void UnitBase::Update()
 {
 	mFrame++;
-	if( mIsWalk ){ mFrame+=2; }
+	if( mIsWalk || mIsAttack ){ mFrame+=2; }
 	if( mFrame > 20 ){
 		mFrame = 0;
 		mAnimIndex ++;
@@ -32,9 +32,6 @@ void UnitBase::Update()
 			mAnimIndex = 0;
 		}
 	}
-	mPos += mSpeed;
-	mSpeed *= 0.8f;
-	
 	if( mDamageFrame ){
 		mDamageFrame--;
 	}
@@ -82,7 +79,7 @@ void UnitBase::Draw()
 	DrawUnit();
 }
 
-void UnitBase::DrawUnit( bool is_walk )
+void UnitBase::DrawUnit( bool is_walk , bool is_attack)
 {
     DrawGraphInCamera( 
     	Vector2(
@@ -90,7 +87,7 @@ void UnitBase::DrawUnit( bool is_walk )
 			( GetPos().y - GetHeight() - mImageSize.y )
 		),
 		mImageSize,
-		mAnimIndex + (is_walk ? 2 : 0),
+		mAnimIndex + (is_walk ? 2 : 0) + (is_attack ? 4 : 0),
 		mImageType,
 		TRUE,
 		( mDir.x < 0.0f ) );

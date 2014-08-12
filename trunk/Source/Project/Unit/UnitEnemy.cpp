@@ -49,6 +49,12 @@ void UnitEnemy::Initialize( EnemyID enemy_id )
 
 void UnitEnemy::Update()
 {
+	mIsAttack = (mState == State_ShotReady);
+	mIsWalk = (mState == State_Chase);
+	if( mIsAttack ){ mIsWalk = false; }
+
+	assert( ( mIsAttack && mIsWalk ) == false );
+
 	UnitBase::Update();
 
 	if( mState != State_DeadRequest && mState != State_Dead ){
@@ -154,7 +160,7 @@ void UnitEnemy::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA,mFrame*5);
 	}
 
-	DrawUnit( false );
+	DrawUnit( mIsWalk, mIsAttack );
 	
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 
