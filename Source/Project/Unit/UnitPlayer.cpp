@@ -25,6 +25,7 @@ UnitPlayer::UnitPlayer()
 
 void UnitPlayer::Update()
 {
+	mIsAttack = false;
 	mIsWalk = mIsTarget;
 
 	// 位置がターゲット.
@@ -51,6 +52,8 @@ void UnitPlayer::Update()
 				mPos += dir*2;
 			}else{
 				mAttackFrame++;
+				mIsAttack = true;
+				mIsWalk = false;
 				if( mAttackFrame > 30 ){
 					gUnitEnemy(mTargetEnemy).Damage(1);
 					mAttackFrame = 0;
@@ -67,7 +70,13 @@ void UnitPlayer::Update()
 
 void UnitPlayer::Draw()
 {
-	DrawUnit( mIsWalk );
+	if( IsDamaged() ){
+		if( mDamageFrame % 5 == 0 ){
+			return;
+		}
+	}
+
+	DrawUnit( mIsWalk, mIsAttack );
 	
 	SetFontSize(12);
 
