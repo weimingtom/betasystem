@@ -162,52 +162,6 @@ void StateActionGame::OperatePlayer()
 {
 	if( gUnitPlayer().IsDead() ){ return;}
 
-	//移動.
-	Vector2 move;
-    if( KeyInput()->IsHold( InputKey::Type_A ) ){ move.x -= 1; }
-    if( KeyInput()->IsHold( InputKey::Type_D ) ){ move.x += 1; }
-    if( KeyInput()->IsHold( InputKey::Type_W ) ){ move.y -= 1; }
-    if( KeyInput()->IsHold( InputKey::Type_S ) ){ move.y += 1; }
-    move.Normalize();
-    if( move.Length() != 0.0f ){ gUnitPlayer().SetDir(move); }
-
-	if(
-		!gUnitPlayer().IsDash()
-		&& !gUnitPlayer().IsAttack()
-		&& !gUnitPlayer().IsAttackLock() 
-	){
-	    gUnitPlayer().Walk( move * 5 );
-
-	    // 歩き音用
-	    if( move.Length() == 0.0f ){
-	    	mWalkFrame = 0;
-	    }else{
-	    	mWalkFrame ++;
-	    }
-	    if( gUnitPlayer().IsJump() ){
-	    	mWalkFrame = 0;
-	    }
-	    if( mWalkFrame != 0 && mWalkFrame % 16 == 0 ){
-	    	//SE鳴らす
-			SingletonSoundLoader::Get()->Play( NameOf(SoundType_Walk) );
-	    }
-	}
-    
-	//攻撃
-	if(
-    	KeyInput()->IsTrig( InputKey::Type_J )
-    ){
-    	gUnitPlayer().BeginAttack( gUnitPlayer().GetDir());
-    }
-
-	//ダッシュ
-    if(
-		KeyInput()->IsTrig( InputKey::Type_K )
-    	|| SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Right )
-	){
-    	gUnitPlayer().BeginDash( gUnitPlayer().GetDir() );
-    }
-
 	// マウスによる移動処理.
 	if( SingletonInputMouse::Get()->IsTrig( InputMouse::Type_Left ) )
 	{
