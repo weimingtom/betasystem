@@ -166,10 +166,12 @@ void UnitEnemy::Draw()
 
 	SetFontSize(12);
 	
+/*
     DrawFormatString(
     	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
     	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y +10),
     	GetColor(0,255,0) , "ID:%d", mEnemyID );
+*/
 
 	if( mState == State_Exclamation ){
 		SetFontSize(64);

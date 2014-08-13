@@ -29,7 +29,16 @@ StateActionGame::StateActionGame()
 	
 	for( int x = 0; x < kMapChipMax; x++ ){
 		for( int y = 0 ; y < kMapChipMax ; y++ ){
-			mMapChip[y][x] = 1;
+			if(
+				x == 0
+				|| y == 0
+				|| x == ( kMapChipMax - 1 )
+				|| y == ( kMapChipMax - 1 )
+			){
+				SetMapChip(x,y,0);
+			}else{
+				SetMapChip(x,y,1);
+			}
 		}
 	}
 	
@@ -64,7 +73,7 @@ void StateActionGame::Update()
 				Vector2(x*48, y*48),
 				Vector2(48,48),
 				0,
-				mMapChip[y][x] == 0 ?  PrincessImageLoader::ImageType_Map : PrincessImageLoader::ImageType_Map2, FALSE );
+				GetMapChip(x,y) == 0 ?  PrincessImageLoader::ImageType_Map : PrincessImageLoader::ImageType_Map2, FALSE );
 		}	
 	}
 
@@ -201,8 +210,8 @@ void StateActionGame::OperatePlayer()
 
 void StateActionGame::Draw()
 {
-	for( int x = 0; x < 5; x++ ){
-		for( int y = 0 ; y < 5; y++ ){
+	for( int x = 1; x < 5; x++ ){
+		for( int y = 1 ; y < 5; y++ ){
 			DrawGraphInCamera(
 				Vector2(x*200, y*200),
 				Vector2(48,48),

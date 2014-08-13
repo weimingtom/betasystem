@@ -4,6 +4,7 @@
 #include "Project/Camera2D/Camera2D.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 #include "UnitEnemy.hpp"
+#include "Global.hpp"
 
 UnitPlayer::UnitPlayer()
  : mDashFrame(0)
@@ -34,8 +35,7 @@ void UnitPlayer::Update()
 		Vector2 dir = mTargetPos - mPos;
 		if( dir.Length() > 1.0f ){
 			dir.Normalize();
-			mDir = dir;
-			mPos += dir*2;
+			AddPos( dir * 2 );
 		}else{
 			mIsTarget = false;
 		}
@@ -48,8 +48,7 @@ void UnitPlayer::Update()
 			Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
 			if( dir.Length() > 80.0f ){
 				dir.Normalize();
-				mDir = dir;
-				mPos += dir*2;
+				AddPos( dir * 2 );
 			}else{
 				mAttackFrame++;
 				mIsAttack = true;
@@ -80,13 +79,6 @@ void UnitPlayer::Draw()
 	
 	SetFontSize(12);
 
-	if( IsAttack() ){
-	    DrawFormatString(
-	    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x ),
-	    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y  ),
-	    	GetColor(0,255,0) , "attack[%d]", mAttackCanselCount );
-    }
-    
     if( !mIsTarget ){ return; }
     if( IsTargetEnemy() ){
 	    DrawFormatString(
@@ -158,8 +150,14 @@ bool UnitPlayer::IsJump() const{
 	return ( mHeight != 0.0f );
 }
 
-void UnitPlayer::Walk( Vector2 add_pos ){
+void UnitPlayer::AddPos( Vector2 add_pos ){
+	Vector2 next_pos = mPos + add_pos;
+	if( GetMapChip( next_pos.x / 48, next_pos.y / 48 ) == 0 ){
+		return;
+	}
+
 	mPos += add_pos;
+	mDir = add_pos.Normalize();
 }
 
 Vector2 UnitPlayer::GetDir() const {
