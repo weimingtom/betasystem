@@ -23,7 +23,7 @@ public:
 	//! 攻撃硬直中か.
 	bool IsAttackLock() const{ return ( mAttackLockFrame != 0); }
 	//! 歩き
-	void Walk( Vector2 add_pos );
+	void AddPos( Vector2 add_pos );
 	//! 向き取得.
 	Vector2 GetDir() const;
 	//! 生き返る.

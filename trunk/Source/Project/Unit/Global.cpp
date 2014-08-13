@@ -1,5 +1,5 @@
-﻿#include "Project/Unit/UnitPlayer.hpp"
-
+﻿#include "Global.hpp"
+#include "Project/Unit/UnitPlayer.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
 
 static bool gIsVisibleCollision = false;
@@ -14,7 +14,7 @@ void SetVisibleCollision( bool is_visible )
 	gIsVisibleCollision = is_visible;
 }
 
-void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index,PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE )
+void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index,PrincessImageLoader::ImageType handle, int touka , int hanten )
 {
 	DrawRectGraph(
     	static_cast<int>( pos.x + gCamera2D().GetDrawOffset().x ),
@@ -27,6 +27,16 @@ void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index,PrincessImageL
 	);
 }
 
+static int sMapChip[kMapChipMax][kMapChipMax];
 
+int GetMapChip( int x, int y )
+{
+	return sMapChip[y][x];
+}
+
+void SetMapChip( int x, int y, int chip_type )
+{
+	sMapChip[y][x] = chip_type;
+}
 
 
