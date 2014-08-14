@@ -43,6 +43,19 @@ public:
 		if( mHP > mHPMax ){ mHP = mHPMax; }
 	}
 	
+	int GetExp() const{ return mExp; }
+	void AddExp( int add_exp ){
+		mExp += add_exp;
+		if( mExp >= kExpMax ){
+			mExp -= kExpMax;
+			mLevel++;
+			mHPMax += 5;
+			mHP = mHPMax;
+		}
+	}
+
+protected:
+	static int const kExpMax = 100;
 protected:
 	Vector2 mPos;
 	Vector2 mSize;
@@ -61,6 +74,8 @@ protected:
 	int mAnimIndex;
 	bool mIsWalk;
 	bool mIsAttack;
+	int mExp;
+	int mLevel;
 };
 
 #endif // IncludeGuard_UnitBase_

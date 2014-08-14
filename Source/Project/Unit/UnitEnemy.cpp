@@ -30,7 +30,8 @@ UnitEnemy::UnitEnemy() :
  mState( State_Idle ),
  mFrame(0)
  , mIsFollowShot( false )
-{}
+{
+}
 
 void UnitEnemy::Initialize( EnemyID enemy_id )
 {
@@ -43,6 +44,7 @@ void UnitEnemy::Initialize( EnemyID enemy_id )
 	mHP = status.mHP;
 	mHPMax = status.mHP;
 	mWeight = status.mWeight;
+	mExp = 30;
 
 	mState=  State_Idle;
 }
