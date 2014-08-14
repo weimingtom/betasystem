@@ -20,6 +20,7 @@ UnitBase::UnitBase()
  , mIsWalk(false)
  , mExp(0)
  , mLevel(1)
+ , mAttackFrame(0)
 {
 }
 

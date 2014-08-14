@@ -76,6 +76,7 @@ protected:
 	bool mIsAttack;
 	int mExp;
 	int mLevel;
+	int mAttackFrame;
 };
 
 #endif // IncludeGuard_UnitBase_

@@ -58,7 +58,6 @@ private:
 	int mSpecialDashFrame;
 	float mGravity;		//!< 重力
 	int mDashLockFrame;
-	int mAttackFrame;
 	int mAttackLockFrame;
 	int mAttackCanselCount;
 	Vector2 mTargetPos;

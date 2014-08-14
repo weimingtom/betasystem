@@ -87,29 +87,27 @@ void UnitEnemy::Update()
 	case State_Chase:
 		{
 			Vector2 move_vec = gUnitPlayer().GetPos() - mPos ;
+			if( move_vec.Length() < 50 ){
+				mState = State_ShotReady;
+				break;
+			}
+
 			move_vec.Normalize();
 			mPos += move_vec * this->mMoveSpeed;
 			mDir = move_vec;
-			
-			//近付いたらショット.
-			Vector2 move_vec2 = gUnitPlayer().GetPos() - mPos ;
-			if( move_vec2.Length() < 150 ){
-				mState = State_ShotReady;
-				mFrame = 50;
-				mIsFollowShot = false;
-			}
 		}
 		break;
 	case State_ShotReady:
-		mFrame --;
-		if( mFrame == 0 ){ mState = State_Shot; }
-		break;
-	case State_Shot:
 		{
-			Vector2 speed = gUnitPlayer().GetPos() - mPos;
-			speed.Normalize();
-			gShotManager().ShotRequest( mPos, speed, mIsFollowShot );
-			mState = State_Chase;
+			Vector2 move_vec2 = gUnitPlayer().GetPos() - mPos ;
+			if( move_vec2.Length() > 50 ){ mState = State_Chase; break; }
+			
+			mAttackFrame++;
+			if( mAttackFrame >= 60 ){
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Damaged) );
+				gUnitPlayer().Damage(1);
+				mAttackFrame = 0;
+			}
 		}
 		break;
 	case State_DeadRequest:
