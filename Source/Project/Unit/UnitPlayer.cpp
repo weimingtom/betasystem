@@ -11,7 +11,6 @@ UnitPlayer::UnitPlayer()
  , mGravity(0.0f)
  , mDashLockFrame(0)
  , mSpecialDashFrame(0)
- , mAttackFrame(0)
  , mAttackLockFrame(0)
  , mAttackCanselCount(0)
  , mTargetEnemy(-1)
@@ -46,7 +45,7 @@ void UnitPlayer::Update()
 	{
 		if( !gUnitEnemy(mTargetEnemy).IsDead() ){
 			Vector2 dir = gUnitEnemy(mTargetEnemy).GetPos() - mPos;
-			if( dir.Length() > 80.0f ){
+			if( dir.Length() > 50.0f ){
 				dir.Normalize();
 				AddPos( dir * 2 );
 			}else{

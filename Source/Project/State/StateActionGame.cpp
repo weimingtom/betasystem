@@ -84,45 +84,6 @@ void StateActionGame::Update()
     DrawFormatString( 0 , y += kFontSize , ColorOf(255,255,0) , " player hp[%d/%d]", gUnitPlayer().GetHP(),gUnitPlayer().GetMaxHP() );
     DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵復活 - R" );
     DrawFormatString( 0 , y += kFontSize , ColorOf(0,255,0) , " 敵+自分復活 - T" );
-    
-    // プレイヤーの攻撃.
-    for( int i = 0; i < kEnemyMax ; i ++ )
-    {
-    	if( gUnitEnemy(i).IsDead() ){ continue; }
-    	if( gUnitPlayer().IsJump() ){ continue; } 
-    	
-    	Vector2 const kLeftTop = Vector2( gUnitEnemy(i).GetPos().x - gUnitEnemy(i).GetSize().x / 2 , gUnitEnemy(i).GetPos().y - gUnitEnemy(i).GetSize().y / 2 );
-    	
-    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, gUnitEnemy(i).GetSize() ) ){
-	    	if( gUnitPlayer().IsAttack() )
-	    	{
-	    		Vector2 speed = gUnitPlayer().GetDir() ;
-	    		speed.Normalize();
-	    		speed *= 5;
-	    		gUnitEnemy(i).Damage( gUnitPlayer().GetAttackCanselCount() );
-	    		gUnitEnemy(i).SetSpeed( speed );
-	    		gUnitPlayer().SetSpeed( speed * -0.1 );
-				gUnitPlayer().EndAttack();
-				
-				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
-	    	}
-	    }
-    }
-
-	// お互いに重ならないように
-    for( int i = 0; i < kEnemyMax ; i ++ )
-    {
-    	if( gUnitEnemy(i).IsDead() ){ continue; }
-    	Vector2 const kLeftTop = Vector2( gUnitEnemy(i).GetPos().x - gUnitEnemy(i).GetSize().x / 2 , gUnitEnemy(i).GetPos().y - gUnitEnemy(i).GetSize().y / 2 );
-    	
-    	if ( CheckHitRect( gUnitPlayer().GetPos(), kLeftTop, gUnitEnemy(i).GetSize() ) ){
-    		Vector2 speed = gUnitEnemy(i).GetPos() - gUnitPlayer().GetPos() ;
-    		speed.Normalize();
-    		speed *= 8;
-//    		gUnitEnemy(i).AddPos( speed );
-    		gUnitPlayer().AddPos( speed * -1 );
-	    }
-    }
 
     // 弾ダメージ
     for( int i = 0; i < ShotManager::kShotNum ; i ++ )
