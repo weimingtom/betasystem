@@ -54,7 +54,10 @@ void UnitPlayer::Update()
 				mIsAttack = true;
 				mIsWalk = false;
 				if( mAttackFrame > 30 ){
-					gUnitEnemy(mTargetEnemy).Damage(1);
+					gUnitEnemy(mTargetEnemy).Damage(mLevel);
+					if( gUnitEnemy(mTargetEnemy).GetHP() <= 0 ){
+						AddExp( gUnitEnemy(mTargetEnemy).GetExp() );
+					}
 					mAttackFrame = 0;
 					SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
 				}
@@ -79,18 +82,33 @@ void UnitPlayer::Draw()
 	
 	SetFontSize(12);
 
-    if( !mIsTarget ){ return; }
-    if( IsTargetEnemy() ){
-	    DrawFormatString(
-	    	static_cast<int>( gUnitEnemy(mTargetEnemy).GetPos().x + gCamera2D().GetDrawOffset().x - 6 ),
-	    	static_cast<int>( gUnitEnemy(mTargetEnemy).GetPos().y + gCamera2D().GetDrawOffset().y - 48 ),
-	    	GetColor(255,255,0) , "▼");
-    }else{
-	    DrawFormatString(
-	    	static_cast<int>( mTargetPos.x + gCamera2D().GetDrawOffset().x - 6 ),
-	    	static_cast<int>( mTargetPos.y + gCamera2D().GetDrawOffset().y  ),
-	    	GetColor(255,255,0) , "▼");
-	}
+	//Exp
+    DrawBox(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 10),
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x + 25 ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 4 ),
+    	GetColor(0,0,0) , TRUE);
+    DrawBox(
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 10),
+    	static_cast<int>( mPos.x + gCamera2D().GetDrawOffset().x - 25 + (50 * mExp / kExpMax) ),
+    	static_cast<int>( mPos.y + gCamera2D().GetDrawOffset().y + 4 ),
+    	GetColor(255,255,0) , TRUE);
+
+    if( mIsTarget ){
+	    if( IsTargetEnemy() ){
+		    DrawFormatString(
+		    	static_cast<int>( gUnitEnemy(mTargetEnemy).GetPos().x + gCamera2D().GetDrawOffset().x - 6 ),
+		    	static_cast<int>( gUnitEnemy(mTargetEnemy).GetPos().y + gCamera2D().GetDrawOffset().y - 48 ),
+		    	GetColor(255,255,0) , "▼");
+	    }else{
+		    DrawFormatString(
+		    	static_cast<int>( mTargetPos.x + gCamera2D().GetDrawOffset().x - 6 ),
+		    	static_cast<int>( mTargetPos.y + gCamera2D().GetDrawOffset().y  ),
+		    	GetColor(255,255,0) , "▼");
+		}
+    }
 }
 
 void UnitPlayer::BeginDash( Vector2 dash_vec )
@@ -150,7 +168,8 @@ bool UnitPlayer::IsJump() const{
 	return ( mHeight != 0.0f );
 }
 
-void UnitPlayer::AddPos( Vector2 add_pos ){
+void UnitPlayer::AddPos( Vector2 add_pos )
+{
 	Vector2 next_pos = mPos + add_pos;
 	if( GetMapChip( next_pos.x / 48, next_pos.y / 48 ) == 0 ){
 		return;

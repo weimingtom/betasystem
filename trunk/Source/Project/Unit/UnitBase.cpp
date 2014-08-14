@@ -18,6 +18,8 @@ UnitBase::UnitBase()
  , mFrame(0)
  , mAnimIndex(0)
  , mIsWalk(false)
+ , mExp(0)
+ , mLevel(1)
 {
 }
 
