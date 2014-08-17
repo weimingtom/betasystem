@@ -43,6 +43,19 @@ public:
 			image_size,
 			mItemID,
 			PrincessImageLoader::ImageType_Item,
+			TRUE,
+			TRUE);
+	}
+	void DrawIcon( Vector2 pos ){
+		Vector2 const image_size(32,32);
+	    DrawGraphNoCamera( 
+	    	Vector2(
+	    		( pos.x - image_size.x / 2 ),
+				( pos.y - image_size.y )
+			),
+			image_size,
+			mItemID,
+			PrincessImageLoader::ImageType_Item,
 			TRUE );
 	}
 	ItemID GetItemID() const { return mItemID; }
@@ -114,6 +127,28 @@ class PlayerItemList
 public:
 	Item& Reference(int index){
 		return mItemList[index];
+	}
+	int SearchEmpty() const {
+		for( int i = 0 ; i < kItemNum ; i++ ){
+			if( !mItemList[i].IsValid() ){
+				return i;
+			}
+		}
+		return -1;
+	}
+	bool HasFreeSpace() const {
+		return ( SearchEmpty() != -1 );
+	}
+	bool PutIn( Item item ){
+		if( !HasFreeSpace() ){ return false; }
+		mItemList[ SearchEmpty() ] = item;
+		return true;
+	}
+	void Draw(){
+		for( int i = 0; i < kItemNum ; i++ ){
+			int x = 300;
+			mItemList[i].DrawIcon( Vector2( x + i * 32, 50 ) );
+		}
 	}
 private:
 	static int const kItemNum = 10;

@@ -9,6 +9,9 @@ void SetVisibleCollision( bool is_visible );
 
 void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index, PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE);
 
+// なんと残念な名前・・・
+void DrawGraphNoCamera( Vector2 pos, Vector2 size, int anim_index, PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE);
+
 
 enum{
 	kMapChipMax = 32,
