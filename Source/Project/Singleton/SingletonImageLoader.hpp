@@ -19,6 +19,7 @@ namespace PrincessImageLoader
         ImageType_Shot,
         ImageType_Particle,
         ImageType_MapObject,
+        ImageType_Item,
         ImageType_Num,
     };
 	/**

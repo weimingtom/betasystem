@@ -23,6 +23,7 @@ namespace PrincessImageLoader{
         "Resource/shot.png",
         "Resource/paricle.png",
         "Resource/map_object.png",
+        "Resource/item.png",
     };
 
     char const* NameOf( ImageType type )
