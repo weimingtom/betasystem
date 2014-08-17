@@ -45,9 +45,10 @@ public:
 			PrincessImageLoader::ImageType_Item,
 			TRUE );
 	}
-	ItemID GetItemID() const {
-		return mItemID;
-	}
+	ItemID GetItemID() const { return mItemID; }
+	void Reset(){ mItemID = ItemID_None; }
+	bool IsValid() const {  return ( mItemID != ItemID_None ); }
+	Vector2 GetPos() const { return mPos; }
 private:
 	Vector2 mPos;
 	Vector2 mSpeed;
@@ -57,9 +58,6 @@ private:
 //! フィールドに落ちてるアイテム.
 class FieldItemManager
 {
-public:
-	FieldItemManager(){}
-	~FieldItemManager(){}
 public:
 	void RandamDrop()
 	{
@@ -85,6 +83,22 @@ public:
 			mItemList[i].Draw();
 		}
 	}
+	// アイテム情報の取得.
+	Item& Reference( int index ){
+		return mItemList[index];
+	}
+	// この座標に落ちてる？
+	int CheckDropped( Vector2 pos ){
+		for( int i = 0 ; i < kItemNum ; i++ ){
+			if( mItemList[i].IsValid() ){
+				Vector2 const tmp = mItemList[i].GetPos() - pos;
+				if( tmp.Length() < 30 ){
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
 private:
 	static int const kItemNum = 32;
 private:
@@ -92,6 +106,23 @@ private:
 };
 
 FieldItemManager& gFieldItemManager();
+
+
+//! プレイヤーのアイテム.
+class PlayerItemList
+{
+public:
+	Item& Reference(int index){
+		return mItemList[index];
+	}
+private:
+	static int const kItemNum = 10;
+private:
+	Item mItemList[kItemNum];
+};
+
+PlayerItemList& gPlayerItemList();
+
 
 #endif // IncludeGuard_Item_hpp_
 

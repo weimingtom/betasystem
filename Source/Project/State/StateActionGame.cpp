@@ -109,6 +109,11 @@ void StateActionGame::Update()
     		gUnitPlayer().Damage(1);
 	    }
     }
+    
+    int index = gFieldItemManager().CheckDropped( gUnitPlayer().GetPos() );
+    if( index != -1 ){
+    	gFieldItemManager().Reference(index).Reset();
+    }
 
 	OperatePlayer();
 	
