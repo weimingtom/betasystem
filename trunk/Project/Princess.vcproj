@@ -393,11 +393,11 @@
 					Name="Item"
 					>
 					<File
-						RelativePath="..\Source\Project\Item\ItemInfo.cpp"
+						RelativePath="..\Source\Project\Item\Item.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\Item\ItemInfo.hpp"
+						RelativePath="..\Source\Project\Item\Item.hpp"
 						>
 					</File>
 				</Filter>
