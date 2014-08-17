@@ -27,6 +27,19 @@ void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index,PrincessImageL
 	);
 }
 
+void DrawGraphNoCamera( Vector2 pos, Vector2 size, int anim_index,PrincessImageLoader::ImageType handle, int touka , int hanten )
+{
+	DrawRectGraph(
+    	static_cast<int>( pos.x ),
+    	static_cast<int>( pos.y ),
+		anim_index*size.x,0,
+		size.x,size.y,
+		PrincessImageLoader::ImageHandleOf( handle ),
+		touka,
+		!hanten
+	);
+}
+
 static int sMapChip[kMapChipMax][kMapChipMax];
 
 int GetMapChip( int x, int y )

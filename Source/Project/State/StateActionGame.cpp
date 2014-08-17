@@ -112,11 +112,12 @@ void StateActionGame::Update()
     
     int index = gFieldItemManager().CheckDropped( gUnitPlayer().GetPos() );
     if( index != -1 ){
-    	gFieldItemManager().Reference(index).Reset();
+		if( gPlayerItemList().PutIn( gFieldItemManager().Reference(index) ) ){
+	    	gFieldItemManager().Reference(index).Reset();
+    	}
     }
 
 	OperatePlayer();
-	
 
 	// デバッグ処理.
     if(
@@ -205,5 +206,6 @@ void StateActionGame::Draw()
 	gShotManager().Draw();
 	gParticle().Draw();
 	gFieldItemManager().Draw();
+	gPlayerItemList().Draw();
 }
 
