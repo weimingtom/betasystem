@@ -6,3 +6,9 @@ FieldItemManager& gFieldItemManager()
 	return sFieldItemManager;
 }
 
+PlayerItemList& gPlayerItemList()
+{
+	static PlayerItemList sPlayerItemList;
+	return sPlayerItemList;
+}
+
