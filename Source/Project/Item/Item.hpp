@@ -11,6 +11,8 @@ enum ItemID
 	ItemID_None,
 	ItemID_Meet,
 	ItemID_Wood,
+	ItemID_Grass,
+	ItemID_Num,
 };
 
 
@@ -75,7 +77,9 @@ public:
 	void RandamDrop()
 	{
 		for( int i = 0 ; i < kItemNum ; i++ ){
-			DropItem( ItemID_Meet, Vector2( GetRand(1200),GetRand(1200) ) );
+			if( GetRand(2) ){
+				DropItem( static_cast<ItemID>( GetRand(ItemID_Num-2) + 1 ), Vector2( GetRand(1000)+200,GetRand(1000)+200 ) );
+			}
 		}
 	}
 	void DropItem( ItemID item_id, Vector2 pos, Vector2 speed = Vector2(0.0f,0.0f) ){

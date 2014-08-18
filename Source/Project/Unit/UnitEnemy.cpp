@@ -4,6 +4,7 @@
 #include "Global.hpp"
 #include "Project/Camera2D/Camera2D.hpp"
 #include "Project/Shot/ShotBase.hpp"
+#include "Project/Item/Item.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
 
@@ -115,6 +116,9 @@ void UnitEnemy::Update()
 			mFrame -- ;
 			if( mFrame == 0 ){
 				mState = State_Dead;
+				if( GetRand(2) == 0 ){
+					gFieldItemManager().DropItem( ItemID_Meet, mPos );
+				}
 			}
 		}
 		break;

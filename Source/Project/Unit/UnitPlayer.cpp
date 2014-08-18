@@ -186,7 +186,7 @@ void UnitPlayer::Revive()
 {
 	mHP = kDefaultHP;
 	mIsDead = false;
-	mPos = Vector2(500,500);
+	mPos = Vector2(150,100);
 }
 
 void UnitPlayer::FreeLock()

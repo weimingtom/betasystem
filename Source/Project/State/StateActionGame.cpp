@@ -43,7 +43,7 @@ StateActionGame::StateActionGame()
 		}
 	}
 	
-	gParticle().Initialize( Vector2(200,200) );
+	gParticle().Initialize( Vector2(100,100) );
 	gFieldItemManager().RandamDrop();
 }
 
@@ -51,15 +51,19 @@ void StateActionGame::InitEnemy()
 {
 	for( int i = 0 ; i < kEnemyMax ; i++ ){
 		gUnitEnemy(i).Initialize( EnemyID_Normal );
-		gUnitEnemy(i).SetPos( Vector2( GetRand(48*kMapChipMax), GetRand(48*kMapChipMax) ) );
+		gUnitEnemy(i).SetPos( Vector2( 200+ GetRand(48*kMapChipMax), 200+GetRand(48*kMapChipMax) ) );
 	}
 }
 
 void StateActionGame::Update()
 {
 	mFrame++;
-	if( mFrame % 200 == 0 ){
-		gUnitPlayer().AddHP(1);
+	if( mFrame % 100 == 0 ){
+		mFrame = 0;
+		Vector2 const tmp = gUnitPlayer().GetPos() - Vector2(100,100);
+		if( tmp.Length() < 100.0f ){
+			gUnitPlayer().AddHP(1);
+		}
 	}
 
 	gCamera2D().SetLookAt( Vector2(0, -mStageFrame ) );
