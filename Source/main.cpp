@@ -89,7 +89,7 @@ void MainLoopOfApplication()
     {
         if( CheckHitKey( KEY_INPUT_F1 ) != 0 ){
 			Princess::StateManager::GetInstance()->ChangeState(
-				Princess::StateManager::new_State( Princess::StateManager::State_DebugTop )
+				Princess::StateManager::new_State( Princess::State_DebugTop )
 			);
         }
 
