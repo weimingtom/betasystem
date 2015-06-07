@@ -4,7 +4,6 @@
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "DxLibWrapper/InputMouse.hpp"
 #include "DxLibWrapper/Color.hpp"
-#include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
 #include "Project/Singleton/SingletonStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
