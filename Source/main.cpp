@@ -4,7 +4,7 @@
 #include "System/StateBase.hpp"
 #include "System/Vector2.hpp"
 #include "System/StateManagerBase.hpp"
-#include "Project/Singleton/SingletonProjectStateManager.hpp"
+#include "Project/Singleton/SingletonStateManager.hpp"
 #include "Project/Singleton/SingletonInputMouse.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "Project/Singleton/SingletonSoundLoader.hpp"
@@ -41,7 +41,7 @@ void InitSingleton()
     PrincessImageLoader::Init();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
-	Princess::ProjectStateManager::GetInstance();
+	Princess::StateManager::GetInstance();
 }
 
 //! DxLibŠÖŒW‚ÌÝ’è.
@@ -89,8 +89,8 @@ void MainLoopOfApplication()
     while( ProcessMessage() == 0 && CheckHitKey( KEY_INPUT_ESCAPE ) == 0 )
     {
         if( CheckHitKey( KEY_INPUT_F1 ) != 0 ){
-			Princess::ProjectStateManager::GetInstance()->ChangeState(
-				Princess::ProjectStateManager::new_State( Princess::ProjectStateManager::State_DebugTop )
+			Princess::StateManager::GetInstance()->ChangeState(
+				Princess::StateManager::new_State( Princess::StateManager::State_DebugTop )
 			);
         }
 
@@ -99,10 +99,10 @@ void MainLoopOfApplication()
         //Update
     	SingletonInputMouse::Update();
 		Singleton::UpdateKeyInput();
-		Princess::ProjectStateManager::GetInstance()->Update();
+		Princess::StateManager::GetInstance()->Update();
         
         //Draw
-		Princess::ProjectStateManager::GetInstance()->Draw();
+		Princess::StateManager::GetInstance()->Draw();
 
 		FpsTimeFanction();
 
@@ -114,7 +114,7 @@ void ReleaseSingleton()
 {
     SingletonSoundLoader::Release();
     PrincessImageLoader::Release();
-	Princess::ProjectStateManager::DeleteInstance();
+	Princess::StateManager::DeleteInstance();
 }
 
 int ExitApplication()

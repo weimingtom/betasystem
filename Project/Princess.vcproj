@@ -317,19 +317,19 @@
 						>
 					</File>
 					<File
-						RelativePath="..\Source\Project\Singleton\SingletonProjectStateManager.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Singleton\SingletonProjectStateManager.hpp"
-						>
-					</File>
-					<File
 						RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.cpp"
 						>
 					</File>
 					<File
 						RelativePath="..\Source\Project\Singleton\SingletonSoundLoader.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonStateManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\Singleton\SingletonStateManager.hpp"
 						>
 					</File>
 				</Filter>
