@@ -11,7 +11,7 @@ UnitBase::UnitBase()
  , mHPMax(3)
  , mIsDead(false)
  , mDamageFrame(0)
- , mImageType( PrincessImageLoader::ImageType_Enemy )
+ , mImageType( Princess::ImageType_Enemy )
  , mImageSize( Vector2(48,48) )
  , mWeight(1)
  , mDamage(0)
@@ -62,7 +62,7 @@ void UnitBase::PreDraw()
 		Vector2( ( GetPos().x -24 ), ( GetPos().y -12 ) ),
 		Vector2( 48,24 ),
 		0,
-		PrincessImageLoader::ImageType_Shadow,
+		Princess::ImageType_Shadow,
 		TRUE );
 }
 

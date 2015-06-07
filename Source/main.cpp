@@ -37,7 +37,7 @@ void FpsTimeFanction(){
 void InitSingleton()
 {
     SingletonInputMouse::Init();
-    PrincessImageLoader::Init();
+	Princess::ImageLoader::Initialize();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
 	Princess::StateManager::GetInstance();
@@ -112,7 +112,7 @@ void MainLoopOfApplication()
 void ReleaseSingleton()
 {
     SingletonSoundLoader::Release();
-    PrincessImageLoader::Release();
+	Princess::ImageLoader::Finalize();
 	Princess::StateManager::DeleteInstance();
 }
 

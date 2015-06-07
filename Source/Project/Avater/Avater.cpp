@@ -13,7 +13,7 @@ Avater::Avater( ItemInfo equip_list[EquipPos_Num] )
     //髪の毛ハンドルの生成.
     {
         //パレット書き換え.
-        int const soft_image_handle = PrincessImageLoader::SoftImageHandleOf( PrincessImageLoader::ImageType_Avater );
+		int const soft_image_handle = Princess::ImageLoader::GetInstance()->SoftImageHandleOf( Princess::ImageType_Avater );
         int const target_palette = 2;
         int r,g,b;
         GetColor2( mEquipList[EquipPos_Hair].color , &r,&g,&b);
@@ -41,7 +41,7 @@ void Avater::Draw(int x,int y) const
 		x, y,
 		0, 600,
 		width,height,
-		PrincessImageLoader::ImageHandleOf(PrincessImageLoader::ImageType_Avater),
+		ImageLoader::ImageHandleOf(Princess::ImageType_Avater),
 		TRUE, FALSE);
 	//髪
 	DrawRectGraph(
@@ -55,14 +55,14 @@ void Avater::Draw(int x,int y) const
 		x,y,
 		0, 0,
 		width,height,
-		PrincessImageLoader::ImageHandleOf(PrincessImageLoader::ImageType_Avater),
+		ImageLoader::ImageHandleOf(Princess::ImageType_Avater),
 		TRUE, FALSE);
 	//服
 	DrawRectGraph(
 		x,y,
 		mEquipList[EquipPos_Body].id * width, 400,
 		width,height,
-		PrincessImageLoader::ImageHandleOf(PrincessImageLoader::ImageType_Avater),
+		ImageLoader::ImageHandleOf(Princess::ImageType_Avater),
 		TRUE, FALSE);
 }
 

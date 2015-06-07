@@ -44,7 +44,7 @@ public:
 			),
 			image_size,
 			mItemID,
-			PrincessImageLoader::ImageType_Item,
+			Princess::ImageType_Item,
 			TRUE,
 			TRUE);
 	}
@@ -57,7 +57,7 @@ public:
 			),
 			image_size,
 			mItemID,
-			PrincessImageLoader::ImageType_Item,
+			Princess::ImageType_Item,
 			TRUE );
 	}
 	ItemID GetItemID() const { return mItemID; }

@@ -81,7 +81,7 @@ void StateActionGame::Update()
 				Vector2(x*48, y*48),
 				Vector2(48,48),
 				0,
-				GetMapChip(x,y) == 0 ?  PrincessImageLoader::ImageType_Map : PrincessImageLoader::ImageType_Map2, FALSE );
+				GetMapChip(x,y) == 0 ?  Princess::ImageType_Map : Princess::ImageType_Map2, FALSE );
 		}	
 	}
 

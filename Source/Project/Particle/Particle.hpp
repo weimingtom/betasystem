@@ -38,7 +38,7 @@ public:
 	    	Vector2( ( mPos.x - mSize.x / 2 ), ( mPos.y - mSize.y / 2 ) ),
 			Vector2( 16,16 ),
 			0,
-			PrincessImageLoader::ImageType_Particle,
+			Princess::ImageType_Particle,
 			TRUE );
 		SetDrawBlendMode( DX_BLENDMODE_NOBLEND , 0) ;
 	}
