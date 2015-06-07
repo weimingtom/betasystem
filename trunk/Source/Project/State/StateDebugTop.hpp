@@ -5,9 +5,8 @@
 #include "System/StateBase.hpp"
 #include "Project/Singleton/SingletonStateManager.hpp"
 
-namespace Princess
+namespace Game
 {
-
 	class StateDebugTop : public StateBase
 	{
 	public:
@@ -21,7 +20,7 @@ namespace Princess
 	    std::vector<State> m_StateList;
 	};
 
-} // namespace Princess
+} // namespace Game
 
 #endif // STATE_DEBUG_TOP__
 

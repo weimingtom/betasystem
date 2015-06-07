@@ -4,7 +4,7 @@
 #include <lua.hpp>
 #include "DxLibWrapper/Color.hpp"
 
-namespace Princess {
+namespace Game {
 
 StateLuaTest::StateLuaTest()
 {
@@ -37,5 +37,5 @@ void StateLuaTest::Draw()
 }
 
 
-} // namespace Princess
+} // namespace Game
 

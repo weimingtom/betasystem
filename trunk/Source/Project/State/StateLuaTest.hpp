@@ -5,7 +5,7 @@
 
 struct lua_State;
 
-namespace Princess{
+namespace Game{
 
 /**
     lua検証用ステート.
@@ -22,6 +22,6 @@ private:
     lua_State* mLuaState;
 };
 
-} // namespace Princess
+} // namespace Game
 
 #endif // STATE_LUA_TEST_HPP__

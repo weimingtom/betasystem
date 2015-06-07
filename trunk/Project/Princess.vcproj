@@ -214,14 +214,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Source\DxLibWrapper\ImageLoader.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\Source\DxLibWrapper\ImageLoader.hpp"
-					>
-				</File>
-				<File
 					RelativePath="..\Source\DxLibWrapper\InputKey.cpp"
 					>
 				</File>
@@ -366,6 +358,14 @@
 					</File>
 					<File
 						RelativePath="..\Source\Project\State\StateLuaTest.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateSushi.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Source\Project\State\StateSushi.hpp"
 						>
 					</File>
 				</Filter>

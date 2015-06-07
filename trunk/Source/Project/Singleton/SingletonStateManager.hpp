@@ -1,19 +1,17 @@
-#ifndef PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
-#define PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
+#ifndef Game_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
+#define Game_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
 
 #include <string>
 #include <memory>
 #include "System/Statebase.hpp"
 
-namespace Princess
+namespace Game
 {
     //! ステート.
     enum State{
         State_DebugTop,     //!< デバッグトップ.
-        State_Action,       //!< アクションテスト.
-        State_LuaTest,      //!< luaテスト.
         State_DrawTexture,  //!< 画像描画テスト.
-        State_CreateChara,  //!< キャラ生成.
+        State_Sushi,
         State_Num,
     };
 
@@ -77,7 +75,7 @@ namespace Princess
 	    std::auto_ptr< StateBase > m_next_state;
 	};
 
-} // end of namespace Princess
+} // end of namespace Game
 
-#endif // PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
+#endif // Game_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
 
