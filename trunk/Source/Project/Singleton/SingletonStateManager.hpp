@@ -7,22 +7,21 @@
 
 namespace Princess
 {
+    //! ステート.
+    enum State{
+        State_DebugTop,     //!< デバッグトップ.
+        State_Action,       //!< アクションテスト.
+        State_LuaTest,      //!< luaテスト.
+        State_DrawTexture,  //!< 画像描画テスト.
+        State_CreateChara,  //!< キャラ生成.
+        State_Num,
+    };
+
 	/**
 	    プロジェクトの一番上に位置するStateManager.
 	*/
 	class StateManager
 	{
-	public:
-	    //! ステート.
-	    enum State{
-	        State_DebugTop,     //!< デバッグトップ.
-	        State_Action,       //!< アクションテスト.
-	        State_LuaTest,      //!< luaテスト.
-	        State_DrawTexture,  //!< 画像描画テスト.
-	        State_CreateChara,  //!< キャラ生成.
-	        State_Num,
-	    };
-
 	public:
 	    //! デストラクタ.
 	    ~StateManager();
