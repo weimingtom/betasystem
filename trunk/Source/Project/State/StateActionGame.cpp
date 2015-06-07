@@ -44,7 +44,7 @@ StateActionGame::StateActionGame()
 	}
 	
 	gParticle().Initialize( Vector2(100,100) );
-	gFieldItemManager().RandamDrop();
+	gFieldItemManager().RandomDrop();
 }
 
 void StateActionGame::InitEnemy()
@@ -58,10 +58,12 @@ void StateActionGame::InitEnemy()
 void StateActionGame::Update()
 {
 	mFrame++;
-	if( mFrame % 100 == 0 ){
+	if( mFrame % 300 == 0 ){
 		mFrame = 0;
 		Vector2 const tmp = gUnitPlayer().GetPos() - Vector2(100,100);
 		if( tmp.Length() < 100.0f ){
+			gUnitPlayer().AddHP(3);
+		}else{
 			gUnitPlayer().AddHP(1);
 		}
 	}
@@ -184,17 +186,6 @@ void StateActionGame::OperatePlayer()
 
 void StateActionGame::Draw()
 {
-	for( int x = 1; x < 5; x++ ){
-		for( int y = 1 ; y < 5; y++ ){
-			DrawGraphInCamera(
-				Vector2(x*200, y*200),
-				Vector2(48,48),
-				0,
-				PrincessImageLoader::ImageType_MapObject,
-				TRUE );
-		}	
-	}
-	
     SetFontSize(24);
 
     for( int i = 0 ; i < kEnemyMax ; i++ ){

@@ -74,10 +74,10 @@ private:
 class FieldItemManager
 {
 public:
-	void RandamDrop()
+	void RandomDrop()
 	{
 		for( int i = 0 ; i < kItemNum ; i++ ){
-			if( GetRand(2) ){
+			if( GetRand(2) == 0 ){
 				DropItem( static_cast<ItemID>( GetRand(ItemID_Num-2) + 1 ), Vector2( GetRand(1000)+200,GetRand(1000)+200 ) );
 			}
 		}
