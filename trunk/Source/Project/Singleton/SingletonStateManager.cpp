@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <assert.h>
-#include "System/StateManagerBase.hpp"
 #include "Project/State/StateDebugTop.hpp"
 #include "Project/State/StateLuaTest.hpp"
 #include "Project/State/StateDrawTexture.hpp"
@@ -16,6 +15,8 @@ std::auto_ptr<StateManager> sInstance;
 
 
 StateManager::StateManager()
+ : m_current_state(0)
+ , m_next_state(0)
 {
 	ChangeState( new_State(State_DebugTop) );
 }

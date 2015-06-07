@@ -1,16 +1,16 @@
-#ifndef include_4043f656_29d2_4fa5_b7b8_641d2d447994
-#define include_4043f656_29d2_4fa5_b7b8_641d2d447994
+#ifndef PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
+#define PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
 
 #include <string>
-#include "../../System/StateManagerBase.hpp"
+#include <memory>
+#include "System/Statebase.hpp"
 
 namespace Princess
 {
-
 	/**
 	    プロジェクトの一番上に位置するStateManager.
 	*/
-	class StateManager : public StateManagerBase
+	class StateManager
 	{
 	public:
 	    //! ステート.
@@ -41,12 +41,44 @@ namespace Princess
 	    //! 名前の取得.
 	    static std::string NameOf(State state);
 
+	public:
+	    /**
+	        遷移切り替え.インスタンスの管理はこのクラスがやる.
+	        @param next_state 切り替えるStateのポインタ.
+	    */
+	    void ChangeState( StateBase* next_state )
+	    {
+	        m_next_state.reset( next_state );
+	    }
+	    /**
+	        更新.
+	    */
+	    void Update()
+	    {
+	        if( m_next_state.get() )
+	        {
+	            m_current_state.reset( m_next_state.release() );
+	        }
+	        m_current_state->Update();
+	    }
+	    /**
+	        描画.
+	    */
+	    void Draw()
+	    {
+	        m_current_state->Draw();
+	    }
+
 	private:
 	    //! コンストラクタ.
 	    StateManager();
+	    
+	private:
+	    std::auto_ptr< StateBase > m_current_state;
+	    std::auto_ptr< StateBase > m_next_state;
 	};
 
 } // end of namespace Princess
 
-#endif
+#endif // PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONSTATEMANAGER
 
