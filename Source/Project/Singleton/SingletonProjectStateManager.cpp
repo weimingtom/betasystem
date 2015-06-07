@@ -42,7 +42,7 @@ StateBase* ProjectStateManager::new_State( State select_index )
     switch( select_index )
     {
     case State_DebugTop:
-		return new StateActionGame();
+		return new StateDebugTop();
     case State_Action:
 		return new StateActionGame();
     case State_LuaTest:
@@ -62,7 +62,7 @@ std::string ProjectStateManager::NameOf(State state)
 {
     static char const* name_list[State_Num] =
     {
-        "アクションテスト",
+        "デバッグトップ",
         "アクションテスト",
         "Luaテスト",
         "画像描画テスト",

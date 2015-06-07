@@ -4,40 +4,47 @@
 #include <string>
 #include "../../System/StateManagerBase.hpp"
 
-namespace Princess{
-
-/**
-    プロジェクトの一番上に位置するStateManager.
-*/
-class ProjectStateManager : public StateManagerBase
+namespace Princess
 {
-public:
-    //! ステート.
-    enum State{
-        State_DebugTop,     //!< デバッグトップ.
-        State_Action,      	//!< アクションテスト.
-        State_LuaTest,      //!< luaテスト.
-        State_DrawTexture,  //!< 画像描画テスト.
-        State_CreateChara,       //!< キャラ生成.
-        State_Num,
-    };
-public:
-    //! デストラクタ.
-    ~ProjectStateManager();
-public:
-    //! ステートマネージャのポインタ取得.
-    static ProjectStateManager* GetInstance();
-    //! インスタンスの削除.
-    static void DeleteInstance();
-    //! ステートインスタンスの生成.
-    //! @param state 生成したいステートの種類.
-    static StateBase* new_State(State state);
-    //! 名前の取得.
-    static std::string NameOf(State state);
-private:
-    //! コンストラクタ.
-    ProjectStateManager();
-};
+
+	/**
+	    プロジェクトの一番上に位置するStateManager.
+	*/
+	class ProjectStateManager : public StateManagerBase
+	{
+	public:
+	    //! ステート.
+	    enum State{
+	        State_DebugTop,     //!< デバッグトップ.
+	        State_Action,      	//!< アクションテスト.
+	        State_LuaTest,      //!< luaテスト.
+	        State_DrawTexture,  //!< 画像描画テスト.
+	        State_CreateChara,       //!< キャラ生成.
+	        State_Num,
+	    };
+
+	public:
+	    //! デストラクタ.
+	    ~ProjectStateManager();
+
+	public:
+	    //! ステートマネージャのポインタ取得.
+	    static ProjectStateManager* GetInstance();
+
+	    //! インスタンスの削除.
+	    static void DeleteInstance();
+
+	    //! ステートインスタンスの生成.
+	    //! @param state 生成したいステートの種類.
+	    static StateBase* new_State(State state);
+
+	    //! 名前の取得.
+	    static std::string NameOf(State state);
+
+	private:
+	    //! コンストラクタ.
+	    ProjectStateManager();
+	};
 
 } // end of namespace Princess
 
