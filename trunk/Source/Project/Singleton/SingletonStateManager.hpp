@@ -10,26 +10,26 @@ namespace Princess
 	/**
 	    プロジェクトの一番上に位置するStateManager.
 	*/
-	class ProjectStateManager : public StateManagerBase
+	class StateManager : public StateManagerBase
 	{
 	public:
 	    //! ステート.
 	    enum State{
 	        State_DebugTop,     //!< デバッグトップ.
-	        State_Action,      	//!< アクションテスト.
+	        State_Action,       //!< アクションテスト.
 	        State_LuaTest,      //!< luaテスト.
 	        State_DrawTexture,  //!< 画像描画テスト.
-	        State_CreateChara,       //!< キャラ生成.
+	        State_CreateChara,  //!< キャラ生成.
 	        State_Num,
 	    };
 
 	public:
 	    //! デストラクタ.
-	    ~ProjectStateManager();
+	    ~StateManager();
 
 	public:
 	    //! ステートマネージャのポインタ取得.
-	    static ProjectStateManager* GetInstance();
+	    static StateManager* GetInstance();
 
 	    //! インスタンスの削除.
 	    static void DeleteInstance();
@@ -43,7 +43,7 @@ namespace Princess
 
 	private:
 	    //! コンストラクタ.
-	    ProjectStateManager();
+	    StateManager();
 	};
 
 } // end of namespace Princess

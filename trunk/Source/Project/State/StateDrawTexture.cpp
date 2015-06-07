@@ -2,7 +2,7 @@
 
 #include "DxLibWrapper/Color.hpp"
 #include "System/StateManagerBase.hpp"
-#include "Project/Singleton/SingletonProjectStateManager.hpp"
+#include "Project/Singleton/SingletonStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 #include "System/Range.hpp"

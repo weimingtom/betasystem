@@ -1,4 +1,4 @@
-#include "SingletonProjectStateManager.hpp"
+#include "SingletonStateManager.hpp"
 
 #include <memory>
 #include <assert.h>
@@ -12,32 +12,32 @@
 namespace Princess{
 
 //! シングルトンインスタンス.
-std::auto_ptr<ProjectStateManager> sInstance;
+std::auto_ptr<StateManager> sInstance;
 
 
-ProjectStateManager::ProjectStateManager()
+StateManager::StateManager()
 {
 	ChangeState( new_State(State_DebugTop) );
 }
 
-ProjectStateManager::~ProjectStateManager()
+StateManager::~StateManager()
 {
 }
 
-ProjectStateManager* ProjectStateManager::GetInstance()
+StateManager* StateManager::GetInstance()
 {
     if( !sInstance.get() ){
-        sInstance.reset( new ProjectStateManager() );
+        sInstance.reset( new StateManager() );
     }
     return sInstance.get();
 }
 
-void ProjectStateManager::DeleteInstance()
+void StateManager::DeleteInstance()
 {
     sInstance.reset(0);
 }
 
-StateBase* ProjectStateManager::new_State( State select_index )
+StateBase* StateManager::new_State( State select_index )
 {
     switch( select_index )
     {
@@ -58,7 +58,7 @@ StateBase* ProjectStateManager::new_State( State select_index )
 }
 
 
-std::string ProjectStateManager::NameOf(State state)
+std::string StateManager::NameOf(State state)
 {
     static char const* name_list[State_Num] =
     {

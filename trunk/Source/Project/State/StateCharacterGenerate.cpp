@@ -6,7 +6,7 @@
 #include "DxLibWrapper/Color.hpp"
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
-#include "Project/Singleton/SingletonProjectStateManager.hpp"
+#include "Project/Singleton/SingletonStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 
 StateCharacterGenerate::StateCharacterGenerate()

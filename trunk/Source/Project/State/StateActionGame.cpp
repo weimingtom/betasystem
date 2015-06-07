@@ -7,7 +7,7 @@
 #include "System/StateManagerBase.hpp"
 #include "System/ArraySize.hpp"
 #include "System/CheckHit.hpp"
-#include "Project/Singleton/SingletonProjectStateManager.hpp"
+#include "Project/Singleton/SingletonStateManager.hpp"
 #include "Project/Singleton/SingletonInputKey.hpp"
 #include "Project/Unit/UnitPlayer.hpp"
 #include "Project/Unit/UnitBase.hpp"
