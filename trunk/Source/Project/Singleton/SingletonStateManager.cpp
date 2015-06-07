@@ -44,14 +44,8 @@ StateBase* StateManager::new_State( State select_index )
     {
     case State_DebugTop:
 		return new StateDebugTop();
-    case State_Action:
-		return new StateActionGame();
-    case State_LuaTest:
-        return new StateLuaTest();
     case State_DrawTexture:
         return new StateDrawTexture();
-    case State_CreateChara:
-        return new StateCharacterGenerate();
     default:
         assert( !"invalid state");
         return 0;

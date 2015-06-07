@@ -4,13 +4,13 @@
 #include "System/Vector2.hpp"
 #include "Project/Singleton/SingletonImageLoader.hpp"
 
-bool IsVisibleCollision();
-void SetVisibleCollision( bool is_visible );
+//bool IsVisibleCollision();
+//void SetVisibleCollision( bool is_visible );
 
-void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index, PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE);
+//void DrawGraphInCamera( Vector2 pos, Vector2 size, int anim_index, Princess::ImageType handle, int touka = TRUE, int hanten = FALSE);
 
 // なんと残念な名前・・・
-void DrawGraphNoCamera( Vector2 pos, Vector2 size, int anim_index, PrincessImageLoader::ImageType handle, int touka = TRUE, int hanten = FALSE);
+//void DrawGraphNoCamera( Vector2 pos, Vector2 size, int anim_index, Princess::ImageType handle, int touka = TRUE, int hanten = FALSE);
 
 
 enum{
@@ -18,9 +18,9 @@ enum{
 };
 
 //! マップチップの取得.
-int GetMapChip( int x, int y );
+//int GetMapChip( int x, int y );
 
 //! マップチップ設定.
-void  SetMapChip( int x, int y, int chip_type );
+//void  SetMapChip( int x, int y, int chip_type );
 
 #endif // IncludeGuard_Global_hpp_

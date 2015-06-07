@@ -53,7 +53,7 @@ public:
 	    	Vector2( ( GetPos().x - mSize.x / 2 ), ( GetPos().y - mSize.y / 2 ) ),
 			Vector2( 32,32 ),
 			0,
-			PrincessImageLoader::ImageType_Shot,
+			Princess::ImageType_Shot,
 			TRUE );
 		SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 

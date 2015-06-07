@@ -19,7 +19,7 @@ UnitPlayer::UnitPlayer()
 	mHP = kDefaultHP;
 	mHPMax = kDefaultHP;
 	mImageSize = Vector2(48,69);
-	mImageType = PrincessImageLoader::ImageType_DebugTop;
+	mImageType = Princess::ImageType_DebugTop;
 	mPos = Vector2(0.0f,0.0f);
 }
 

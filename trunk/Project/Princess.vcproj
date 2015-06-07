@@ -337,14 +337,6 @@
 					Name="State"
 					>
 					<File
-						RelativePath="..\Source\Project\State\StateActionGame.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\State\StateActionGame.hpp"
-						>
-					</File>
-					<File
 						RelativePath="..\Source\Project\State\StateCharacterGenerate.cpp"
 						>
 					</File>
@@ -380,98 +372,26 @@
 				<Filter
 					Name="Avater"
 					>
-					<File
-						RelativePath="..\Source\Project\Avater\Avater.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Avater\Avater.hpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Item"
 					>
-					<File
-						RelativePath="..\Source\Project\Item\Item.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Item\Item.hpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Unit"
 					>
-					<File
-						RelativePath="..\Source\Project\Unit\Global.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\Global.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\UnitBase.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\UnitBase.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\UnitEnemy.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\UnitEnemy.hpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\UnitPlayer.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Unit\UnitPlayer.hpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Camera2D"
 					>
-					<File
-						RelativePath="..\Source\Project\Camera2D\Camera2D.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Camera2D\Camera2D.hpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Shot"
 					>
-					<File
-						RelativePath="..\Source\Project\Shot\ShotBase.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Shot\ShotBase.hpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Particle"
 					>
-					<File
-						RelativePath="..\Source\Project\Particle\Particle.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Source\Project\Particle\Particle.hpp"
-						>
-					</File>
 				</Filter>
 			</Filter>
 			<Filter

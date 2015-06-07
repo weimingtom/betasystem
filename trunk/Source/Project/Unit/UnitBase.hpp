@@ -67,7 +67,7 @@ protected:
 	bool mIsDead;
 	int mDamage;
 	int mDamageFrame;
-	PrincessImageLoader::ImageType mImageType;
+	Princess::ImageType mImageType;
 	Vector2 mImageSize;
 	Vector2 mDir;		//!< 向き.
 	int mFrame;
