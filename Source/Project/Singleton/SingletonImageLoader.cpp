@@ -5,7 +5,7 @@
 #include <DxLib.h>
 #include "DxLibWrapper/ReturnVariable.hpp"
 
-namespace Princess
+namespace Game
 {
 	/**
 		Žg—p‚·‚é‰æ‘œ–¼.
@@ -135,5 +135,5 @@ namespace Princess
     	return image_name[type];
     }
 
-} // namespace Princess
+} // namespace Game
 

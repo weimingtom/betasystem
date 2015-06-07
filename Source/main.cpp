@@ -37,10 +37,10 @@ void FpsTimeFanction(){
 void InitSingleton()
 {
     SingletonInputMouse::Init();
-	Princess::ImageLoader::Initialize();
+	Game::ImageLoader::Initialize();
     SingletonSoundLoader::Init();
     Singleton::InitKeyInput();
-	Princess::StateManager::GetInstance();
+	Game::StateManager::GetInstance();
 }
 
 //! DxLibŠÖŒW‚ÌÝ’è.
@@ -48,10 +48,10 @@ void InitSingleton()
 int SetConfigDxLib()
 {
 	
-    SetMainWindowText("PrincessCrave");
+    SetMainWindowText("GameCrave");
 
 	#ifdef _DEBUG
-    	SetMainWindowText("PrincessCrave:DebugBuild");
+    	SetMainWindowText("GameCrave:DebugBuild");
     #endif
 
     SetWindowIconID( IDI_ICON1 ); // DxLib_Init ‚æ‚è‘O‚Å‚ ‚é•K—v‚ª‚ ‚é.
@@ -88,8 +88,8 @@ void MainLoopOfApplication()
     while( ProcessMessage() == 0 && CheckHitKey( KEY_INPUT_ESCAPE ) == 0 )
     {
         if( CheckHitKey( KEY_INPUT_F1 ) != 0 ){
-			Princess::StateManager::GetInstance()->ChangeState(
-				Princess::StateManager::new_State( Princess::State_DebugTop )
+			Game::StateManager::GetInstance()->ChangeState(
+				Game::StateManager::new_State( Game::State_DebugTop )
 			);
         }
 
@@ -98,10 +98,10 @@ void MainLoopOfApplication()
         //Update
     	SingletonInputMouse::Update();
 		Singleton::UpdateKeyInput();
-		Princess::StateManager::GetInstance()->Update();
+		Game::StateManager::GetInstance()->Update();
         
         //Draw
-		Princess::StateManager::GetInstance()->Draw();
+		Game::StateManager::GetInstance()->Draw();
 
 		FpsTimeFanction();
 
@@ -112,8 +112,8 @@ void MainLoopOfApplication()
 void ReleaseSingleton()
 {
     SingletonSoundLoader::Release();
-	Princess::ImageLoader::Finalize();
-	Princess::StateManager::DeleteInstance();
+	Game::ImageLoader::Finalize();
+	Game::StateManager::DeleteInstance();
 }
 
 int ExitApplication()

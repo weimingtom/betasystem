@@ -1,5 +1,5 @@
-#ifndef PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONIMAGELOADER
-#define PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONIMAGELOADER
+#ifndef Game_SOURCE_PROJECT_SINGLETON_SINGLETONIMAGELOADER
+#define Game_SOURCE_PROJECT_SINGLETON_SINGLETONIMAGELOADER
 
 #include <vector>
 #include <string>
@@ -8,7 +8,7 @@
 typedef std::vector<std::string> ImageNameList;
 typedef std::map< std::string , int > ImageMap;
 
-namespace Princess
+namespace Game
 {
 	/**
 		‰æ‘œ‚ÌŽí—Þ.
@@ -85,7 +85,7 @@ namespace Princess
 	    ImageMap m_soft_image_handle_list;
 	};
 
-} // namespace Princess
+} // namespace Game
 
-#endif //PRINCESS_SOURCE_PROJECT_SINGLETON_SINGLETONIMAGELOADER
+#endif //Game_SOURCE_PROJECT_SINGLETON_SINGLETONIMAGELOADER
 

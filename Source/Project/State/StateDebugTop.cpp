@@ -6,13 +6,14 @@
 #include "DxLibWrapper/Color.hpp"
 #include "System/Range.hpp"
 
-namespace Princess{
+namespace Game{
 
 StateDebugTop::StateDebugTop()
  : mIndex(0)
 {
 	m_StateList.push_back(State_DebugTop);
 	m_StateList.push_back(State_DrawTexture);
+	m_StateList.push_back(State_Sushi);
 }
 
 void StateDebugTop::Update()
@@ -41,7 +42,7 @@ void StateDebugTop::Draw()
         DrawFormatString( 20 , kBaseY + i*kMarginY, ColorOf(0,255,0) , "%d.%s",i,StateManager::NameOf( m_StateList.at(i) ).c_str() );
     }
     
-    DrawGraph(300,200, ImageLoader::GetInstance()->ImageHandleOf( Princess::ImageType_DebugTop ) , FALSE );
+    DrawGraph(300,200, ImageLoader::GetInstance()->ImageHandleOf( Game::ImageType_DebugTop ) , FALSE );
 }
 
-} // namespace Princess
+} // namespace Game
