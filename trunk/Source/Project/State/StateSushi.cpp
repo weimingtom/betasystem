@@ -73,19 +73,22 @@ namespace Game
 	    SetFontSize(12);
 	    DrawFormatString( 0, 0, ColorOf(0,255,0) , "寿司ゲー:Score[%d]", mScore );
 	    
+	    // ストック.
 	    for( unsigned int i = 0 ; i < mFoodStock.size(); i++ ){
-			DrawFormatString( i * 20 , 50, GetColor( mFoodStock.at(i) ) , "○%d", mFoodStock.at(i) );
+			DrawFormatString( i * 20 , 50, GetColor( mFoodStock.at(i) ) , "○", mFoodStock.at(i) );
 	    }
 
 		for( int i = 0 ; i < mCharaList.size() ; i++ )
 		{
-		    DrawFormatString( 0, 100 + i*20 , GetColor( mCharaList.at(i).GetColor() ) , "%03d", mCharaList.at(i).GetFrame() );
+			// 食ってる途中
+		    DrawFillBox( 300, 100 + i*20, 300 + mCharaList.at(i).GetFrame() / 2, 100 + i*20 + 10,  GetColor( mCharaList.at(i).GetColor() )  );
+		    DrawFormatString( 0, 100 + i*20, GetColor( mCharaList.at(i).GetColor() ), "(´・ω・)"  );
 
 			for( unsigned int j = 0; j<mCharaList.at(i).GetFoodList().size() ; j++ ){
-				DrawFormatString( 150+j*20, 100 + i*20 , GetColor( mCharaList.at(i).GetFoodList().at(j).food_type ) , "●" );
+				DrawFormatString( 100+j*20, 100 + i*20 , GetColor( mCharaList.at(i).GetFoodList().at(j).food_type ) , "○" );
 			}
 		    
-		    if( mIndex == i){ DrawFormatString( 50, 100 + i*20 , ColorOf(255,255,255) , "→" ); } 
+		    if( mIndex == i){ DrawFormatString( 80, 100 + i*20 , ColorOf(255,255,255) , "→" ); } 
 		}
 	}
 
