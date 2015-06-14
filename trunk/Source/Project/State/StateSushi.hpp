@@ -13,6 +13,7 @@ namespace Game
 		FoodType_Red,
 		FoodType_Green,
 		FoodType_Blue,
+		FoodType_Normal,
 		FoodType_Num,
 	};
 
@@ -22,6 +23,7 @@ namespace Game
 	public:
 		Character()
 		 : mEatNum(0)
+		 , mColor(FoodType_Normal)
 		{}
 		~Character()
 		{}
@@ -47,10 +49,16 @@ namespace Game
 		{
 			if( food_list.size() )
 			{
-				food_list.at(0).frame_count--;
+				if( food_list.at(0).food_type == mColor ){
+					food_list.at(0).frame_count -= 2;
+				}else{
+					food_list.at(0).frame_count -= 1;
+				}
+
 				if( food_list.at(0).frame_count <= 0 )
 				{
 					// 食い終わった
+					mColor = food_list.at(0).food_type;
 					food_list.erase( food_list.begin() );
 					mEatNum++;
 					return true;
@@ -69,9 +77,12 @@ namespace Game
 		
 		std::vector<Food> GetFoodList(){ return food_list; }
 
+		FoodType GetColor() const{ return mColor; }
+
 	private:
 		std::vector<Food> food_list;	//!< 食べる物リスト
 		int mEatNum;
+		FoodType mColor;
 	};
 
 
