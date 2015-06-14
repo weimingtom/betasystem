@@ -38,7 +38,7 @@ namespace Game
 		else if( KeyInput()->IsTrig( InputKey::Type_Left ) ){
 			if( switch_flag ){
 				switch_flag = false;
-				mFoodStock.push_back( (FoodType)GetRand(FoodType_Num) );
+				mFoodStock.push_back( static_cast<FoodType>( GetRand( FoodType_Num - 2 ) )  );
 			}
 		}
 		
@@ -62,8 +62,9 @@ namespace Game
 		switch(food_type){
 		case FoodType_Red:		return ColorOf(255,110,110);
 		case FoodType_Green:	return ColorOf(110,255,110);
-		case FoodType_Blue:
-		default:				return ColorOf(110,110,255);
+		case FoodType_Blue:		return ColorOf(110,110,255);
+		case FoodType_Normal:	return ColorOf(255,255,255);
+		default:				return ColorOf(255,255,255);
 		}
 	}
 
@@ -73,18 +74,18 @@ namespace Game
 	    DrawFormatString( 0, 0, ColorOf(0,255,0) , "寿司ゲー:Score[%d]", mScore );
 	    
 	    for( unsigned int i = 0 ; i < mFoodStock.size(); i++ ){
-			DrawFormatString( i * 20 , 50, GetColor( mFoodStock.at(i) ) , "○");
+			DrawFormatString( i * 20 , 50, GetColor( mFoodStock.at(i) ) , "○%d", mFoodStock.at(i) );
 	    }
 
 		for( int i = 0 ; i < mCharaList.size() ; i++ )
 		{
-		    DrawFormatString( 0, 100 + i*20 , ColorOf(0,255,0) , "%03d", mCharaList.at(i).GetFrame() );
+		    DrawFormatString( 0, 100 + i*20 , GetColor( mCharaList.at(i).GetColor() ) , "%03d", mCharaList.at(i).GetFrame() );
 
 			for( unsigned int j = 0; j<mCharaList.at(i).GetFoodList().size() ; j++ ){
 				DrawFormatString( 150+j*20, 100 + i*20 , GetColor( mCharaList.at(i).GetFoodList().at(j).food_type ) , "●" );
 			}
 		    
-		    if( mIndex == i){ DrawFormatString( 50, 100 + i*20 , ColorOf(0,255,0) , "→" ); } 
+		    if( mIndex == i){ DrawFormatString( 50, 100 + i*20 , ColorOf(255,255,255) , "→" ); } 
 		}
 	}
 
