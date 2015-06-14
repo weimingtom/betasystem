@@ -7,7 +7,6 @@
 
 namespace Game
 {
-
 	// 食べ物の種類.
 	enum FoodType
 	{
@@ -21,8 +20,11 @@ namespace Game
 	class Character
 	{
 	public:
-		Character(){}
-		~Character(){}
+		Character()
+		 : mEatNum(0)
+		{}
+		~Character()
+		{}
 
 	public:
 		struct Food{
@@ -30,8 +32,6 @@ namespace Game
 			int frame_count;
 		};
 	
-		std::vector<Food> food_list;	//!< 食べる物リスト
-		
 		void AddFood( FoodType food_type )
 		{
 			Food food;
@@ -43,16 +43,20 @@ namespace Game
 			}
 		}
 		
-		void Update()
+		bool Update()
 		{
 			if( food_list.size() )
 			{
 				food_list.at(0).frame_count--;
 				if( food_list.at(0).frame_count <= 0 )
 				{
+					// 食い終わった
 					food_list.erase( food_list.begin() );
+					mEatNum++;
+					return true;
 				}
 			}
+			return false;
 		}
 		
 		int GetFrame()
@@ -64,6 +68,10 @@ namespace Game
 		}
 		
 		std::vector<Food> GetFoodList(){ return food_list; }
+
+	private:
+		std::vector<Food> food_list;	//!< 食べる物リスト
+		int mEatNum;
 	};
 
 
@@ -82,10 +90,10 @@ namespace Game
 
 	private:
 		int mIndex;
-		static int const kCharaNum = 3;
-		Character mCharaList[kCharaNum];
+		std::vector<Character> mCharaList;
 		std::vector<FoodType> mFoodStock;
 		bool switch_flag;
+		int mScore;
 	};
 
 } // namespace Princess
