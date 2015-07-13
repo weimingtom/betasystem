@@ -15,16 +15,15 @@ namespace Game
 		Character chara;
 		mCharaList.push_back( chara );
 		mCharaList.push_back( chara );
-		mCharaList.push_back( chara );
 	}
 
 	void StateSushi::Update()
 	{
 		// 増える
-//		if( mScore >= 1000 && mCharaList.size() == 1 ){
-//			Character chara;
-//			mCharaList.push_back( chara );
-//		}
+		if( mScore >= 1000 && mCharaList.size() <= 2 ){
+			Character chara;
+			mCharaList.push_back( chara );
+		}
 	
 		// 上下
 	    if( KeyInput()->IsTrig( InputKey::Type_Up ) ){ mIndex--; }
@@ -39,12 +38,15 @@ namespace Game
 			if( switch_flag ){
 				switch_flag = false;
 				mFoodStock.push_back( static_cast<FoodType>( GetRand( FoodType_Num - 2 ) )  );
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Landing) );
 			}
 		}
 		
 		// エサ食わせ.
 		if( mFoodStock.size() ){
 			if( KeyInput()->IsTrig( InputKey::Type_Enter ) ){
+				SingletonSoundLoader::Get()->Play( NameOf(SoundType_Jump) );
+				
 				mCharaList.at(mIndex).AddFood( mFoodStock.at(0) );
 				mFoodStock.erase( mFoodStock.begin() );
 			}
@@ -71,7 +73,7 @@ namespace Game
 	void StateSushi::Draw()
 	{
 	    SetFontSize(12);
-	    DrawFormatString( 0, 0, ColorOf(0,255,0) , "寿司ゲー:Score[%d]", mScore );
+	    DrawFormatString( 0, 0, ColorOf(0,255,0) , "左右を交互に押すと、エサが増えます。Score[%d]", mScore );
 	    
 	    // ストック.
 	    for( unsigned int i = 0 ; i < mFoodStock.size(); i++ ){
@@ -80,9 +82,11 @@ namespace Game
 
 		for( int i = 0 ; i < mCharaList.size() ; i++ )
 		{
-			// 食ってる途中
-		    DrawFillBox( 300, 100 + i*20, 300 + mCharaList.at(i).GetFrame() / 2, 100 + i*20 + 10,  GetColor( mCharaList.at(i).GetColor() )  );
 		    DrawFormatString( 0, 100 + i*20, GetColor( mCharaList.at(i).GetColor() ), "(´・ω・)"  );
+
+			// 食ってる途中
+			int const kBaseX = 400;
+		    DrawFillBox( kBaseX, 100 + i*20, kBaseX + mCharaList.at(i).GetFrame() / 4, 100 + i*20 + 10,  GetColor( mCharaList.at(i).GetColor() )  );
 
 			for( unsigned int j = 0; j<mCharaList.at(i).GetFoodList().size() ; j++ ){
 				DrawFormatString( 100+j*20, 100 + i*20 , GetColor( mCharaList.at(i).GetFoodList().at(j).food_type ) , "○" );
