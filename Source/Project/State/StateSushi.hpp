@@ -4,6 +4,7 @@
 #include <vector>
 #include "System/StateBase.hpp"
 #include "Project/Singleton/SingletonStateManager.hpp"
+#include "Project/Singleton/SingletonSoundLoader.hpp"
 
 namespace Game
 {
@@ -40,7 +41,7 @@ namespace Game
 			food.food_type = food_type;
 			food.frame_count = 400;
 		
-			if( food_list.size() < 5 ){
+			if( food_list.size() < 20 ){
 				food_list.push_back(food);
 			}
 		}
@@ -57,6 +58,8 @@ namespace Game
 
 				if( food_list.at(0).frame_count <= 0 )
 				{
+					SingletonSoundLoader::Get()->Play( NameOf(SoundType_Hit) );
+
 					// 食い終わった
 					mColor = food_list.at(0).food_type;
 					food_list.erase( food_list.begin() );
