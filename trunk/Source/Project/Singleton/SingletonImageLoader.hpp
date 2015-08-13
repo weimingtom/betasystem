@@ -15,16 +15,16 @@ namespace Game
 	*/
 	enum ImageType
 	{
-	    ImageType_Map,
-	    ImageType_Map2,
-	    ImageType_Shadow,
-	    ImageType_Avater,
+//	    ImageType_Map,
+//	    ImageType_Map2,
+//	    ImageType_Shadow,
+//	    ImageType_Avater,
 	    ImageType_DebugTop,
-	    ImageType_Enemy,
-	    ImageType_Shot,
-	    ImageType_Particle,
-	    ImageType_MapObject,
-	    ImageType_Item,
+//	    ImageType_Enemy,
+//	    ImageType_Shot,
+//	    ImageType_Particle,
+//	    ImageType_MapObject,
+//	    ImageType_Item,
 	    ImageType_Num,
 	};
 

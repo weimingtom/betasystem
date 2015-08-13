@@ -12,16 +12,16 @@ namespace Game
 	*/
 	char const* const image_name[ ImageType_Num ] =
 	{
-	    "Resource/map.png",
-	    "Resource/map2.png",
-	    "Resource/shadow.png",
-	    "Resource/Avater.bmp",
-	    "Resource/player.png",
+//	    "Resource/map.png",
+//	    "Resource/map2.png",
+//	    "Resource/shadow.png",
+//	    "Resource/Avater.bmp",
+//	    "Resource/player.png",
 	    "Resource/enemy.png",
-	    "Resource/shot.png",
-	    "Resource/paricle.png",
-	    "Resource/map_object.png",
-	    "Resource/item.png",
+//	    "Resource/shot.png",
+//	    "Resource/paricle.png",
+//	    "Resource/map_object.png",
+//	    "Resource/item.png",
 	};
 
 	//! シングルトンインスタンス.
