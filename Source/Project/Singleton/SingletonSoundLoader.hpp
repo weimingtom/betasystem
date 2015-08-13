@@ -7,12 +7,12 @@
 enum SoundType
 {
     SoundType_Jump,
-    SoundType_Dash,
+//    SoundType_Dash,
     SoundType_Landing,
-    SoundType_Dead,
+//    SoundType_Dead,
     SoundType_Hit,
-    SoundType_Damaged,
-    SoundType_Walk,
+//    SoundType_Damaged,
+//    SoundType_Walk,
 
     SoundType_Num,
 };
